@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConstantsModule } from 'src/utils/constants/constants.module';
 import { GoogleOauthStrategy } from './googleOauth.strategy';
 
 @Module({
-  imports: [ConfigModule.forRoot()],
+  imports: [ConstantsModule],
   providers: [GoogleOauthStrategy],
 })
 export class GoogleOauthModule {}
