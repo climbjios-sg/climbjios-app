@@ -21,5 +21,6 @@ import { JwtAuthStrategy } from './jwtAuth.strategy';
     ConfigModule.forRoot(),
   ],
   providers: [JwtAuthStrategy, JwtAuthService],
+  exports: [JwtAuthService],
 })
 export class JwtAuthModule {}
