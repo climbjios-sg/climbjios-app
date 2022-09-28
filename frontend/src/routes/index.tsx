@@ -1,10 +1,10 @@
 import { Suspense, lazy, ElementType } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
-// layouts
-import DashboardLayout from '../layouts/dashboard';
-import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // components
 import LoadingScreen from '../components/LoadingScreen';
+import AuthRedirect from '../pages/AuthRedirect';
+import AuthGuard from '../pages/guards/AuthGuard';
+import { PATH_ONBOARDING } from './paths';
 
 // ----------------------------------------------------------------------
 
@@ -12,8 +12,10 @@ const Loadable = (Component: ElementType) => (props: any) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { pathname } = useLocation();
 
+  const isDashboard = pathname.includes('/dashboard');
+
   return (
-    <Suspense fallback={<LoadingScreen isDashboard={pathname.includes('/dashboard')} />}>
+    <Suspense fallback={<LoadingScreen isDashboard={isDashboard} />}>
       <Component {...props} />
     </Suspense>
   );
@@ -21,46 +23,78 @@ const Loadable = (Component: ElementType) => (props: any) => {
 
 export default function Router() {
   return useRoutes([
+    // Main Routes
     {
       path: '/',
-      element: <Navigate to="/dashboard/one" replace />,
+      element: <AuthRedirect />,
     },
     {
-      path: '/dashboard',
-      element: <DashboardLayout />,
+      path: 'auth/login',
+      element: <Login />,
+    },
+
+    // Onboarding Routes
+    {
+      path: 'onboarding',
       children: [
-        { element: <Navigate to="/dashboard/one" replace />, index: true },
-        { path: 'one', element: <PageOne /> },
-        { path: 'two', element: <PageTwo /> },
-        { path: 'three', element: <PageThree /> },
         {
-          path: 'user',
-          children: [
-            { element: <Navigate to="/dashboard/user/four" replace />, index: true },
-            { path: 'four', element: <PageFour /> },
-            { path: 'five', element: <PageFive /> },
-            { path: 'six', element: <PageSix /> },
-          ],
+          path: 'profile',
+          element: (
+            <AuthGuard>
+              <OnboardingProfile />
+            </AuthGuard>
+          ),
         },
+        {
+          path: 'notionstepone',
+          element: (
+            <AuthGuard>
+              <OnboardingNotionStepOne />
+            </AuthGuard>
+          ),
+        },
+        {
+          path: 'notion',
+          element: (
+            <AuthGuard>
+              <OnboardingNotionStepTwo />
+            </AuthGuard>
+          ),
+        },
+        { path: '*', element: <Navigate to={PATH_ONBOARDING.profile} replace /> },
       ],
     },
+
+    // Dashboard Routes
     {
-      path: '*',
-      element: <LogoOnlyLayout />,
-      children: [
-        { path: '404', element: <NotFound /> },
-        { path: '*', element: <Navigate to="/404" replace /> },
-      ],
+      path: 'dashboard/app',
+      element: (
+        <AuthGuard isOnboardRedirect>
+          <MainApp />
+        </AuthGuard>
+      ),
+    },
+    {
+      path: 'profile',
+      element: <UserPublicProfile />,
     },
     { path: '*', element: <Navigate to="/404" replace /> },
   ]);
 }
 
-// Dashboard
-const PageOne = Loadable(lazy(() => import('../pages/PageOne')));
-const PageTwo = Loadable(lazy(() => import('../pages/PageTwo')));
-const PageThree = Loadable(lazy(() => import('../pages/PageThree')));
-const PageFour = Loadable(lazy(() => import('../pages/PageFour')));
-const PageFive = Loadable(lazy(() => import('../pages/PageFive')));
-const PageSix = Loadable(lazy(() => import('../pages/PageSix')));
-const NotFound = Loadable(lazy(() => import('../pages/Page404')));
+// AUTHENTICATION
+const Login = Loadable(lazy(() => import('../pages/auth/Login')));
+
+// ONBOARDING
+const OnboardingProfile = Loadable(lazy(() => import('../pages/onboarding/Profile')));
+const OnboardingNotionStepOne = Loadable(lazy(() => import('../pages/onboarding/NotionStepOne')));
+const OnboardingNotionStepTwo = Loadable(lazy(() => import('../pages/onboarding/NotionStepTwo')));
+
+// APP
+const MainApp = Loadable(lazy(() => import('../pages/dashboard/MainApp')));
+
+// USER PUBLIC PROFILE
+const UserPublicProfile = Loadable(lazy(() => import('../pages/UserPublicProfile')));
+
+// LANDING
+const Page404 = Loadable(lazy(() => import('../pages/Page404')));
