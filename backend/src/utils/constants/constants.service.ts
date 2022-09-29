@@ -9,6 +9,10 @@ interface IConstantsService {
   ACCESS_TOKEN_EXPIRY: string;
   REFRESH_TOKEN_SECRET: string;
   REFRESH_TOKEN_EXPIRY: string;
+  DATABASE_HOST: string;
+  DATABASE_USER: string;
+  DATABASE_PASSWORD: string;
+  DATABASE_NAME: string;
 }
 
 @Injectable()
@@ -26,4 +30,8 @@ export class ConstantsService implements IConstantsService {
   ACCESS_TOKEN_EXPIRY = this.getOrThrow('ACCESS_TOKEN_EXPIRY');
   REFRESH_TOKEN_SECRET = this.getOrThrow('REFRESH_TOKEN_SECRET');
   REFRESH_TOKEN_EXPIRY = this.getOrThrow('REFRESH_TOKEN_EXPIRY');
+  DATABASE_HOST = this.getOrThrow('DATABASE_HOST');
+  DATABASE_USER = this.getOrThrow('DATABASE_USER');
+  DATABASE_PASSWORD = this.getOrThrow('DATABASE_PASSWORD');
+  DATABASE_NAME = this.getOrThrow('DATABASE_NAME');
 }
