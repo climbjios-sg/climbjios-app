@@ -9,4 +9,8 @@ export class GymsDaoService {
   getAll() {
     return this.gymModel.query().select(['id', 'name', 'permanentlyClosed']);
   }
+
+  findById(id: number) {
+    return this.gymModel.query().findById(id);
+  }
 }
