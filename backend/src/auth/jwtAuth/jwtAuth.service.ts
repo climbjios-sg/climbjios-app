@@ -37,7 +37,7 @@ export class JwtAuthService {
     const accessToken: string = this.generateAccessToken(payload);
     const refreshToken: string = this.generateRefreshToken(payload);
 
-    await this.userDaoService.updateById({ id: user.id, refreshToken });
+    await this.userDaoService.updateById(user.id, { refreshToken });
 
     return {
       accessToken,

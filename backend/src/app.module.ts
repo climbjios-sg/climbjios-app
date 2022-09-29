@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserDaoModule } from './database/daos/users/user.dao.module';
 import { DatabaseModule } from './database/database.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -13,10 +14,15 @@ import { DatabaseModule } from './database/database.module';
     DatabaseModule,
     UserDaoModule,
     AuthModule,
+    UserModule,
     RouterModule.register([
       {
         path: 'auth',
         module: AuthModule,
+      },
+      {
+        path: 'user',
+        module: UserModule,
       },
     ]),
   ],
