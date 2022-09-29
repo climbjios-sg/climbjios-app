@@ -5,7 +5,7 @@ import { GoogleOauthGuard } from './googleOauth/googleOauth.guard';
 import { JwtAuthService } from './jwtAuth/jwtAuth.service';
 import { Public } from './jwtAuth/public.decorator';
 
-@Controller()
+@Controller('auth')
 export class AuthController {
   constructor(private readonly jwtAuthService: JwtAuthService) {}
 

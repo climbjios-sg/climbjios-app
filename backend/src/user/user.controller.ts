@@ -3,7 +3,7 @@ import PostUserDto from './dtos/postUser.dto';
 import PostOnboardingDto from './dtos/postOnboarding.dto';
 import { UserService } from './user.service';
 
-@Controller()
+@Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
