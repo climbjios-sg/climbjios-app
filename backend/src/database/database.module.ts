@@ -1,7 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import Knex from 'knex';
 import { knexSnakeCaseMappers, Model } from 'objection';
-import { ConstantsModule } from '../utils/constants/constants.module';
 import { ConstantsService } from '../utils/constants/constants.service';
 import { GymModel } from './models/gym.model';
 import { PostModel } from './models/post.model';
@@ -40,7 +39,6 @@ const providers = [
 
 @Global()
 @Module({
-  imports: [ConstantsModule],
   providers: [...providers],
   exports: [...providers],
 })

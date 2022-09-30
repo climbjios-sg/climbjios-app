@@ -13,6 +13,7 @@ interface IConstantsService {
   DATABASE_USER: string;
   DATABASE_PASSWORD: string;
   DATABASE_NAME: string;
+  CORS_ORIGIN: string;
 }
 
 @Injectable()
@@ -34,4 +35,5 @@ export class ConstantsService implements IConstantsService {
   DATABASE_USER = this.getOrThrow('DATABASE_USER');
   DATABASE_PASSWORD = this.getOrThrow('DATABASE_PASSWORD');
   DATABASE_NAME = this.getOrThrow('DATABASE_NAME');
+  CORS_ORIGIN = this.getOrThrow('CORS_ORIGIN');
 }

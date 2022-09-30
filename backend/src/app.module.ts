@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -12,10 +11,11 @@ import { GymsModule } from './gyms/gyms.module';
 import { GymsDaoModule } from './database/daos/gyms/gyms.dao.module';
 import { TimingsDaoModule } from './database/daos/timings/timings.dao.module';
 import { TimingPostDaoModule } from './database/daos/timing_post/timing_post.dao.module';
+import { ConstantsModule } from './utils/constants/constants.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConstantsModule,
 
     // Database and DAOs
     DatabaseModule,
