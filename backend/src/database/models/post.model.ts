@@ -15,6 +15,7 @@ export class PostModel extends BaseModel {
   readonly date: Date;
   readonly openToClimbTogether: boolean;
   readonly optionalNote: string;
+  readonly isClosed: boolean;
 
   readonly user: UserModel;
   readonly gym: GymModel;
@@ -24,6 +25,8 @@ export class PostModel extends BaseModel {
     user: {
       relation: Model.BelongsToOneRelation,
       modelClass: UserModel,
+      filter: (query) =>
+        query.select('id', 'name', 'username', 'telegramHandle'),
       join: {
         from: 'posts.userId',
         to: 'users.id',
@@ -38,8 +41,9 @@ export class PostModel extends BaseModel {
       },
     },
     timings: {
-      relation: Model.HasOneThroughRelation,
+      relation: Model.ManyToManyRelation,
       modelClass: TimingModel,
+      filter: (query) => query.select('name'),
       join: {
         from: 'posts.id',
         through: {

@@ -10,8 +10,12 @@ export class UserDaoService {
     return this.userModel.query().findById(userId);
   }
 
-  updateById(user: Partial<UserModel>) {
-    return this.userModel.query().patch(user).findById(user.id);
+  updateById(userid: string, user: Partial<UserModel>) {
+    return this.userModel
+      .query()
+      .patch(user)
+      .findById(userid)
+      .returning(['id', 'name', 'username', 'telegramHandle']);
   }
 
   async findOrCreateOAuthUser(user: Partial<UserModel>) {
