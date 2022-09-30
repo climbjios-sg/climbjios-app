@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, ValidateIf, MaxLength } from 'class-validator';
 
-export default class PostUserDto {
+export default class PatchUserDto {
   @ValidateIf((o) => (!o.telegramHandle && !o.name) || o.username)
   @IsString()
   @IsNotEmpty()

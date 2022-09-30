@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
 
-export default class PostOnboardingDto {
+export default class PatchOnboardingDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
