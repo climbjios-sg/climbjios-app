@@ -24,6 +24,7 @@ const providers = [
         client: 'pg',
         connection: {
           host: constantsService.DATABASE_HOST,
+          port: constantsService.DATABASE_PORT,
           user: constantsService.DATABASE_USER,
           password: constantsService.DATABASE_PASSWORD,
           database: constantsService.DATABASE_NAME,
