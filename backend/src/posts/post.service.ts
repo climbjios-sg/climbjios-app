@@ -22,6 +22,18 @@ export class PostService {
   }
 
   async createPost(userId: string, body: CreatePostDto) {
+    const bodyDate = new Date(body.date);
+    const now = new Date(Date.now());
+    bodyDate.setHours(0, 0, 0, 0);
+    now.setHours(0, 0, 0, 0);
+
+    if (bodyDate < now) {
+      throw new HttpException(
+        'Cannot create a post with date earlier than today!',
+        400,
+      );
+    }
+
     const gym = await this.gymsDaoService.findById(body.gymId);
     if (!gym) {
       throw new HttpException('Invalid gym id!', 400);
