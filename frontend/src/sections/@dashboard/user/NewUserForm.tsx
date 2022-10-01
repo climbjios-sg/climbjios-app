@@ -24,19 +24,14 @@ type Props = {
   currentUser?: User | null;
 };
 
-export default function UserNewEditForm({ isEdit, currentUser, onExit }: Props) {
+export default function NewUserForm({ isEdit, currentUser, onExit }: Props) {
   const auth = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const defaultValues = useMemo(
     () => ({
-      avatarUrl: currentUser?.avatarUrl || '',
       name: currentUser?.name || '',
-      company: currentUser?.company || '',
-      role: currentUser?.role || '',
-      email: currentUser?.email || '',
-      phoneNumber: currentUser?.phoneNumber || '',
-      linkedin: currentUser?.linkedin || 'https://linkedin.com/in/',
       telegram: currentUser?.telegram || '',
+      username: currentUser?.username || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentUser]
@@ -44,10 +39,7 @@ export default function UserNewEditForm({ isEdit, currentUser, onExit }: Props) 
 
   const NewProfileSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
-    company: Yup.string().required('Company is required'),
-    role: Yup.string().required('Role is required'),
-    email: Yup.string().required('Email is required'),
-    phoneNumber: Yup.string().required('Phone number is required'),
+    telegram: Yup.string().required('Telegram handle is required'),
   });
 
   const methods = useForm<FormValuesProps>({
@@ -93,7 +85,7 @@ export default function UserNewEditForm({ isEdit, currentUser, onExit }: Props) 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
-        {methods.getValues().avatarUrl && (
+        {/* {methods.getValues().avatarUrl && (
           <Grid item xs={12} md={4}>
             <Card sx={{ py: 5, px: 3 }}>
               <Box sx={{ mb: 5 }}>
@@ -101,30 +93,27 @@ export default function UserNewEditForm({ isEdit, currentUser, onExit }: Props) 
               </Box>
             </Card>
           </Grid>
-        )}
+        )} */}
 
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={12}>
           <Card sx={{ p: 2 }}>
-            <Box
+            {/* <Box
               sx={{
                 display: 'grid',
                 columnGap: 2,
                 rowGap: 3,
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
               }}
-            >
-              <RHFTextField name="name" label="Name (Required)" />
-              <RHFTextField name="company" label="Company (Required)" />
-              <RHFTextField name="role" label="Role (Required)" />
-              <RHFTextField name="email" label="Email (Required)" />
-              <RHFTextField name="phoneNumber" label="Phone Number (Required)" />
+            > */}
+            <Stack spacing={2}>
               <RHFTextField
-                name="linkedin"
-                label="Linkedin URL"
-                helperText="e.g. https://linkedin.com/in/rizhaow"
+                name="Display name"
+                label="Name (Required)"
+                helperText="This name will be displayed on your profile. You can always change this later"
               />
               <RHFTextField name="telegram" label="Telegram Username" helperText="e.g. rizhaow" />
-            </Box>
+            </Stack>
+            {/* </Box> */}
 
             <Stack alignItems="flex-end" sx={{ my: 4 }}>
               <LoadingButton
