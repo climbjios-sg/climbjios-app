@@ -23,7 +23,15 @@ export default function Router() {
   return useRoutes([
     {
       path: '/',
-      element: <Navigate to="/dashboard/one" replace />,
+      element: <Navigate to="/login" replace />,
+    },
+    {
+      path: '/login',
+      element: <LogoOnlyLayout />,
+      children: [
+        { path: '', element: <PageLogin /> },
+        { path: 'redirect', element: <PageLoginRedirect /> },
+      ]
     },
     {
       path: '/dashboard',
@@ -56,6 +64,10 @@ export default function Router() {
   ]);
 }
 
+//Login
+const PageLogin = Loadable(lazy(() => import('../pages/PageLogin')));
+// Redirect from OAuth
+const PageLoginRedirect = Loadable(lazy(() => import('../pages/PageLoginRedirect')));
 // Dashboard
 const PageOne = Loadable(lazy(() => import('../pages/PageOne')));
 const PageTwo = Loadable(lazy(() => import('../pages/PageTwo')));

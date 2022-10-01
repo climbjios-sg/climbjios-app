@@ -11,6 +11,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 // contexts
 import { SettingsProvider } from './contexts/SettingsContext';
+import { AuthProvider } from './contexts/AuthContext';
 import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 
 //
@@ -23,11 +24,13 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <HelmetProvider>
     <SettingsProvider>
-      <CollapseDrawerProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </CollapseDrawerProvider>
+      <AuthProvider>
+        <CollapseDrawerProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </CollapseDrawerProvider>
+      </AuthProvider>
     </SettingsProvider>
   </HelmetProvider>
 );
