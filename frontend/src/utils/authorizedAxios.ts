@@ -1,6 +1,6 @@
 import axios from 'axios';
 // config
-import { HOST_API,  } from '../config';
+import { HOST_API } from '../config';
 
 // ----------------------------------------------------------------------
 

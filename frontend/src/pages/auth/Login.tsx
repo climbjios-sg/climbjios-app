@@ -64,7 +64,7 @@ export default function Login() {
           <Logo />
         </HeaderStyle>
 
-        {mdUp && (
+        {/* {mdUp && (
           <SectionStyle>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
               Hi, Welcome Back
@@ -76,17 +76,17 @@ export default function Login() {
               alt="login"
             />
           </SectionStyle>
-        )}
+        )} */}
 
         <Container maxWidth="sm" sx={{ mt: -5 }}>
           <ContentStyle>
             <Stack direction="row" alignItems="center" sx={{ mb: 3 }}>
               <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="h4" gutterBottom>
-                  Sign in to Connectly
+                  Sign in to ClimbJios
                 </Typography>
                 <Typography sx={{ color: 'text.secondary' }}>
-                  Streamline your networking. Powered by Notion.</Typography>
+                  The social network for climbers.</Typography>
               </Box>
             </Stack>
             <LoginForm />

@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { PATH_AUTH, PATH_DASHBOARD, PATH_ONBOARDING } from '../routes/paths';
-import { BE_API } from '../utils/api';
 import { useSnackbar } from 'notistack';
 import { SUPPORT_EMAIL } from '../config';
-import authorizedAxios from '../utils/authorizedAxios';
 import LoadingScreen from '../components/LoadingScreen';
 import useAuth from '../hooks/useAuth';
 
@@ -13,15 +11,11 @@ export default function AuthRedirect() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { enqueueSnackbar } = useSnackbar();
-  const linkedinCode = searchParams.get('code');
 
-  const authLinkedin = async () => {
+  const authGoogle = async (accessToken: string | null, refreshToken: string | null) => {
     try {
-      const { data: authData } = await authorizedAxios.post(BE_API.auth.linkedin, {
-        oAuthToken: linkedinCode,
-      });
-      const { jwtToken } = authData;
-      await auth.loginLinkedin(jwtToken);
+      if (!!accessToken && !!refreshToken)
+        await auth.loginGoogle(accessToken, refreshToken);
     } catch (err) {
       console.error(err);
       enqueueSnackbar(
@@ -31,16 +25,18 @@ export default function AuthRedirect() {
           persist: true,
         }
       );
-      navigate(PATH_AUTH.login);
+      navigate(PATH_AUTH.root);
     }
   };
 
   useEffect(() => {
-    if (linkedinCode) {
-      authLinkedin();
+    const accessToken = searchParams.get('accessToken');
+    const refreshToken = searchParams.get('refreshToken');
+    if (!!accessToken && !!refreshToken) {
+      authGoogle(accessToken, refreshToken);
       return;
     }
-
+    console.log("Trying to login from session");
     auth.loginFromSession();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -50,14 +46,8 @@ export default function AuthRedirect() {
     return <LoadingScreen />;
   }
 
-  // If user needs notion authorization redirect to Notion Auth
-  // For case when user gets redirect to the Notion App and clicks the step 2 link
-  if (auth.isAtNotionAuthOnboarding()) {
-    return <Navigate to={PATH_ONBOARDING.notionStepTwo} />;
-  }
-
   if (!auth.isAuthenticated()) {
-    return <Navigate to={PATH_AUTH.login} />;
+    return <Navigate to={PATH_AUTH.root} />;
   }
 
   if (!auth.isOnboarded()) {

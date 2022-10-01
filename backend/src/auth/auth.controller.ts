@@ -34,7 +34,7 @@ export class AuthController {
   async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
     const { accessToken, refreshToken } =
       await this.jwtAuthService.generateJwts(req.user);
-    const redirectUrl = `${this.constantsService.CORS_ORIGIN}/login/redirect?accessToken=${accessToken}&refreshToken=${refreshToken}`;
+    const redirectUrl = `${this.constantsService.CORS_ORIGIN}?accessToken=${accessToken}&refreshToken=${refreshToken}`;
 
     return res.redirect(redirectUrl);
   }

@@ -22,9 +22,8 @@ export type JWTContextType = {
   isInitialized: boolean;
   isAuthenticated: () => boolean;
   isOnboarded: () => boolean;
-  isAtNotionAuthOnboarding: () => boolean;
   user: User | null;
-  loginLinkedin: (accessToken: string) => Promise<void>;
+  loginGoogle: (accessToken: string, refreshToken: string) => Promise<void>;
   loginFromSession: () => void;
   logout: () => void;
   updateProfile: (user: User) => Promise<void>;

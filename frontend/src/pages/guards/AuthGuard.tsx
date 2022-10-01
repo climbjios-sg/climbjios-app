@@ -17,7 +17,7 @@ export default function AuthGuard({ children, isOnboardRedirect = false }: AuthG
     if (!auth.isInitialized) {
       auth.loginFromSession();
     }
-  }, []);
+  }, [auth]);
 
   // Step 1
   if (!auth.isInitialized) {
@@ -26,7 +26,7 @@ export default function AuthGuard({ children, isOnboardRedirect = false }: AuthG
 
   // Step 2
   if (!auth.isAuthenticated()) {
-    return <Navigate to={PATH_AUTH.login} />;
+    return <Navigate to={PATH_AUTH.root} />;
   }
 
   return <>{children}</>;
