@@ -12,13 +12,13 @@ type Props = {
 };
 
 export default function ProfileQR({ profile }: Props) {
-  const { name, avatarUrl } = profile;
+  const { name } = profile;
   const urlStr = `${window.location.origin}/profile${encodeQueryString(profile)}`;
 
   return (
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
       <Stack direction="column" alignItems="center" sx={{ width: '100%' }}>
-        <Avatar alt={name} src={avatarUrl} sx={{ width: 60, height: 60 }} />
+        {/* <Avatar alt={name} src={avatarUrl} sx={{ width: 60, height: 60 }} /> */}
         <Typography sx={{ mt: 1 }} variant="h5">
           {name}
         </Typography>

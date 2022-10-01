@@ -13,14 +13,9 @@ type Props = {
 };
 
 export default function ProfileSocialInfo({ profile, disableLinks = false }: Props) {
-  const { linkedin, telegram } = profile;
+  const { telegram } = profile;
 
   const SOCIALS = [
-    {
-      name: 'Linkedin',
-      icon: <IconStyle icon={'eva:linkedin-fill'} color="#006097" />,
-      href: linkedin,
-    },
     {
       name: 'Telegram',
       icon: <IconStyle icon={'logos:telegram'} />,

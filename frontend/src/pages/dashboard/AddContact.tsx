@@ -30,12 +30,8 @@ export default function AddContact({ contactData, onSubmit }: AddContactProps) {
       whereWeMetLongitude: '',
       whereWeMetLatitude: '',
       name: contactData?.name || '',
-      company: contactData?.company || '',
-      role: contactData?.role || '',
-      email: contactData?.email || '',
-      phoneNumber: contactData?.phoneNumber || '',
-      linkedin: contactData?.linkedin || '',
       telegram: contactData?.telegram || '',
+      username: contactData?.username,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [contactData]

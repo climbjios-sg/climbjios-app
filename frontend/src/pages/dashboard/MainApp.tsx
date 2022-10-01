@@ -34,12 +34,8 @@ export default function MainApp() {
   const handleSubmitAddContact = async (data: Contact) => {
     await authorizedAxios.post(BE_API.contacts, {
       name: data.name,
-      company: data.company,
-      role: data.role,
-      email: data.email,
-      phoneNumber: data.phoneNumber,
-      linkedInUrl: data.linkedin,
       telegramUsername: data.telegram,
+      climbJiosUsername: data.username,
       meetingLocation: data.whereWeMet,
       meetingLatLong:
         data.whereWeMetLatitude && data.whereWeMetLongitude

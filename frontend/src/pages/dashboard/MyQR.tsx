@@ -7,7 +7,7 @@ import ProfileAbout from '../../sections/@dashboard/user/profile/ProfileAbout';
 import ProfileQR from '../../sections/@dashboard/user/profile/ProfileQR';
 import ProfileSocialInfo from '../../sections/@dashboard/user/profile/ProfileSocialInfo';
 import Iconify from '../../components/Iconify';
-import UserNewEditForm from '../../sections/@dashboard/user/UserNewEditForm';
+import NewUserForm from '../../sections/@dashboard/user/NewUserForm';
 import useAuth from '../../hooks/useAuth';
 // ----------------------------------------------------------------------
 
@@ -84,7 +84,7 @@ function EditProfileForm({ onExit, profile }: EditProfileFormProps) {
           <Iconify icon={'eva:close-outline'} width={24} height={24} />
         </IconButton>
       </Stack>
-      <UserNewEditForm isEdit currentUser={profile} onExit={onExit} />
+      <NewUserForm isEdit currentUser={profile} onExit={onExit} />
     </Box>
   );
 }

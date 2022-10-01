@@ -86,7 +86,8 @@ export default function Login() {
                   Sign in to Connectly
                 </Typography>
                 <Typography sx={{ color: 'text.secondary' }}>
-                  Streamline your networking. Powered by Notion.</Typography>
+                  Streamline your networking. Powered by Notion.
+                </Typography>
               </Box>
             </Stack>
             <LoginForm />

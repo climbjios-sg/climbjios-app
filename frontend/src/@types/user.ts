@@ -9,28 +9,14 @@ export interface Contact extends User {
 
 export type User = {
   id?: string;
-  avatarUrl?: string;
-  email?: string;
   name?: string;
-  company?: string;
-  role?: string;
-  phoneNumber?: string;
-  linkedin?: string;
   telegram?: string;
-  notionDatabaseId?: string;
+  username?: string;
 };
 
 // ApiUser represents user profile schema from backend api
 export type ApiUser = {
   name?: string;
-  email?: string;
-  phoneNumber?: string;
-  role?: string;
-  company?: string;
-  avatarUrl?: string;
-  linkedInUrl?: string;
   telegramUsername?: string;
-  instagramUsername?: string;
-  crmDatabaseId?: string;
+  climbJiosUsername?: string;
 };
-

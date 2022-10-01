@@ -76,73 +76,74 @@ export default function UserPublicProfile() {
     }
   };
 
-  const addContactVcard = async () => {
-    const b64 = await getBase64FromUrl(profile.avatarUrl);
+  //   const addContactVcard = async () => {
+  //     const b64 = await getBase64FromUrl(profile.avatarUrl);
 
-    const file = new Blob(
-      [
-        `BEGIN:VCARD
-VERSION:3.0
-N:${''};${profile.name};;;
-FN:${profile.name}
-ORG:${profile.company}
-TITLE:${profile.role};
-EMAIL;type=INTERNET;type=pref:${profile.email}
-TEL;type=CELL;type=VOICE;type=pref:${profile.phoneNumber}
-item1.URL:${profile.linkedin}
-item1.X-ABLabel:LinkedIn
-item2.URL:https://t.me/${profile.telegram}
-item2.X-ABLabel:Telegram
-NOTE:${
-          whereWeMet ? `Where We Met: ${whereWeMet}. ` : ''
-        }Scanned from the Connectly app. Make your own Connectly business card here: wwww.connectly.me
-PHOTO;TYPE=JPEG;ENCODING=BASE64:${b64}
-END:VCARD
-`,
-      ],
-      { type: 'text/vcard;charset=utf-8' }
-    );
-    FileSaver.saveAs(file, `${profile.name}.vcf`, true);
-  };
+  //     const file = new Blob(
+  //       [
+  //         `BEGIN:VCARD
+  // VERSION:3.0
+  // N:${''};${profile.name};;;
+  // FN:${profile.name}
+  // ORG:${profile.company}
+  // TITLE:${profile.role};
+  // EMAIL;type=INTERNET;type=pref:${profile.email}
+  // TEL;type=CELL;type=VOICE;type=pref:${profile.phoneNumber}
+
+  // item1.URL:${profile.linkedin}
+  // item1.X-ABLabel:LinkedIn
+  // item2.URL:https://t.me/${profile.telegram}
+  // item2.X-ABLabel:Telegram
+  // NOTE:${
+  //           whereWeMet ? `Where We Met: ${whereWeMet}. ` : ''
+  //         }Scanned from the Connectly app. Make your own Connectly business card here: wwww.connectly.me
+  // PHOTO;TYPE=JPEG;ENCODING=BASE64:${b64}
+  // END:VCARD
+  // `,
+  //       ],
+  //       { type: 'text/vcard;charset=utf-8' }
+  //     );
+  //     FileSaver.saveAs(file, `${profile.name}.vcf`, true);
+  //   };
 
   const handleSave = async () => {
     // Add contact if user is authenticated
-    if (auth.isAuthenticated()) {
-      setIsSaving(true);
-      try {
-        await authorizedAxios.post(BE_API.contacts, {
-          name: profile.name,
-          company: profile.company,
-          role: profile.role,
-          email: profile.email,
-          phoneNumber: profile.phoneNumber,
-          linkedInUrl: profile.linkedin,
-          linkedInAvatarImage: profile.avatarUrl,
-          telegramUsername: profile.telegram,
-          meetingLocation: whereWeMet,
-          meetingLatLong:
-            whereWeMetLatitude && whereWeMetLongitude
-              ? `${whereWeMetLatitude},${whereWeMetLongitude}`
-              : '',
-        });
-        enqueueSnackbar('Added contact');
-        navigate(PATH_DASHBOARD.general.app + '?tab=Contacts');
-      } catch (err) {
-        enqueueSnackbar(
-          `Failed to save contact. Try again. If the problem persists, contact support ${SUPPORT_EMAIL}.`,
-          {
-            variant: 'error',
-            persist: true,
-          }
-        );
-      } finally {
-        setIsSaving(true);
-      }
-    }
+    // if (auth.isAuthenticated()) {
+    //   setIsSaving(true);
+    //   try {
+    //     await authorizedAxios.post(BE_API.contacts, {
+    //       name: profile.name,
+    //       company: profile.company,
+    //       role: profile.role,
+    //       email: profile.email,
+    //       phoneNumber: profile.phoneNumber,
+    //       linkedInUrl: profile.linkedin,
+    //       linkedInAvatarImage: profile.avatarUrl,
+    //       telegramUsername: profile.telegram,
+    //       meetingLocation: whereWeMet,
+    //       meetingLatLong:
+    //         whereWeMetLatitude && whereWeMetLongitude
+    //           ? `${whereWeMetLatitude},${whereWeMetLongitude}`
+    //           : '',
+    //     });
+    //     enqueueSnackbar('Added contact');
+    //     navigate(PATH_DASHBOARD.general.app + '?tab=Contacts');
+    //   } catch (err) {
+    //     enqueueSnackbar(
+    //       `Failed to save contact. Try again. If the problem persists, contact support ${SUPPORT_EMAIL}.`,
+    //       {
+    //         variant: 'error',
+    //         persist: true,
+    //       }
+    //     );
+    //   } finally {
+    //     setIsSaving(true);
+    //   }
+    // }
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    addContactVcard();
+    // addContactVcard();
   };
 
   useEffect(() => {
@@ -174,7 +175,7 @@ END:VCARD
       >
         <Stack spacing={3} sx={{ width: '100%' }}>
           <ProfilePhoto profile={profile} />
-          <ProfileAbout profile={profile} />
+          {/* <ProfileAbout profile={profile} /> */}
           <ProfileSocialInfo profile={profile} disableLinks />
           {whereWeMet && <ProfileMap whereWeMet={whereWeMet} />}
         </Stack>
@@ -191,7 +192,7 @@ END:VCARD
             justifyContent: 'center',
           }}
         >
-          <LoadingButton
+          {/* <LoadingButton
             loading={isSaving}
             fullWidth
             variant="contained"
@@ -203,7 +204,7 @@ END:VCARD
           >
             <Iconify icon={'eva:person-add-outline'} width={24} height={24} sx={{ mr: 1 }} />
             <Typography variant="button">Save Contact</Typography>
-          </LoadingButton>
+          </LoadingButton> */}
         </Box>
       </Box>
     </Page>

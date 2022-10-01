@@ -12,14 +12,12 @@ type Props = {
 };
 
 export default function ProfileAbout({ profile, action }: Props) {
-  const { phoneNumber, email, role, company } = profile;
-
   return (
     <>
       <Card>
         <CardHeader title="About" action={action} />
         <Stack spacing={2} sx={{ p: 3 }}>
-          {phoneNumber && (
+          {/* {phoneNumber && (
             <Stack direction="row">
             <IconStyle icon={'eva:phone-fill'} />
               <Typography variant="body2">{phoneNumber}</Typography>
@@ -42,7 +40,7 @@ export default function ProfileAbout({ profile, action }: Props) {
                 {!role && company}
               </Typography>
             </Stack>
-          )}
+          )} */}
         </Stack>
       </Card>
     </>

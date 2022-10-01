@@ -8,11 +8,11 @@ type Props = {
 };
 
 export default function ProfilePhoto({ profile }: Props) {
-  const { name, avatarUrl } = profile;
+  const { name } = profile;
 
   return (
     <Stack direction="column" alignItems="center">
-      <Avatar
+      {/* <Avatar
         src={avatarUrl}
         sx={{
           mx: 'auto',
@@ -22,7 +22,7 @@ export default function ProfilePhoto({ profile }: Props) {
           width: { xs: 80, md: 128 },
           height: { xs: 80, md: 128 },
         }}
-      />
+      /> */}
       <Box
         sx={{
           mt: { xs: 1, md: 0 },

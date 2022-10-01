@@ -50,12 +50,6 @@ export default function AuthRedirect() {
     return <LoadingScreen />;
   }
 
-  // If user needs notion authorization redirect to Notion Auth
-  // For case when user gets redirect to the Notion App and clicks the step 2 link
-  if (auth.isAtNotionAuthOnboarding()) {
-    return <Navigate to={PATH_ONBOARDING.notionStepTwo} />;
-  }
-
   if (!auth.isAuthenticated()) {
     return <Navigate to={PATH_AUTH.login} />;
   }

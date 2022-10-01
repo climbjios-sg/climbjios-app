@@ -73,11 +73,8 @@ const JWTReducer = (state: AuthState, action: JWTActions) => {
         user: {
           ...state.user,
           name: action.payload.user.name,
-          phoneNumber: action.payload.user.phoneNumber,
-          role: action.payload.user.role,
-          company: action.payload.user.company,
-          linkedin: action.payload.user.linkedin,
           telegram: action.payload.user.telegram,
+          username: action.payload.user.username,
         },
       };
     case Types.Logout:
@@ -147,32 +144,19 @@ function AuthProvider({ children }: AuthProviderProps) {
     // Struct for backend
     await authorizedAxios.put(BE_API.profile, {
       name: user.name,
-      phoneNumber: user.phoneNumber,
-      role: user.role,
-      company: user.company,
-      linkedInUrl: user.linkedin,
       telegramUsername: user.telegram,
+      climbJiosUsername: user.username,
     });
 
     // Update context
     dispatch({ type: Types.UpdateProfile, payload: { user } });
   };
 
-  // True iff is at Notion Authorization stage of Onboarding
-  const isAtNotionAuthOnboarding = () =>
-    // These fields should not be null if user has added profile
-    !!state.user?.name &&
-    !!state.user?.email &&
-    !!state.user?.name &&
-    !!state.user?.company &&
-    !!state.user?.role &&
-    !!state.user?.phoneNumber &&
-    // This field should be null if user haven't added notion
-    !state.user?.notionDatabaseId;
+  const isOnboarded = () => !!state.user?.name && !!state.user?.telegram && !!state.user.username;
 
-  const isOnboarded = () => !!state.user?.notionDatabaseId;
-
-  const isAuthenticated = () => !!state.user;
+  /* TESTTEST: PUT TO TRUE FOR TESTING PURPOSES!! DO NOT FORGET */
+  // const isAuthenticated = () => !!state.user;
+  const isAuthenticated = () => true;
 
   useEffect(() => {
     if (state.isInitialized) {
@@ -191,7 +175,6 @@ function AuthProvider({ children }: AuthProviderProps) {
         refetchUser,
         isOnboarded,
         isAuthenticated,
-        isAtNotionAuthOnboarding,
       }}
     >
       {children}
