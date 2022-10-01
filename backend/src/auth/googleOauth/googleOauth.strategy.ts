@@ -2,11 +2,16 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-google-oauth20';
 import { Injectable } from '@nestjs/common';
 import { VerifiedCallback } from 'passport-jwt';
-import { ConstantsService } from 'src/utils/constants/constants.service';
+import { ConstantsService } from '../../utils/constants/constants.service';
+import { UserDaoService } from '../../database/daos/users/user.dao.service';
+import { AuthProvider } from '../../utils/types';
 
 @Injectable()
 export class GoogleOauthStrategy extends PassportStrategy(Strategy, 'google') {
-  constructor(constantsService: ConstantsService) {
+  constructor(
+    constantsService: ConstantsService,
+    private readonly userDaoService: UserDaoService,
+  ) {
     super({
       clientID: constantsService.OAUTH_GOOGLE_ID,
       clientSecret: constantsService.OAUTH_GOOGLE_SECRET,
@@ -23,13 +28,12 @@ export class GoogleOauthStrategy extends PassportStrategy(Strategy, 'google') {
   ) {
     const { id, name, emails } = profile;
 
-    // TODO: Integrate with database upsert with relevant info
-    const user = {
-      provider: 'google',
-      providerId: id,
-      name: name.givenName,
-      username: emails[0].value,
-    };
+    const user = await this.userDaoService.findOrCreateOAuthUser({
+      authProvider: AuthProvider.GOOGLE,
+      authProviderId: id,
+      name: `${name.givenName} ${name.familyName}`,
+      email: emails[0].value,
+    });
 
     done(null, user);
   }
