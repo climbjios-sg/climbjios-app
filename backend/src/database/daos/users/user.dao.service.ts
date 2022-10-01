@@ -6,8 +6,12 @@ import { UserModel } from 'src/database/models/user.model';
 export class UserDaoService {
   constructor(@Inject('UserModel') private userModel: ModelClass<UserModel>) {}
 
-  findById(userId: string) {
-    return this.userModel.query().findById(userId);
+  findById(userId: string, select?: string | string[]) {
+    let query = this.userModel.query().findById(userId);
+    if (select) {
+      query = query.select(select);
+    }
+    return query;
   }
 
   updateById(userid: string, user: Partial<UserModel>) {

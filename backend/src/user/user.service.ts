@@ -7,6 +7,15 @@ import PatchUserDto from './dtos/patchUser.dto';
 export class UserService {
   constructor(private readonly userDaoService: UserDaoService) {}
 
+  getUserInfo(userId: string) {
+    return this.userDaoService.findById(userId, [
+      'id',
+      'name',
+      'username',
+      'telegramHandle',
+    ]);
+  }
+
   patchUser(userid: string, body: PatchOnboardingDto | PatchUserDto) {
     return this.userDaoService.updateById(userid, body);
   }
