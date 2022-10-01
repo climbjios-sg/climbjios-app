@@ -18,7 +18,7 @@ export default class SearchPostDto {
   @Transform((val) =>
     val.value === 'true' ? true : val.value === 'false' ? false : '',
   )
-  isBuy: boolean;
+  isBuyer: boolean;
 
   @IsOptional()
   @Transform((val) => parseInt(val.value))

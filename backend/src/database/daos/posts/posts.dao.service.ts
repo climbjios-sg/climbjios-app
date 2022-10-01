@@ -65,6 +65,9 @@ export class PostsDaoService {
         query.where(key, '>=', value);
       } else if (key === 'timings') {
         // skip
+      } else if (key === 'isBuyer') {
+        // Buyers search for !isBuy posts and vice versa
+        query.where('isBuy', !value);
       } else {
         query.where(key, value);
       }
