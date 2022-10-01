@@ -19,6 +19,6 @@ async function bootstrap() {
     origin: process.env.CORS_ORIGIN,
     optionsSuccessStatus: 200,
   });
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 4000);
 }
 bootstrap();

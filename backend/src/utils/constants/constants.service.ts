@@ -14,6 +14,7 @@ interface IConstantsService {
   DATABASE_PASSWORD: string;
   DATABASE_NAME: string;
   CORS_ORIGIN: string;
+  PORT: number;
 }
 
 @Injectable()
@@ -22,6 +23,10 @@ export class ConstantsService implements IConstantsService {
 
   private getOrThrow(varname: string) {
     return this.configService.getOrThrow(varname);
+  }
+
+  private getOrDefaultTo(varname: string, defaultTo?: string | number) {
+    return this.configService.get(varname) || defaultTo;
   }
 
   OAUTH_GOOGLE_ID = this.getOrThrow('OAUTH_GOOGLE_ID');
@@ -36,4 +41,5 @@ export class ConstantsService implements IConstantsService {
   DATABASE_PASSWORD = this.getOrThrow('DATABASE_PASSWORD');
   DATABASE_NAME = this.getOrThrow('DATABASE_NAME');
   CORS_ORIGIN = this.getOrThrow('CORS_ORIGIN');
+  PORT = this.getOrDefaultTo('PORT', 4000);
 }
