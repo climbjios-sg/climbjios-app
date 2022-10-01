@@ -3,9 +3,10 @@ import { GymsDaoService } from '../database/daos/gyms/gyms.dao.service';
 import { PostsDaoService } from '../database/daos/posts/posts.dao.service';
 import PatchPostDto from './dtos/patchPost.dto';
 import CreatePostDto from './dtos/createPost.dto';
-import { TimingsDaoService } from '../database/daos/timings/timings.dao.service';
+import { TimingsDaoService } from 'src/database/daos/timings/timings.dao.service';
 import { Model } from 'objection';
 import { TimingPostDaoService } from '../database/daos/timing_post/timing_post.dao.service';
+import SearchPostDto from './dtos/searchPost.dto';
 
 @Injectable()
 export class PostService {
@@ -80,5 +81,9 @@ export class PostService {
 
       return this.postsDaoService.patchById(postId, filtered, trx);
     });
+  }
+
+  searchPosts(query: SearchPostDto) {
+    return this.postsDaoService.getUpcomingPosts(query);
   }
 }
