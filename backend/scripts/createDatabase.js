@@ -1,5 +1,5 @@
 const Knex = require('knex');
-require('dotenv').config({ path: `.env` });
+require('dotenv').config({ path: `.env${process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : ''}` });
 
 async function main() {
   const connection = {

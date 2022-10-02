@@ -1,5 +1,7 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import { knexSnakeCaseMappers } from 'objection';
+
+dotenv.config({ path: `.env${process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : ''}` })
 
 const knexConfig = {
     client: 'pg',
