@@ -26,9 +26,10 @@
 // } from '../../sections/@dashboard/user/profile';
 
 import * as React from 'react';
-import { Box } from '@mui/material';
+import { Box, Button, Grid, Tab, Tabs, Typography } from '@mui/material';
 import { listJios } from '../../store/reducers/jios';
 import { useDispatch, useSelector } from '../../store';
+import Iconify from '../../components/Iconify';
 
 // // ----------------------------------------------------------------------
 
@@ -217,13 +218,55 @@ import { useDispatch, useSelector } from '../../store';
 // }
 
 export default function Jios() {
+  const TABS = ['Open', 'My Jios'];
+  const [tabValue, setTabValue] = React.useState(TABS[0]);
   const dispatch = useDispatch();
   const jiosData = useSelector((state) => state.jios);
 
   React.useEffect(() => {
     dispatch(listJios({}));
-    // dispatch(listJios({}));
   }, [dispatch]);
 
-  return <Box sx={{ pt: 5, pb: 80 }}>{JSON.stringify(jiosData)}</Box>;
+  return (
+    <Box sx={{ pt: 5, pb: 100, maxWidth: 600, margin: '0 auto' }}>
+      <Button
+        sx={{ borderRadius: 30, justifyContent: 'flex-start' }}
+        variant="outlined"
+        size="large"
+        color="primary"
+        fullWidth
+        startIcon={<Iconify icon="eva:search-outline" />}
+      >
+        <Typography sx={{ ml: 1, fontSize: 16 }} variant="button">
+          Search
+        </Typography>
+      </Button>
+      <Grid sx={{ pt: 1.5 }} container justifyContent="space-between" alignItems="center">
+        <Grid item>
+          <Tabs
+            value={tabValue}
+            onChange={(e, newValue) => {
+              setTabValue(newValue);
+            }}
+          >
+            {TABS.map((tab) => (
+              <Tab  key={tab} label={tab} value={tab} />
+            ))}
+          </Tabs>
+        </Grid>
+        <Grid item>
+          <Button sx={{ borderRadius: 10 }} variant="outlined">
+            Refresh
+          </Button>
+        </Grid>
+      </Grid>
+      <Box sx={{ pt: 1, px: 1 }}>
+        <Grid container sm={12} md={6}>
+          <Grid item>
+
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
+  );
 }
