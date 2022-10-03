@@ -2,6 +2,8 @@
 import { Stack, Button, Typography } from '@mui/material';
 // components
 import Iconify from '../../../components/Iconify';
+//
+import { BE_API } from 'src/utils/api';
 
 // ----------------------------------------------------------------------
 
@@ -12,12 +14,12 @@ export default function LoginForm() {
         <Button
           fullWidth
           size="large"
-          color="inherit"
+          color="error"
           variant="outlined"
-          href={`https://www.linkedin.com/oauth/v2/authorization?client_id=86d4ufzdgzrw2b&redirect_uri=${window.location.origin}&response_type=code&scope=r_emailaddress%2Cr_liteprofile`}
+          startIcon={<Iconify icon={'ant-design:google-outlined'} width={24} height={24} sx={{ mx: 1 }} />}
+          href={`${process.env.REACT_APP_HOST_API_KEY}${BE_API.auth.google}`}
         >
-          <Iconify icon={'cib:linkedin'} color="#0e76a8" width={24} height={24} sx={{ mx: 1 }} />
-          <Typography variant="button">Continue with LinkedIn</Typography>
+          <Typography variant="button">Continue with Google</Typography>
         </Button>
       </Stack>
     </>
