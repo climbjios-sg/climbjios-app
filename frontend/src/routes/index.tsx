@@ -59,7 +59,7 @@ export default function Router() {
 
     // Dashboard Routes
     {
-      path: 'dashboard/app',
+      path: 'dashboard/*',
       element: (
         <AuthGuard isOnboardRedirect>
           <MainApp />

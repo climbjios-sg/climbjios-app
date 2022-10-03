@@ -1,19 +1,12 @@
-// map
-import 'mapbox-gl/dist/mapbox-gl.css';
-
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-
-// Check our docs
-// https://docs-minimals.vercel.app/authentication/ts-version
-
 import { AuthProvider } from './contexts/JWTContext';
-
-//
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import { store } from './store';
+import { Provider } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
@@ -22,9 +15,11 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <AuthProvider>
     <HelmetProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     </HelmetProvider>
   </AuthProvider>
 );

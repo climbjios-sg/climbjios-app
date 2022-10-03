@@ -53,5 +53,5 @@ export default function AuthRedirect() {
     return <Navigate to={PATH_ONBOARDING.newuser} />;
   }
 
-  return <Navigate to={PATH_DASHBOARD.general.app} />;
+  return <Navigate to={PATH_DASHBOARD.general.jios} />;
 }

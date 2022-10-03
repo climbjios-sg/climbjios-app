@@ -29,7 +29,7 @@ import Page from '../../components/Page';
 //     try {
 //       await authorizedAxios.post(BE_API.auth.notion, { oAuthToken: notionToken });
 //       await auth.refetchUser();
-//       navigate(PATH_DASHBOARD.general.app);
+//       navigate(PATH_DASHBOARD.general.jios);
 //     } catch (err) {
 //       enqueueSnackbar(
 //         `Failed to authenticate Notion page. Please try again. If it still fails, email support ${SUPPORT_EMAIL} 🧒.`,
