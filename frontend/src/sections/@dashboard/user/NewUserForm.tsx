@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useContext } from 'react';
 // form
 import { useForm } from 'react-hook-form';
 // @mui
@@ -11,8 +11,19 @@ import { User } from '../../../@types/user';
 // components
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
 import { useSnackbar } from 'notistack';
-import { SUPPORT_EMAIL } from '../../../config';
+import {
+  MAX_NAME_LEN,
+  MIN_NAME_LEN,
+  NAME_LEN_ERROR,
+  NAME_REGEX_ERROR,
+  REGEX_NAME,
+  REGEX_TELEGRAM,
+  SUPPORT_EMAIL,
+  TELEGRAM_REGEX_ERROR,
+} from '../../../config';
 import useAuth from '../../../hooks/useAuth';
+// context
+import { NewUserContext, NewUserActionEnum } from '../../../contexts/NewUserContext';
 
 // ----------------------------------------------------------------------
 
@@ -27,24 +38,22 @@ type Props = {
 export default function NewUserForm({ isEdit, currentUser, onExit }: Props) {
   const auth = useAuth();
   const { enqueueSnackbar } = useSnackbar();
-  const defaultValues = useMemo(
-    () => ({
-      name: currentUser?.name || '',
-      telegram: currentUser?.telegram || '',
-      username: currentUser?.username || '',
-    }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentUser]
-  );
+  const { state, dispatch } = useContext(NewUserContext);
 
   const NewProfileSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    telegram: Yup.string().required('Telegram handle is required'),
+    name: Yup.string()
+      .required('Name is required')
+      .min(MIN_NAME_LEN, NAME_LEN_ERROR)
+      .max(MAX_NAME_LEN, NAME_LEN_ERROR)
+      .matches(REGEX_NAME, NAME_REGEX_ERROR),
+    telegramHandle: Yup.string()
+      .required('Telegram handle is required')
+      .matches(REGEX_TELEGRAM, TELEGRAM_REGEX_ERROR),
   });
 
   const methods = useForm<FormValuesProps>({
     resolver: yupResolver(NewProfileSchema),
-    defaultValues,
+    defaultValues: { name: '', telegramHandle: '' },
   });
 
   const {
@@ -53,16 +62,6 @@ export default function NewUserForm({ isEdit, currentUser, onExit }: Props) {
     handleSubmit,
     formState: { isSubmitting, errors },
   } = methods;
-
-  useEffect(() => {
-    if (isEdit && currentUser) {
-      reset(defaultValues);
-    }
-    if (!isEdit) {
-      reset(defaultValues);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, currentUser]);
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
@@ -93,14 +92,30 @@ export default function NewUserForm({ isEdit, currentUser, onExit }: Props) {
                 name="name"
                 label="Name"
                 helperText="Your name will be displayed on your profile page. You can always change this later"
+                onChange={(e) => {
+                  dispatch({
+                    type: NewUserActionEnum.EDIT,
+                    field: 'name', //Note: This "name" refers to the "name" field in the User type
+                    payload: e.target.value,
+                  });
+                  setValue('name', e.target.value);
+                }}
               />
-              <FormHelperText error>{errors?.telegram?.message}</FormHelperText>
+              <FormHelperText error>{errors?.telegramHandle?.message}</FormHelperText>
               <RHFTextField
                 name="telegram"
                 label="Telegram Username"
                 helperText="Other climbers will communicate with you over Telegram."
                 InputProps={{
                   startAdornment: <InputAdornment position="start">@</InputAdornment>,
+                }}
+                onChange={(e) => {
+                  dispatch({
+                    type: NewUserActionEnum.EDIT,
+                    field: 'telegramHandle', //Note: This "username" refers to the "username" field in the User type
+                    payload: e.target.value,
+                  });
+                  setValue('telegramHandle', e.target.value);
                 }}
               />
             </Stack>

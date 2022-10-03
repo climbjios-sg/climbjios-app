@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import { Box, Card, Grid, Stack, FormHelperText, Typography } from '@mui/material';
 // @types
-import { User, NewUser } from '../../../@types/user';
+import { User } from '../../../@types/user';
 // components
 import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../../components/hook-form';
 import { useSnackbar } from 'notistack';
@@ -20,6 +20,7 @@ import {
   USERNAME_REGEX_ERROR,
 } from '../../../config';
 import useAuth from '../../../hooks/useAuth';
+
 // context
 import { NewUserContext, NewUserActionEnum } from '../../../contexts/NewUserContext';
 
@@ -48,7 +49,7 @@ export default function NewUserForm({ onExit }: Props) {
 
   const methods = useForm<FormValuesProps>({
     resolver: yupResolver(NewProfileSchema),
-    defaultValues: { username: state.username },
+    defaultValues: { username: '' },
   });
 
   const {
@@ -60,12 +61,13 @@ export default function NewUserForm({ onExit }: Props) {
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
-      // await auth.updateProfile(data);
+      await auth.setProfile(state);
+      // enqueueSnackbar(`User info in state is: ${JSON.stringify(state)}`);
       reset();
       // onExit();
     } catch (error) {
       enqueueSnackbar(
-        `Failed to update profile. Try again. If the problem persists, contact support ${SUPPORT_EMAIL}.`,
+        `Failed to create profile. Try again. If the problem persists, contact support ${SUPPORT_EMAIL}.`,
         {
           variant: 'error',
           persist: true,
@@ -87,14 +89,14 @@ export default function NewUserForm({ onExit }: Props) {
                 name="username"
                 label="Username"
                 helperText="Other climbers will identify you by your unique username. You can't change this later"
-                // onChange={(e) => {
-                //   dispatch({
-                //     type: NewUserActionEnum.EDIT,
-                //     field: 'username', //Note: This "username" refers to the "username" field in the NewUser type
-                //     payload: e.target.value,
-                //   });
-                //   setValue('username', e.target.value); //Note: This "username" refers to the input field with name "username"
-                // }}
+                onChange={(e) => {
+                  dispatch({
+                    type: NewUserActionEnum.EDIT,
+                    field: 'username', //Note: This "username" refers to the "username" field in the User type
+                    payload: e.target.value,
+                  });
+                  setValue('username', e.target.value);
+                }}
               />
             </Stack>
 

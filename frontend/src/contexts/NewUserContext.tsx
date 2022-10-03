@@ -1,6 +1,5 @@
-import { Action } from 'history';
 import React, { createContext, useReducer } from 'react';
-import { NewUser } from 'src/@types/user';
+import { User } from 'src/@types/user';
 
 enum NewUserActionEnum {
   EDIT = 'EDIT',
@@ -12,13 +11,18 @@ interface NewUserAction {
   payload: string;
 }
 
-const initialState: NewUser = { name: '', telegram: '', username: '' };
-const NewUserContext = createContext<{ state: NewUser; dispatch: React.Dispatch<NewUserAction> }>({
+const initialState: User = {
+  id: undefined,
+  name: '',
+  telegramHandle: '',
+  username: '',
+};
+const NewUserContext = createContext<{ state: User; dispatch: React.Dispatch<NewUserAction> }>({
   state: initialState,
   dispatch: () => null,
 });
 
-const newUserReducer = (state: NewUser, action: NewUserAction) => {
+const newUserReducer = (state: User, action: NewUserAction) => {
   const { type, field, payload } = action;
   switch (type) {
     case NewUserActionEnum.EDIT:

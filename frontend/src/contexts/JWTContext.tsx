@@ -14,6 +14,7 @@ enum Types {
   LoginFromSession = 'LOGIN_FROM_SESSION',
   LoginGoogle = 'LOGIN_GOOGLE',
   Logout = 'LOGOUT',
+  SetProfile = 'SET_PROFILE',
   UpdateProfile = 'UPDATE_PROFILE',
   RefetchUser = 'REFETCH_USER',
 }
@@ -24,6 +25,9 @@ type JWTAuthPayload = {
   };
   [Types.LoginFromSession]: {
     user: User | null;
+  };
+  [Types.SetProfile]: {
+    user: User;
   };
   [Types.UpdateProfile]: {
     user: User;
@@ -66,7 +70,18 @@ const JWTReducer = (state: AuthState, action: JWTActions) => {
         ...state,
         user: action.payload.user,
         isInitialized: true,
-      }
+      };
+    case Types.SetProfile:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          id: action.payload.user.id,
+          name: action.payload.user.name,
+          username: action.payload.user.username,
+          telegramHandle: action.payload.user.telegramHandle,
+        },
+      };
     case Types.UpdateProfile:
       return {
         ...state,
@@ -135,33 +150,52 @@ function AuthProvider({ children }: AuthProviderProps) {
     localStorage.setItem(REFRESH_TOKEN, refreshToken);
     // dispatch({ type: Types.LoginGoogle, payload: { user: userData } });
     // Fake user data
-    console.log("loginGoogle, dispatching fake user data");
-    dispatch({ type: Types.LoginGoogle, payload: { user: { name: "Name", username: "username123", telegramHandle: "teleuserHelloWOrld" } } });
-  }
+    console.log('loginGoogle, dispatching fake user data');
+    dispatch({
+      type: Types.LoginGoogle,
+      payload: {
+        user: { name: 'Name', username: 'username123', telegramHandle: 'teleuserHelloWOrld' },
+      },
+    });
+  };
 
   const logout = () => {
     endSession();
     dispatch({ type: Types.Logout });
   };
 
+  const setProfile = async (user: User) => {
+    const userProfile = { ...user };
+    delete userProfile.id;
+    const resp = await authorizedAxios.patch<ApiUser>(BE_API.onboarding, {
+      ...userProfile,
+    });
+
+    const returnedUser: User = apiUserToUser(resp.data);
+
+    dispatch({ type: Types.SetProfile, payload: { user: returnedUser } });
+  };
+
   const updateProfile = async (user: User) => {
     // Struct for backend
-    await authorizedAxios.put(BE_API.user, {
+    const resp = await authorizedAxios.patch<ApiUser>(BE_API.user, {
       name: user.name,
       username: user.username,
       telegramHandle: user.telegramHandle,
     });
 
+    const returnedUser: User = apiUserToUser(resp.data);
+
     // Update context
-    dispatch({ type: Types.UpdateProfile, payload: { user } });
+    dispatch({ type: Types.UpdateProfile, payload: { user: returnedUser } });
   };
 
   const isOnboarded = () =>
-    !!state.user?.name &&
-    !!state.user?.username &&
-    !!state.user?.telegramHandle;
+    !!state.user?.name && !!state.user?.username && !!state.user?.telegramHandle;
 
-  const isAuthenticated = () => !!state.user;
+  // const isAuthenticated = () => !!state.user;
+  const isAuthenticated = () => true;
+  /* NOTE: SET TO TRUEFOR TESTING PURPOSES!!! */
 
   useEffect(() => {
     if (state.isInitialized) {
@@ -176,6 +210,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         loginGoogle,
         loginFromSession,
         logout,
+        setProfile,
         updateProfile,
         refetchUser,
         isOnboarded,

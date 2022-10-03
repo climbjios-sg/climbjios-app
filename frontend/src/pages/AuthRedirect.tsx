@@ -14,8 +14,7 @@ export default function AuthRedirect() {
 
   const authGoogle = async (accessToken: string | null, refreshToken: string | null) => {
     try {
-      if (!!accessToken && !!refreshToken)
-        await auth.loginGoogle(accessToken, refreshToken);
+      if (!!accessToken && !!refreshToken) await auth.loginGoogle(accessToken, refreshToken);
     } catch (err) {
       console.error(err);
       enqueueSnackbar(
@@ -36,7 +35,7 @@ export default function AuthRedirect() {
       authGoogle(accessToken, refreshToken);
       return;
     }
-    console.log("Trying to login from session");
+    console.log('Trying to login from session');
     auth.loginFromSession();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -51,7 +50,7 @@ export default function AuthRedirect() {
   }
 
   if (!auth.isOnboarded()) {
-    return <Navigate to={PATH_ONBOARDING.profile} />;
+    return <Navigate to={PATH_ONBOARDING.newuser} />;
   }
 
   return <Navigate to={PATH_DASHBOARD.general.app} />;

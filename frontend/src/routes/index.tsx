@@ -30,7 +30,7 @@ export default function Router() {
     },
     {
       path: 'login',
-      element: <Login />
+      element: <Login />,
     },
 
     // Onboarding Routes
@@ -38,29 +38,13 @@ export default function Router() {
       path: 'onboarding',
       children: [
         {
-          path: 'profile',
+          path: 'newuser',
           element: (
             <AuthGuard>
               <OnboardingNewUserDetails />
             </AuthGuard>
           ),
         },
-        // {
-        //   path: 'notionstepone',
-        //   element: (
-        //     <AuthGuard>
-        //       <OnboardingNotionStepOne />
-        //     </AuthGuard>
-        //   ),
-        // },
-        // {
-        //   path: 'notion',
-        //   element: (
-        //     <AuthGuard>
-        //       <OnboardingNotionStepTwo />
-        //     </AuthGuard>
-        //   ),
-        // },
         {
           path: 'username',
           element: (
@@ -69,7 +53,7 @@ export default function Router() {
             </AuthGuard>
           ),
         },
-        { path: '*', element: <Navigate to={PATH_ONBOARDING.profile} replace /> },
+        { path: '*', element: <Navigate to={PATH_ONBOARDING.newuser} replace /> },
       ],
     },
 

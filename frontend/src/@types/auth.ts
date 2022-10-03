@@ -26,6 +26,7 @@ export type JWTContextType = {
   loginGoogle: (accessToken: string, refreshToken: string) => Promise<void>;
   loginFromSession: () => void;
   logout: () => void;
+  setProfile: (user: User) => Promise<void>;
   updateProfile: (user: User) => Promise<void>;
   refetchUser: () => Promise<void>;
 };
