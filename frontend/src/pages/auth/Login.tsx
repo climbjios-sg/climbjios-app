@@ -55,28 +55,12 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
-  const mdUp = useResponsive('up', 'md');
-
   return (
     <Page title="Login">
       <RootStyle>
         <HeaderStyle>
           <Logo />
         </HeaderStyle>
-
-        {/* {mdUp && (
-          <SectionStyle>
-            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
-            </Typography>
-            <Image
-              visibleByDefault
-              disabledEffect
-              src="/assets/illustrations/illustration_login.png"
-              alt="login"
-            />
-          </SectionStyle>
-        )} */}
 
         <Container maxWidth="sm" sx={{ mt: -5 }}>
           <ContentStyle>
@@ -86,7 +70,8 @@ export default function Login() {
                   Sign in to ClimbJios
                 </Typography>
                 <Typography sx={{ color: 'text.secondary' }}>
-                  The social network for climbers.</Typography>
+                  The social network for climbers.
+                </Typography>
               </Box>
             </Stack>
             <LoginForm />

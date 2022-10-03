@@ -4,7 +4,7 @@ import { ACCESS_TOKEN, endSession, getSessionFromStorage, REFRESH_TOKEN, USER } 
 // @types
 import { ActionMap, AuthState, JWTContextType } from '../@types/auth';
 import { ApiUser, User } from '../@types/user';
-import { apiUserToUser, BE_API } from '../utils/api';
+import { BE_API } from '../utils/api';
 import authorizedAxios from '../utils/authorizedAxios';
 
 // ----------------------------------------------------------------------
@@ -121,8 +121,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const refetchUser = async () => {
-    const { data: apiUserData } = await authorizedAxios.get<ApiUser>(BE_API.user);
-    const userData = apiUserToUser(apiUserData);
+    const { data: userData } = await authorizedAxios.get<ApiUser>(BE_API.user);
     dispatch({ type: Types.RefetchUser, payload: { user: userData } });
   };
 

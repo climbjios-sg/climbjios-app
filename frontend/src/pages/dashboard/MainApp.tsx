@@ -1,153 +1,74 @@
-// import { useState, useEffect } from 'react';
+import * as React from 'react';
 // @mui
-import { Box, Container, BottomNavigation, BottomNavigationAction, Paper, Button } from '@mui/material';
-// hooks
-import useAuth from '../../hooks/useAuth';
-// import useTabs from '../../hooks/useTabs';
+import { Container, BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 // components
 import Page from '../../components/Page';
-// import Iconify from '../../components/Iconify';
-// // sections
-// import MyQR from './MyQR';
-// import Contacts from './Contacts';
-// import AddContact from './AddContact';
-// import { Contact } from '../../@types/user';
-// import authorizedAxios from '../../utils/authorizedAxios';
-// import { apiContactToContact, BE_API } from '../../utils/api';
-// import useLocalStorage from '../../hooks/useLocalStorage';
-// import { useSearchParams } from 'react-router-dom';
+import { useLocation, Link, Routes, Route } from 'react-router-dom';
+import Iconify from '../../components/Iconify';
+import Jios from './Jios';
 
-// // ----------------------------------------------------------------------
+interface BottomTab {
+  path: string;
+  label: string;
+  icon: React.ReactElement;
+}
 
-// export default function MainApp() {
-//   const auth = useAuth();
-//   const [searchParams] = useSearchParams();
-//   const { currentTab, onChangeTab, setCurrentTab } = useTabs('My QR');
-//   const [contacts, setContacts] = useLocalStorage<Contact[]>('contacts', []);
-//   const [loadingContacts, setLoadingContacts] = useState(false);
-//   const [findContacts, setFindContacts] = useState('');
+interface BottomTabsProps {
+  tabs: BottomTab[];
+}
 
-//   const handleFindContacts = (value: string) => {
-//     setFindContacts(value);
-//   };
+function BottomTabs({ tabs }: BottomTabsProps) {
+  const location = useLocation();
+  const paths = location.pathname.split('/');
+  const lastPath = paths[paths.length - 1];
 
-//   const handleSubmitAddContact = async (data: Contact) => {
-//     await authorizedAxios.post(BE_API.contacts, {
-//       name: data.name,
-//       company: data.company,
-//       role: data.role,
-//       email: data.email,
-//       phoneNumber: data.phoneNumber,
-//       linkedInUrl: data.linkedin,
-//       telegramUsername: data.telegram,
-//       meetingLocation: data.whereWeMet,
-//       meetingLatLong:
-//         data.whereWeMetLatitude && data.whereWeMetLongitude
-//           ? `${data.whereWeMetLatitude},${data.whereWeMetLongitude}`
-//           : '',
-//     });
-//     await fetchContacts();
-//     setCurrentTab(DASHBOARD_TABS[2].value);
-//   };
-
-//   const DASHBOARD_TABS = [
-//     {
-//       value: 'My QR',
-//       icon: <Iconify icon={'ic:round-account-box'} width={20} height={20} />,
-//       // auth user will always not be null here
-//       component: <>{auth.user && <MyQR profile={auth.user} />}</>,
-//     },
-//     {
-//       value: 'Add Contact',
-//       icon: <Iconify icon={'eva:person-add-fill'} width={20} height={20} />,
-//       component: <AddContact onSubmit={handleSubmitAddContact} />,
-//     },
-//     {
-//       value: 'Contacts',
-//       icon: <Iconify icon={'eva:people-fill'} width={20} height={20} />,
-//       component: (
-//         <Contacts
-//           loading={loadingContacts}
-//           onRefresh={() => {
-//             handleRefresh();
-//           }}
-//           contacts={contacts}
-//           findContacts={findContacts}
-//           onFindContacts={handleFindContacts}
-//         />
-//       ),
-//     },
-//   ];
-
-//   const handleRefresh = async () => {
-//     setLoadingContacts(true);
-//     await fetchContacts();
-//     setLoadingContacts(false);
-//   };
-
-//   const fetchContacts = async () => {
-//     const { data: beContacts } = await authorizedAxios.get(BE_API.contacts);
-//     const contacts = beContacts.map(apiContactToContact);
-//     setContacts(contacts);
-//   };
-
-//   useEffect(() => {
-//     fetchContacts();
-//   }, []);
-
-//   useEffect(() => {
-//     window.scrollTo(0, 0);
-//   }, [currentTab]);
-
-//   useEffect(() => {
-//     const tab = searchParams.get('tab') || 'My QR';
-//     setCurrentTab(tab);
-//   }, []);
-
-//   return (
-//     <Page
-//       title="Connectly - Streamline your networking. Powered by Notion."
-//       sx={{ background: '#fafafa' }}
-//     >
-//       <Container>
-//         {DASHBOARD_TABS.map((tab) => {
-//           const isMatched = tab.value === currentTab;
-//           return isMatched && <Box key={tab.value}>{tab.component}</Box>;
-//         })}
-//       </Container>
-//       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-//         <BottomNavigation showLabels value={currentTab} onChange={onChangeTab}>
-//           {DASHBOARD_TABS.map((tab) => (
-//             <BottomNavigationAction
-//               key={tab.value}
-//               label={tab.value}
-//               icon={tab.icon}
-//               value={tab.value}
-//             />
-//           ))}
-//         </BottomNavigation>
-//       </Paper>
-//     </Page>
-//   );
-// }
+  return (
+    <BottomNavigation showLabels value={lastPath}>
+      {tabs.map((tab) => (
+        <BottomNavigationAction
+          key={tab.path}
+          to={tab.path}
+          label={tab.label}
+          icon={tab.icon}
+          value={tab.path}
+          component={Link}
+        />
+      ))}
+    </BottomNavigation>
+  );
+}
 
 export default function MainApp() {
-  const auth = useAuth();
-  
+  const DASHBOARD_TABS = React.useMemo(
+    () => [
+      {
+        path: 'jios',
+        label: 'Jios',
+        icon: <Iconify icon={'eva:people-outline'} width={20} height={20} />,
+        element: <Jios />,
+      },
+      {
+        path: 'profile',
+        label: 'Profile',
+        icon: <Iconify icon={'eva:person-outline'} width={20} height={20} />,
+        element: <>Profile</>,
+      },
+    ],
+    []
+  );
+
   return (
-    <Page
-      title="ClimbJios - The social network for climbers."
-      sx={{ background: '#fafafa' }}
-    >
-      <p>Main dashboard placeholder</p>
-      <Button
-        variant="outlined"
-        onClick={() => {
-          auth.logout();
-        }}
-      >
-        Logout
-      </Button>
+    <Page title="ClimbJios - The social network for climbers." sx={{ background: '#fafafa' }}>
+      <Container>
+        <Routes>
+          {DASHBOARD_TABS.map((tab) => (
+            <Route key={tab.path} path={tab.path} element={tab.element} />
+          ))}
+        </Routes>
+      </Container>
+      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+        <BottomTabs tabs={DASHBOARD_TABS} />
+      </Paper>
     </Page>
   );
 }

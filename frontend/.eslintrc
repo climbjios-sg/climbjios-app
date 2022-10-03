@@ -30,6 +30,7 @@
     "import/no-useless-path-segments": 1,
     "import/no-extraneous-dependencies": 0,
     "@typescript-eslint/naming-convention": 0,
+    "@typescript-eslint/default-param-last": 0,
     "object-curly-spacing": [
       1,
       "always"
