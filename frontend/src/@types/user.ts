@@ -14,9 +14,15 @@ export type User = {
   username?: string;
 };
 
+export type NewUser = {
+  name?: string;
+  telegram?: string;
+  username?: string;
+};
+
 // ApiUser represents user profile schema from backend api
 export type ApiUser = {
   name?: string;
-  telegramUsername?: string;
-  climbJiosUsername?: string;
+  telegramHandle?: string;
+  username?: string;
 };

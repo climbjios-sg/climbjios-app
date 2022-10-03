@@ -41,23 +41,31 @@ export default function Router() {
           path: 'profile',
           element: (
             <AuthGuard>
-              <OnboardingProfile />
+              <OnboardingNewUserDetails />
             </AuthGuard>
           ),
         },
+        // {
+        //   path: 'notionstepone',
+        //   element: (
+        //     <AuthGuard>
+        //       <OnboardingNotionStepOne />
+        //     </AuthGuard>
+        //   ),
+        // },
+        // {
+        //   path: 'notion',
+        //   element: (
+        //     <AuthGuard>
+        //       <OnboardingNotionStepTwo />
+        //     </AuthGuard>
+        //   ),
+        // },
         {
-          path: 'notionstepone',
+          path: 'username',
           element: (
             <AuthGuard>
-              <OnboardingNotionStepOne />
-            </AuthGuard>
-          ),
-        },
-        {
-          path: 'notion',
-          element: (
-            <AuthGuard>
-              <OnboardingNotionStepTwo />
+              <OnboardingNewUserUsername />
             </AuthGuard>
           ),
         },
@@ -86,9 +94,12 @@ export default function Router() {
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
 
 // ONBOARDING
-const OnboardingProfile = Loadable(lazy(() => import('../pages/onboarding/Profile')));
-const OnboardingNotionStepOne = Loadable(lazy(() => import('../pages/onboarding/NotionStepOne')));
-const OnboardingNotionStepTwo = Loadable(lazy(() => import('../pages/onboarding/NotionStepTwo')));
+const OnboardingNewUserDetails = Loadable(lazy(() => import('../pages/onboarding/NewUserDetails')));
+// const OnboardingNotionStepOne = Loadable(lazy(() => import('../pages/onboarding/NotionStepOne')));
+// const OnboardingNotionStepTwo = Loadable(lazy(() => import('../pages/onboarding/NotionStepTwo')));
+const OnboardingNewUserUsername = Loadable(
+  lazy(() => import('../pages/onboarding/NewUserUsername'))
+);
 
 // APP
 const MainApp = Loadable(lazy(() => import('../pages/dashboard/MainApp')));

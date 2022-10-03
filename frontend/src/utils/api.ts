@@ -12,15 +12,15 @@ export const BE_API = {
 // apiUserToUser converts User object fetched from be api to user object used in fe
 export const apiUserToUser = (apiUser: ApiUser): User => ({
   name: apiUser.name,
-  telegram: apiUser.telegramUsername,
-  username: apiUser.climbJiosUsername,
+  telegram: apiUser.telegramHandle,
+  username: apiUser.username,
 });
 
 // userToApiUser converts User to ApiUser
 export const userToApiUser = (user: User): ApiUser => ({
   name: user.name,
-  telegramUsername: user.telegram,
-  climbJiosUsername: user.username,
+  telegramHandle: user.telegram,
+  username: user.username,
 });
 
 export const apiContactToContact = (apiContact: any): Contact => {

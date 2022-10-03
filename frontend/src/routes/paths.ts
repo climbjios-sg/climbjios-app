@@ -21,8 +21,9 @@ export const PATH_PAGE = {
 
 export const PATH_ONBOARDING = {
   profile: path(ROOTS_ONBOARDING, '/profile'),
-  notionStepOne: path(ROOTS_ONBOARDING, '/notionstepone'),
-  notionStepTwo: path(ROOTS_ONBOARDING, '/notion'),
+  // notionStepOne: path(ROOTS_ONBOARDING, '/notionstepone'),
+  // notionStepTwo: path(ROOTS_ONBOARDING, '/notion'),
+  username: path(ROOTS_ONBOARDING, '/username'),
 };
 
 export const PATH_DASHBOARD = {

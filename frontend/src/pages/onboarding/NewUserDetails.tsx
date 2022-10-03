@@ -16,29 +16,28 @@ export default function Profile() {
   const navigate = useNavigate();
   return (
     <Page title="Onboarding: Fill in your details">
-      {/* <Container sx={{ mt: 3 }}> */}
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        alignSelf="center"
-        display="flex"
-        maxWidth="90%"
-        sx={{ mt: 3, mx: 'auto' }}
+      <Container
+        maxWidth="md"
+        sx={{
+          py: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
         <Logo />
-        <Typography variant="subtitle2" gutterBottom sx={{ mt: 5, mb: 1 }}>
-          Fill in your details for us to create a QR Code name card for you.
+        <Typography variant="subtitle1" gutterBottom sx={{ mt: 5, mb: 1 }}>
+          Fill in your details to be shown to other climbers
         </Typography>
         <NewUserForm
           isEdit={false}
           currentUser={auth.user}
           onExit={() => {
-            navigate(PATH_ONBOARDING.notionStepOne);
+            navigate(PATH_ONBOARDING.username);
           }}
         />
-      </Grid>
-      {/* </Container> */}
+      </Container>
     </Page>
   );
 }

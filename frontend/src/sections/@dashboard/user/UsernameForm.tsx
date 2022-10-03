@@ -1,50 +1,54 @@
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useContext } from 'react';
 // form
 import { useForm } from 'react-hook-form';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Box, Card, Grid, Stack, InputAdornment, FormHelperText } from '@mui/material';
+import { Box, Card, Grid, Stack, FormHelperText, Typography } from '@mui/material';
 // @types
-import { User } from '../../../@types/user';
+import { User, NewUser } from '../../../@types/user';
 // components
-import { FormProvider, RHFTextField } from '../../../components/hook-form';
+import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../../components/hook-form';
 import { useSnackbar } from 'notistack';
-import { SUPPORT_EMAIL } from '../../../config';
+import {
+  SUPPORT_EMAIL,
+  MIN_USERNAME_LEN,
+  MAX_USERNAME_LEN,
+  REGEX_USERNAME,
+  USERNAME_LEN_ERROR,
+  USERNAME_REGEX_ERROR,
+} from '../../../config';
 import useAuth from '../../../hooks/useAuth';
+// context
+import { NewUserContext, NewUserActionEnum } from '../../../contexts/NewUserContext';
 
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends User {}
+interface FormValuesProps {
+  username: string;
+}
 
 type Props = {
-  isEdit: boolean;
   onExit: () => void;
-  currentUser?: User | null;
 };
 
-export default function NewUserForm({ isEdit, currentUser, onExit }: Props) {
+export default function NewUserForm({ onExit }: Props) {
   const auth = useAuth();
   const { enqueueSnackbar } = useSnackbar();
-  const defaultValues = useMemo(
-    () => ({
-      name: currentUser?.name || '',
-      telegram: currentUser?.telegram || '',
-      username: currentUser?.username || '',
-    }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentUser]
-  );
+  const { state, dispatch } = useContext(NewUserContext);
 
   const NewProfileSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    telegram: Yup.string().required('Telegram handle is required'),
+    username: Yup.string()
+      .min(MIN_USERNAME_LEN, USERNAME_LEN_ERROR)
+      .max(MAX_USERNAME_LEN, USERNAME_LEN_ERROR)
+      .matches(REGEX_USERNAME, USERNAME_REGEX_ERROR)
+      .required('Username is required'),
   });
 
   const methods = useForm<FormValuesProps>({
     resolver: yupResolver(NewProfileSchema),
-    defaultValues,
+    defaultValues: { username: state.username },
   });
 
   const {
@@ -54,21 +58,11 @@ export default function NewUserForm({ isEdit, currentUser, onExit }: Props) {
     formState: { isSubmitting, errors },
   } = methods;
 
-  useEffect(() => {
-    if (isEdit && currentUser) {
-      reset(defaultValues);
-    }
-    if (!isEdit) {
-      reset(defaultValues);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, currentUser]);
-
   const onSubmit = async (data: FormValuesProps) => {
     try {
       // await auth.updateProfile(data);
       reset();
-      onExit();
+      // onExit();
     } catch (error) {
       enqueueSnackbar(
         `Failed to update profile. Try again. If the problem persists, contact support ${SUPPORT_EMAIL}.`,
@@ -88,20 +82,19 @@ export default function NewUserForm({ isEdit, currentUser, onExit }: Props) {
         <Grid item xs={12} md={12}>
           <Card sx={{ p: 2 }}>
             <Stack spacing={2}>
-              <FormHelperText error>{errors?.name?.message}</FormHelperText>
+              <FormHelperText error>{errors?.username?.message}</FormHelperText>
               <RHFTextField
-                name="name"
-                label="Name"
-                helperText="Your name will be displayed on your profile page. You can always change this later"
-              />
-              <FormHelperText error>{errors?.telegram?.message}</FormHelperText>
-              <RHFTextField
-                name="telegram"
-                label="Telegram Username"
-                helperText="Other climbers will communicate with you over Telegram."
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">@</InputAdornment>,
-                }}
+                name="username"
+                label="Username"
+                helperText="Other climbers will identify you by your unique username. You can't change this later"
+                // onChange={(e) => {
+                //   dispatch({
+                //     type: NewUserActionEnum.EDIT,
+                //     field: 'username', //Note: This "username" refers to the "username" field in the NewUser type
+                //     payload: e.target.value,
+                //   });
+                //   setValue('username', e.target.value); //Note: This "username" refers to the input field with name "username"
+                // }}
               />
             </Stack>
 
@@ -113,7 +106,7 @@ export default function NewUserForm({ isEdit, currentUser, onExit }: Props) {
                 variant="contained"
                 loading={isSubmitting}
               >
-                {!isEdit ? 'Next' : 'Save Changes'}
+                Complete Profile
               </LoadingButton>
             </Stack>
           </Card>

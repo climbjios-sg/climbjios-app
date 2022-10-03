@@ -37,3 +37,17 @@ export const ICON = {
 
 // SUPPORT EMAIL
 export const SUPPORT_EMAIL = 'rizhaow@gmail.com';
+
+// NEW USER SIGNUP
+// Form validation
+export const MIN_USERNAME_LEN = 3;
+export const MAX_USERNAME_LEN = 30;
+export const REGEX_USERNAME = /^([A-Za-z0-9]){3,30}$/;
+/*
+Note: username can only consist of uppercase & lowercase alphabets and numbers, 
+and must be between 3 to 30 characters. Update this regex when length limitations change
+*/
+
+//Error messages
+export const USERNAME_LEN_ERROR = `Username must be between ${MIN_USERNAME_LEN} and ${MAX_USERNAME_LEN} characters long`;
+export const USERNAME_REGEX_ERROR = `Username can only contain alphabets and numbers. It cannot contain blank spaces`;
