@@ -61,10 +61,10 @@ export default function NewUserForm({ onExit }: Props) {
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
-      await auth.setProfile(state);
+      await auth.updateProfile(state);
       // enqueueSnackbar(`User info in state is: ${JSON.stringify(state)}`);
       reset();
-      // onExit();
+      onExit();
     } catch (error) {
       enqueueSnackbar(
         `Failed to create profile. Try again. If the problem persists, contact support ${SUPPORT_EMAIL}.`,

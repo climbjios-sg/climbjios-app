@@ -164,17 +164,17 @@ function AuthProvider({ children }: AuthProviderProps) {
     dispatch({ type: Types.Logout });
   };
 
-  const setProfile = async (user: User) => {
-    const userProfile = { ...user };
-    delete userProfile.id;
-    const resp = await authorizedAxios.patch<ApiUser>(BE_API.onboarding, {
-      ...userProfile,
-    });
+  // const setProfile = async (user: User) => {
+  //   const userProfile = { ...user };
+  //   delete userProfile.id;
+  //   const resp = await authorizedAxios.patch<ApiUser>(BE_API.user, {
+  //     ...userProfile,
+  //   });
 
-    const returnedUser: User = apiUserToUser(resp.data);
+  //   const returnedUser: User = apiUserToUser(resp.data);
 
-    dispatch({ type: Types.SetProfile, payload: { user: returnedUser } });
-  };
+  //   dispatch({ type: Types.SetProfile, payload: { user: returnedUser } });
+  // };
 
   const updateProfile = async (user: User) => {
     // Struct for backend

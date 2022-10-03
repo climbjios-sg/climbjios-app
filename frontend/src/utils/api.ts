@@ -5,13 +5,13 @@ export const BE_API = {
     google: '/v1/auth/google',
   },
   user: '/v1/user',
-  onboarding: '/v1/user/onboarding',
   gyms: '/v1/gyms',
-  posts: '/v1/posts'
+  posts: '/v1/posts',
 };
 
 // apiUserToUser converts User object fetched from be api to user object used in fe
 export const apiUserToUser = (apiUser: ApiUser): User => ({
+  id: apiUser.id,
   name: apiUser.name,
   username: apiUser.username,
   telegramHandle: apiUser.telegramHandle,
