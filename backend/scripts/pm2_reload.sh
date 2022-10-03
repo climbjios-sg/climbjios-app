@@ -1,4 +1,4 @@
-yarn install --frozen-lockfile
+yarn install --frozen-lockfile --production=false
 yarn build
 
 # Note: this is not a good way to do a rolling deployment, as db is updated first before
