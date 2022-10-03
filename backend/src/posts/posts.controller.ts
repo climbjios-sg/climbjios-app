@@ -1,7 +1,17 @@
-import { Body, Controller, Get, Param, Patch, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Req,
+} from '@nestjs/common';
 import PatchPostDto from './dtos/patchPost.dto';
 import CreatePostDto from './dtos/createPost.dto';
 import { PostService } from './post.service';
+import SearchPostDto from './dtos/searchPost.dto';
 
 @Controller('posts')
 export class PostController {
@@ -20,5 +30,13 @@ export class PostController {
   @Patch(':postId')
   patchPost(@Req() req, @Param() params, @Body() body: PatchPostDto) {
     return this.postService.patchPost(req.user.id, params.postId, body);
+  }
+
+  @Get('search')
+  searchPosts(
+    @Query()
+    query: SearchPostDto,
+  ) {
+    return this.postService.searchPosts(query);
   }
 }

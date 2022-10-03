@@ -23,7 +23,7 @@ export type JWTContextType = {
   isAuthenticated: () => boolean;
   isOnboarded: () => boolean;
   user: User | null;
-  loginLinkedin: (accessToken: string) => Promise<void>;
+  loginGoogle: (accessToken: string, refreshToken: string) => Promise<void>;
   loginFromSession: () => void;
   logout: () => void;
   updateProfile: (user: User) => Promise<void>;

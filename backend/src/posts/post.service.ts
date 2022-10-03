@@ -3,9 +3,10 @@ import { GymsDaoService } from '../database/daos/gyms/gyms.dao.service';
 import { PostsDaoService } from '../database/daos/posts/posts.dao.service';
 import PatchPostDto from './dtos/patchPost.dto';
 import CreatePostDto from './dtos/createPost.dto';
-import { TimingsDaoService } from '../database/daos/timings/timings.dao.service';
+import { TimingsDaoService } from 'src/database/daos/timings/timings.dao.service';
 import { Model } from 'objection';
 import { TimingPostDaoService } from '../database/daos/timing_post/timing_post.dao.service';
+import SearchPostDto from './dtos/searchPost.dto';
 
 @Injectable()
 export class PostService {
@@ -21,6 +22,18 @@ export class PostService {
   }
 
   async createPost(userId: string, body: CreatePostDto) {
+    const bodyDate = new Date(body.date);
+    const now = new Date(Date.now());
+    bodyDate.setHours(0, 0, 0, 0);
+    now.setHours(0, 0, 0, 0);
+
+    if (bodyDate < now) {
+      throw new HttpException(
+        'Cannot create a post with date earlier than today!',
+        400,
+      );
+    }
+
     const gym = await this.gymsDaoService.findById(body.gymId);
     if (!gym) {
       throw new HttpException('Invalid gym id!', 400);
@@ -80,5 +93,9 @@ export class PostService {
 
       return this.postsDaoService.patchById(postId, filtered, trx);
     });
+  }
+
+  searchPosts(query: SearchPostDto) {
+    return this.postsDaoService.getUpcomingPosts(query);
   }
 }

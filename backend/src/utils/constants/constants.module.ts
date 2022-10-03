@@ -4,7 +4,13 @@ import { ConstantsService } from './constants.service';
 
 @Global()
 @Module({
-  imports: [ConfigModule.forRoot()],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: `.env${
+        process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : ''
+      }`,
+    }),
+  ],
   providers: [ConstantsService],
   exports: [ConstantsService],
 })

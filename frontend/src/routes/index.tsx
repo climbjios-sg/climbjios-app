@@ -29,8 +29,8 @@ export default function Router() {
       element: <AuthRedirect />,
     },
     {
-      path: 'auth/login',
-      element: <Login />,
+      path: 'login',
+      element: <Login />
     },
 
     // Onboarding Routes

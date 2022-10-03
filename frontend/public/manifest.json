@@ -1,31 +1,31 @@
 {
-  "name": "Connectly",
-  "short_name": "Connectly",
+  "name": "ClimbJios",
+  "short_name": "ClimbJios",
   "display": "standalone",
   "start_url": "/",
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "icons": [
     {
-      "src": "favicon/android-chrome-192x192.png",
+      "src": "favicon/android-chrome-192x192.jpg",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/jpeg"
     },
     {
-      "src": "favicon/android-chrome-512x512.png",
+      "src": "favicon/android-chrome-512x512.jpg",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/jpeg"
     },
     {
-      "src": "favicon/maskable_icon_192.png",
+      "src": "favicon/maskable_icon_192.jpg",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/jpeg",
       "purpose": "maskable"
     },
     {
-      "src": "favicon/maskable_icon_512.png",
+      "src": "favicon/maskable_icon_512.jpg",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/jpeg",
       "purpose": "maskable"
     }
   ]

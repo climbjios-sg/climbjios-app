@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useReducer } from 'react';
 // utils
-import { ACCESS_TOKEN, endSession, getSessionFromStorage, USER } from '../utils/jwt';
+import { ACCESS_TOKEN, endSession, getSessionFromStorage, REFRESH_TOKEN, USER } from '../utils/jwt';
 // @types
 import { ActionMap, AuthState, JWTContextType } from '../@types/auth';
 import { ApiUser, User } from '../@types/user';
@@ -12,14 +12,14 @@ import authorizedAxios from '../utils/authorizedAxios';
 enum Types {
   Initialize = 'INITIALIZE',
   LoginFromSession = 'LOGIN_FROM_SESSION',
-  LoginLinkedin = 'LOGIN_LINKEDIN',
+  LoginGoogle = 'LOGIN_GOOGLE',
   Logout = 'LOGOUT',
   UpdateProfile = 'UPDATE_PROFILE',
   RefetchUser = 'REFETCH_USER',
 }
 
 type JWTAuthPayload = {
-  [Types.LoginLinkedin]: {
+  [Types.LoginGoogle]: {
     user: User;
   };
   [Types.LoginFromSession]: {
@@ -61,20 +61,20 @@ const JWTReducer = (state: AuthState, action: JWTActions) => {
         ...state,
         user: action.payload.user,
       };
-    case Types.LoginLinkedin:
+    case Types.LoginGoogle:
       return {
         ...state,
         user: action.payload.user,
         isInitialized: true,
-      };
+      }
     case Types.UpdateProfile:
       return {
         ...state,
         user: {
           ...state.user,
           name: action.payload.user.name,
-          telegram: action.payload.user.telegram,
           username: action.payload.user.username,
+          telegramHandle: action.payload.user.telegramHandle,
         },
       };
     case Types.Logout:
@@ -121,19 +121,23 @@ function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const refetchUser = async () => {
-    const { data: apiUserData } = await authorizedAxios.get<ApiUser>(BE_API.profile);
+    const { data: apiUserData } = await authorizedAxios.get<ApiUser>(BE_API.user);
     const userData = apiUserToUser(apiUserData);
     dispatch({ type: Types.RefetchUser, payload: { user: userData } });
   };
 
-  // Send jwt token to login
-  const loginLinkedin = async (accessToken: string) => {
+  const loginGoogle = async (accessToken: string, refreshToken: string) => {
     authorizedAxios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-    const { data: apiUserData } = await authorizedAxios.get<ApiUser>(BE_API.profile);
-    const userData = apiUserToUser(apiUserData);
+    // TODO: Uncomment when API endpoint is ready for fetching user data
+    // const { data: apiUserData } = await authorizedAxios.get<ApiUser>(BE_API.user);
+    // const userData = apiUserToUser(apiUserData);
     localStorage.setItem(ACCESS_TOKEN, accessToken);
-    dispatch({ type: Types.LoginLinkedin, payload: { user: userData } });
-  };
+    localStorage.setItem(REFRESH_TOKEN, refreshToken);
+    // dispatch({ type: Types.LoginGoogle, payload: { user: userData } });
+    // Fake user data
+    console.log("loginGoogle, dispatching fake user data");
+    dispatch({ type: Types.LoginGoogle, payload: { user: { name: "Name", username: "username123", telegramHandle: "teleuserHelloWOrld" } } });
+  }
 
   const logout = () => {
     endSession();
@@ -142,21 +146,22 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const updateProfile = async (user: User) => {
     // Struct for backend
-    await authorizedAxios.put(BE_API.profile, {
+    await authorizedAxios.put(BE_API.user, {
       name: user.name,
-      telegramUsername: user.telegram,
-      climbJiosUsername: user.username,
+      username: user.username,
+      telegramHandle: user.telegramHandle,
     });
 
     // Update context
     dispatch({ type: Types.UpdateProfile, payload: { user } });
   };
 
-  const isOnboarded = () => !!state.user?.name && !!state.user?.telegram && !!state.user.username;
+  const isOnboarded = () =>
+    !!state.user?.name &&
+    !!state.user?.username &&
+    !!state.user?.telegramHandle;
 
-  /* TESTTEST: PUT TO TRUE FOR TESTING PURPOSES!! DO NOT FORGET */
-  // const isAuthenticated = () => !!state.user;
-  const isAuthenticated = () => true;
+  const isAuthenticated = () => !!state.user;
 
   useEffect(() => {
     if (state.isInitialized) {
@@ -168,7 +173,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     <AuthContext.Provider
       value={{
         ...state,
-        loginLinkedin,
+        loginGoogle,
         loginFromSession,
         logout,
         updateProfile,
