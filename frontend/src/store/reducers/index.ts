@@ -4,7 +4,7 @@ import myJiosReducer from './myJios';
 
 const rootReducer = combineReducers({
   jios: jiosReducer,
-  my_jios: myJiosReducer,
+  myJios: myJiosReducer,
 });
 
 export default rootReducer;
