@@ -8,6 +8,7 @@ import Page from '../components/Page';
 import { MotionContainer, varBounce } from '../components/animate';
 // assets
 import { PageNotFoundIllustration } from '../assets';
+import { PATH_DASHBOARD } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +46,7 @@ export default function Page404() {
             <PageNotFoundIllustration sx={{ height: 260, my: { xs: 5, sm: 10 } }} />
           </m.div>
 
-          <Button to="/dashboard/app" size="large" variant="contained" component={RouterLink}>
+          <Button to={PATH_DASHBOARD.root} size="large" variant="contained" component={RouterLink}>
             Go to Home
           </Button>
         </ContentStyle>

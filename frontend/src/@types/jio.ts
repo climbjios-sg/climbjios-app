@@ -8,9 +8,8 @@ export interface Jio {
   numPasses: number;
   price: number;
   gymId: number;
-  date: string;
-  startTiming: string;
-  endTiming: string;
+  startDateTime: string;
+  endDateTime: string;
   openToClimbTogether: boolean;
   optionalNote: string;
   createdAt: string;

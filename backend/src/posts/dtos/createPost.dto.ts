@@ -6,20 +6,22 @@ import {
   IsNumber,
   IsDefined,
   IsDateString,
-  IsIn,
-  ArrayMinSize,
   IsOptional,
+  IsIn,
 } from 'class-validator';
-import { Timing } from '../../utils/types';
+import { PostType } from '../../utils/types';
+import { DateIsAfter } from '../../utils/dtoValidators/DateIsAfter';
+import { DateIsAfterNow } from '../../utils/dtoValidators/DateIsAfterNow';
+import { DateMatch } from '../../utils/dtoValidators/DateMatch';
 
 export default class CreatePostDto {
-  @IsBoolean()
   @IsDefined()
-  isBuy: boolean;
+  @IsIn(Object.values(PostType))
+  type: PostType;
 
   @IsInt()
   @IsDefined()
-  @Min(1)
+  @Min(0)
   numPasses: number;
 
   @IsNumber()
@@ -33,7 +35,15 @@ export default class CreatePostDto {
 
   @IsDateString()
   @IsDefined()
-  date: Date;
+  @DateIsAfterNow()
+  startDateTime: Date;
+
+  @IsDateString()
+  @IsDefined()
+  @DateIsAfterNow()
+  @DateMatch(CreatePostDto, (dto) => dto.startDateTime)
+  @DateIsAfter(CreatePostDto, (dto) => dto.startDateTime)
+  endDateTime: Date;
 
   @IsBoolean()
   @IsDefined()
@@ -42,8 +52,4 @@ export default class CreatePostDto {
   @IsOptional()
   @IsString()
   optionalNote: string;
-
-  @ArrayMinSize(1)
-  @IsIn(Object.values(Timing), { each: true })
-  timings: Timing[];
 }

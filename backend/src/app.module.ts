@@ -9,8 +9,6 @@ import { PostModule } from './posts/posts.module';
 import { PostDaoModule } from './database/daos/posts/posts.dao.module';
 import { GymsModule } from './gyms/gyms.module';
 import { GymsDaoModule } from './database/daos/gyms/gyms.dao.module';
-import { TimingsDaoModule } from './database/daos/timings/timings.dao.module';
-import { TimingPostDaoModule } from './database/daos/timing_post/timing_post.dao.module';
 import { ConstantsModule } from './utils/constants/constants.module';
 
 @Module({
@@ -22,8 +20,6 @@ import { ConstantsModule } from './utils/constants/constants.module';
     UserDaoModule,
     PostDaoModule,
     GymsDaoModule,
-    TimingsDaoModule,
-    TimingPostDaoModule,
 
     // Modules with controllers
     AuthModule,

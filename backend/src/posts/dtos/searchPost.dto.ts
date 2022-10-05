@@ -3,27 +3,21 @@ import {
   IsNumber,
   Min,
   IsInt,
-  IsIn,
   IsDateString,
   IsOptional,
-  ArrayMinSize,
-  ValidateIf,
-  IsBoolean,
+  IsIn,
 } from 'class-validator';
-import { Timing } from 'src/utils/types';
+import { PostType } from '../../utils/types';
 
 export default class SearchPostDto {
   @IsOptional()
-  @IsBoolean()
-  @Transform((val) =>
-    val.value === 'true' ? true : val.value === 'false' ? false : '',
-  )
-  isBuyer: boolean;
+  @IsIn(Object.values(PostType))
+  type: PostType;
 
   @IsOptional()
   @Transform((val) => parseInt(val.value))
   @IsInt()
-  @Min(1)
+  @Min(0)
   numPasses: number;
 
   @IsOptional()
@@ -33,10 +27,9 @@ export default class SearchPostDto {
 
   @IsOptional()
   @IsDateString()
-  date: Date;
+  startDateTime: Date;
 
-  @ValidateIf((o) => !!o.timings)
-  @ArrayMinSize(1)
-  @IsIn(Object.values(Timing), { each: true })
-  timings: Timing[];
+  @IsOptional()
+  @IsDateString()
+  endDateTime: Date;
 }

@@ -4,7 +4,7 @@ import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 import LoadingScreen from '../components/LoadingScreen';
 import AuthRedirect from '../pages/AuthRedirect';
 import AuthGuard from '../pages/guards/AuthGuard';
-import { PATH_ONBOARDING } from './paths';
+import { PATH_ONBOARDING, PATH_PAGE } from './paths';
 
 // ----------------------------------------------------------------------
 
