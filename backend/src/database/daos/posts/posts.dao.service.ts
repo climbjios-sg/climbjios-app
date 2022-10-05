@@ -47,7 +47,8 @@ export class PostsDaoService {
       .query()
       .orderBy('startDateTime', 'ASC')
       .orderBy('endDateTime', 'ASC')
-      .orderBy('gymId', 'ASC');
+      .orderBy('gymId', 'ASC')
+      .withGraphFetched('[gym,user]');
 
     // No filters set
     if (!Object.keys(search).length) {
