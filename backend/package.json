@@ -26,6 +26,8 @@
     "migrate": "node ./scripts/createDatabase.js; yarn knex migrate:latest",
     "migrate:make": "yarn knex migrate:make -x ts",
     "seed": "yarn knex seed:run",
+    "seed:stg": "NODE_ENV=staging yarn seed",
+    "seed:prod": "NODE_ENV=production yarn seed",
     "seed:make": "yarn knex seed:make -x ts"
   },
   "dependencies": {

@@ -13,77 +13,62 @@ export class PostsDaoService {
       .query()
       .select()
       .where('userId', userId)
-      .orderBy('date', 'DESC')
-      .withGraphFetched('[user,timings,gym]');
+      .orderBy('endDateTime', 'DESC')
+      .withGraphFetched('[user,gym]');
   }
 
   getById(postId: string, trx?: Transaction) {
     return this.postModel
       .query(trx)
       .findById(postId)
-      .withGraphFetched('[user,timings,gym]');
+      .withGraphFetched('[user,gym]');
   }
 
   create(
-    post: Omit<CreatePostDto, 'timings'> & {
+    post: CreatePostDto & {
       userId: string;
       isClosed: boolean;
     },
-    trx: Transaction,
   ) {
-    return this.postModel.query(trx).insert(post).returning('*');
+    return this.postModel.query().insert(post).returning('*');
   }
 
-  patchById(
-    id: string,
-    data: Partial<Omit<PostModel, 'timings'>>,
-    trx: Transaction,
-  ) {
+  patchById(id: string, data: Partial<PostModel>) {
     return this.postModel
-      .query(trx)
+      .query()
       .patch(data)
       .findById(id)
       .returning('*')
-      .withGraphFetched('[user,timings,gym]');
+      .withGraphFetched('[user,gym]');
   }
 
   async getUpcomingPosts(search: SearchPostDto) {
-    let query = this.postModel
+    const query = this.postModel
       .query()
-      .where('date', '>=', new Date(Date.now()).toISOString())
-      .orderBy('date', 'DESC')
-      .orderBy('gymId', 'ASC')
-      .withGraphFetched('timings');
+      .orderBy('startDateTime', 'ASC')
+      .orderBy('endDateTime', 'ASC')
+      .orderBy('gymId', 'ASC');
 
     // No filters set
     if (!Object.keys(search).length) {
-      return await query;
+      return await query.where('endDateTime', '>=', new Date());
     }
-
     Object.entries(search).forEach(([key, value]) => {
       if (['numPasses'].includes(key)) {
         query.where(key, '>=', value);
-      } else if (key === 'timings') {
-        // skip
+      } else if (key === 'startDateTime') {
+        // Intervals Problem:
+        // where startDateTime is before endDateTime of post
+        query.where('endDateTime', '>=', new Date(value));
+      } else if (key === 'endDateTime') {
+        // where endDateTime is after startDateTime of post
+        query.where('startDateTime', '<=', new Date(value));
       } else if (key === 'isBuyer') {
-        // Buyers search for !isBuy posts and vice versa
         query.where('isBuy', !value);
       } else {
         query.where(key, value);
       }
     });
-
-    const res = await query;
-    if (!search.timings) {
-      return res;
-    }
-
-    // keep results with at least 1 timing that is found in search timings
-    return res.filter((x) =>
-      x.timings.reduce(
-        (acc, t) => acc || search.timings.includes(t.name),
-        false,
-      ),
-    );
+    return await query;
   }
 }
