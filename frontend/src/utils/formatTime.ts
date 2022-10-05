@@ -19,3 +19,21 @@ export function formatStartEndDate(startISOString: string, endISOString: string)
   const displayDateTimeString = `${dateString}, ${startTimeString} - ${endTimeString}`;
   return displayDateTimeString
 }
+
+export function utcDateStringToTimeString(utcDateString: string): string {
+  const utcDate = new Date(utcDateString);
+  const timeString = format(utcDate, 'hh:mm');
+  return timeString;
+}
+
+export function getHoursFromUtcDateString(utcDateString: string): number {
+  const utcDate = new Date(utcDateString);
+  const hours = utcDate.getHours();
+  return hours;
+}
+
+export function getMinutesFromUtcDateString(utcDateString: string): number {
+  const utcDate = new Date(utcDateString);
+  const minutes = utcDate.getMinutes();
+  return minutes;
+}

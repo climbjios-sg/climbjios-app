@@ -5,7 +5,7 @@ import { Container, BottomNavigation, BottomNavigationAction, Paper } from '@mui
 import Page from '../../components/Page';
 import { useLocation, Link, Routes, Route } from 'react-router-dom';
 import Iconify from '../../components/Iconify';
-import Jios from './jios';
+import Jios from './Jios';
 
 interface BottomTab {
   path: string;

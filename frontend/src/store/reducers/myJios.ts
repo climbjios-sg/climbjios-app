@@ -40,7 +40,7 @@ export function listMyJios() {
   return async () => {
     dispatch(slice.actions.request());
     try {
-      const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.myJios);
+      const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.posts.create);
       const collections: Jio[] = response.data;
       dispatch(slice.actions.success(collections));
     } catch (err) {
