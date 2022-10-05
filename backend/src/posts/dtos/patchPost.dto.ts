@@ -4,13 +4,11 @@ import {
   IsNumber,
   Min,
   IsInt,
-  IsIn,
-  IsDateString,
   IsOptional,
-  ArrayMinSize,
-  ValidateIf,
+  IsDateString,
 } from 'class-validator';
-import { Timing } from 'src/utils/types';
+import { DateIsAfterNow } from '../../utils/dtoValidators/DateIsAfterNow';
+import { DateMatch } from '../../utils/dtoValidators/DateMatch';
 
 export default class PatchPostDto {
   @IsOptional()
@@ -33,7 +31,15 @@ export default class PatchPostDto {
 
   @IsOptional()
   @IsDateString()
-  date: Date;
+  @DateIsAfterNow()
+  @DateMatch(PatchPostDto, (dto) => dto.endDateTime, true)
+  startDateTime: Date;
+
+  @IsOptional()
+  @IsDateString()
+  @DateIsAfterNow()
+  @DateMatch(PatchPostDto, (dto) => dto.startDateTime, true)
+  endDateTime: Date;
 
   @IsOptional()
   @IsBoolean()
@@ -46,9 +52,4 @@ export default class PatchPostDto {
   @IsOptional()
   @IsBoolean()
   isClosed: boolean;
-
-  @ValidateIf((o) => !!o.timings)
-  @ArrayMinSize(1)
-  @IsIn(Object.values(Timing), { each: true })
-  timings: Timing[];
 }

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { UserDaoService } from 'src/database/daos/users/user.dao.service';
-import PatchOnboardingDto from './dtos/patchOnboarding.dto';
 import PatchUserDto from './dtos/patchUser.dto';
 
 @Injectable()
@@ -16,7 +15,7 @@ export class UserService {
     ]);
   }
 
-  patchUser(userid: string, body: PatchOnboardingDto | PatchUserDto) {
+  patchUser(userid: string, body: PatchUserDto) {
     return this.userDaoService.updateById(userid, body);
   }
 }

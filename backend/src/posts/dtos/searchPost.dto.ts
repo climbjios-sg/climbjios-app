@@ -3,14 +3,10 @@ import {
   IsNumber,
   Min,
   IsInt,
-  IsIn,
   IsDateString,
   IsOptional,
-  ArrayMinSize,
-  ValidateIf,
   IsBoolean,
 } from 'class-validator';
-import { Timing } from 'src/utils/types';
 
 export default class SearchPostDto {
   @IsOptional()
@@ -33,10 +29,9 @@ export default class SearchPostDto {
 
   @IsOptional()
   @IsDateString()
-  date: Date;
+  startDateTime: Date;
 
-  @ValidateIf((o) => !!o.timings)
-  @ArrayMinSize(1)
-  @IsIn(Object.values(Timing), { each: true })
-  timings: Timing[];
+  @IsOptional()
+  @IsDateString()
+  endDateTime: Date;
 }
