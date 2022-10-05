@@ -6,18 +6,20 @@ import {
   IsInt,
   IsOptional,
   IsDateString,
+  IsIn,
 } from 'class-validator';
+import { PostType } from '../../utils/types';
 import { DateIsAfterNow } from '../../utils/dtoValidators/DateIsAfterNow';
 import { DateMatch } from '../../utils/dtoValidators/DateMatch';
 
 export default class PatchPostDto {
   @IsOptional()
-  @IsBoolean()
-  isBuy: boolean;
+  @IsIn(Object.values(PostType))
+  type: PostType;
 
   @IsOptional()
   @IsInt()
-  @Min(1)
+  @Min(0)
   numPasses: number;
 
   @IsOptional()

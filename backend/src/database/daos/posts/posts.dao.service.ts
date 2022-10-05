@@ -3,6 +3,7 @@ import { ModelClass, Transaction } from 'objection';
 import { PostModel } from '../../models/post.model';
 import CreatePostDto from '../../../posts/dtos/createPost.dto';
 import SearchPostDto from '../../../posts/dtos/searchPost.dto';
+import { PostType } from 'src/utils/types';
 
 @Injectable()
 export class PostsDaoService {
@@ -64,8 +65,14 @@ export class PostsDaoService {
       } else if (key === 'endDateTime') {
         // where endDateTime is after startDateTime of post
         query.where('startDateTime', '<=', new Date(value));
-      } else if (key === 'isBuyer') {
-        query.where('isBuy', !value);
+      } else if (key === 'type') {
+        if (value === PostType.BUYER) {
+          query.where('type', PostType.SELLER);
+        } else if (value === PostType.SELLER) {
+          query.where('type', PostType.BUYER);
+        } else {
+          query.where('type', PostType.OTHER);
+        }
       } else {
         query.where(key, value);
       }
