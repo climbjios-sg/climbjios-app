@@ -2,8 +2,8 @@ export type JwtPayload = { id: string };
 export enum AuthProvider {
   GOOGLE = 'google',
 }
-export enum Timing {
-  MORNING = 'morning',
-  AFTERNOON = 'afternoon',
-  EVENING = 'evening',
+export enum PostType {
+  BUYER = 'buyer',
+  SELLER = 'seller',
+  OTHER = 'other',
 }

@@ -3,18 +3,14 @@ import { GymsDaoService } from '../database/daos/gyms/gyms.dao.service';
 import { PostsDaoService } from '../database/daos/posts/posts.dao.service';
 import PatchPostDto from './dtos/patchPost.dto';
 import CreatePostDto from './dtos/createPost.dto';
-import { TimingsDaoService } from 'src/database/daos/timings/timings.dao.service';
-import { Model } from 'objection';
-import { TimingPostDaoService } from '../database/daos/timing_post/timing_post.dao.service';
 import SearchPostDto from './dtos/searchPost.dto';
+import { PostType } from '../utils/types';
 
 @Injectable()
 export class PostService {
   constructor(
     private readonly postsDaoService: PostsDaoService,
     private readonly gymsDaoService: GymsDaoService,
-    private readonly timingsDaoService: TimingsDaoService,
-    private readonly timingPostDaoService: TimingPostDaoService,
   ) {}
 
   getOwnPosts(userId: string) {
@@ -22,47 +18,24 @@ export class PostService {
   }
 
   async createPost(userId: string, body: CreatePostDto) {
-    const bodyDate = new Date(body.date);
-    const now = new Date(Date.now());
-    bodyDate.setHours(0, 0, 0, 0);
-    now.setHours(0, 0, 0, 0);
+    /**
+     * Pre-condition: DTO already checks that
+     * - startDateTime and endDateTime fall on the same day
+     * - startDateTime is before endDateTime
+     * - both dates are after `new Date()`
+     *  */
 
-    if (bodyDate < now) {
-      throw new HttpException(
-        'Cannot create a post with date earlier than today!',
-        400,
-      );
-    }
+    this.checkPostTypeAndNumPasses(body.type, body.numPasses);
 
     const gym = await this.gymsDaoService.findById(body.gymId);
     if (!gym) {
       throw new HttpException('Invalid gym id!', 400);
     }
 
-    const dbTimings = await this.timingsDaoService.getAll();
-    const timingToIdMap = dbTimings.reduce((acc, t) => {
-      acc[t.name] = t.id;
-      return acc;
-    }, {});
-    const timingIds = body.timings.map((t) => timingToIdMap[t]);
-
-    const filtered = { ...body };
-    delete filtered.timings;
-
-    return Model.transaction(async (trx) => {
-      const post = await this.postsDaoService.create(
-        {
-          userId,
-          ...filtered,
-          isClosed: false,
-        },
-        trx,
-      );
-      await this.timingPostDaoService.insertMany(
-        timingIds.map((t) => ({ postId: post.id, timingId: t })),
-        trx,
-      );
-      return await this.postsDaoService.getById(post.id, trx);
+    return this.postsDaoService.create({
+      userId,
+      ...body,
+      isClosed: false,
     });
   }
 
@@ -72,30 +45,45 @@ export class PostService {
       throw new HttpException('Forbidden', 403);
     }
 
-    return Model.transaction(async (trx) => {
-      if (body.timings) {
-        const dbTimings = await this.timingsDaoService.getAll();
-        const timingToIdMap = dbTimings.reduce((acc, t) => {
-          acc[t.name] = t.id;
-          return acc;
-        }, {});
-        const timingIds = body.timings?.map((t) => ({
-          postId,
-          timingId: timingToIdMap[t],
-        }));
+    const postType = body.type ?? post.type;
+    const numPasses = body.numPasses ?? post.numPasses;
+    this.checkPostTypeAndNumPasses(postType, numPasses);
 
-        await this.timingPostDaoService.deleteAll(postId, trx);
-        await this.timingPostDaoService.insertMany(timingIds, trx);
-      }
+    const startDateTime = new Date(body.startDateTime ?? post.startDateTime);
+    const endDateTime = new Date(body.endDateTime ?? post.endDateTime);
 
-      const filtered = { ...body };
-      delete filtered.timings;
+    if (startDateTime.toDateString() !== endDateTime.toDateString()) {
+      // both start and end datetimes must be on same day
+      return new HttpException(
+        'startDateTime and endDateTime should fall on the same day!',
+        400,
+      );
+    } else if (startDateTime > endDateTime) {
+      // start comes before end datetime
+      return new HttpException(
+        'startDateTime should be before endDateTime!',
+        400,
+      );
+    }
 
-      return this.postsDaoService.patchById(postId, filtered, trx);
+    return this.postsDaoService.patchById(postId, {
+      ...body,
     });
   }
 
   searchPosts(query: SearchPostDto) {
     return this.postsDaoService.getUpcomingPosts(query);
+  }
+
+  private checkPostTypeAndNumPasses(type: PostType, numPasses: number) {
+    if ([PostType.BUYER, PostType.SELLER].includes(type) && numPasses === 0) {
+      throw new HttpException('numPasses should be at least 1!', 400);
+    }
+    if (PostType.OTHER === type && numPasses !== 0) {
+      throw new HttpException(
+        "'other' type must have numPasses equals 0!",
+        400,
+      );
+    }
   }
 }

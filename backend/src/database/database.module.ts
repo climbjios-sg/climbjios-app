@@ -4,11 +4,9 @@ import { knexSnakeCaseMappers, Model } from 'objection';
 import { ConstantsService } from '../utils/constants/constants.service';
 import { GymModel } from './models/gym.model';
 import { PostModel } from './models/post.model';
-import { TimingModel } from './models/timing.model';
-import { TimingPostModel } from './models/timing_post.model';
 import { UserModel } from './models/user.model';
 
-const models = [GymModel, PostModel, TimingModel, TimingPostModel, UserModel];
+const models = [GymModel, PostModel, UserModel];
 const modelProviders = models.map((model) => ({
   provide: model.name,
   useValue: model,
