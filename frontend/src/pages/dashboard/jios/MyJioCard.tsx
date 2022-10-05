@@ -1,9 +1,5 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import { Box, Button, Card, CardHeader, Grid, Stack, Tab, Tabs, Typography } from '@mui/material';
-import { TabContext, TabPanel } from '@mui/lab';
-import { listJios } from '../../../store/reducers/jios';
-import { useDispatch, useSelector } from '../../../store';
+import { Button, Card, CardHeader, Stack, Typography } from '@mui/material';
 import Iconify from '../../../components/Iconify';
 import { IconStyle } from '../../../sections/@dashboard/user/profile/common';
 import { Jio } from '../../../@types/jio';
@@ -47,17 +43,17 @@ export default function MyJioCard({ data }: MyJioCardProps) {
             <Typography variant="body2">{data.optionalNote}</Typography>
           </Stack>
         )}
-        <Stack direction="row">
+        <Stack direction="row" spacing={1.5}>
+          <Button fullWidth startIcon={<Iconify icon={'eva:edit-fill'} />} onClick={() => {}}>
+            Edit
+          </Button>
           <Button
-            sx={{ mt: 1 }}
-            color="secondary"
             fullWidth
-            href={`https://t.me/${data.user.telegramHandle}`}
-            variant="outlined"
-            target="_blank"
+            color="error"
+            startIcon={<Iconify icon={'eva:trash-2-outline'} />}
+            onClick={() => {}}
           >
-            <Iconify icon={'jam:telegram'} sx={{ mr: 1 }} />
-            <span>Message on Telegram</span>
+            Close
           </Button>
         </Stack>
       </Stack>
