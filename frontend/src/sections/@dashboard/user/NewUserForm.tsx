@@ -23,22 +23,20 @@ import {
 } from '../../../config';
 import useAuth from '../../../hooks/useAuth';
 // context
-import { NewUserContext, NewUserActionEnum } from '../../../contexts/NewUserContext';
+import { NewUserContext } from '../../../contexts/NewUserContext';
 
 // ----------------------------------------------------------------------
 
 interface FormValuesProps extends User {}
 
 type Props = {
-  isEdit: boolean;
   onExit: () => void;
-  currentUser?: User | null;
 };
 
-export default function NewUserForm({ isEdit, currentUser, onExit }: Props) {
+export default function NewUserForm({ onExit }: Props) {
   const auth = useAuth();
   const { enqueueSnackbar } = useSnackbar();
-  const { state, dispatch } = useContext(NewUserContext);
+  const newUserContext = useContext(NewUserContext);
 
   const NewProfileSchema = Yup.object().shape({
     name: Yup.string()
@@ -66,7 +64,7 @@ export default function NewUserForm({ isEdit, currentUser, onExit }: Props) {
   const onSubmit = async (data: FormValuesProps) => {
     try {
       // await auth.updateProfile(data);
-      reset();
+      enqueueSnackbar(`User info in NewUserContext is: ${JSON.stringify(newUserContext.user)}`);
       onExit();
     } catch (error) {
       enqueueSnackbar(
@@ -93,11 +91,7 @@ export default function NewUserForm({ isEdit, currentUser, onExit }: Props) {
                 label="Name"
                 helperText="Your name will be displayed on your profile page. You can always change this later"
                 onChange={(e) => {
-                  dispatch({
-                    type: NewUserActionEnum.EDIT,
-                    field: 'name', //Note: This "name" refers to the "name" field in the User type
-                    payload: e.target.value,
-                  });
+                  newUserContext.updateName(e.target.value);
                   setValue('name', e.target.value);
                 }}
               />
@@ -110,11 +104,7 @@ export default function NewUserForm({ isEdit, currentUser, onExit }: Props) {
                   startAdornment: <InputAdornment position="start">@</InputAdornment>,
                 }}
                 onChange={(e) => {
-                  dispatch({
-                    type: NewUserActionEnum.EDIT,
-                    field: 'telegramHandle', //Note: This "username" refers to the "username" field in the User type
-                    payload: e.target.value,
-                  });
+                  newUserContext.updateTelegram(e.target.value);
                   setValue('telegramHandle', e.target.value);
                 }}
               />
@@ -128,7 +118,7 @@ export default function NewUserForm({ isEdit, currentUser, onExit }: Props) {
                 variant="contained"
                 loading={isSubmitting}
               >
-                {!isEdit ? 'Next' : 'Save Changes'}
+                Next
               </LoadingButton>
             </Stack>
           </Card>

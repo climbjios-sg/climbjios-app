@@ -5,11 +5,9 @@ import { useEffect, useMemo, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Box, Card, Grid, Stack, FormHelperText, Typography } from '@mui/material';
-// @types
-import { User } from '../../../@types/user';
+import { Card, Grid, Stack, FormHelperText } from '@mui/material';
 // components
-import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../../components/hook-form';
+import { FormProvider, RHFTextField } from '../../../components/hook-form';
 import { useSnackbar } from 'notistack';
 import {
   SUPPORT_EMAIL,
@@ -22,7 +20,7 @@ import {
 import useAuth from '../../../hooks/useAuth';
 
 // context
-import { NewUserContext, NewUserActionEnum } from '../../../contexts/NewUserContext';
+import { NewUserContext } from '../../../contexts/NewUserContext';
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +35,7 @@ type Props = {
 export default function NewUserForm({ onExit }: Props) {
   const auth = useAuth();
   const { enqueueSnackbar } = useSnackbar();
-  const { state, dispatch } = useContext(NewUserContext);
+  const newUserContext = useContext(NewUserContext);
 
   const NewProfileSchema = Yup.object().shape({
     username: Yup.string()
@@ -59,20 +57,16 @@ export default function NewUserForm({ onExit }: Props) {
     formState: { isSubmitting, errors },
   } = methods;
 
-  const onSubmit = async (data: FormValuesProps) => {
+  const onSubmit = async () => {
     try {
-      await auth.updateProfile(state);
-      // enqueueSnackbar(`User info in state is: ${JSON.stringify(state)}`);
-      reset();
+      enqueueSnackbar(`User info in state is: ${JSON.stringify(newUserContext.user)}`);
+      await auth.createUser(newUserContext.user);
       onExit();
     } catch (error) {
-      enqueueSnackbar(
-        `Failed to create profile. Try again. If the problem persists, contact support ${SUPPORT_EMAIL}.`,
-        {
-          variant: 'error',
-          persist: true,
-        }
-      );
+      enqueueSnackbar(`${JSON.stringify(error)}`, {
+        variant: 'error',
+        persist: true,
+      });
       console.error(error);
       throw error;
     }
@@ -90,11 +84,7 @@ export default function NewUserForm({ onExit }: Props) {
                 label="Username"
                 helperText="Other climbers will identify you by your unique username. You can't change this later"
                 onChange={(e) => {
-                  dispatch({
-                    type: NewUserActionEnum.EDIT,
-                    field: 'username', //Note: This "username" refers to the "username" field in the User type
-                    payload: e.target.value,
-                  });
+                  newUserContext.updateUsername(e.target.value);
                   setValue('username', e.target.value);
                 }}
               />

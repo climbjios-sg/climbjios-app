@@ -31,8 +31,6 @@ export default function Profile() {
           Fill in your details to be shown to other climbers
         </Typography>
         <NewUserForm
-          isEdit={false}
-          currentUser={auth.user}
           onExit={() => {
             navigate(PATH_ONBOARDING.username);
           }}

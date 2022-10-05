@@ -26,7 +26,11 @@ export default function Router() {
     // Main Routes
     {
       path: '/',
-      element: <AuthRedirect />,
+      element: (
+        <AuthRedirect>
+          <MainApp />
+        </AuthRedirect>
+      ),
     },
     {
       path: 'login',
@@ -41,7 +45,7 @@ export default function Router() {
           path: 'newuser',
           element: (
             <AuthGuard>
-              <OnboardingNewUserDetails />
+              <OnboardingNewUserProfile />
             </AuthGuard>
           ),
         },
@@ -53,7 +57,7 @@ export default function Router() {
             </AuthGuard>
           ),
         },
-        { path: '*', element: <Navigate to={PATH_ONBOARDING.newuser} replace /> },
+        { path: '*', element: <Navigate to="/" replace /> },
       ],
     },
 
@@ -61,7 +65,7 @@ export default function Router() {
     {
       path: 'dashboard/app',
       element: (
-        <AuthGuard isOnboardRedirect>
+        <AuthGuard>
           <MainApp />
         </AuthGuard>
       ),
@@ -71,6 +75,10 @@ export default function Router() {
       element: <UserPublicProfile />,
     },
     { path: '*', element: <Navigate to="/404" replace /> },
+    {
+      path: '404',
+      element: <Page404 />,
+    },
   ]);
 }
 
@@ -78,7 +86,7 @@ export default function Router() {
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
 
 // ONBOARDING
-const OnboardingNewUserDetails = Loadable(lazy(() => import('../pages/onboarding/NewUserDetails')));
+const OnboardingNewUserProfile = Loadable(lazy(() => import('../pages/onboarding/NewUserProfile')));
 // const OnboardingNotionStepOne = Loadable(lazy(() => import('../pages/onboarding/NotionStepOne')));
 // const OnboardingNotionStepTwo = Loadable(lazy(() => import('../pages/onboarding/NotionStepTwo')));
 const OnboardingNewUserUsername = Loadable(
