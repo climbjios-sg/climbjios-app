@@ -5,16 +5,6 @@ import { AxiosResponse } from 'axios';
 import { dispatch } from '..';
 import { createSlice } from '@reduxjs/toolkit';
 
-interface ListJiosArgs {
-  isBuyer?: boolean;
-  numPasses?: number;
-  gymId?: number;
-  // Lists all jios on or after date
-  startDate?: Date;
-  startTime?: string;
-  endTime?: string;
-}
-
 interface State {
   loading: boolean;
   data: Jio[];
@@ -28,7 +18,7 @@ const initialState: State = {
 };
 
 const slice = createSlice({
-  name: 'jios',
+  name: 'myJios',
   initialState,
   reducers: {
     request(state) {
@@ -46,13 +36,11 @@ const slice = createSlice({
   },
 });
 
-export function listJios(listJiosQueryParams: ListJiosArgs) {
+export function listMyJios() {
   return async () => {
     dispatch(slice.actions.request());
     try {
-      const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.posts, {
-        params: listJiosQueryParams,
-      });
+      const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.myJios);
       const collections: Jio[] = response.data;
       dispatch(slice.actions.success(collections));
     } catch (err) {
