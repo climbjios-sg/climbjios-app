@@ -88,7 +88,7 @@ export default function Jios() {
             </Button>
           </Grid>
         </Grid>
-        {/* Jios Tab */}
+        {/* Open Jios Tab */}
         <TabPanel value={TABS[0]}>
           <Grid container sm={12}>
             <Grid sx={{ width: '100%', mt: 2 }} item>
@@ -100,7 +100,7 @@ export default function Jios() {
             </Grid>
           </Grid>
         </TabPanel>
-        {/* Profile Tab */}
+        {/* My Jios Tab */}
         <TabPanel value={TABS[1]}>
           <Grid container sm={12}></Grid>
         </TabPanel>
