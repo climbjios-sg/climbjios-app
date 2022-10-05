@@ -4,6 +4,7 @@ import { PostsDaoService } from '../database/daos/posts/posts.dao.service';
 import PatchPostDto from './dtos/patchPost.dto';
 import CreatePostDto from './dtos/createPost.dto';
 import SearchPostDto from './dtos/searchPost.dto';
+import { PostType } from '../utils/types';
 
 @Injectable()
 export class PostService {
@@ -24,6 +25,8 @@ export class PostService {
      * - both dates are after `new Date()`
      *  */
 
+    this.checkPostTypeAndNumPasses(body.type, body.numPasses);
+
     const gym = await this.gymsDaoService.findById(body.gymId);
     if (!gym) {
       throw new HttpException('Invalid gym id!', 400);
@@ -41,6 +44,10 @@ export class PostService {
     if (post.userId !== userId) {
       throw new HttpException('Forbidden', 403);
     }
+
+    const postType = body.type ?? post.type;
+    const numPasses = body.numPasses ?? post.numPasses;
+    this.checkPostTypeAndNumPasses(postType, numPasses);
 
     const startDateTime = new Date(body.startDateTime ?? post.startDateTime);
     const endDateTime = new Date(body.endDateTime ?? post.endDateTime);
@@ -66,5 +73,17 @@ export class PostService {
 
   searchPosts(query: SearchPostDto) {
     return this.postsDaoService.getUpcomingPosts(query);
+  }
+
+  private checkPostTypeAndNumPasses(type: PostType, numPasses: number) {
+    if ([PostType.BUYER, PostType.SELLER].includes(type) && numPasses === 0) {
+      throw new HttpException('numPasses should be at least 1!', 400);
+    }
+    if (PostType.OTHER === type && numPasses !== 0) {
+      throw new HttpException(
+        "'other' type must have numPasses equals 0!",
+        400,
+      );
+    }
   }
 }

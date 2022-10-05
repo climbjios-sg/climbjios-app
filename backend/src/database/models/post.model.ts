@@ -1,4 +1,5 @@
 import { Model } from 'objection';
+import { PostType } from '../../utils/types';
 import { BaseModel } from './base.model';
 import { GymModel } from './gym.model';
 import { UserModel } from './user.model';
@@ -7,7 +8,7 @@ export class PostModel extends BaseModel {
   static tableName = 'posts';
 
   readonly userId: string;
-  readonly isBuy: boolean; // false means 'isSell'
+  readonly type: PostType;
   readonly numPasses: number;
   readonly price: number;
   readonly gymId: number;

@@ -5,21 +5,19 @@ import {
   IsInt,
   IsDateString,
   IsOptional,
-  IsBoolean,
+  IsIn,
 } from 'class-validator';
+import { PostType } from '../../utils/types';
 
 export default class SearchPostDto {
   @IsOptional()
-  @IsBoolean()
-  @Transform((val) =>
-    val.value === 'true' ? true : val.value === 'false' ? false : '',
-  )
-  isBuyer: boolean;
+  @IsIn(Object.values(PostType))
+  type: PostType;
 
   @IsOptional()
   @Transform((val) => parseInt(val.value))
   @IsInt()
-  @Min(1)
+  @Min(0)
   numPasses: number;
 
   @IsOptional()

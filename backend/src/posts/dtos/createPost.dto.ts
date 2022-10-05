@@ -7,19 +7,21 @@ import {
   IsDefined,
   IsDateString,
   IsOptional,
+  IsIn,
 } from 'class-validator';
+import { PostType } from '../../utils/types';
 import { DateIsAfter } from '../../utils/dtoValidators/DateIsAfter';
 import { DateIsAfterNow } from '../../utils/dtoValidators/DateIsAfterNow';
 import { DateMatch } from '../../utils/dtoValidators/DateMatch';
 
 export default class CreatePostDto {
-  @IsBoolean()
   @IsDefined()
-  isBuy: boolean;
+  @IsIn(Object.values(PostType))
+  type: PostType;
 
   @IsInt()
   @IsDefined()
-  @Min(1)
+  @Min(0)
   numPasses: number;
 
   @IsNumber()
