@@ -125,6 +125,7 @@
     "vcard-creator": "^0.5.0",
     "web-vitals": "^2.1.4",
     "worker-loader": "^3.0.8",
+    "xregexp": "^5.1.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {

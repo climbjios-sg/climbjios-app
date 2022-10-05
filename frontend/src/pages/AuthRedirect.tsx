@@ -1,21 +1,27 @@
-import { useEffect } from 'react';
+import { useEffect, ReactNode, useContext } from 'react';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { PATH_AUTH, PATH_DASHBOARD, PATH_ONBOARDING } from '../routes/paths';
 import { useSnackbar } from 'notistack';
 import { SUPPORT_EMAIL } from '../config';
 import LoadingScreen from '../components/LoadingScreen';
 import useAuth from '../hooks/useAuth';
+import { NewUserContext } from '../contexts/NewUserContext';
 
-export default function AuthRedirect() {
+type AuthRedirectProps = {
+  children: ReactNode;
+};
+
+export default function AuthRedirect({ children }: AuthRedirectProps) {
   const auth = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { enqueueSnackbar } = useSnackbar();
+  const newUserContext = useContext(NewUserContext);
 
   const authGoogle = async (accessToken: string | null, refreshToken: string | null) => {
     try {
       if (!!accessToken && !!refreshToken)
-        await auth.loginGoogle(accessToken, refreshToken);
+        await auth.storeTokenAndFetchUserData(accessToken, refreshToken);
     } catch (err) {
       console.error(err);
       enqueueSnackbar(
@@ -36,23 +42,36 @@ export default function AuthRedirect() {
       authGoogle(accessToken, refreshToken);
       return;
     }
-    console.log("Trying to login from session");
+    console.log('Trying to login from session');
     auth.loginFromSession();
+    /* eslint-disable no-restricted-globals */
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Wait if context is not yet initialized
-  if (!auth.isInitialized) {
+  if (!auth.contextFinishedLoading) {
     return <LoadingScreen />;
   }
 
-  if (!auth.isAuthenticated()) {
-    return <Navigate to={PATH_AUTH.root} />;
+  if (!auth.isLoggedIn) {
+    navigate(PATH_AUTH.root);
+    return null;
   }
 
-  if (!auth.isOnboarded()) {
-    return <Navigate to={PATH_ONBOARDING.profile} />;
+  if (!auth.hasUserData()) {
+    if (!newUserContext.hasFilledProfile() && location.pathname !== PATH_ONBOARDING.newuser) {
+      // If name and/or telegram handle is empty, redirect users for them to fill in Name + Telegram handle
+      enqueueSnackbar(`NewUserContext: ${newUserContext.user}`);
+      navigate(PATH_ONBOARDING.newuser);
+      return null;
+    } else if (location.pathname !== PATH_ONBOARDING.username) {
+      // Either username is empty or all fields filled but user data not dispatched to JWTContext (e.g. in event of network error),
+      // redirect users for them to fill in username and subsequently create user in BE
+      navigate(PATH_ONBOARDING.username);
+      return null;
+    }
   }
 
-  return <Navigate to={PATH_DASHBOARD.general.jios} />;
+  navigate(PATH_DASHBOARD.general.jios);
+  return <>{children}</>;
 }
