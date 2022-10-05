@@ -4,7 +4,7 @@ import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 import LoadingScreen from '../components/LoadingScreen';
 import AuthRedirect from '../pages/AuthRedirect';
 import AuthGuard from '../pages/guards/AuthGuard';
-import { PATH_ONBOARDING } from './paths';
+import { PATH_ONBOARDING, PATH_PAGE } from './paths';
 
 // ----------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ export default function Router() {
     },
     {
       path: 'login',
-      element: <Login />
+      element: <Login />,
     },
 
     // Onboarding Routes
@@ -78,7 +78,11 @@ export default function Router() {
       path: 'profile',
       element: <UserPublicProfile />,
     },
-    { path: '*', element: <Navigate to="/404" replace /> },
+    {
+      path: '404',
+      element: <Page404 />,
+    },
+    { path: '*', element: <Navigate to={PATH_PAGE.page404} replace /> },
   ]);
 }
 
