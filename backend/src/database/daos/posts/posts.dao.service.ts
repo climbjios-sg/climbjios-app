@@ -63,6 +63,8 @@ export class PostsDaoService {
       } else if (key === 'endDateTime') {
         // where endDateTime is after startDateTime of post
         query.where('startDateTime', '<=', new Date(value));
+      } else if (key === 'isBuyer') {
+        query.where('isBuy', !value);
       } else {
         query.where(key, value);
       }
