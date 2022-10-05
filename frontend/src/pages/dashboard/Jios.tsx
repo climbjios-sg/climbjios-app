@@ -24,7 +24,7 @@ function JioCard({ data }: JioCardProps) {
   return (
     <Card>
       <CardHeader title={data.user.name} subheader={`@${data.user.username}`} />
-      <Stack spacing={1.5} sx={{ pl: 3, pb: 3, pt: 2 }}>
+      <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'mingcute:coupon-fill'} color={palette.light.grey[700]} />
           <Typography variant="body2">
@@ -37,7 +37,34 @@ function JioCard({ data }: JioCardProps) {
         </Stack>
         <Stack direction="row">
           <IconStyle icon={'eva:calendar-outline'} color={palette.light.grey[700]} />
-          <Typography variant="body2">{formatStartEndDate(data.startDateTime, data.endDateTime)}</Typography>
+          <Typography variant="body2">
+            {formatStartEndDate(data.startDateTime, data.endDateTime)}
+          </Typography>
+        </Stack>
+        {data.openToClimbTogether && (
+          <Stack direction="row">
+            <IconStyle icon={'fluent:hand-wave-16-regular'} color={palette.light.grey[700]} />
+            <Typography variant="body2">{'Open Jio to climb together'}</Typography>
+          </Stack>
+        )}
+        {data.optionalNote && (
+          <Stack direction="row">
+            <IconStyle icon={'eva:message-square-outline'} color={palette.light.grey[700]} />
+            <Typography variant="body2">{data.optionalNote}</Typography>
+          </Stack>
+        )}
+        <Stack direction="row">
+          <Button
+            sx={{ mt: 1 }}
+            color="secondary"
+            fullWidth
+            href={`https://t.me/${data.user.telegramHandle}`}
+            variant="outlined"
+            target="_blank"
+          >
+            <Iconify icon={'jam:telegram'} sx={{ mr: 1 }} />
+            <span>Message on Telegram</span>
+          </Button>
         </Stack>
       </Stack>
     </Card>
@@ -102,7 +129,7 @@ export default function Jios() {
         </TabPanel>
         {/* My Jios Tab */}
         <TabPanel value={TABS[1]}>
-          <Grid container sm={12}></Grid>
+          <Grid container sm={12} />
         </TabPanel>
         {/* {JSON.stringify(jiosData)}
         <Grid sx={{ width: '100%', mt: 2 }} item>
