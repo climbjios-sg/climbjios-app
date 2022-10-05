@@ -32,7 +32,7 @@ export default function NewUserUsername() {
         </Typography>
         <UsernameForm
           onExit={() => {
-            navigate(PATH_DASHBOARD.general.app);
+            navigate(PATH_DASHBOARD.general.jios);
           }}
         />
       </Container>
