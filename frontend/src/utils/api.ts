@@ -5,6 +5,8 @@ export const BE_API = {
   },
   user: '/v1/user',
   gyms: '/v1/gyms',
-  posts: '/v1/posts/search',
-  myJios: '/v1/posts',
+  posts: {
+    create: '/v1/posts',
+    search: '/v1/posts/search',
+  },
 };

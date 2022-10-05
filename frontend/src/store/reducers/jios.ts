@@ -50,7 +50,7 @@ export function listJios(listJiosQueryParams: ListJiosArgs) {
   return async () => {
     dispatch(slice.actions.request());
     try {
-      const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.posts, {
+      const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.posts.search, {
         params: listJiosQueryParams,
       });
       const collections: Jio[] = response.data;

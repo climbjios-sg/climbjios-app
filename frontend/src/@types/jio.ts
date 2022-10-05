@@ -5,6 +5,7 @@ import { User } from './user';
 export interface Jio {
   id: number;
   isBuy: boolean;
+  jioType: 'seller' | 'buyer' | 'other';
   numPasses: number;
   price: number;
   gymId: number;
