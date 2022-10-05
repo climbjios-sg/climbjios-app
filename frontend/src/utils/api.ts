@@ -1,4 +1,3 @@
-import { ApiUser, User } from '../@types/user';
 // BE_API contains api endpoints we use to query our host backend
 export const BE_API = {
   auth: {

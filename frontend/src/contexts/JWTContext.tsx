@@ -4,7 +4,7 @@ import { ACCESS_TOKEN, endSession, getSessionFromStorage, REFRESH_TOKEN, USER } 
 // @types
 import { ActionMap, AuthState, JWTContextType } from '../@types/auth';
 import { ApiUser, User } from '../@types/user';
-import { apiUserToUser, BE_API } from '../utils/api';
+import { BE_API, apiUserToUser, userToApiUser } from '../utils/api';
 import authorizedAxios from '../utils/authorizedAxios';
 import { useDeprecatedAnimatedState } from 'framer-motion';
 

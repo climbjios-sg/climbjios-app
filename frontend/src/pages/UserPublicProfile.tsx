@@ -126,7 +126,7 @@ import Page from '../components/Page';
 //               : '',
 //         });
 //         enqueueSnackbar('Added contact');
-//         navigate(PATH_DASHBOARD.general.app + '?tab=Contacts');
+//         navigate(PATH_DASHBOARD.general.jios + '?tab=Contacts');
 //       } catch (err) {
 //         enqueueSnackbar(
 //           `Failed to save contact. Try again. If the problem persists, contact support ${SUPPORT_EMAIL}.`,
