@@ -15,17 +15,27 @@ export type ActionMap<M extends { [index: string]: any }> = {
 
 export type AuthState = {
   user: User | null;
-  isInitialized: boolean;
+  contextFinishedLoading: boolean;
+  isLoggedIn: boolean;
 };
 
 export type JWTContextType = {
-  isInitialized: boolean;
-  isAuthenticated: () => boolean;
-  isOnboarded: () => boolean;
   user: User | null;
-  loginGoogle: (accessToken: string, refreshToken: string) => Promise<void>;
+  isLoggedIn: boolean;
+  contextFinishedLoading: boolean;
+  hasUserData: () => boolean;
+  storeTokenAndFetchUserData: (accessToken: string, refreshToken: string) => Promise<void>;
   loginFromSession: () => void;
   logout: () => void;
-  updateProfile: (user: User) => Promise<void>;
-  refetchUser: () => Promise<void>;
+  updateUserData: (user: User) => Promise<User>;
+  createUser: (user: User) => Promise<User>;
+};
+
+export type NewUserContextType = {
+  user: User;
+  updateName: (input: string) => void;
+  updateTelegram: (input: string) => void;
+  updateUsername: (input: string) => void;
+  hasFilledProfile: () => boolean;
+  hasFilledOnboardingInfo: () => boolean;
 };

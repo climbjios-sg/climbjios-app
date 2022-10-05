@@ -26,7 +26,11 @@ export default function Router() {
     // Main Routes
     {
       path: '/',
-      element: <AuthRedirect />,
+      element: (
+        <AuthRedirect>
+          <MainApp />
+        </AuthRedirect>
+      ),
     },
     {
       path: 'login',
@@ -38,30 +42,22 @@ export default function Router() {
       path: 'onboarding',
       children: [
         {
-          path: 'profile',
+          path: 'newuser',
           element: (
             <AuthGuard>
-              <OnboardingProfile />
+              <OnboardingNewUserProfile />
             </AuthGuard>
           ),
         },
         {
-          path: 'notionstepone',
+          path: 'username',
           element: (
             <AuthGuard>
-              <OnboardingNotionStepOne />
+              <OnboardingNewUserUsername />
             </AuthGuard>
           ),
         },
-        {
-          path: 'notion',
-          element: (
-            <AuthGuard>
-              <OnboardingNotionStepTwo />
-            </AuthGuard>
-          ),
-        },
-        { path: '*', element: <Navigate to={PATH_ONBOARDING.profile} replace /> },
+        { path: '*', element: <Navigate to="/" replace /> },
       ],
     },
 
@@ -69,7 +65,7 @@ export default function Router() {
     {
       path: 'dashboard/*',
       element: (
-        <AuthGuard isOnboardRedirect>
+        <AuthGuard>
           <MainApp />
         </AuthGuard>
       ),
@@ -78,11 +74,11 @@ export default function Router() {
       path: 'profile',
       element: <UserPublicProfile />,
     },
+    { path: '*', element: <Navigate to="/404" replace /> },
     {
       path: '404',
       element: <Page404 />,
     },
-    { path: '*', element: <Navigate to={PATH_PAGE.page404} replace /> },
   ]);
 }
 
@@ -90,9 +86,12 @@ export default function Router() {
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
 
 // ONBOARDING
-const OnboardingProfile = Loadable(lazy(() => import('../pages/onboarding/Profile')));
-const OnboardingNotionStepOne = Loadable(lazy(() => import('../pages/onboarding/NotionStepOne')));
-const OnboardingNotionStepTwo = Loadable(lazy(() => import('../pages/onboarding/NotionStepTwo')));
+const OnboardingNewUserProfile = Loadable(lazy(() => import('../pages/onboarding/NewUserProfile')));
+// const OnboardingNotionStepOne = Loadable(lazy(() => import('../pages/onboarding/NotionStepOne')));
+// const OnboardingNotionStepTwo = Loadable(lazy(() => import('../pages/onboarding/NotionStepTwo')));
+const OnboardingNewUserUsername = Loadable(
+  lazy(() => import('../pages/onboarding/NewUserUsername'))
+);
 
 // APP
 const MainApp = Loadable(lazy(() => import('../pages/dashboard/MainApp')));
