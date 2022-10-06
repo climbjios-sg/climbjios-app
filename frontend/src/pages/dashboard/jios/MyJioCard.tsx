@@ -6,12 +6,27 @@ import { Jio } from '../../../@types/jio';
 import palette from '../../../theme/palette';
 import { formatStartEndDate } from '../../../utils/formatTime';
 import { getPassesText } from './common';
+import CloseMyJioDialog from './CloseMyJioDialog';
 
 interface MyJioCardProps {
   data: Jio;
 }
 
 export default function MyJioCard({ data }: MyJioCardProps) {
+  const [isCloseDialogOpen, setIsCloseDialogOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setIsCloseDialogOpen(true);
+  };
+
+  const handleDialogCancel = () => {
+    setIsCloseDialogOpen(false);
+  };
+
+  const handleDialogClose = () => {
+    setIsCloseDialogOpen(false);
+  };
+
   return (
     <Card>
       <CardHeader title={data.user.name} subheader={`@${data.user.username}`} />
@@ -50,12 +65,17 @@ export default function MyJioCard({ data }: MyJioCardProps) {
             fullWidth
             color="error"
             startIcon={<Iconify icon={'eva:trash-2-outline'} />}
-            onClick={() => {}}
+            onClick={handleClose}
           >
             Close
           </Button>
         </Stack>
       </Stack>
+      <CloseMyJioDialog
+        isOpen={isCloseDialogOpen}
+        handleCancel={handleDialogCancel}
+        handleClose={handleDialogClose}
+      />
     </Card>
   );
 }
