@@ -12,6 +12,10 @@ export default function MyJioCardList() {
     dispatch(listMyJios());
   }, [dispatch]);
 
+  if (myJiosData.loading) {
+    return <div>Loading...</div>
+  }
+
   return (
     <Grid container sm={12}>
       <Grid sx={{ width: '100%', mt: 2 }} item>

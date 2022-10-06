@@ -1,22 +1,14 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import {
-  Box,
-  Button,
-  Card,
-  CardHeader,
-  Grid,
-  Modal,
-  Stack,
-  Tab,
-  Tabs,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Modal, Tab, Tabs, Typography } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
 import Iconify from '../../../components/Iconify';
 import JioCardList from './JioCardList';
 import MyJioCardList from './MyJioCardList';
 import JiosForm from './JiosForm';
+import { useDispatch } from '../../../store';
+import { listJios } from '../../../store/reducers/jios';
+import { listMyJios } from '../../../store/reducers/myJios';
 
 const StyledTab = styled(Tab)({
   '&.MuiButtonBase-root': {
@@ -26,13 +18,22 @@ const StyledTab = styled(Tab)({
 
 enum TabValue {
   Open = 'Open',
-  MyJios = 'MyJios',
+  MyJios = 'My Jios',
 }
 
 export default function Jios() {
   const TABS: TabValue[] = [TabValue.Open, TabValue.MyJios];
   const [tabValue, setTabValue] = React.useState<TabValue>(TabValue.Open);
   const [isSearching, setIsSearching] = React.useState(false);
+  const dispatch = useDispatch();
+
+  const handleRefresh = () => {
+    if (tabValue === TabValue.Open) {
+      dispatch(listJios({}));
+    } else {
+      dispatch(listMyJios());
+    }
+  };
 
   const onClickSearch = () => {
     console.log('Going to search form');
@@ -78,7 +79,7 @@ export default function Jios() {
             </Tabs>
           </Grid>
           <Grid item>
-            <Button sx={{ borderRadius: 10 }} variant="outlined">
+            <Button sx={{ borderRadius: 10 }} variant="outlined" onClick={handleRefresh}>
               Refresh
             </Button>
           </Grid>

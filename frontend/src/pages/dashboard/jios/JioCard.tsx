@@ -5,29 +5,20 @@ import { IconStyle } from '../../../sections/@dashboard/user/profile/common';
 import { Jio } from '../../../@types/jio';
 import palette from '../../../theme/palette';
 import { formatStartEndDate } from '../../../utils/formatTime';
+import { getPassesText } from './common';
 
 interface JioCardProps {
   data: Jio;
 }
 
 export default function JioCard({ data }: JioCardProps) {
-  const passesText = React.useCallback(() => {
-    if (data.jioType === 'seller') {
-      return `Buying ${data.numPasses} passes`;
-    } else if (data.jioType === 'buyer') {
-      return `Selling ${data.numPasses} passes`;
-    } else {
-      return `No need passes. Just looking for friends to climb with.`;
-    }
-  }, [data.jioType, data.numPasses]);
-
   return (
     <Card>
       <CardHeader title={data.user.name} subheader={`@${data.user.username}`} />
       <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'mingcute:coupon-fill'} color={palette.light.grey[700]} />
-          <Typography variant="body2">{passesText()}</Typography>
+          <Typography variant="body2">{getPassesText(data)}</Typography>
         </Stack>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
@@ -42,7 +33,7 @@ export default function JioCard({ data }: JioCardProps) {
         {data.openToClimbTogether && (
           <Stack direction="row">
             <IconStyle icon={'fluent:hand-wave-16-regular'} color={palette.light.grey[700]} />
-            <Typography variant="body2">{'Open Jio to climb together'}</Typography>
+            <Typography variant="body2">{'Open jio to climb together'}</Typography>
           </Stack>
         )}
         {data.optionalNote && (
