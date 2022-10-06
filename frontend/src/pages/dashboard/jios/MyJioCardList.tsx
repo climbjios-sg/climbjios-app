@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Grid } from '@mui/material';
 import { listMyJios } from '../../../store/reducers/myJios';
 import { useDispatch, useSelector } from '../../../store';
-import JioCard from './JioCard';
+import MyJioCard from './MyJioCard';
 
 export default function MyJioCardList() {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ export default function MyJioCardList() {
       <Grid sx={{ width: '100%', mt: 2 }} item>
         {myJiosData.data.map((jio) => (
           <Grid key={jio.id} sx={{ width: '100%', mt: 2 }} item>
-            <JioCard data={jio} />
+            <MyJioCard data={jio} />
           </Grid>
         ))}
       </Grid>
