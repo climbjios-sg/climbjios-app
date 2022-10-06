@@ -7,7 +7,7 @@ import JioCardList from './JioCardList';
 import MyJioCardList from './MyJioCardList';
 import JiosForm from './JiosForm';
 import { useDispatch } from '../../../store';
-import { listJios } from '../../../store/reducers/jios';
+import { listJios, ListJiosArgs } from '../../../store/reducers/jios';
 import { listMyJios } from '../../../store/reducers/myJios';
 
 const StyledTab = styled(Tab)({
@@ -22,6 +22,7 @@ enum TabValue {
 }
 
 export default function Jios() {
+  const [listJiosSearchParams, setListJiosSearchParams] = React.useState<ListJiosArgs>({});
   const TABS: TabValue[] = [TabValue.Open, TabValue.MyJios];
   const [tabValue, setTabValue] = React.useState<TabValue>(TabValue.Open);
   const [isSearching, setIsSearching] = React.useState(false);
@@ -29,7 +30,7 @@ export default function Jios() {
 
   const handleRefresh = () => {
     if (tabValue === TabValue.Open) {
-      dispatch(listJios({}));
+      dispatch(listJios(listJiosSearchParams));
     } else {
       dispatch(listMyJios());
     }
@@ -86,7 +87,7 @@ export default function Jios() {
         </Grid>
         {/* Open Jios Tab */}
         <TabPanel value={TabValue.Open}>
-          <JioCardList />
+          <JioCardList searchParams={listJiosSearchParams} />
         </TabPanel>
         {/* My Jios Tab */}
         <TabPanel value={TabValue.MyJios}>

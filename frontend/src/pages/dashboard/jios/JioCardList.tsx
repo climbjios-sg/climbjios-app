@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { Grid, Button } from '@mui/material';
-import { listJios } from '../../../store/reducers/jios';
+import { listJios, ListJiosArgs } from '../../../store/reducers/jios';
 import { useDispatch, useSelector } from '../../../store';
 import JioCard from './JioCard';
 import JioCardSkeleton from './JioCardSkeleton';
 import EmptyContent from '../../../components/EmptyContent';
 
-export default function JioCardList() {
+interface JioCardListProps {
+  searchParams: ListJiosArgs;
+}
+
+export default function JioCardList({ searchParams }: JioCardListProps) {
   const dispatch = useDispatch();
   const jiosData = useSelector((state) => state.jios);
   const displayedData = React.useMemo(() => {
