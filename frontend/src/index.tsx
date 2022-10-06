@@ -7,8 +7,20 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 import { Provider } from 'react-redux';
+import * as Sentry from '@sentry/react';
+import { BrowserTracing } from '@sentry/tracing';
 
 // ----------------------------------------------------------------------
+
+Sentry.init({
+  dsn: 'https://6773d3fdc8e748dba17b627e56eab79e@o4503935433703424.ingest.sentry.io/4503935436128256',
+  integrations: [new BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 

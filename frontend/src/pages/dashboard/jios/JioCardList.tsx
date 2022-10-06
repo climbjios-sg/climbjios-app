@@ -35,10 +35,16 @@ export default function JioCardList({ searchParams }: JioCardListProps) {
 
     if (jiosData.data.length === 0) {
       return (
-        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-          <EmptyContent sx={{ py: 3 }} title="There's no Jios now." />
-          <Button variant="contained">Create a Jio</Button>
-        </div>
+        <Grid sx={{ width: '100%', mt: 2 }} item>
+          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+            <EmptyContent
+              sx={{ py: 3 }}
+              title="There's no Jios now."
+              description="Create a Jio and it will show up here."
+            />
+            <Button variant="contained">Create a Jio</Button>
+          </div>
+        </Grid>
       );
     }
 

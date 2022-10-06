@@ -31,10 +31,12 @@ export default function MyJioCardList() {
 
     if (myJiosData.data.length === 0) {
       return (
-        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-          <EmptyContent sx={{ py: 3 }} title="You have no Jios." />
-          <Button variant="contained">Create a Jio</Button>
-        </div>
+        <Grid sx={{ width: '100%', mt: 2 }} item>
+          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+            <EmptyContent sx={{ py: 3 }} title="You have no Jios." description='Create a Jio and it will show up here.' />
+            <Button variant="contained">Create a Jio</Button>
+          </div>
+        </Grid>
       );
     }
 
