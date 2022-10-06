@@ -1,9 +1,5 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import { Box, Button, Card, CardHeader, Grid, Stack, Tab, Tabs, Typography } from '@mui/material';
-import { TabContext, TabPanel } from '@mui/lab';
-import { listJios } from '../../../store/reducers/jios';
-import { useDispatch, useSelector } from '../../../store';
+import { Button, Card, CardHeader, Stack, Typography } from '@mui/material';
 import Iconify from '../../../components/Iconify';
 import { IconStyle } from '../../../sections/@dashboard/user/profile/common';
 import { Jio } from '../../../@types/jio';
@@ -15,15 +11,23 @@ interface JioCardProps {
 }
 
 export default function JioCard({ data }: JioCardProps) {
+  const passesText = React.useCallback(() => {
+    if (data.jioType === 'seller') {
+      return `Buying ${data.numPasses} passes`;
+    } else if (data.jioType === 'buyer') {
+      return `Selling ${data.numPasses} passes`;
+    } else {
+      return `No need passes. Just looking for friends to climb with.`;
+    }
+  }, [data.jioType, data.numPasses]);
+
   return (
     <Card>
       <CardHeader title={data.user.name} subheader={`@${data.user.username}`} />
       <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'mingcute:coupon-fill'} color={palette.light.grey[700]} />
-          <Typography variant="body2">
-            {data.isBuy ? `Buying ${data.numPasses} passes` : `Selling ${data.numPasses} passes`}
-          </Typography>
+          <Typography variant="body2">{passesText()}</Typography>
         </Stack>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
@@ -54,7 +58,6 @@ export default function JioCard({ data }: JioCardProps) {
             fullWidth
             href={`https://t.me/${data.user.telegramHandle}`}
             variant="outlined"
-            target="_blank"
           >
             <Iconify icon={'jam:telegram'} sx={{ mr: 1 }} />
             <span>Message on Telegram</span>

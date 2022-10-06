@@ -4,7 +4,6 @@ import { User } from './user';
 // Jio represents a jio request
 export interface Jio {
   id: number;
-  isBuy: boolean;
   jioType: 'seller' | 'buyer' | 'other';
   numPasses: number;
   price: number;
