@@ -1,11 +1,12 @@
 import * as React from 'react';
 // @mui
-import { Container, BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
+import { Container, BottomNavigation, BottomNavigationAction, Paper, Button } from '@mui/material';
 // components
 import Page from '../../components/Page';
 import { useLocation, Link, Routes, Route } from 'react-router-dom';
 import Iconify from '../../components/Iconify';
 import Jios from './jios';
+import useAuth from '../../hooks/useAuth';
 
 interface BottomTab {
   path: string;
@@ -39,6 +40,7 @@ function BottomTabs({ tabs }: BottomTabsProps) {
 }
 
 export default function MainApp() {
+  const auth = useAuth();
   const DASHBOARD_TABS = React.useMemo(
     () => [
       {
@@ -51,10 +53,24 @@ export default function MainApp() {
         path: 'profile',
         label: 'Profile',
         icon: <Iconify icon={'eva:person-outline'} width={20} height={20} />,
-        element: <>Profile</>,
+        element: (
+          <>
+            <div>Profile</div>
+            {JSON.stringify(auth.user)}
+            <Button
+              onClick={() => {
+                auth.logout();
+              }}
+              variant="outlined"
+              fullWidth
+            >
+              Logout
+            </Button>
+          </>
+        ),
       },
     ],
-    []
+    [auth]
   );
 
   return (
