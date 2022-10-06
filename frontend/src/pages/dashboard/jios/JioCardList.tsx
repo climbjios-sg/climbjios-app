@@ -12,10 +12,12 @@ export default function JioCardList() {
   const displayedData = React.useMemo(() => {
     if (jiosData.error) {
       return (
-        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-          <EmptyContent sx={{ py: 3 }} title="There's an error" />
-          <Button variant="contained">Contact Support</Button>
-        </div>
+        <Grid sx={{ width: '100%', mt: 2 }} item>
+          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+            <EmptyContent sx={{ py: 3 }} title="There's an error" />
+            <Button variant="contained">Contact Support</Button>
+          </div>
+        </Grid>
       );
     }
 

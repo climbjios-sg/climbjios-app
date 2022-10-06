@@ -12,10 +12,12 @@ export default function MyJioCardList() {
   const displayedData = React.useMemo(() => {
     if (myJiosData.error) {
       return (
-        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-          <EmptyContent sx={{ py: 3 }} title="There's an error" />
-          <Button variant="contained">Contact Support</Button>
-        </div>
+        <Grid sx={{ width: '100%', mt: 2 }} item>
+          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+            <EmptyContent sx={{ py: 3 }} title="There's an error" />
+            <Button variant="contained">Contact Support</Button>
+          </div>
+        </Grid>
       );
     }
 
@@ -49,9 +51,7 @@ export default function MyJioCardList() {
 
   return (
     <Grid container sm={12}>
-      <Grid sx={{ width: '100%', mt: 2 }} item>
-        {displayedData}
-      </Grid>
+      {displayedData}
     </Grid>
   );
 }
