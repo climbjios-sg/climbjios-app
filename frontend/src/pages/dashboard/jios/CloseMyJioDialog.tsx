@@ -8,19 +8,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 interface CloseMyJioDialogProps {
   isOpen: boolean;
-  handleCancel: () => void;
-  handleClose: () => void;
+  onCancel: () => void;
+  onClose: () => void;
 }
 
-export default function CloseMyJioDialog({
-  isOpen,
-  handleCancel,
-  handleClose,
-}: CloseMyJioDialogProps) {
+export default function CloseMyJioDialog({ isOpen, onCancel, onClose }: CloseMyJioDialogProps) {
   return (
     <Dialog
       open={isOpen}
-      onClose={handleClose}
+      onClose={onClose}
       aria-labelledby="close-my-jio-dialog-title"
       aria-describedby="close-my-jio-dialog-description"
     >
@@ -31,8 +27,8 @@ export default function CloseMyJioDialog({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCancel}>Cancel</Button>
-        <Button onClick={handleClose} autoFocus>
+        <Button onClick={onCancel}>Cancel</Button>
+        <Button onClick={onClose} autoFocus>
           Close
         </Button>
       </DialogActions>

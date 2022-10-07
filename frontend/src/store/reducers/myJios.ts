@@ -24,7 +24,13 @@ const slice = createSlice({
     request(state) {
       state.loading = true;
     },
-    success(state, action) {
+    success(
+      state,
+      action: {
+        payload: Jio[];
+        type: string;
+      }
+    ) {
       state.loading = false;
       state.data = action.payload;
       state.error = null;
@@ -46,6 +52,21 @@ export function listMyJios() {
     } catch (err) {
       dispatch(slice.actions.failure(err));
     }
+  };
+}
+
+export function closeMyJio(id: number) {
+  return async () => {
+    dispatch(slice.actions.request());
+    // try {
+    //   const response: AxiosResponse = await authorizedAxios.patch<Jio[]>(
+    //     `${BE_API.posts.create}/${id}`
+    //   );
+    //   const updatedJioData: Jio = response.data;
+    //   dispatch(slice.actions.success(updatedJioData));
+    // } catch (err) {
+    //   dispatch(slice.actions.failure(err));
+    // }
   };
 }
 

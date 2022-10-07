@@ -7,12 +7,16 @@ import palette from '../../../theme/palette';
 import { formatStartEndDate } from '../../../utils/formatTime';
 import { getPassesText } from './common';
 import CloseMyJioDialog from './CloseMyJioDialog';
+import { useSnackbar } from 'notistack';
+import { closeMyJio } from 'src/store/reducers/myJios';
 
 interface MyJioCardProps {
   data: Jio;
 }
 
 export default function MyJioCard({ data }: MyJioCardProps) {
+  const { enqueueSnackbar } = useSnackbar();
+  // const dispatch = useDispatch();
   const [isCloseDialogOpen, setIsCloseDialogOpen] = React.useState(false);
 
   const handleClose = () => {
@@ -23,8 +27,10 @@ export default function MyJioCard({ data }: MyJioCardProps) {
     setIsCloseDialogOpen(false);
   };
 
-  const handleDialogClose = () => {
+  const handleDialogClose = async () => {
     setIsCloseDialogOpen(false);
+    // await dispatch(closeMyJio(data.id));
+    // enqueueSnackbar('Closed!');
   };
 
   return (
@@ -73,8 +79,8 @@ export default function MyJioCard({ data }: MyJioCardProps) {
       </Stack>
       <CloseMyJioDialog
         isOpen={isCloseDialogOpen}
-        handleCancel={handleDialogCancel}
-        handleClose={handleDialogClose}
+        onCancel={handleDialogCancel}
+        onClose={handleDialogClose}
       />
     </Card>
   );

@@ -1,13 +1,16 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { Button, Grid } from '@mui/material';
 import { listMyJios } from '../../../store/reducers/myJios';
 import { useDispatch, useSelector } from '../../../store';
 import MyJioCard from './MyJioCard';
 import JioCardSkeleton from './JioCardSkeleton';
 import EmptyContent from '../../../components/EmptyContent';
+import useVersion from 'src/hooks/useVersion';
 
 export default function MyJioCardList() {
   const dispatch = useDispatch();
+  const version = useVersion();
   const myJiosData = useSelector((state) => state.myJios);
   const displayedData = React.useMemo(() => {
     if (myJiosData.error) {
@@ -33,7 +36,11 @@ export default function MyJioCardList() {
       return (
         <Grid sx={{ width: '100%', mt: 2 }} item>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-            <EmptyContent sx={{ py: 3 }} title="You have no Jios." description='Create a Jio and it will show up here.' />
+            <EmptyContent
+              sx={{ py: 3 }}
+              title="You have no Jios."
+              description="Create a Jio and it will show up here."
+            />
             <Button variant="contained">Create a Jio</Button>
           </div>
         </Grid>
@@ -47,9 +54,9 @@ export default function MyJioCardList() {
     ));
   }, [myJiosData.data, myJiosData.error, myJiosData.loading]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(listMyJios());
-  }, [dispatch]);
+  }, [version, dispatch]);
 
   return (
     <Grid container sm={12}>

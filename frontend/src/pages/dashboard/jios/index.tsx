@@ -6,9 +6,8 @@ import Iconify from '../../../components/Iconify';
 import JioCardList from './JioCardList';
 import MyJioCardList from './MyJioCardList';
 import JiosForm from './JiosForm';
-import { useDispatch } from '../../../store';
-import { listJios, ListJiosArgs } from '../../../store/reducers/jios';
-import { listMyJios } from '../../../store/reducers/myJios';
+import { ListJiosArgs } from '../../../store/reducers/jios';
+import useRefresh from '../../../hooks/useRefresh';
 
 const StyledTab = styled(Tab)({
   '&.MuiButtonBase-root': {
@@ -26,14 +25,10 @@ export default function Jios() {
   const TABS: TabValue[] = [TabValue.Open, TabValue.MyJios];
   const [tabValue, setTabValue] = React.useState<TabValue>(TabValue.Open);
   const [isSearching, setIsSearching] = React.useState(false);
-  const dispatch = useDispatch();
+  const refresh = useRefresh();
 
   const handleRefresh = () => {
-    if (tabValue === TabValue.Open) {
-      dispatch(listJios(listJiosSearchParams));
-    } else {
-      dispatch(listMyJios());
-    }
+    refresh();
   };
 
   const onClickSearch = () => {
