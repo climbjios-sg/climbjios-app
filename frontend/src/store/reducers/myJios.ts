@@ -53,7 +53,9 @@ const slice = createSlice({
       }
     ) {
       state.loading = false;
-      state.data = [...state.data, action.payload];
+      state.data = state.data.map((element) =>
+        element.id === action.payload.id ? action.payload : element
+      );
       state.error = null;
     },
     failure(state, action) {
