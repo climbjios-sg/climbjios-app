@@ -6,7 +6,6 @@ import { ActionMap, AuthState, JWTContextType } from '../@types/auth';
 import { ApiUser, User } from '../@types/user';
 import { BE_API, apiUserToUser, userToApiUser } from '../utils/api';
 import authorizedAxios from '../utils/authorizedAxios';
-import { useDeprecatedAnimatedState } from 'framer-motion';
 
 // ----------------------------------------------------------------------
 
