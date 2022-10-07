@@ -7,7 +7,7 @@ import JioCardList from './JioCardList';
 import MyJioCardList from './MyJioCardList';
 import JiosForm from './JiosForm';
 import { ListJiosArgs } from '../../../store/reducers/jios';
-import useRefresh from '../../../hooks/useRefresh';
+import useRefresh from 'src/hooks/useRefresh';
 
 const StyledTab = styled(Tab)({
   '&.MuiButtonBase-root': {

@@ -9,6 +9,8 @@ import { getPassesText } from './common';
 import CloseMyJioDialog from './CloseMyJioDialog';
 import { useSnackbar } from 'notistack';
 import { closeMyJio } from 'src/store/reducers/myJios';
+import useRefresh from 'src/hooks/useRefresh';
+import { useDispatch } from 'src/store';
 
 interface MyJioCardProps {
   data: Jio;
@@ -16,7 +18,8 @@ interface MyJioCardProps {
 
 export default function MyJioCard({ data }: MyJioCardProps) {
   const { enqueueSnackbar } = useSnackbar();
-  // const dispatch = useDispatch();
+  const refresh = useRefresh();
+  const dispatch = useDispatch();
   const [isCloseDialogOpen, setIsCloseDialogOpen] = React.useState(false);
 
   const handleClose = () => {
@@ -29,9 +32,19 @@ export default function MyJioCard({ data }: MyJioCardProps) {
 
   const handleDialogClose = async () => {
     setIsCloseDialogOpen(false);
-    // await dispatch(closeMyJio(data.id));
-    // enqueueSnackbar('Closed!');
+    await dispatch(
+      closeMyJio(data.id, {
+        onSuccess: () => {
+          enqueueSnackbar('Closed!');
+        },
+      })
+    );
+    refresh();
   };
+
+  if (data.isClosed) {
+    return null;
+  }
 
   return (
     <Card>
