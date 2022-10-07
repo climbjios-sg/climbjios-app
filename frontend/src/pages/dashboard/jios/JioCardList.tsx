@@ -15,9 +15,9 @@ interface JioCardListProps {
 export default function JioCardList({ searchParams }: JioCardListProps) {
   const dispatch = useDispatch();
   const version = useVersion();
-  const jiosData = useSelector((state) => state.jios);
+  const { data, error, loading } = useSelector((state) => state.jios);
   const displayedData = React.useMemo(() => {
-    if (jiosData.error) {
+    if (error) {
       return (
         <Grid sx={{ width: '100%', mt: 2 }} item>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
@@ -28,7 +28,7 @@ export default function JioCardList({ searchParams }: JioCardListProps) {
       );
     }
 
-    if (jiosData.loading) {
+    if (loading) {
       return (
         <Grid sx={{ width: '100%', mt: 2 }} item>
           <JioCardSkeleton />
@@ -36,7 +36,7 @@ export default function JioCardList({ searchParams }: JioCardListProps) {
       );
     }
 
-    if (jiosData.data.length === 0) {
+    if (data.length === 0) {
       return (
         <Grid sx={{ width: '100%', mt: 2 }} item>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
@@ -51,12 +51,12 @@ export default function JioCardList({ searchParams }: JioCardListProps) {
       );
     }
 
-    return jiosData.data.map((jio) => (
+    return data.map((jio) => (
       <Grid key={jio.id} sx={{ width: '100%', mt: 2 }} item>
         <JioCard data={jio} />
       </Grid>
     ));
-  }, [jiosData.data, jiosData.error, jiosData.loading]);
+  }, [data, error, loading]);
 
   useEffect(() => {
     dispatch(listJios(searchParams));
