@@ -11,9 +11,10 @@ import useVersion from 'src/hooks/useVersion';
 export default function MyJioCardList() {
   const dispatch = useDispatch();
   const version = useVersion();
-  const myJiosData = useSelector((state) => state.myJios);
+  const { data, error, loading } = useSelector((state) => state.myJios);
+  const myJiosData = data.filter((jio) => !jio.isClosed);
   const displayedData = React.useMemo(() => {
-    if (myJiosData.error) {
+    if (error) {
       return (
         <Grid sx={{ width: '100%', mt: 2 }} item>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
@@ -24,7 +25,7 @@ export default function MyJioCardList() {
       );
     }
 
-    if (myJiosData.loading) {
+    if (loading) {
       return (
         <Grid sx={{ width: '100%', mt: 2 }} item>
           <JioCardSkeleton />
@@ -32,7 +33,7 @@ export default function MyJioCardList() {
       );
     }
 
-    if (myJiosData.data.length === 0) {
+    if (myJiosData.length === 0) {
       return (
         <Grid sx={{ width: '100%', mt: 2 }} item>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
@@ -47,12 +48,12 @@ export default function MyJioCardList() {
       );
     }
 
-    return myJiosData.data.map((jio) => (
+    return myJiosData.map((jio) => (
       <Grid key={jio.id} sx={{ width: '100%', mt: 2 }} item>
         <MyJioCard data={jio} />
       </Grid>
     ));
-  }, [myJiosData.data, myJiosData.error, myJiosData.loading]);
+  }, [myJiosData, error, loading]);
 
   useEffect(() => {
     dispatch(listMyJios());

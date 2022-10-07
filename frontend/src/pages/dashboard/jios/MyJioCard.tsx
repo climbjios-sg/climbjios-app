@@ -42,10 +42,6 @@ export default function MyJioCard({ data }: MyJioCardProps) {
     refresh();
   };
 
-  if (data.isClosed) {
-    return null;
-  }
-
   return (
     <Card>
       <CardHeader title={data.user.name} subheader={`@${data.user.username}`} />
