@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { Grid, Button } from '@mui/material';
 import { listJios, ListJiosArgs } from '../../../store/reducers/jios';
 import { useDispatch, useSelector } from '../../../store';
+import useVersion from 'src/hooks/useVersion';
 import JioCard from './JioCard';
 import JioCardSkeleton from './JioCardSkeleton';
 import EmptyContent from '../../../components/EmptyContent';
@@ -12,6 +14,7 @@ interface JioCardListProps {
 
 export default function JioCardList({ searchParams }: JioCardListProps) {
   const dispatch = useDispatch();
+  const version = useVersion();
   const jiosData = useSelector((state) => state.jios);
   const displayedData = React.useMemo(() => {
     if (jiosData.error) {
@@ -55,9 +58,9 @@ export default function JioCardList({ searchParams }: JioCardListProps) {
     ));
   }, [jiosData.data, jiosData.error, jiosData.loading]);
 
-  React.useEffect(() => {
-    dispatch(listJios({}));
-  }, [dispatch]);
+  useEffect(() => {
+    dispatch(listJios(searchParams));
+  }, [version, dispatch, searchParams]);
 
   return (
     <Grid container sm={12}>

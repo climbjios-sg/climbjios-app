@@ -17,6 +17,16 @@ const initialState: State = {
   data: [],
 };
 
+interface Options {
+  onSuccess?: () => void;
+  onFailure?: () => void;
+}
+
+const defaultOptions: Options = {
+  onSuccess: () => {},
+  onFailure: () => {},
+};
+
 const slice = createSlice({
   name: 'myJios',
   initialState,
@@ -24,9 +34,26 @@ const slice = createSlice({
     request(state) {
       state.loading = true;
     },
-    success(state, action) {
+    list(
+      state,
+      action: {
+        payload: Jio[];
+        type: string;
+      }
+    ) {
       state.loading = false;
       state.data = action.payload;
+      state.error = null;
+    },
+    update(
+      state,
+      action: {
+        payload: Jio;
+        type: string;
+      }
+    ) {
+      state.loading = false;
+      state.data = [...state.data, action.payload];
       state.error = null;
     },
     failure(state, action) {
@@ -36,15 +63,35 @@ const slice = createSlice({
   },
 });
 
-export function listMyJios() {
+export function listMyJios(options = defaultOptions) {
+  const { onSuccess, onFailure } = options;
   return async () => {
     dispatch(slice.actions.request());
     try {
       const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.posts.create);
       const collections: Jio[] = response.data;
-      dispatch(slice.actions.success(collections));
+      dispatch(slice.actions.list(collections));
+      onSuccess?.();
     } catch (err) {
       dispatch(slice.actions.failure(err));
+      onFailure?.();
+    }
+  };
+}
+
+export function closeMyJio(id: number, options = defaultOptions) {
+  const { onSuccess, onFailure } = options;
+  return async () => {
+    try {
+      const response = await authorizedAxios.patch<Jio>(`${BE_API.posts.create}/${id}`, {
+        isClosed: true,
+      });
+      const updatedJioData = response.data;
+      dispatch(slice.actions.update(updatedJioData));
+      onSuccess?.();
+    } catch (err) {
+      dispatch(slice.actions.failure(err));
+      onFailure?.();
     }
   };
 }
