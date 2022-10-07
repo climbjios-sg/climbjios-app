@@ -5,11 +5,14 @@ import { Container, BottomNavigation, BottomNavigationAction, Paper, Button } fr
 import Page from '../../components/Page';
 import { useLocation, Link, Routes, Route } from 'react-router-dom';
 import Iconify from '../../components/Iconify';
-import Jios from './jios';
+// import Jios from './jios';
+// import JiosForm from './jios/JiosForm';
+import JiosRouter from './jios/JiosRouter';
 import useAuth from '../../hooks/useAuth';
 
 interface BottomTab {
   path: string;
+  to: string;
   label: string;
   icon: React.ReactElement;
 }
@@ -28,7 +31,7 @@ function BottomTabs({ tabs }: BottomTabsProps) {
       {tabs.map((tab) => (
         <BottomNavigationAction
           key={tab.path}
-          to={tab.path}
+          to={tab.to}
           label={tab.label}
           icon={tab.icon}
           value={tab.path}
@@ -44,13 +47,15 @@ export default function MainApp() {
   const DASHBOARD_TABS = React.useMemo(
     () => [
       {
-        path: 'jios',
+        path: 'jios/*',
+        to: 'jios',
         label: 'Jios',
         icon: <Iconify icon={'eva:people-outline'} width={20} height={20} />,
-        element: <Jios />,
+        element: <JiosRouter />,
       },
       {
         path: 'profile',
+        to: 'profile',
         label: 'Profile',
         icon: <Iconify icon={'eva:person-outline'} width={20} height={20} />,
         element: (
@@ -68,21 +73,27 @@ export default function MainApp() {
             </Button>
           </>
         ),
+        children: [],
       },
     ],
     [auth]
   );
+
+  // const MainAppRouter = () => useRoutes(DASHBOARD_TABS.map((tab) => ({ path: tab.path, element: tab.element, children: tab.children })));
 
   return (
     <Page title="ClimbJios - The social network for climbers." sx={{ background: '#fafafa' }}>
       <Container>
         <Routes>
           {DASHBOARD_TABS.map((tab) => (
-            <Route key={tab.path} path={tab.path} element={tab.element} />
+            <Route key={tab.path} path={tab.path} element={tab.element}>
+              <Route key={tab.path} path='search' element={<p>Hello there</p>} />
+            </Route>
           ))}
         </Routes>
+        {/* <MainAppRouter /> */}
       </Container>
-      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1000 }} elevation={3}>
         <BottomTabs tabs={DASHBOARD_TABS} />
       </Paper>
     </Page>

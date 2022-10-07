@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import { Box, Button, Grid, Modal, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Button, Fab, Grid, Tab, Tabs, Typography } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
 import Iconify from '../../../components/Iconify';
 import JioCardList from './JioCardList';
 import MyJioCardList from './MyJioCardList';
-import JiosForm from './JiosForm';
 import { ListJiosArgs } from '../../../store/reducers/jios';
 import useRefresh from 'src/hooks/useRefresh';
+import { useNavigate } from 'react-router';
+import { PATH_DASHBOARD } from 'src/routes/paths';
 
 const StyledTab = styled(Tab)({
   '&.MuiButtonBase-root': {
@@ -24,18 +25,20 @@ export default function Jios() {
   const [listJiosSearchParams, setListJiosSearchParams] = React.useState<ListJiosArgs>({});
   const TABS: TabValue[] = [TabValue.Open, TabValue.MyJios];
   const [tabValue, setTabValue] = React.useState<TabValue>(TabValue.Open);
-  const [isSearching, setIsSearching] = React.useState(false);
   const refresh = useRefresh();
+  const navigate = useNavigate();
 
   const handleRefresh = () => {
     refresh();
   };
 
   const onClickSearch = () => {
-    console.log('Going to search form');
-    setIsSearching(!isSearching);
-    console.log(isSearching);
-  };
+    navigate('search');
+  }
+
+  const onClickCreateJio = () => {
+    navigate('create');
+  }
 
   return (
     <Box sx={{ pt: 5, pb: 100, maxWidth: 600, margin: '0 auto' }}>
@@ -53,14 +56,6 @@ export default function Jios() {
             Search
           </Typography>
         </Button>
-        <Modal
-          open={isSearching}
-          onClose={() => setIsSearching(false)}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <JiosForm setIsSearching={setIsSearching} />
-        </Modal>
         <Grid sx={{ pt: 1.5 }} container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Tabs
@@ -89,6 +84,10 @@ export default function Jios() {
           <MyJioCardList />
         </TabPanel>
       </TabContext>
+      <Fab color="secondary" aria-label="add" size='large' sx={{ position: 'fixed', right: 10, bottom: 70, flexDirection: 'column' }} onClick={onClickCreateJio}>
+        <Iconify icon="carbon:add" />
+        <Typography variant='body2' sx={{ fontSize: 10 }}>Create a Jio</Typography>
+      </Fab>
     </Box>
   );
 }

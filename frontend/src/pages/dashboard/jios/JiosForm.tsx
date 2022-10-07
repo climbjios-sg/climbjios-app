@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo, useState, useCallback } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSnackbar } from 'notistack';
+import { useNavigate } from 'react-router';
 // @mui
-import { Box, Grid, Button, Container, Typography, MenuItem, InputAdornment } from '@mui/material';
+import { Box, Button, Typography, MenuItem, Stack, InputAdornment } from '@mui/material';
 // components
 import Iconify from '../../../components/Iconify';
 import {
@@ -18,15 +19,17 @@ import {
   RHFTimePicker,
 } from '../../../components/hook-form';
 // form
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 // @types
 import { Jio } from '../../../@types/jio';
 import { Gym } from '../../../@types/gym';
+// dayjs
+import dayjs from 'dayjs';
 //
 import authorizedAxios from 'src/utils/authorizedAxios';
 import { BE_API } from 'src/utils/api';
 import { SUPPORT_EMAIL } from '../../../config';
-import { getHoursFromUtcDateString, getMinutesFromUtcDateString } from 'src/utils/formatTime';
+import { isStartTimeEarlier } from 'src/utils/formatTime';
 
 // ----------------------------------------------------------------------
 
@@ -54,20 +57,20 @@ interface IFormValuesProps
   > {}
 
 interface FormValuesProps extends IFormValuesProps {
-  date: Date | null;
-  startTiming: string;
-  endTiming: string;
+  date: Date;
+  startTiming: Date;
+  endTiming: Date;
 }
 
 type Props = {
-  isEdit?: boolean;
+  isSearch?: boolean;
   currentJio?: FormValuesProps;
-  setIsSearching?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function JiosForm({ isEdit, currentJio, setIsSearching }: Props) {
+export default function JiosForm({ isSearch, currentJio }: Props) {
   const { enqueueSnackbar } = useSnackbar();
   const [gyms, setGyms] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     authorizedAxios
@@ -85,8 +88,8 @@ export default function JiosForm({ isEdit, currentJio, setIsSearching }: Props) 
     price: Yup.number().required('Price is required').positive(),
     gymId: Yup.number().required('Location is required').positive().integer(),
     date: Yup.date().required('Date is required'),
-    startTiming: Yup.string().required('Start time is required'),
-    endTiming: Yup.string().required('End time is required'),
+    startTiming: Yup.date().required('Date is required'),
+    endTiming: Yup.date().required('Date is required'),
     openToClimbTogether: Yup.boolean().required('Open to climb together is required'),
   });
 
@@ -97,8 +100,8 @@ export default function JiosForm({ isEdit, currentJio, setIsSearching }: Props) 
       price: currentJio?.price || 10,
       gymId: currentJio?.gymId || 1,
       date: currentJio?.date || new Date(),
-      startTiming: currentJio?.startTiming || '',
-      endTiming: currentJio?.endTiming || '',
+      startTiming: currentJio?.startTiming || new Date(),
+      endTiming: currentJio?.endTiming || new Date(),
       openToClimbTogether: currentJio?.openToClimbTogether || false,
     }),
     [currentJio]
@@ -109,27 +112,24 @@ export default function JiosForm({ isEdit, currentJio, setIsSearching }: Props) 
     defaultValues,
   });
 
-  const {
-    reset,
-    watch,
-    handleSubmit,
-    formState: { isSubmitting },
-    control,
-  } = methods;
+  const { reset, watch, handleSubmit, setError } = methods;
 
   const values = watch();
   console.log('values', values);
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
-      console.log('Submitting form');
       console.log('DATA: ', data);
-      data?.date?.setHours(getHoursFromUtcDateString(data.startTiming));
-      data?.date?.setMinutes(getMinutesFromUtcDateString(data.startTiming));
+      if (!isStartTimeEarlier(data.startTiming, data.endTiming)) {
+        setError('startTiming', { type: 'custom', message: 'Please enter a valid start time' });
+        throw new Error('Start time must be after end time');
+      }
+      data?.date?.setHours(data.startTiming?.getHours());
+      data?.date?.setMinutes(data.startTiming.getMinutes());
       const startDateTime = data?.date?.toISOString();
       console.log('startDateTime', startDateTime);
-      data?.date?.setHours(getHoursFromUtcDateString(data.endTiming));
-      data?.date?.setMinutes(getMinutesFromUtcDateString(data.endTiming));
+      data?.date?.setHours(data.endTiming.getHours());
+      data?.date?.setMinutes(data.endTiming.getMinutes());
       const endDateTime = data?.date?.toISOString();
       console.log('endDateTime', endDateTime);
       authorizedAxios.post(BE_API.posts.create, {
@@ -143,7 +143,7 @@ export default function JiosForm({ isEdit, currentJio, setIsSearching }: Props) 
       });
       reset();
       enqueueSnackbar('Your Jio has been posted!');
-      !!setIsSearching && setIsSearching(false);
+      navigate(-1);
     } catch (error) {
       enqueueSnackbar(
         `Failed to post your jio, try again. If the problem persists, contact support ${SUPPORT_EMAIL}.`,
@@ -159,95 +159,102 @@ export default function JiosForm({ isEdit, currentJio, setIsSearching }: Props) 
   return (
     <Box
       sx={{
-        p: '15px',
-        backgroundColor: 'white',
-        width: 400,
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
+        pt: 5,
+        pb: 20,
+        px: '15px',
+        maxWidth: 500,
       }}
     >
       <FormProvider methods={methods}>
-        <Typography variant="subtitle2" gutterBottom sx={{ mb: 2 }}>
-          Are you looking to buy or sell passes?
-        </Typography>
-        <RHFRadioGroup
-          name="type"
-          options={JIOTYPE_OPTION}
-          sx={{
-            '& .MuiFormControlLabel-root': { mr: 4 },
-          }}
-        />
+        <Stack spacing={3}>
+          <Typography variant="subtitle1">Are you looking to buy or sell passes?</Typography>
+          <RHFRadioGroup name="type" options={JIOTYPE_OPTION} />
 
-        <RHFSlider
-          name="numPasses"
-          step={1}
-          min={1}
-          max={8}
-          // getAriaValueText={(value) => `$${value}`}
-          // valueLabelFormat={(value) => `$${value}`}
-          sx={{ alignSelf: 'center', width: `calc(100% - 20px)` }}
-        />
+          <Typography variant="subtitle1" gutterBottom>
+            How many passes are you looking to buy?
+          </Typography>
+          <RHFSlider
+            name="numPasses"
+            step={1}
+            min={1}
+            max={8}
+            valueLabelDisplay="on"
+            color="secondary"
+            sx={{ alignSelf: 'center', width: `calc(100% - 20px)` }}
+          />
 
-        <Typography variant="subtitle2" gutterBottom sx={{ mb: 2 }}>
-          How much are you willing to pay for a pass?
-        </Typography>
-        <RHFTextField
-          size="small"
-          type="number"
-          name={'price'}
-          label="Price"
-          placeholder="0"
-          InputProps={{
-            startAdornment: <InputAdornment position="start">$</InputAdornment>,
-          }}
-          sx={{ maxWidth: { md: 96 } }}
-        />
+          <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
+            How much are you willing to pay for a pass?
+          </Typography>
+          <RHFTextField
+            size="small"
+            type="number"
+            name={'price'}
+            label="Price"
+            placeholder="0"
+            InputProps={{
+              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+            }}
+            sx={{ maxWidth: { md: 96 } }}
+          />
 
-        <RHFSelect
-          fullWidth
-          name="gymId"
-          label="Location"
-          InputLabelProps={{ shrink: true }}
-          SelectProps={{ sx: { textTransform: 'capitalize' } }}
-        >
-          {gyms.map((gym: Gym) => (
-            <MenuItem
-              key={gym.id}
-              value={gym.id}
-              sx={{
-                mx: 1,
-                my: 0.5,
-                borderRadius: 0.75,
-                typography: 'body2',
-                textTransform: 'capitalize',
-              }}
-            >
-              {gym.name}
-            </MenuItem>
-          ))}
-        </RHFSelect>
+          <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
+            Where are you climbing at?
+          </Typography>
+          <RHFSelect
+            fullWidth
+            name="gymId"
+            label="Location"
+            InputLabelProps={{ shrink: true }}
+            SelectProps={{ sx: { textTransform: 'capitalize' } }}
+          >
+            {gyms.map((gym: Gym) => (
+              <MenuItem
+                key={gym.id}
+                value={gym.id}
+                sx={{
+                  mx: 1,
+                  my: 0.5,
+                  borderRadius: 0.75,
+                  typography: 'body2',
+                  textTransform: 'capitalize',
+                }}
+              >
+                {gym.name}
+              </MenuItem>
+            ))}
+          </RHFSelect>
 
-        <RHFDatePicker name="date" label="Date" />
+          <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
+            What date are you climbing on?
+          </Typography>
+          <RHFDatePicker name="date" label="Date" />
 
-        <RHFTimePicker name="startTiming" label="Start Time" />
+          <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
+            What time are you climbing at?
+          </Typography>
+          <Stack justifyContent="space-evenly" direction="row" spacing={2} sx={{ mt: 3 }}>
+            <RHFTimePicker name="startTiming" label="Start Time" />
+            <RHFTimePicker name="endTiming" label="End Time" />
+          </Stack>
 
-        <RHFTimePicker name="endTiming" label="End Time" />
+          <RHFCheckbox name="openToClimbTogether" label="I am open to climbing with others!" />
 
-        <RHFCheckbox name="openToClimbTogether" label="I am open to climbing with others" />
-
-        <Button
-          fullWidth
-          size="large"
-          variant="contained"
-          startIcon={
-            <Iconify icon={'ant-design:search-outlined'} width={24} height={24} sx={{ mx: 1 }} />
-          }
-          onClick={handleSubmit(onSubmit)}
-        >
-          <Typography variant="button">Search</Typography>
-        </Button>
+          <Button
+            fullWidth
+            size="large"
+            variant="contained"
+            color="secondary"
+            startIcon={
+              isSearch
+                ? <Iconify icon={'ant-design:search-outlined'} width={24} height={24} />
+                : <Iconify icon={'carbon:add'} width={24} height={24} />
+            }
+            onClick={handleSubmit(onSubmit)}
+          >
+            <Typography variant="button">{isSearch ? "Search" : "Create"}</Typography>
+          </Button>
+        </Stack>
       </FormProvider>
     </Box>
   );

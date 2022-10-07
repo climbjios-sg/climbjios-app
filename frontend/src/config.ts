@@ -10,7 +10,7 @@ export const HOST_API = process.env.REACT_APP_HOST_API_KEY || '';
 export const MAPBOX_API = process.env.REACT_APP_MAPBOX_API;
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL
-export const PATH_AFTER_LOGIN = PATH_DASHBOARD.general.jios; // as '/dashboard/app'
+export const PATH_AFTER_LOGIN = PATH_DASHBOARD.general.jios.root; // as '/dashboard/app'
 
 // LAYOUT
 // ----------------------------------------------------------------------
