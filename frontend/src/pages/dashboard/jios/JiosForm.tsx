@@ -80,7 +80,7 @@ export default function JiosForm({ isEdit, currentJio, setIsSearching }: Props) 
   }, []);
 
   const NewJioSchema = Yup.object().shape({
-    jioType: Yup.string().required('Type is required'),
+    type: Yup.string().required('Type is required'),
     numPasses: Yup.number().required('Number of passes is required').positive().integer(),
     price: Yup.number().required('Price is required').positive(),
     gymId: Yup.number().required('Location is required').positive().integer(),
@@ -92,7 +92,7 @@ export default function JiosForm({ isEdit, currentJio, setIsSearching }: Props) 
 
   const defaultValues = useMemo(
     () => ({
-      jioType: currentJio?.jioType || 'buyer', // Change to enum
+      type: currentJio?.type || 'buyer', // Change to enum
       numPasses: currentJio?.numPasses || 1,
       price: currentJio?.price || 10,
       gymId: currentJio?.gymId || 1,
@@ -133,7 +133,7 @@ export default function JiosForm({ isEdit, currentJio, setIsSearching }: Props) 
       const endDateTime = data?.date?.toISOString();
       console.log('endDateTime', endDateTime);
       authorizedAxios.post(BE_API.posts.create, {
-        type: data.jioType,
+        type: data.type,
         numPasses: data.numPasses,
         price: data.price,
         gymId: data.gymId,
@@ -173,7 +173,7 @@ export default function JiosForm({ isEdit, currentJio, setIsSearching }: Props) 
           Are you looking to buy or sell passes?
         </Typography>
         <RHFRadioGroup
-          name="jioType"
+          name="type"
           options={JIOTYPE_OPTION}
           sx={{
             '& .MuiFormControlLabel-root': { mr: 4 },

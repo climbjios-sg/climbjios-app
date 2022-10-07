@@ -6,12 +6,46 @@ import { Jio } from '../../../@types/jio';
 import palette from '../../../theme/palette';
 import { formatStartEndDate } from '../../../utils/formatTime';
 import { getPassesText } from './common';
+import CloseMyJioDialog from './CloseMyJioDialog';
+import { useSnackbar } from 'notistack';
+import { closeMyJio } from 'src/store/reducers/myJios';
+import useRefresh from 'src/hooks/useRefresh';
+import { useDispatch } from 'src/store';
 
 interface MyJioCardProps {
   data: Jio;
 }
 
 export default function MyJioCard({ data }: MyJioCardProps) {
+  const { enqueueSnackbar } = useSnackbar();
+  const refresh = useRefresh();
+  const dispatch = useDispatch();
+  const [isCloseDialogOpen, setIsCloseDialogOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setIsCloseDialogOpen(true);
+  };
+
+  const handleDialogCancel = () => {
+    setIsCloseDialogOpen(false);
+  };
+
+  const handleDialogClose = async () => {
+    setIsCloseDialogOpen(false);
+    await dispatch(
+      closeMyJio(data.id, {
+        onSuccess: () => {
+          enqueueSnackbar('Closed!');
+        },
+      })
+    );
+    refresh();
+  };
+
+  if (data.isClosed) {
+    return null;
+  }
+
   return (
     <Card>
       <CardHeader title={data.user.name} subheader={`@${data.user.username}`} />
@@ -50,12 +84,17 @@ export default function MyJioCard({ data }: MyJioCardProps) {
             fullWidth
             color="error"
             startIcon={<Iconify icon={'eva:trash-2-outline'} />}
-            onClick={() => {}}
+            onClick={handleClose}
           >
             Close
           </Button>
         </Stack>
       </Stack>
+      <CloseMyJioDialog
+        isOpen={isCloseDialogOpen}
+        onCancel={handleDialogCancel}
+        onClose={handleDialogClose}
+      />
     </Card>
   );
 }

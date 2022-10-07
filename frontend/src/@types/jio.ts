@@ -4,7 +4,7 @@ import { User } from './user';
 // Jio represents a jio request
 export interface Jio {
   id: number;
-  jioType: 'seller' | 'buyer' | 'other';
+  type: 'seller' | 'buyer' | 'other';
   numPasses: number;
   price: number;
   gymId: number;

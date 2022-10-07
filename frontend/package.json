@@ -57,6 +57,8 @@
     "@mui/x-date-pickers": "^5.0.0-alpha.7",
     "@react-pdf/renderer": "^2.3.0",
     "@reduxjs/toolkit": "^1.8.3",
+    "@sentry/react": "^7.14.1",
+    "@sentry/tracing": "^7.14.1",
     "@turf/bbox": "^6.5.0",
     "amazon-cognito-identity-js": "^5.2.9",
     "apexcharts": "^3.35.3",

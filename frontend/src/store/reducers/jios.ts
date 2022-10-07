@@ -5,7 +5,7 @@ import { AxiosResponse } from 'axios';
 import { dispatch } from '..';
 import { createSlice } from '@reduxjs/toolkit';
 
-interface ListJiosArgs {
+export interface ListJiosArgs {
   isBuyer?: boolean;
   numPasses?: number;
   gymId?: number;
