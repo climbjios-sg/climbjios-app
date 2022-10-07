@@ -21,14 +21,18 @@ export default function RHFDatePicker({ name, label }: Props) {
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <MobileTimePicker
             {...field}
             label={label}
+            value={field.value}
+            onChange={(newValue) => {
+              field.onChange(newValue);
+            }}
             inputFormat="hh:mm a"
             minutesStep={5}
-            renderInput={(params) => <TextField {...params} fullWidth />}
+            renderInput={(params) => <TextField {...params} fullWidth error={!!error} helperText={error?.message} />}
           />
         </LocalizationProvider>
       )}

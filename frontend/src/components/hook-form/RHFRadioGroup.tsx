@@ -30,12 +30,12 @@ export default function RHFRadioGroup({ name, options, ...other }: Props) {
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div>
-          <RadioGroup {...field} row {...other}>
+          <RadioGroup {...field} {...other}>
             {options.map((option) => (
               <FormControlLabel
                 key={option.value}
                 value={option.value}
-                control={<Radio />}
+                control={<Radio sx={{'&.Mui-checked': { color: 'blue' }}} />}
                 label={option.label}
               />
             ))}

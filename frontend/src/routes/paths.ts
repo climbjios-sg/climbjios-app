@@ -26,7 +26,10 @@ export const PATH_ONBOARDING = {
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   general: {
-    jios: path(ROOTS_DASHBOARD, '/jios'),
+    jios: {
+      root: path(ROOTS_DASHBOARD, '/jios'),
+      search: path(ROOTS_DASHBOARD, '/jios/search')
+    },
     profile: path(ROOTS_DASHBOARD, '/profile'),
   },
 };
