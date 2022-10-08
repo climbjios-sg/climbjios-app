@@ -177,7 +177,9 @@ function AuthProvider({ children }: AuthProviderProps) {
     return returnedUser;
   };
 
-  const hasUserData = () => !!state.user;
+  const hasUserData = () => {
+    return state.user?.username !== null && state.user?.telegramHandle !== null
+  };
 
   useEffect(() => {
     if (state.contextFinishedLoading && hasUserData()) {
