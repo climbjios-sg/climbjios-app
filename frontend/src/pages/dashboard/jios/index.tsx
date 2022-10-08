@@ -55,18 +55,18 @@ export default function Jios() {
 
   const getStartDateTimeString = () => {
     if (jioFormValues?.date && jioFormValues?.startTiming) {
-      return setDateTime(jioFormValues.date, jioFormValues.startTiming).toUTCString()
+      return setDateTime(jioFormValues.date, jioFormValues.startTiming).toISOString()
     }
 
-    return '';
+    return undefined;
   }
 
   const getEndDateTimeString = () => {
     if (jioFormValues?.date && jioFormValues?.endTiming) {
-      return setDateTime(jioFormValues.date, jioFormValues.endTiming).toUTCString()
+      return setDateTime(jioFormValues.date, jioFormValues.endTiming).toISOString()
     }
 
-    return '';
+    return undefined;
   }
 
 

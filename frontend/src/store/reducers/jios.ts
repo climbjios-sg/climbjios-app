@@ -10,8 +10,10 @@ export interface ListJiosArgs {
   numPasses?: Jio['numPasses'];
   gymId?: Jio['gymId'];
   // Get jios that end after this date string.
+  // DateTime string in ISO 8601 format
   startDateTime?: string;
   // Get jios that end before this date string.
+  // DateTime string in ISO 8601 format
   endDateTime?: string;
 }
 
