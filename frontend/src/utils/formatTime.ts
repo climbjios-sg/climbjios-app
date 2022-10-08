@@ -8,6 +8,19 @@ export function utcDateToLocaleDate(date: Date): Date {
   return addHours(date, minutesAfterUtc);
 }
 
+// getLocaleDateTime returns a datetime object with the date set to the time specified
+// e.g. date = 13/10/2022, time = 12:00
+// returns 13/10/2022 12:00
+export function setDateTime(date: Date, time: string): Date {
+  const newDate = new Date(date);
+  const timeArr = time.split(':');
+  const hour = timeArr[0];
+  const minute = timeArr[1];
+  newDate.setHours(+hour);
+  newDate.setMinutes(+minute);
+  return newDate;
+}
+
 // formatStartEndDate takes a start and end date ISO string, and converts it into a string display in UI
 // e.g. 12 Dec, Wed 9am-9pm
 export function formatStartEndDate(startISOString: string, endISOString: string): string {
@@ -17,7 +30,7 @@ export function formatStartEndDate(startISOString: string, endISOString: string)
   const startTimeString = format(startDateTimeObject, 'haaa'); // e.g. 9am
   const endTimeString = format(endDateTimeObject, 'haaa'); // e.g. 9pm
   const displayDateTimeString = `${dateString}, ${startTimeString} - ${endTimeString}`;
-  return displayDateTimeString
+  return displayDateTimeString;
 }
 
 export function isStartTimeEarlier(startDate: Date, endDate: Date): boolean {
@@ -25,6 +38,8 @@ export function isStartTimeEarlier(startDate: Date, endDate: Date): boolean {
   const endTimeHours = endDate.getHours();
   const startTimeMinutes = startDate.getMinutes();
   const endTimeMinutes = endDate.getMinutes();
-  return startTimeHours < endTimeHours
-    || (startTimeHours === endTimeHours && startTimeMinutes < endTimeMinutes);
+  return (
+    startTimeHours < endTimeHours ||
+    (startTimeHours === endTimeHours && startTimeMinutes < endTimeMinutes)
+  );
 }

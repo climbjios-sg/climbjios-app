@@ -95,7 +95,6 @@ const OnboardingNewUserUsername = Loadable(
 
 // APP
 const MainApp = Loadable(lazy(() => import('../pages/dashboard/MainApp')));
-const JiosForm = Loadable(lazy(() => import('../pages/dashboard/jios/JiosForm')));
 
 // USER PUBLIC PROFILE
 const UserPublicProfile = Loadable(lazy(() => import('../pages/UserPublicProfile')));

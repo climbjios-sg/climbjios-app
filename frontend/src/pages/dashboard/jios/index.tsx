@@ -9,6 +9,9 @@ import { ListJiosArgs } from '../../../store/reducers/jios';
 import useRefresh from 'src/hooks/useRefresh';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import JiosForm, { JioFormValues } from './JiosForm';
+import { useDispatch, useSelector } from '../../../store';
+import { setJioFormValues } from '../../../store/reducers/jioFormValues';
+import { setDateTime } from '../../../utils/formatTime';
 
 const StyledTab = styled(Tab)({
   '&.MuiButtonBase-root': {
@@ -22,7 +25,8 @@ enum TabValue {
 }
 
 export default function Jios() {
-  const [listJiosSearchParams, setListJiosSearchParams] = React.useState<ListJiosArgs>({});
+  const dispatch = useDispatch();
+  const jioFormValues = useSelector(state => state.jioFormValues.data)
   const TABS: TabValue[] = [TabValue.Open, TabValue.MyJios];
   const [tabValue, setTabValue] = React.useState<TabValue>(TabValue.Open);
   const refresh = useRefresh();
@@ -37,7 +41,8 @@ export default function Jios() {
   };
 
   const handleSearch = async (data: JioFormValues) => {
-    console.log(data)
+    dispatch(setJioFormValues(data))
+    navigate('');
   };
 
   const handleCreate = async (data: JioFormValues) => {
@@ -47,6 +52,23 @@ export default function Jios() {
   const handleEdit = async (data: JioFormValues) => {
     console.log(data)
   };
+
+  const getStartDateTimeString = () => {
+    if (jioFormValues?.date && jioFormValues?.startTiming) {
+      return setDateTime(jioFormValues.date, jioFormValues.startTiming).toUTCString()
+    }
+
+    return '';
+  }
+
+  const getEndDateTimeString = () => {
+    if (jioFormValues?.date && jioFormValues?.endTiming) {
+      return setDateTime(jioFormValues.date, jioFormValues.endTiming).toUTCString()
+    }
+
+    return '';
+  }
+
 
   return (
     <Routes>
@@ -58,6 +80,7 @@ export default function Jios() {
             onSubmit={handleSearch}
             submitLabel="Search"
             submitIcon={<Iconify icon={'eva:search-outline'} width={24} height={24} />}
+            defaultValues={jioFormValues || undefined}
           />
         }
       />
@@ -120,7 +143,13 @@ export default function Jios() {
               </Grid>
               {/* Open Jios Tab */}
               <TabPanel value={TabValue.Open}>
-                <JioCardList searchParams={listJiosSearchParams} />
+                <JioCardList searchParams={{
+                  type: jioFormValues?.type,
+                  numPasses: jioFormValues?.numPasses,
+                  gymId: jioFormValues?.gymId,
+                  startDateTime: getStartDateTimeString(),
+                  endDateTime: getEndDateTimeString(),
+                }} />
               </TabPanel>
               {/* My Jios Tab */}
               <TabPanel value={TabValue.MyJios}>

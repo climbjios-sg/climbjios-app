@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo, useState } from 'react';
 // @mui
-import { Box, Button, Typography, Stack, InputAdornment } from '@mui/material';
+import { Box, Typography, Stack, InputAdornment } from '@mui/material';
 // components
 import {
   FormProvider,
@@ -23,6 +23,7 @@ import { Gym } from '../../../@types/gym';
 import authorizedAxios from 'src/utils/authorizedAxios';
 import { BE_API } from 'src/utils/api';
 import { useSnackbar } from 'notistack';
+import { LoadingButton } from '@mui/lab';
 
 // ----------------------------------------------------------------------
 
@@ -49,15 +50,15 @@ export interface JioFormValues {
 }
 
 type Props = {
-  onSubmit: (data: JioFormValues) => void;
+  onSubmit: (data: JioFormValues) => Promise<void>;
   submitIcon: React.ReactElement;
   submitLabel: string;
   isSearch?: boolean;
-  currentJio?: JioFormValues;
+  defaultValues?: JioFormValues;
 };
 
 export default function JiosForm({
-  currentJio,
+  defaultValues: currentJio,
   isSearch,
   onSubmit,
   submitIcon,
@@ -83,13 +84,13 @@ export default function JiosForm({
     date: Yup.date().required('Date is required'),
     startTiming: Yup.string().required('Start timing is required'),
     endTiming: Yup.string().required('End timing is required'),
-    openToClimbTogether: Yup.boolean().optional(),
+    openToClimbTogether: Yup.boolean().required(),
   });
 
-  const defaultValues = useMemo(
+  const startingFormValues = useMemo(
     () => ({
       type: currentJio?.type, // Change to enum
-      numPasses: currentJio?.numPasses,
+      numPasses: currentJio?.numPasses || 1,
       price: currentJio?.price,
       gymId: currentJio?.gymId,
       date: currentJio?.date || new Date(),
@@ -102,18 +103,24 @@ export default function JiosForm({
 
   const methods = useForm<JioFormValues>({
     resolver: yupResolver(NewJioSchema),
-    defaultValues,
+    defaultValues: startingFormValues,
   });
 
   const { handleSubmit, setError, watch } = methods;
 
   
-  const submitForm = (data: JioFormValues) => {
+  const submitForm = async (data: JioFormValues) => {
     if (data.startTiming >= data.endTiming) {
       setError('startTiming', { type: 'custom', message: 'Start time must be before end time' });
       return;
     }
-    onSubmit(data);
+
+
+    try {
+      await onSubmit(data);
+    } catch (error) {
+      enqueueSnackbar('Failed to submit form');
+    }
   };
   
   if (process.env.REACT_APP_DEBUG_FORM === 'true') {
@@ -135,7 +142,7 @@ export default function JiosForm({
         margin: '0 auto',
       }}
     >
-      <FormProvider methods={methods}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(submitForm)}>
         <Stack spacing={3}>
           <Typography sx={{ mb: -1 }} variant="subtitle1">
             Are you looking to buy or sell passes?
@@ -253,16 +260,16 @@ export default function JiosForm({
             </>
           )}
 
-          <Button
+          <LoadingButton
+            type="submit"
             fullWidth
             size="large"
             variant="contained"
             color="primary"
             startIcon={submitIcon}
-            onClick={handleSubmit(submitForm)}
           >
             <Typography variant="button">{submitLabel}</Typography>
-          </Button>
+          </LoadingButton>
         </Stack>
       </FormProvider>
     </Box>
