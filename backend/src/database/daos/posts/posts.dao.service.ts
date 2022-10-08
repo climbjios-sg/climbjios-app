@@ -56,8 +56,14 @@ export class PostsDaoService {
       return await query.where('endDateTime', '>=', new Date());
     }
     Object.entries(search).forEach(([key, value]) => {
-      if (['numPasses'].includes(key)) {
+      if (key === 'numPasses') {
         query.where(key, '>=', value);
+      } else if (key === 'price') {
+        if (search.type === PostType.SELLER) {
+          query.where(key, '>=', value);
+        } else if (search.type === PostType.BUYER) {
+          query.where(key, '<=', value);
+        }
       } else if (key === 'startDateTime') {
         // Intervals Problem:
         // where startDateTime is before endDateTime of post

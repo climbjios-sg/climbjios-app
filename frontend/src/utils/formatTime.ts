@@ -20,20 +20,11 @@ export function formatStartEndDate(startISOString: string, endISOString: string)
   return displayDateTimeString
 }
 
-export function utcDateStringToTimeString(utcDateString: string): string {
-  const utcDate = new Date(utcDateString);
-  const timeString = format(utcDate, 'hh:mm');
-  return timeString;
-}
-
-export function getHoursFromUtcDateString(utcDateString: string): number {
-  const utcDate = new Date(utcDateString);
-  const hours = utcDate.getHours();
-  return hours;
-}
-
-export function getMinutesFromUtcDateString(utcDateString: string): number {
-  const utcDate = new Date(utcDateString);
-  const minutes = utcDate.getMinutes();
-  return minutes;
+export function isStartTimeEarlier(startDate: Date, endDate: Date): boolean {
+  const startTimeHours = startDate.getHours();
+  const endTimeHours = endDate.getHours();
+  const startTimeMinutes = startDate.getMinutes();
+  const endTimeMinutes = endDate.getMinutes();
+  return startTimeHours < endTimeHours
+    || (startTimeHours === endTimeHours && startTimeMinutes < endTimeMinutes);
 }

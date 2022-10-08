@@ -21,6 +21,12 @@ export default class SearchPostDto {
   numPasses: number;
 
   @IsOptional()
+  @Transform((val) => parseFloat(val.value))
+  @IsNumber()
+  @Min(1)
+  price: number;
+
+  @IsOptional()
   @Transform((val) => parseInt(val.value))
   @IsNumber()
   gymId: number;

@@ -72,6 +72,6 @@ export default function AuthRedirect({ children }: AuthRedirectProps) {
     }
   }
 
-  navigate(PATH_DASHBOARD.general.jios);
+  navigate(PATH_DASHBOARD.general.jios.root);
   return <>{children}</>;
 }
