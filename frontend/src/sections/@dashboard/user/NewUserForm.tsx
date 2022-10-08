@@ -37,7 +37,6 @@ export default function NewUserForm({ onExit }: Props) {
   const auth = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const newUserContext = useContext(NewUserContext);
-  const jwtContext = useContext(JWTContext);
 
   const NewProfileSchema = Yup.object().shape({
     name: Yup.string()
