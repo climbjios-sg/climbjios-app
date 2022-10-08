@@ -35,7 +35,7 @@ export default function RHFRadioGroup({ name, options, ...other }: Props) {
               <FormControlLabel
                 key={option.value}
                 value={option.value}
-                control={<Radio sx={{'&.Mui-checked': { color: 'blue' }}} />}
+                control={<Radio />}
                 label={option.label}
               />
             ))}

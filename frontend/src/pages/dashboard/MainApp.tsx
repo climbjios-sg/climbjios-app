@@ -3,13 +3,11 @@ import * as React from 'react';
 import { Container, BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 // components
 import Page from '../../components/Page';
-import { useLocation, Link, Routes, Route, useRoutes } from 'react-router-dom';
+import { useLocation, Link, useRoutes } from 'react-router-dom';
 import Iconify from '../../components/Iconify';
-// import Jios from './jios';
-// import JiosForm from './jios/JiosForm';
-import JiosRouter from './jios/JiosRouter';
 import useAuth from '../../hooks/useAuth';
 import Profile from './profile';
+import Jios from './jios';
 
 interface BottomTab {
   path: string;
@@ -25,7 +23,8 @@ interface BottomTabsProps {
 function BottomTabs({ tabs }: BottomTabsProps) {
   const location = useLocation();
   const paths = location.pathname.split('/');
-  const matchPath = paths[2];
+  // matchPath is the current subpath, e.g. for /dashboard/jios/search -> matchPath is jios
+  const matchPath = paths.length >= 3 ? paths[2] : '';
 
   return (
     <BottomNavigation showLabels value={matchPath}>
@@ -44,7 +43,6 @@ function BottomTabs({ tabs }: BottomTabsProps) {
 }
 
 export default function MainApp() {
-  const auth = useAuth();
   const DASHBOARD_TABS = React.useMemo(
     () => [
       {
@@ -52,23 +50,26 @@ export default function MainApp() {
         to: 'jios',
         label: 'Jios',
         icon: <Iconify icon={'eva:people-outline'} width={20} height={20} />,
-        element: <JiosRouter />,
+        element: <Jios />,
       },
       {
         path: 'profile',
         to: 'profile',
         label: 'Profile',
         icon: <Iconify icon={'eva:person-outline'} width={20} height={20} />,
-        element: (
-          <Profile />
-        ),
-        children: [],
+        element: <Profile />,
       },
     ],
-    [auth]
+    []
   );
 
-  const MainAppRouter = () => useRoutes(DASHBOARD_TABS.map((tab) => ({ path: tab.path, element: tab.element, children: tab.children })));
+  const MainAppRouter = () =>
+    useRoutes(
+      DASHBOARD_TABS.map((tab) => ({
+        path: tab.path,
+        element: tab.element,
+      }))
+    );
 
   return (
     <Page title="ClimbJios - The social network for climbers." sx={{ background: '#fafafa' }}>

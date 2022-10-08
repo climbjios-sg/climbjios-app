@@ -6,13 +6,13 @@ import { dispatch } from '..';
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface ListJiosArgs {
-  isBuyer?: boolean;
-  numPasses?: number;
-  gymId?: number;
-  // Lists all jios on or after date
-  startDate?: Date;
-  startTime?: string;
-  endTime?: string;
+  type?: Jio['type'];
+  numPasses?: Jio['numPasses'];
+  gymId?: Jio['gymId'];
+  // Get jios that end after this date string.
+  startDateTime?: string;
+  // Get jios that end before this date string.
+  endDateTime?: string;
 }
 
 interface State {
