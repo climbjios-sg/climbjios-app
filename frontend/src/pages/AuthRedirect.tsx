@@ -59,12 +59,15 @@ export default function AuthRedirect({ children }: AuthRedirectProps) {
   }
 
   if (!auth.hasUserData()) {
-    if (!newUserContext.hasFilledProfile() && location.pathname !== PATH_ONBOARDING.newuser) {
+    if (!newUserContext.hasFilledProfile()) {
       // If name and/or telegram handle is empty, redirect users for them to fill in Name + Telegram handle
-      enqueueSnackbar(`NewUserContext: ${newUserContext.user}`);
+      
+      /* Debug purposes */
+      // enqueueSnackbar(`NewUserContext: ${newUserContext.user}`);
+
       navigate(PATH_ONBOARDING.newuser);
       return null;
-    } else if (location.pathname !== PATH_ONBOARDING.username) {
+    } else {
       // Either username is empty or all fields filled but user data not dispatched to JWTContext (e.g. in event of network error),
       // redirect users for them to fill in username and subsequently create user in BE
       navigate(PATH_ONBOARDING.username);
