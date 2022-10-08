@@ -178,7 +178,9 @@ function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const hasUserData = () => {
-    return state.user?.username !== null && state.user?.telegramHandle !== null
+    // For new users, BE will return "id" and possibly "name", 
+    // but username and telegramHandle will be null/undefined
+    return !!state.user?.username && !!state.user?.telegramHandle
   };
 
   useEffect(() => {
