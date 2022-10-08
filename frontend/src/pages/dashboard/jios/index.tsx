@@ -84,10 +84,10 @@ export default function Jios() {
           <MyJioCardList />
         </TabPanel>
       </TabContext>
-      <Fab color="secondary" aria-label="add" size='large' sx={{ position: 'fixed', right: 10, bottom: 70, flexDirection: 'column' }} onClick={onClickCreateJio}>
+      {/* <Fab color="secondary" aria-label="add" size='large' sx={{ position: 'fixed', right: 10, bottom: 70, flexDirection: 'column' }} onClick={onClickCreateJio}>
         <Iconify icon="carbon:add" />
         <Typography variant='body2' sx={{ fontSize: 10 }}>Create a Jio</Typography>
-      </Fab>
+      </Fab> */}
     </Box>
   );
 }

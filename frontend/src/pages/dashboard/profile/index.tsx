@@ -1,16 +1,57 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
-import { ProfileQR } from '../../../sections/@dashboard/user/profile';
+
+import useAuth from '../../../hooks/useAuth';
+import {
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Stack,
+  Typography,
+} from '@mui/material';
+import Iconify from '../../../components/Iconify';
 
 export default function Profile() {
+  const auth = useAuth();
+
   return (
-    <Box sx={{ pt: 5, pb: 100, maxWidth: 600, margin: '0 auto', background: 'white' }}>
+    <Box sx={{ pt: 5, pb: 100, maxWidth: 600, margin: '0 auto' }}>
+      <Stack direction="column" alignItems="center" sx={{ width: '100%' }}>
+        <Typography sx={{ mt: 1, textAlign: 'center' }} variant="h5">
+          {auth.user?.name}
+        </Typography>
+        <Typography
+          sx={{ mt: 1, transform: 'translateX(-2px)', textAlign: 'center', color: 'gray' }}
+          variant="subtitle1"
+        >
+          {`@${auth.user?.username}`}
+        </Typography>
+      </Stack>
+      <Box sx={{ bgcolor: 'background.paper', textAlign: 'left', mt: 3 }}>
+        <nav>
+          <List>
+            <ListItem>
+              <ListItemButton>
+                <ListItemIcon>
+                  <Iconify icon="eva:edit-outline" />
+                </ListItemIcon>
+                <ListItemText primary="Edit Profile" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton>
+                <ListItemIcon>
+                  <Iconify icon="eva:log-out-outline" />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </nav>
+      </Box>
     </Box>
   );
 }

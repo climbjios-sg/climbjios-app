@@ -23,6 +23,11 @@ export default function AuthGuard({ children }: AuthGuardProps) {
     }
   }, [auth]);
 
+  // Disable auth guard for mobile testing in dev
+  if (process.env.REACT_APP_DISABLE_AUTH_GUARD === 'true') {
+    return <>{children}</>
+  }
+
   // Step 1
   if (!auth.contextFinishedLoading) {
     return <LoadingScreen />;
