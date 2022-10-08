@@ -1,12 +1,13 @@
 import * as React from 'react';
 // @mui
-import { Container, BottomNavigation, BottomNavigationAction, Paper, Button } from '@mui/material';
+import { Container, BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 // components
 import Page from '../../components/Page';
 import { useLocation, Link, Routes, Route } from 'react-router-dom';
 import Iconify from '../../components/Iconify';
 import Jios from './jios';
 import useAuth from '../../hooks/useAuth';
+import Profile from './profile';
 
 interface BottomTab {
   path: string;
@@ -54,19 +55,20 @@ export default function MainApp() {
         label: 'Profile',
         icon: <Iconify icon={'eva:person-outline'} width={20} height={20} />,
         element: (
-          <>
-            <div>Profile</div>
-            {JSON.stringify(auth.user)}
-            <Button
-              onClick={() => {
-                auth.logout();
-              }}
-              variant="outlined"
-              fullWidth
-            >
-              Logout
-            </Button>
-          </>
+          <Profile />
+          // <>
+          //   <div>Profile</div>
+          //   {JSON.stringify(auth.user)}
+          //   <Button
+          //     onClick={() => {
+          //       auth.logout();
+          //     }}
+          //     variant="outlined"
+          //     fullWidth
+          //   >
+          //     Logout
+          //   </Button>
+          // </>
         ),
       },
     ],
