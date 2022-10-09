@@ -34,7 +34,11 @@ export default function Router() {
     },
     {
       path: 'login',
-      element: <Login />,
+      element: (
+        <AuthGuard>
+          <Login />
+        </AuthGuard>
+      ),
     },
 
     // Onboarding Routes
