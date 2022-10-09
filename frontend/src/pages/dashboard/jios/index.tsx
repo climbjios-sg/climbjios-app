@@ -13,6 +13,9 @@ import JiosForm, { JioFormValues } from './JiosForm';
 import { useDispatch, useSelector } from '../../../store';
 import { setJioFormValues } from '../../../store/reducers/jioFormValues';
 import { setDateTime } from '../../../utils/formatTime';
+import { createJio, updateJio } from 'src/services/jios';
+import { useRequest } from 'ahooks';
+import { useSnackbar } from 'notistack';
 
 const StyledTab = styled(Tab)({
   '&.MuiButtonBase-root': {
@@ -26,12 +29,39 @@ enum TabValue {
 }
 
 export default function Jios() {
-  const dispatch = useDispatch();
-  const jioFormValues = useSelector((state) => state.jioFormValues.data);
   const TABS: TabValue[] = [TabValue.Open, TabValue.MyJios];
-  const [tabValue, setTabValue] = useState<TabValue>(TabValue.Open);
+
+  const dispatch = useDispatch();
   const refresh = useRefresh();
   const navigate = useNavigate();
+  const [tabValue, setTabValue] = useState<TabValue>(TabValue.Open);
+  const { enqueueSnackbar } = useSnackbar();
+  const jioFormValues = useSelector((state) => state.jioFormValues.data);
+
+  const { run: submitCreateJio } = useRequest(createJio, {
+    manual: true,
+    onSuccess: () => {
+      enqueueSnackbar('Created!');
+      refresh();
+      navigate('');
+    },
+    onError: (error) => {
+      // TODO: error snack bar?
+      // TODO: handle FE validation checks
+      enqueueSnackbar('Failed to create', { variant: 'error' });
+    },
+  });
+  const { run: submitUpdateJio } = useRequest(updateJio, {
+    manual: true,
+    onSuccess: () => {
+      enqueueSnackbar('Updated!');
+      refresh();
+      navigate('');
+    },
+    onError: () => {
+      enqueueSnackbar('Failed to update', { variant: 'error' });
+    },
+  });
 
   const handleRefresh = () => {
     refresh();
@@ -47,24 +77,26 @@ export default function Jios() {
   };
 
   const handleCreate = async (data: JioFormValues) => {
-    console.log(data);
+    submitCreateJio(data);
   };
 
   const handleEdit = async (data: JioFormValues) => {
-    console.log(data);
+    // FIXME: replace dummy id
+    submitUpdateJio(data, 0);
+    // navigate('');
   };
 
   const getStartDateTimeString = () => {
-    if (jioFormValues?.date && jioFormValues?.startTiming) {
-      return setDateTime(jioFormValues.date, jioFormValues.startTiming).toISOString();
+    if (jioFormValues?.date && jioFormValues?.startDateTime) {
+      return setDateTime(jioFormValues.date, jioFormValues.startDateTime).toISOString();
     }
 
     return undefined;
   };
 
   const getEndDateTimeString = () => {
-    if (jioFormValues?.date && jioFormValues?.endTiming) {
-      return setDateTime(jioFormValues.date, jioFormValues.endTiming).toISOString();
+    if (jioFormValues?.date && jioFormValues?.endDateTime) {
+      return setDateTime(jioFormValues.date, jioFormValues.endDateTime).toISOString();
     }
 
     return undefined;
