@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useCallback } from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo, useState } from 'react';
@@ -67,14 +68,14 @@ export default function JiosForm({
   const { enqueueSnackbar } = useSnackbar();
   const [gyms, setGyms] = useState([]);
 
-  const fetchGyms = async () => {
+  const fetchGyms = useCallback(async () => {
     try {
       const { data } = await authorizedAxios.get(BE_API.gyms);
       setGyms(data);
     } catch (err) {
       enqueueSnackbar('Failed to fetch gyms');
     }
-  };
+  }, [enqueueSnackbar]);
 
   const NewJioSchema = Yup.object().shape({
     type: Yup.string().required('Looking to buy or sell passes is required'),
@@ -108,13 +109,11 @@ export default function JiosForm({
 
   const { handleSubmit, setError, watch } = methods;
 
-  
   const submitForm = async (data: JioFormValues) => {
     if (data.startTiming >= data.endTiming) {
       setError('startTiming', { type: 'custom', message: 'Start time must be before end time' });
       return;
     }
-
 
     try {
       await onSubmit(data);
@@ -122,7 +121,7 @@ export default function JiosForm({
       enqueueSnackbar('Failed to submit form');
     }
   };
-  
+
   if (process.env.REACT_APP_DEBUG_FORM === 'true') {
     const formData = watch();
     console.log(formData);
@@ -130,7 +129,7 @@ export default function JiosForm({
 
   useEffect(() => {
     fetchGyms();
-  }, []);
+  }, [fetchGyms]);
 
   return (
     <Box
