@@ -7,11 +7,11 @@ interface State {
 }
 
 const initialState: State = {
-  data: null
+  data: null,
 };
 
 const slice = createSlice({
-  name: 'ui',
+  name: 'jioFormValues',
   initialState,
   reducers: {
     setJioFormValues(state, action) {
