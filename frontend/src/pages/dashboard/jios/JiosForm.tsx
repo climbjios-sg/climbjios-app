@@ -20,11 +20,10 @@ import { useForm } from 'react-hook-form';
 import { Jio } from '../../../@types/jio';
 import { Gym } from '../../../@types/gym';
 // dayjs
-//
-import authorizedAxios from 'src/utils/authorizedAxios';
-import { BE_API } from 'src/utils/api';
+import { getGymList } from 'src/services';
 import { useSnackbar } from 'notistack';
 import { LoadingButton } from '@mui/lab';
+import { useRequest } from 'ahooks';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +32,17 @@ const JIOTYPE_OPTION = [
   { label: "I'm selling", value: 'seller' },
   { label: 'None, just looking for friends to climb with', value: 'other' },
 ];
+
+const NewJioSchema = Yup.object().shape({
+  type: Yup.string().required('Looking to buy or sell passes is required'),
+  numPasses: Yup.number().required('Number of passes is required').positive().integer(),
+  price: Yup.number().positive('Price must be more than $0').optional(),
+  gymId: Yup.number().required('Gym is required').positive().integer(),
+  date: Yup.date().required('Date is required'),
+  startTiming: Yup.string().required('Start timing is required'),
+  endTiming: Yup.string().required('End timing is required'),
+  openToClimbTogether: Yup.boolean().required(),
+});
 
 // ----------------------------------------------------------------------
 
@@ -66,29 +76,13 @@ export default function JiosForm({
   submitLabel,
 }: Props) {
   const { enqueueSnackbar } = useSnackbar();
-  const [gyms, setGyms] = useState([]);
-
-  const fetchGyms = useCallback(async () => {
-    try {
-      const { data } = await authorizedAxios.get(BE_API.gyms);
-      setGyms(data);
-    } catch (err) {
+  const { data: gymsData, loading: loadingGyms } = useRequest(getGymList, {
+    onError: () => {
       enqueueSnackbar('Failed to fetch gyms');
-    }
-  }, [enqueueSnackbar]);
-
-  const NewJioSchema = Yup.object().shape({
-    type: Yup.string().required('Looking to buy or sell passes is required'),
-    numPasses: Yup.number().required('Number of passes is required').positive().integer(),
-    price: Yup.number().positive('Price must be more than $0').optional(),
-    gymId: Yup.number().required('Gym is required').positive().integer(),
-    date: Yup.date().required('Date is required'),
-    startTiming: Yup.string().required('Start timing is required'),
-    endTiming: Yup.string().required('End timing is required'),
-    openToClimbTogether: Yup.boolean().required(),
+    },
   });
 
-  const startingFormValues = useMemo(
+  const initialFormValues = useMemo(
     () => ({
       type: currentJio?.type, // Change to enum
       numPasses: currentJio?.numPasses || 1,
@@ -104,7 +98,7 @@ export default function JiosForm({
 
   const methods = useForm<JioFormValues>({
     resolver: yupResolver(NewJioSchema),
-    defaultValues: startingFormValues,
+    defaultValues: initialFormValues,
   });
 
   const { handleSubmit, setError, watch } = methods;
@@ -126,10 +120,6 @@ export default function JiosForm({
     const formData = watch();
     console.log(formData);
   }
-
-  useEffect(() => {
-    fetchGyms();
-  }, [fetchGyms]);
 
   return (
     <Box
@@ -193,11 +183,13 @@ export default function JiosForm({
           >
             {/* Disabled Option for first option to not auto-render */}
             <option value="" disabled />
-            {gyms.map((gym: Gym) => (
-              <option key={gym.id} value={gym.id}>
-                {gym.name}
-              </option>
-            ))}
+            {loadingGyms
+              ? []
+              : gymsData?.data.map((gym: Gym) => (
+                  <option key={gym.id} value={gym.id}>
+                    {gym.name}
+                  </option>
+                ))}
           </RHFSelect>
 
           <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
