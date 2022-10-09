@@ -1,4 +1,4 @@
-import { Jio } from '../../../../@types/jio';
+import { Jio } from 'src/@types/jio';
 
 export function getPassesText(data: Jio) {
   if (data.type === 'seller') {

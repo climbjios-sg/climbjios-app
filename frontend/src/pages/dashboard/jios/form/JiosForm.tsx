@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo, useState } from 'react';
 // @mui
 import { Box, Typography, Stack, InputAdornment } from '@mui/material';
 // components
@@ -19,12 +19,10 @@ import { useForm } from 'react-hook-form';
 import { Jio } from '../../../../@types/jio';
 import { Gym } from '../../../../@types/gym';
 // dayjs
-//
-import authorizedAxios from 'src/utils/authorizedAxios';
-import { BE_API } from 'src/utils/api';
 import { useSnackbar } from 'notistack';
 import { LoadingButton } from '@mui/lab';
 import { useSelector } from '../../../../store';
+import { setDateTime } from '../../../../utils/formatTime';
 
 // ----------------------------------------------------------------------
 
@@ -59,27 +57,29 @@ type Props = {
 };
 
 export default function JiosForm({
+  onSubmit,
   defaultValues: currentJio,
   isSearch,
-  onSubmit,
   submitIcon,
   submitLabel,
 }: Props) {
   const { enqueueSnackbar } = useSnackbar();
-  const gyms = useSelector(state => state.gyms.data);
+  const gyms = useSelector((state) => state.gyms.data);
 
   const NewJioSchema = Yup.object().shape({
     type: Yup.string().required('Looking to buy or sell passes is required'),
     numPasses: Yup.number().required('Number of passes is required').positive().integer(),
-    price: Yup.number().positive('Price must be more than $0').optional(),
+    price: isSearch
+      ? Yup.number().optional()
+      : Yup.number().positive('Price must be more than $0').required(),
     gymId: Yup.number().required('Gym is required').positive().integer(),
     date: Yup.date().required('Date is required'),
     startTiming: Yup.string().required('Start timing is required'),
     endTiming: Yup.string().required('End timing is required'),
-    openToClimbTogether: Yup.boolean().required(),
+    openToClimbTogether: Yup.boolean().required(''),
   });
 
-  const startingFormValues = useMemo(
+  const initialFormValues = useMemo(
     () => ({
       type: currentJio?.type, // Change to enum
       numPasses: currentJio?.numPasses || 1,
@@ -95,26 +95,30 @@ export default function JiosForm({
 
   const methods = useForm<JioFormValues>({
     resolver: yupResolver(NewJioSchema),
-    defaultValues: startingFormValues,
+    defaultValues: initialFormValues,
   });
 
   const { handleSubmit, setError, watch } = methods;
 
-  
   const submitForm = async (data: JioFormValues) => {
+    // data.endTiming > format(new Date, 'HH:MM')
     if (data.startTiming >= data.endTiming) {
       setError('startTiming', { type: 'custom', message: 'Start time must be before end time' });
       return;
     }
 
+    if (setDateTime(data.date, data.startTiming) < new Date()) {
+      setError('startTiming', { type: 'custom', message: 'Start date and time after current time' });
+      return;
+    }
 
     try {
       await onSubmit(data);
     } catch (error) {
-      enqueueSnackbar('Failed to submit form');
+      enqueueSnackbar('Failed to submit form', { variant: 'error' });
     }
   };
-  
+
   if (process.env.REACT_APP_DEBUG_FORM === 'true') {
     const formData = watch();
     console.log(formData);

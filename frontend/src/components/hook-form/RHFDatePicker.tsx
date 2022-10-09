@@ -25,6 +25,7 @@ export default function RHFDatePicker({ name, label }: Props) {
       render={({ field, fieldState: { error } }) => (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
+            minDate={new Date()}
             label={label}
             value={field.value}
             onChange={(newValue) => {

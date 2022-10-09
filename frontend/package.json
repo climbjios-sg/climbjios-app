@@ -60,6 +60,7 @@
     "@sentry/react": "^7.14.1",
     "@sentry/tracing": "^7.14.1",
     "@turf/bbox": "^6.5.0",
+    "ahooks": "^3.7.1",
     "amazon-cognito-identity-js": "^5.2.9",
     "apexcharts": "^3.35.3",
     "assert": "^2.0.0",

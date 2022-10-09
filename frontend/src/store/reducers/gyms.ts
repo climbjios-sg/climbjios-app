@@ -1,6 +1,5 @@
-import { BE_API } from '../../utils/api';
+import { getGymList } from 'src/services/gyms';
 import { Gym } from '../../@types/gym';
-import authorizedAxios from '../../utils/authorizedAxios';
 import { AxiosResponse } from 'axios';
 import { dispatch } from '..';
 import { createSlice } from '@reduxjs/toolkit';
@@ -40,7 +39,7 @@ export function listGyms() {
   return async () => {
     dispatch(slice.actions.request());
     try {
-      const response: AxiosResponse = await authorizedAxios.get<Gym[]>(BE_API.gyms);
+      const response: AxiosResponse = await getGymList();
       const collections: Gym[] = response.data;
       dispatch(slice.actions.success(collections));
     } catch (err) {

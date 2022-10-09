@@ -1,17 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import Iconify from '../../../../components/Iconify';
+import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { useDispatch, useSelector } from '../../../../store';
 import { setJioSearchForm } from '../../../../store/reducers/jioSearchForm';
 import JiosForm, { JioFormValues } from '../form/JiosForm';
 
-export default function SearchJios() {
+export default function JiosSearch() {
   const dispatch = useDispatch();
   const jioFormValues = useSelector((state) => state.jioSearchForm.data);
   const navigate = useNavigate();
 
   const handleSearch = async (data: JioFormValues) => {
     dispatch(setJioSearchForm(data));
-    navigate('/dashboard/jios');
+    navigate(PATH_DASHBOARD.general.jios.root);
   };
 
   return (

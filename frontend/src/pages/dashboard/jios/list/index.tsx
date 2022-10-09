@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import { TabContext, TabPanel } from '@mui/lab';
-import { Tab, Button, Typography, Grid, Tabs, Box, Paper, IconButton, Chip } from '@mui/material';
+import { Tab, Button, Typography, Grid, Tabs, Box, IconButton, Chip } from '@mui/material';
 import { useNavigate } from 'react-router';
 import Iconify from '../../../../components/Iconify';
 import useRefresh from '../../../../hooks/useRefresh';
-import { formatPrettyDate, setDateTime } from '../../../../utils/formatTime';
+import { formatPrettyDate } from '../../../../utils/formatTime';
 import JioCardList from './allJios/JioCardList';
 import MyJioCardList from './myJios/MyJioCardList';
 import { useDispatch, useSelector } from '../../../../store';
@@ -38,22 +38,6 @@ export default function JiosTabs() {
 
   const onClickSearch = () => {
     navigate('search');
-  };
-
-  const getStartDateTimeString = () => {
-    if (jioSearchValues?.date && jioSearchValues?.startTiming) {
-      return setDateTime(jioSearchValues.date, jioSearchValues.startTiming).toISOString();
-    }
-
-    return undefined;
-  };
-
-  const getEndDateTimeString = () => {
-    if (jioSearchValues?.date && jioSearchValues?.endTiming) {
-      return setDateTime(jioSearchValues.date, jioSearchValues.endTiming).toISOString();
-    }
-
-    return undefined;
   };
 
   // Show button with filter if is searching, else show search button
@@ -89,10 +73,11 @@ export default function JiosTabs() {
               right: 4,
               width: 40,
               background: 'white',
-              borderRadius: 0
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
             }}
             onClick={() => {
-              dispatch(clearJioSearchForm())
+              dispatch(clearJioSearchForm());
             }}
           >
             <Iconify icon="eva:close-outline" />
@@ -148,15 +133,7 @@ export default function JiosTabs() {
         </Grid>
         {/* Open Jios Tab */}
         <TabPanel value={TabValue.Open}>
-          <JioCardList
-            searchParams={{
-              type: jioSearchValues?.type,
-              numPasses: jioSearchValues?.numPasses,
-              gymId: jioSearchValues?.gymId,
-              startDateTime: getStartDateTimeString(),
-              endDateTime: getEndDateTimeString(),
-            }}
-          />
+          <JioCardList />
         </TabPanel>
         {/* My Jios Tab */}
         <TabPanel value={TabValue.MyJios}>

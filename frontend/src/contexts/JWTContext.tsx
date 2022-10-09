@@ -1,10 +1,10 @@
-import { createContext, ReactNode, useEffect, useReducer } from 'react';
+import { createContext, ReactNode, useEffect, useReducer, useCallback } from 'react';
 // utils
 import { ACCESS_TOKEN, endSession, getSessionFromStorage, REFRESH_TOKEN, USER } from '../utils/jwt';
 // @types
 import { ActionMap, AuthState, JWTContextType } from '../@types/auth';
 import { ApiUser, User } from '../@types/user';
-import { BE_API, apiUserToUser, userToApiUser } from '../utils/api';
+import { BE_API, apiUserToUser } from '../utils/api';
 import authorizedAxios from '../utils/authorizedAxios';
 
 // ----------------------------------------------------------------------
@@ -154,7 +154,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     const returnedUser: User | null = await fetchUserDataFromBE();
     if (returnedUser) {
       dispatch({ type: Types.LoginWithUserData, payload: { user: returnedUser } });
-      return
+      return;
     }
 
     //BE returned null for whatever reason. user is still considered to be not logged in.

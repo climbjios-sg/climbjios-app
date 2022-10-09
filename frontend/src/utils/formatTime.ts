@@ -1,5 +1,3 @@
-// ----------------------------------------------------------------------
-
 import { addHours, format } from 'date-fns';
 
 export function utcDateToLocaleDate(date: Date): Date {
@@ -19,6 +17,10 @@ export function setDateTime(date: Date, time: string): Date {
   newDate.setHours(+hour);
   newDate.setMinutes(+minute);
   return newDate;
+}
+
+export function getDateTimeString(date: Date, time: string): string {
+  return setDateTime(date, time).toISOString();
 }
 
 // formatStartEndDate takes a start and end date ISO string, and converts it into a string display in UI
@@ -49,4 +51,11 @@ export function isStartTimeEarlier(startDate: Date, endDate: Date): boolean {
 // returns 12 Dec, 09:00-21:00
 export function formatPrettyDate(date: Date, startTime: string, endTime: string): string {
   return `${format(date, 'd MMM')}, ${startTime}-${endTime}`;
+}
+
+// e.g.
+// date = Date(12 Dec, 09:00)
+// returns 09:00
+export function dateToTimeString(date: Date): string {
+  return format(date, 'hh:mm');
 }

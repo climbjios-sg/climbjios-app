@@ -1,20 +1,20 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { Grid, Button } from '@mui/material';
-import { listJios, ListJiosArgs } from '../../../../../store/reducers/jios';
-import { useDispatch, useSelector } from '../../../../../store';
 import useVersion from 'src/hooks/useVersion';
 import JioCard from './JioCard';
 import JioCardSkeleton from '../JioCardSkeleton';
-import EmptyContent from '../../../../../components/EmptyContent';
+import EmptyJiosContent from '../EmptyJiosContent';
+import EmptyContent from 'src/components/EmptyContent';
+import { useDispatch, useSelector } from 'src/store';
+import { listJios, ListJiosArgs } from 'src/store/reducers/jios';
+import { getDateTimeString } from 'src/utils/formatTime';
 
-interface JioCardListProps {
-  searchParams: ListJiosArgs;
-}
-
-export default function JioCardList({ searchParams }: JioCardListProps) {
+export default function JioCardList() {
   const dispatch = useDispatch();
   const version = useVersion();
+  const jioSearchValues = useSelector((state) => state.jioSearchForm.data);
+
   const { data, error, loading } = useSelector((state) => state.jios);
   const displayedData = React.useMemo(() => {
     if (error) {
@@ -37,18 +37,7 @@ export default function JioCardList({ searchParams }: JioCardListProps) {
     }
 
     if (data.length === 0) {
-      return (
-        <Grid sx={{ width: '100%', mt: 2 }} item>
-          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-            <EmptyContent
-              sx={{ py: 3 }}
-              title="There's no Jios now."
-              description="Create a Jio and it will show up here."
-            />
-            <Button variant="contained">Create a Jio</Button>
-          </div>
-        </Grid>
-      );
+      return <EmptyJiosContent />;
     }
 
     return data.map((jio) => (
@@ -59,8 +48,23 @@ export default function JioCardList({ searchParams }: JioCardListProps) {
   }, [data, error, loading]);
 
   useEffect(() => {
+    if (!jioSearchValues) {
+      dispatch(listJios({}));
+      return;
+    }
+
+    const { date, startTiming, endTiming, type, numPasses, gymId } = jioSearchValues;
+
+    const searchParams: ListJiosArgs = {
+      type: type,
+      numPasses: numPasses,
+      gymId: gymId,
+      startDateTime: getDateTimeString(date, startTiming),
+      endDateTime: getDateTimeString(date, endTiming),
+    };
+
     dispatch(listJios(searchParams));
-  }, [version, dispatch, searchParams]);
+  }, [version, dispatch, jioSearchValues]);
 
   return (
     <Grid container>

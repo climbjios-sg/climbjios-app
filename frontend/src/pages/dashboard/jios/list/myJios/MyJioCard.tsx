@@ -1,16 +1,19 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { Button, Card, CardHeader, Stack, Typography } from '@mui/material';
-import Iconify from '../../../../../components/Iconify';
-import { IconStyle } from '../../../../../sections/@dashboard/user/profile/common';
-import { Jio } from '../../../../../@types/jio';
-import palette from '../../../../../theme/palette';
-import { formatStartEndDate } from '../../../../../utils/formatTime';
+import Iconify from 'src/components/Iconify';
+import { IconStyle } from 'src/sections/@dashboard/user/profile/common';
+import { Jio } from 'src/@types/jio';
+import palette from 'src/theme/palette';
+import { formatStartEndDate } from 'src/utils/formatTime';
 import { getPassesText } from '../utils';
 import CloseMyJioDialog from './CloseMyJioDialog';
 import { useSnackbar } from 'notistack';
-import { closeMyJio } from 'src/store/reducers/myJios';
 import useRefresh from 'src/hooks/useRefresh';
-import { useDispatch } from 'src/store';
+import { closeMyJio } from 'src/services/myJios';
+import { useRequest } from 'ahooks';
+import { PATH_DASHBOARD } from 'src/routes/paths';
+import { Link } from 'react-router-dom';
 
 interface MyJioCardProps {
   data: Jio;
@@ -19,8 +22,14 @@ interface MyJioCardProps {
 export default function MyJioCard({ data }: MyJioCardProps) {
   const { enqueueSnackbar } = useSnackbar();
   const refresh = useRefresh();
-  const dispatch = useDispatch();
-  const [isCloseDialogOpen, setIsCloseDialogOpen] = React.useState(false);
+  const [isCloseDialogOpen, setIsCloseDialogOpen] = useState(false);
+  const { run: submitCloseMyJio } = useRequest(closeMyJio, {
+    manual: true,
+    onSuccess: () => {
+      enqueueSnackbar('Closed!');
+      refresh();
+    },
+  });
 
   const handleClose = () => {
     setIsCloseDialogOpen(true);
@@ -30,16 +39,9 @@ export default function MyJioCard({ data }: MyJioCardProps) {
     setIsCloseDialogOpen(false);
   };
 
-  const handleDialogClose = async () => {
+  const handleDialogClose = () => {
     setIsCloseDialogOpen(false);
-    await dispatch(
-      closeMyJio(data.id, {
-        onSuccess: () => {
-          enqueueSnackbar('Closed!');
-        },
-      })
-    );
-    refresh();
+    submitCloseMyJio(data.id);
   };
 
   return (
@@ -73,7 +75,12 @@ export default function MyJioCard({ data }: MyJioCardProps) {
           </Stack>
         )}
         <Stack direction="row" spacing={1.5}>
-          <Button fullWidth startIcon={<Iconify icon={'eva:edit-fill'} />} onClick={() => {}}>
+          <Button
+            component={Link}
+            to={`${PATH_DASHBOARD.general.jios.edit}/${data.id}`}
+            fullWidth
+            startIcon={<Iconify icon={'eva:edit-fill'} />}
+          >
             Edit
           </Button>
           <Button

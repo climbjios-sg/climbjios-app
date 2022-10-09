@@ -6,7 +6,7 @@ import Page from '../../components/Page';
 import { useLocation, Link, useRoutes, Navigate } from 'react-router-dom';
 import Iconify from '../../components/Iconify';
 import Profile from './profile';
-import Jios from './jios/JiosRouter';
+import Jios from './jios';
 import { listGyms } from '../../store/reducers/gyms';
 import { useDispatch } from '../../store';
 
@@ -65,7 +65,7 @@ const MainAppRouter = () =>
       path: tab.path,
       element: tab.element,
     })),
-    { path: '', element: <Navigate to="jios" replace /> },
+    { path: '*', element: <Navigate to="jios" replace /> },
   ]);
 
 export default function MainApp() {

@@ -76,11 +76,11 @@ export default function Router() {
       path: 'profile',
       element: <UserPublicProfile />,
     },
-    { path: '*', element: <Navigate to="/404" replace /> },
     {
       path: '404',
       element: <Page404 />,
     },
+    { path: '*', element: <Navigate to="/404" replace /> },
   ]);
 }
 

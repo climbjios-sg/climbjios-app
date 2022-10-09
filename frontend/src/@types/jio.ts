@@ -1,7 +1,7 @@
 import { Gym } from './gym';
 import { User } from './user';
 
-// Jio represents a jio request
+// Jio represents a jio response
 export interface Jio {
   id: number;
   type: 'seller' | 'buyer' | 'other';
@@ -18,3 +18,15 @@ export interface Jio {
   user: User;
   gym: Gym;
 }
+
+export type RequestJio = Pick<
+  Jio,
+  | 'type'
+  | 'numPasses'
+  | 'price'
+  | 'gymId'
+  | 'startDateTime'
+  | 'endDateTime'
+  | 'openToClimbTogether'
+  | 'optionalNote'
+>;

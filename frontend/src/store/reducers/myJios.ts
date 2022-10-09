@@ -19,12 +19,12 @@ const initialState: State = {
 
 interface Options {
   onSuccess?: () => void;
-  onFailure?: () => void;
+  onError?: () => void;
 }
 
 const defaultOptions: Options = {
   onSuccess: () => {},
-  onFailure: () => {},
+  onError: () => {},
 };
 
 const slice = createSlice({
@@ -66,34 +66,17 @@ const slice = createSlice({
 });
 
 export function listMyJios(options = defaultOptions) {
-  const { onSuccess, onFailure } = options;
+  const { onSuccess, onError } = options;
   return async () => {
     dispatch(slice.actions.request());
     try {
-      const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.posts.create);
+      const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.posts.root);
       const collections: Jio[] = response.data;
       dispatch(slice.actions.list(collections));
       onSuccess?.();
     } catch (err) {
       dispatch(slice.actions.failure(err));
-      onFailure?.();
-    }
-  };
-}
-
-export function closeMyJio(id: number, options = defaultOptions) {
-  const { onSuccess, onFailure } = options;
-  return async () => {
-    try {
-      const response = await authorizedAxios.patch<Jio>(`${BE_API.posts.create}/${id}`, {
-        isClosed: true,
-      });
-      const updatedJioData = response.data;
-      dispatch(slice.actions.update(updatedJioData));
-      onSuccess?.();
-    } catch (err) {
-      dispatch(slice.actions.failure(err));
-      onFailure?.();
+      onError?.();
     }
   };
 }
