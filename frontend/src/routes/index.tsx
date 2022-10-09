@@ -44,6 +44,7 @@ export default function Router() {
     // Onboarding Routes
     {
       path: 'onboarding',
+      element: <Navigate to={PATH_ONBOARDING.newuser} replace />,
       children: [
         {
           path: 'newuser',
@@ -73,10 +74,6 @@ export default function Router() {
           <MainApp />
         </AuthGuard>
       ),
-    },
-    {
-      path: 'profile',
-      element: <UserPublicProfile />,
     },
     { path: '*', element: <Navigate to="/404" replace /> },
     {

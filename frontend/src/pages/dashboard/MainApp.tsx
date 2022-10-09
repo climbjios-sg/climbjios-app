@@ -52,7 +52,7 @@ export default function MainApp() {
         element: <Jios />,
       },
       {
-        path: 'profile',
+        path: 'profile/*',
         to: 'profile',
         label: 'Profile',
         icon: <Iconify icon={'eva:person-outline'} width={20} height={20} />,
@@ -69,7 +69,6 @@ export default function MainApp() {
         element: tab.element,
       }))
     );
-
 
   return (
     <Page title="ClimbJios - The social network for climbers." sx={{ background: '#fafafa' }}>
