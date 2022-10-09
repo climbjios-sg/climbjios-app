@@ -7,6 +7,7 @@ import useVersion from 'src/hooks/useVersion';
 import JioCard from './JioCard';
 import JioCardSkeleton from './JioCardSkeleton';
 import EmptyContent from '../../../components/EmptyContent';
+import EmptyJiosContent from './EmptyJiosContent';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { Link } from 'react-router-dom';
 
@@ -39,20 +40,7 @@ export default function JioCardList({ searchParams }: JioCardListProps) {
     }
 
     if (data.length === 0) {
-      return (
-        <Grid sx={{ width: '100%', mt: 2 }} item>
-          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-            <EmptyContent
-              sx={{ py: 3 }}
-              title="There's no Jios now."
-              description="Create a Jio and it will show up here."
-            />
-            <Button component={Link} to={PATH_DASHBOARD.general.jios.create} variant="contained">
-              Create a Jio
-            </Button>
-          </div>
-        </Grid>
-      );
+      return <EmptyJiosContent />;
     }
 
     return data.map((jio) => (

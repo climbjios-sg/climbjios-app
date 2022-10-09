@@ -5,6 +5,7 @@ import { listMyJios } from '../../../store/reducers/myJios';
 import { useDispatch, useSelector } from '../../../store';
 import MyJioCard from './MyJioCard';
 import JioCardSkeleton from './JioCardSkeleton';
+import EmptyJiosContent from './EmptyJiosContent';
 import EmptyContent from '../../../components/EmptyContent';
 import useVersion from 'src/hooks/useVersion';
 
@@ -34,18 +35,7 @@ export default function MyJioCardList() {
     }
 
     if (myJiosData.length === 0) {
-      return (
-        <Grid sx={{ width: '100%', mt: 2 }} item>
-          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-            <EmptyContent
-              sx={{ py: 3 }}
-              title="You have no Jios."
-              description="Create a Jio and it will show up here."
-            />
-            <Button variant="contained">Create a Jio</Button>
-          </div>
-        </Grid>
-      );
+      return <EmptyJiosContent />;
     }
 
     return myJiosData.map((jio) => (
