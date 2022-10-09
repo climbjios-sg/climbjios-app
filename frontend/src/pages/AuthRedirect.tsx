@@ -45,15 +45,14 @@ export default function AuthRedirect({ children }: AuthRedirectProps) {
 
     if (!auth.contextFinishedLoading) {
       auth.loginFromSession();
-      return
     }
     /* eslint-disable no-restricted-globals */
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
-    // if (!auth.isLoggedIn) {
-    //   navigate(PATH_AUTH.root);
-    //   return;
-    // }
+    if (!auth.isLoggedIn) {
+      navigate(PATH_AUTH.root);
+      return;
+    }
 
     if (!auth.hasUserData()) {
       // console.log(`Redirected by AuthRedirect`);

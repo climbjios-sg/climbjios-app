@@ -23,13 +23,12 @@ export default function AuthGuard({ children }: AuthGuardProps) {
     }
     if (!auth.contextFinishedLoading) {
       auth.loginFromSession();
-      return
     }
 
-    // if (!auth.isLoggedIn) {
-    //   navigate(PATH_AUTH.root);
-    //   return;
-    // }
+    if (!auth.isLoggedIn) {
+      navigate(PATH_AUTH.root);
+      return;
+    }
 
     if (!auth.hasUserData()) {
       // console.log(`Redirected by AuthGuard`);

@@ -124,8 +124,8 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   // Gets user data from localStorage, set to context and session
   const loginFromSession = () => {
-    // If user data already exists, there is no need to login.
-    if (hasUserData()) {
+    // If user is already present, there is no need to login.
+    if (!!state.user) {
       dispatch({ type: Types.FinishedLoading });
       return;
     }
