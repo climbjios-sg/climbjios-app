@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Button, Grid, Tab, Tabs, Typography } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
@@ -26,9 +27,9 @@ enum TabValue {
 
 export default function Jios() {
   const dispatch = useDispatch();
-  const jioFormValues = useSelector(state => state.jioFormValues.data)
+  const jioFormValues = useSelector((state) => state.jioFormValues.data);
   const TABS: TabValue[] = [TabValue.Open, TabValue.MyJios];
-  const [tabValue, setTabValue] = React.useState<TabValue>(TabValue.Open);
+  const [tabValue, setTabValue] = useState<TabValue>(TabValue.Open);
   const refresh = useRefresh();
   const navigate = useNavigate();
 
@@ -41,34 +42,33 @@ export default function Jios() {
   };
 
   const handleSearch = async (data: JioFormValues) => {
-    dispatch(setJioFormValues(data))
+    dispatch(setJioFormValues(data));
     navigate('');
   };
 
   const handleCreate = async (data: JioFormValues) => {
-    console.log(data)
+    console.log(data);
   };
 
   const handleEdit = async (data: JioFormValues) => {
-    console.log(data)
+    console.log(data);
   };
 
   const getStartDateTimeString = () => {
     if (jioFormValues?.date && jioFormValues?.startTiming) {
-      return setDateTime(jioFormValues.date, jioFormValues.startTiming).toISOString()
+      return setDateTime(jioFormValues.date, jioFormValues.startTiming).toISOString();
     }
 
     return undefined;
-  }
+  };
 
   const getEndDateTimeString = () => {
     if (jioFormValues?.date && jioFormValues?.endTiming) {
-      return setDateTime(jioFormValues.date, jioFormValues.endTiming).toISOString()
+      return setDateTime(jioFormValues.date, jioFormValues.endTiming).toISOString();
     }
 
     return undefined;
-  }
-
+  };
 
   return (
     <Routes>
@@ -143,13 +143,15 @@ export default function Jios() {
               </Grid>
               {/* Open Jios Tab */}
               <TabPanel value={TabValue.Open}>
-                <JioCardList searchParams={{
-                  type: jioFormValues?.type,
-                  numPasses: jioFormValues?.numPasses,
-                  gymId: jioFormValues?.gymId,
-                  startDateTime: getStartDateTimeString(),
-                  endDateTime: getEndDateTimeString(),
-                }} />
+                <JioCardList
+                  searchParams={{
+                    type: jioFormValues?.type,
+                    numPasses: jioFormValues?.numPasses,
+                    gymId: jioFormValues?.gymId,
+                    startDateTime: getStartDateTimeString(),
+                    endDateTime: getEndDateTimeString(),
+                  }}
+                />
               </TabPanel>
               {/* My Jios Tab */}
               <TabPanel value={TabValue.MyJios}>
