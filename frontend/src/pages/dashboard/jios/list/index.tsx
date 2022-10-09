@@ -23,7 +23,7 @@ enum TabValue {
   MyJios = 'My Jios',
 }
 
-export default function JiosTabs() {
+export default function JiosList() {
   const gyms = useSelector((state) => state.gyms.data);
   const jioSearchValues = useSelector((state) => state.jioSearchForm.data);
   const TABS: TabValue[] = [TabValue.Open, TabValue.MyJios];
@@ -59,6 +59,7 @@ export default function JiosTabs() {
             background: 'white',
             boxShadow: customShadows.light.card,
             border: '1px solid rgba(145, 158, 171, 0.24)',
+            overflow: 'hidden',
           }}
           variant="outlined"
           size="large"
@@ -70,8 +71,9 @@ export default function JiosTabs() {
           <IconButton
             sx={{
               position: 'absolute',
-              right: 4,
-              width: 40,
+              right: 0,
+              width: 50,
+              height: 50,
               background: 'white',
               borderTopLeftRadius: 0,
               borderBottomLeftRadius: 0,

@@ -6,19 +6,21 @@ import { useSnackbar } from 'notistack';
 import { createJio } from 'src/services/jios';
 import { jioFormValuesToRequestJio } from '../form/utils';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
-import { useDispatch } from '../../../../store';
+import { useDispatch, useSelector } from '../../../../store';
 import { clearJioSearchForm } from '../../../../store/reducers/jioSearchForm';
 
 export default function JiosCreate() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // Auto-populate default create values from search JioSearchForm
+  const jioSearchValues = useSelector((state) => state.jioSearchForm.data);
 
   const { run: submitCreateJio } = useRequest(createJio, {
     manual: true,
     onSuccess: () => {
       enqueueSnackbar('Created!');
-      dispatch(clearJioSearchForm)
+      dispatch(clearJioSearchForm());
       navigate(PATH_DASHBOARD.general.jios.root);
     },
     onError: (error) => {
@@ -32,6 +34,7 @@ export default function JiosCreate() {
 
   return (
     <JiosForm
+      defaultValues={jioSearchValues || undefined}
       onSubmit={handleCreate}
       submitLabel="Submit"
       submitIcon={<Iconify icon={'eva:add-outline'} width={24} height={24} />}

@@ -76,7 +76,7 @@ export default function JiosForm({
     date: Yup.date().required('Date is required'),
     startTiming: Yup.string().required('Start timing is required'),
     endTiming: Yup.string().required('End timing is required'),
-    openToClimbTogether: Yup.boolean().required(''),
+    openToClimbTogether: Yup.boolean().required('This option is required'),
   });
 
   const initialFormValues = useMemo(
@@ -98,17 +98,21 @@ export default function JiosForm({
     defaultValues: initialFormValues,
   });
 
-  const { handleSubmit, setError, watch } = methods;
+  const { handleSubmit, setError } = methods;
 
   const submitForm = async (data: JioFormValues) => {
-    // data.endTiming > format(new Date, 'HH:MM')
+    // TODO: Fix custom validation to run together with Yup validation
+    // Currently yup side validates first, then we have to click submit again for our custom validation to run
     if (data.startTiming >= data.endTiming) {
       setError('startTiming', { type: 'custom', message: 'Start time must be before end time' });
       return;
     }
 
     if (setDateTime(data.date, data.startTiming) < new Date()) {
-      setError('startTiming', { type: 'custom', message: 'Start date and time after current time' });
+      setError('startTiming', {
+        type: 'custom',
+        message: 'Start date and time must be after current time',
+      });
       return;
     }
 
@@ -118,11 +122,6 @@ export default function JiosForm({
       enqueueSnackbar('Failed to submit form', { variant: 'error' });
     }
   };
-
-  if (process.env.REACT_APP_DEBUG_FORM === 'true') {
-    const formData = watch();
-    console.log(formData);
-  }
 
   return (
     <Box
