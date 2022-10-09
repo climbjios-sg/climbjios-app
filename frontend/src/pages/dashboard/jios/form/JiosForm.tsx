@@ -12,12 +12,12 @@ import {
   RHFSlider,
   RHFSelect,
   RHFDatePicker,
-} from '../../../components/hook-form';
+} from '../../../../components/hook-form';
 // form
 import { useForm } from 'react-hook-form';
 // @types
-import { Jio } from '../../../@types/jio';
-import { Gym } from '../../../@types/gym';
+import { Jio } from '../../../../@types/jio';
+import { Gym } from '../../../../@types/gym';
 // dayjs
 //
 import authorizedAxios from 'src/utils/authorizedAxios';

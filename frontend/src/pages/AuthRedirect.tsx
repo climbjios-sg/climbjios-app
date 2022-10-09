@@ -8,7 +8,7 @@ import useAuth from '../hooks/useAuth';
 import { NewUserContext } from '../contexts/NewUserContext';
 
 type AuthRedirectProps = {
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 export default function AuthRedirect({ children }: AuthRedirectProps) {

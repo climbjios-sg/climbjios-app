@@ -13,9 +13,12 @@ import {
   Typography,
 } from '@mui/material';
 import Iconify from '../../../components/Iconify';
+import { useNavigate } from 'react-router-dom';
+import { PATH_AUTH } from '../../../routes/paths';
 
 export default function Profile() {
   const auth = useAuth();
+  const navigate = useNavigate();
 
   return (
     <Box sx={{ pt: 5, pb: 100, maxWidth: 600, margin: '0 auto' }}>
@@ -42,7 +45,10 @@ export default function Profile() {
               </ListItemButton>
             </ListItem>
             <ListItem>
-              <ListItemButton>
+              <ListItemButton onClick={() => {
+                auth.logout();
+                navigate(PATH_AUTH.root)
+              }}>
                 <ListItemIcon>
                   <Iconify icon="eva:log-out-outline" />
                 </ListItemIcon>

@@ -1,21 +1,18 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Grid, Button } from '@mui/material';
-import { listJios, ListJiosArgs } from '../../../store/reducers/jios';
-import { useDispatch, useSelector } from '../../../store';
+import { Button, Grid } from '@mui/material';
+import { listMyJios } from '../../../../../store/reducers/myJios';
+import { useDispatch, useSelector } from '../../../../../store';
+import MyJioCard from './MyJioCard';
+import JioCardSkeleton from '../JioCardSkeleton';
+import EmptyContent from '../../../../../components/EmptyContent';
 import useVersion from 'src/hooks/useVersion';
-import JioCard from './JioCard';
-import JioCardSkeleton from './JioCardSkeleton';
-import EmptyContent from '../../../components/EmptyContent';
 
-interface JioCardListProps {
-  searchParams: ListJiosArgs;
-}
-
-export default function JioCardList({ searchParams }: JioCardListProps) {
+export default function MyJioCardList() {
   const dispatch = useDispatch();
   const version = useVersion();
-  const { data, error, loading } = useSelector((state) => state.jios);
+  const { data, error, loading } = useSelector((state) => state.myJios);
+  const myJiosData = data.filter((jio) => !jio.isClosed);
   const displayedData = React.useMemo(() => {
     if (error) {
       return (
@@ -36,13 +33,13 @@ export default function JioCardList({ searchParams }: JioCardListProps) {
       );
     }
 
-    if (data.length === 0) {
+    if (myJiosData.length === 0) {
       return (
         <Grid sx={{ width: '100%', mt: 2 }} item>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
             <EmptyContent
               sx={{ py: 3 }}
-              title="There's no Jios now."
+              title="You have no Jios."
               description="Create a Jio and it will show up here."
             />
             <Button variant="contained">Create a Jio</Button>
@@ -51,16 +48,16 @@ export default function JioCardList({ searchParams }: JioCardListProps) {
       );
     }
 
-    return data.map((jio) => (
+    return myJiosData.map((jio) => (
       <Grid key={jio.id} sx={{ width: '100%', mt: 2 }} item>
-        <JioCard data={jio} />
+        <MyJioCard data={jio} />
       </Grid>
     ));
-  }, [data, error, loading]);
+  }, [myJiosData, error, loading]);
 
   useEffect(() => {
-    dispatch(listJios(searchParams));
-  }, [version, dispatch, searchParams]);
+    dispatch(listMyJios());
+  }, [version, dispatch]);
 
   return (
     <Grid container sm={12}>

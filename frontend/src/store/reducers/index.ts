@@ -2,13 +2,13 @@ import { combineReducers } from 'redux';
 import uiReducer from './ui';
 import jiosReducer from './jios';
 import myJiosReducer from './myJios';
-import jioFormValuesReducer from './jioFormValues';
+import jioSearchFormReducer from './jioSearchForm';
 
 const rootReducer = combineReducers({
   ui: uiReducer,
   jios: jiosReducer,
   myJios: myJiosReducer,
-  jioFormValues: jioFormValuesReducer
+  jioSearchForm: jioSearchFormReducer
 });
 
 export default rootReducer;

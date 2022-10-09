@@ -1,4 +1,4 @@
-import { JioFormValues } from './../../pages/dashboard/jios/JiosForm';
+import { JioFormValues } from '../../pages/dashboard/jios/form/JiosForm';
 import { dispatch } from '..';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -14,15 +14,15 @@ const slice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    setJioFormValues(state, action) {
+    setJioSearchForm(state, action) {
       state.data = action.payload;
     },
   },
 });
 
-export function setJioFormValues(data: JioFormValues) {
+export function setJioSearchForm(data: JioFormValues) {
   return () => {
-    dispatch(slice.actions.setJioFormValues(data));
+    dispatch(slice.actions.setJioSearchForm(data));
   };
 }
 

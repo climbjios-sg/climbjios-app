@@ -65,11 +65,13 @@ const JWTReducer = (state: AuthState, action: JWTActions) => {
     case Types.SetUserData:
       return {
         ...state,
+        contextFinishedLoading: true,
         user: action.payload.user,
       };
     case Types.UpdateUserData:
       return {
         ...state,
+        contextFinishedLoading: true,
         user: {
           ...state.user,
           name: action.payload.user.name,
@@ -79,6 +81,7 @@ const JWTReducer = (state: AuthState, action: JWTActions) => {
     case Types.Logout:
       return {
         ...state,
+        contextFinishedLoading: true,
         user: null,
         isLoggedIn: false,
       };
@@ -181,16 +184,18 @@ function AuthProvider({ children }: AuthProviderProps) {
     return returnedUser;
   };
 
-  const hasUserData = () => {
+  const hasUserData = () => 
     // For new users, BE will return "id" and possibly "name",
     // but username and telegramHandle will be null/undefined
-    return !!state.user?.username && !!state.user?.telegramHandle;
-  };
+     !!state.user?.username && !!state.user?.telegramHandle
+  ;
 
   useEffect(() => {
     if (state.isLoggedIn && hasUserData()) {
       localStorage.setItem(USER, JSON.stringify(state.user));
     }
+
+    console.log('hello');
   }, [state.user, state.isLoggedIn]);
 
   return (

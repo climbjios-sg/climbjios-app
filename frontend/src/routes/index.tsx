@@ -27,9 +27,7 @@ export default function Router() {
     {
       path: '/',
       element: (
-        <AuthRedirect>
-          <MainApp />
-        </AuthRedirect>
+        <AuthRedirect />
       ),
     },
     {
