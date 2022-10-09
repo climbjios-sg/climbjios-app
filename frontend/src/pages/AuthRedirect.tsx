@@ -41,17 +41,19 @@ export default function AuthRedirect({ children }: AuthRedirectProps) {
     const refreshToken = searchParams.get('refreshToken');
     if (!!accessToken && !!refreshToken) {
       authGoogle(accessToken, refreshToken);
-      return;
     }
-    console.log('Trying to login from session');
-    auth.loginFromSession();
+
+    if (!auth.contextFinishedLoading) {
+      auth.loginFromSession();
+      return
+    }
     /* eslint-disable no-restricted-globals */
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
-    if (!auth.isLoggedIn) {
-      navigate(PATH_AUTH.root);
-      return;
-    }
+    // if (!auth.isLoggedIn) {
+    //   navigate(PATH_AUTH.root);
+    //   return;
+    // }
 
     if (!auth.hasUserData()) {
       // console.log(`Redirected by AuthRedirect`);
@@ -72,7 +74,7 @@ export default function AuthRedirect({ children }: AuthRedirectProps) {
     }
 
     navigate(PATH_DASHBOARD.general.jios.root);
-  }, []);
+  }, [auth]);
 
   // Wait if context is not yet initialized
   if (!auth.contextFinishedLoading) {
