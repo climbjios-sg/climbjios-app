@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useContext } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import LoadingScreen from '../../components/LoadingScreen';
 import useAuth from '../../hooks/useAuth';
 import { PATH_AUTH, PATH_DASHBOARD, PATH_ONBOARDING } from '../../routes/paths';
@@ -15,37 +15,40 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const newUserContext = useContext(NewUserContext);
+  const location = useLocation();
 
   useEffect(() => {
     // Disable auth guard for mobile testing in dev
     if (process.env.REACT_APP_DISABLE_AUTH_GUARD === 'true') {
       return;
     }
+
     if (!auth.contextFinishedLoading) {
       auth.loginFromSession();
     }
 
     if (!auth.isLoggedIn) {
+      console.log(`Redirected from current page ${location.pathname} to ${PATH_AUTH.root}`)
       navigate(PATH_AUTH.root);
       return;
     }
 
     if (!auth.hasUserData()) {
-      // console.log(`Redirected by AuthGuard`);
       if (!newUserContext.hasFilledProfile()) {
         // If name and/or telegram handle is empty, redirect users for them to fill in Name + Telegram handle
-
-        /* Debug purposes */
-        // enqueueSnackbar(`NewUserContext: ${newUserContext.user}`);
+        console.log(`Redirected from current page ${location.pathname} to ${PATH_ONBOARDING.newuser}`)
         navigate(PATH_ONBOARDING.newuser);
         return;
       }
 
       // Either username is empty or all fields filled but user data not dispatched to JWTContext (e.g. in event of network error),
       // redirect users for them to fill in username and subsequently create user in BE
+      console.log(`Redirected from current page ${location.pathname} to ${PATH_ONBOARDING.username}`)
       navigate(PATH_ONBOARDING.username);
       return;
     }
+
+    console.log(`No redirect.`)
   }, [auth]);
 
   // // Disable auth guard for mobile testing in dev

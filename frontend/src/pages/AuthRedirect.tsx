@@ -1,12 +1,11 @@
 import { useEffect, ReactNode, useContext } from 'react';
-import { Navigate, useNavigate, useSearchParams, useLocation } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { PATH_AUTH, PATH_DASHBOARD, PATH_ONBOARDING } from '../routes/paths';
 import { useSnackbar } from 'notistack';
 import { SUPPORT_EMAIL } from '../config';
 import LoadingScreen from '../components/LoadingScreen';
 import useAuth from '../hooks/useAuth';
 import { NewUserContext } from '../contexts/NewUserContext';
-import { LocationContext } from 'react-router/dist/lib/context';
 
 type AuthRedirectProps = {
   children: ReactNode;
@@ -18,6 +17,7 @@ export default function AuthRedirect({ children }: AuthRedirectProps) {
   const [searchParams] = useSearchParams();
   const { enqueueSnackbar } = useSnackbar();
   const newUserContext = useContext(NewUserContext);
+  const location = useLocation();
 
   const authGoogle = async (accessToken: string | null, refreshToken: string | null) => {
     try {
@@ -50,28 +50,27 @@ export default function AuthRedirect({ children }: AuthRedirectProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     if (!auth.isLoggedIn) {
+      console.log(`Redirected from current page ${location.pathname} to ${PATH_AUTH.root}`)
       navigate(PATH_AUTH.root);
       return;
     }
 
     if (!auth.hasUserData()) {
-      // console.log(`Redirected by AuthRedirect`);
       if (!newUserContext.hasFilledProfile()) {
         // If name and/or telegram handle is empty, redirect users for them to fill in Name + Telegram handle
-
-        /* Debug purposes */
-        // enqueueSnackbar(`NewUserContext: ${newUserContext.user}`);
-
+        console.log(`Redirected from current page ${location.pathname} to ${PATH_ONBOARDING.newuser}`)
         navigate(PATH_ONBOARDING.newuser);
         return;
       }
 
       // Either username is empty or all fields filled but user data not dispatched to JWTContext (e.g. in event of network error),
       // redirect users for them to fill in username and subsequently create user in BE
+      console.log(`Redirected from current page ${location.pathname} to ${PATH_ONBOARDING.username}`)
       navigate(PATH_ONBOARDING.username);
       return;
     }
 
+    console.log(`Redirected from current page ${location.pathname} to ${PATH_DASHBOARD.general.jios.root}`)
     navigate(PATH_DASHBOARD.general.jios.root);
   }, [auth]);
 
