@@ -24,6 +24,7 @@ import authorizedAxios from 'src/utils/authorizedAxios';
 import { BE_API } from 'src/utils/api';
 import { useSnackbar } from 'notistack';
 import { LoadingButton } from '@mui/lab';
+import { useSelector } from '../../../../store';
 
 // ----------------------------------------------------------------------
 
@@ -65,16 +66,7 @@ export default function JiosForm({
   submitLabel,
 }: Props) {
   const { enqueueSnackbar } = useSnackbar();
-  const [gyms, setGyms] = useState([]);
-
-  const fetchGyms = async () => {
-    try {
-      const { data } = await authorizedAxios.get(BE_API.gyms);
-      setGyms(data);
-    } catch (err) {
-      enqueueSnackbar('Failed to fetch gyms');
-    }
-  };
+  const gyms = useSelector(state => state.gyms.data);
 
   const NewJioSchema = Yup.object().shape({
     type: Yup.string().required('Looking to buy or sell passes is required'),
@@ -127,10 +119,6 @@ export default function JiosForm({
     const formData = watch();
     console.log(formData);
   }
-
-  useEffect(() => {
-    fetchGyms();
-  }, []);
 
   return (
     <Box

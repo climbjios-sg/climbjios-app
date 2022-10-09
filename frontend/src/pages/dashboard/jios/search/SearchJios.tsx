@@ -11,7 +11,7 @@ export default function SearchJios() {
 
   const handleSearch = async (data: JioFormValues) => {
     dispatch(setJioSearchForm(data));
-    navigate('');
+    navigate('/dashboard/jios');
   };
 
   return (

@@ -1,14 +1,16 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import { TabContext, TabPanel } from '@mui/lab';
-import { Tab, Button, Typography, Grid, Tabs, Box } from '@mui/material';
+import { Tab, Button, Typography, Grid, Tabs, Box, Paper, IconButton, Chip } from '@mui/material';
 import { useNavigate } from 'react-router';
 import Iconify from '../../../../components/Iconify';
 import useRefresh from '../../../../hooks/useRefresh';
-import { setDateTime } from '../../../../utils/formatTime';
+import { formatPrettyDate, setDateTime } from '../../../../utils/formatTime';
 import JioCardList from './allJios/JioCardList';
 import MyJioCardList from './myJios/MyJioCardList';
-import { useSelector } from '../../../../store';
+import { useDispatch, useSelector } from '../../../../store';
+import { customShadows } from '../../../../theme/shadows';
+import { clearJioSearchForm } from '../../../../store/reducers/jioSearchForm';
 
 const StyledTab = styled(Tab)({
   '&.MuiButtonBase-root': {
@@ -22,9 +24,11 @@ enum TabValue {
 }
 
 export default function JiosTabs() {
-  const jioFormValues = useSelector((state) => state.jioSearchForm.data);
+  const gyms = useSelector((state) => state.gyms.data);
+  const jioSearchValues = useSelector((state) => state.jioSearchForm.data);
   const TABS: TabValue[] = [TabValue.Open, TabValue.MyJios];
   const [tabValue, setTabValue] = React.useState<TabValue>(TabValue.Open);
+  const dispatch = useDispatch();
   const refresh = useRefresh();
   const navigate = useNavigate();
 
@@ -37,26 +41,73 @@ export default function JiosTabs() {
   };
 
   const getStartDateTimeString = () => {
-    if (jioFormValues?.date && jioFormValues?.startTiming) {
-      return setDateTime(jioFormValues.date, jioFormValues.startTiming).toISOString();
+    if (jioSearchValues?.date && jioSearchValues?.startTiming) {
+      return setDateTime(jioSearchValues.date, jioSearchValues.startTiming).toISOString();
     }
 
     return undefined;
   };
 
   const getEndDateTimeString = () => {
-    if (jioFormValues?.date && jioFormValues?.endTiming) {
-      return setDateTime(jioFormValues.date, jioFormValues.endTiming).toISOString();
+    if (jioSearchValues?.date && jioSearchValues?.endTiming) {
+      return setDateTime(jioSearchValues.date, jioSearchValues.endTiming).toISOString();
     }
 
     return undefined;
   };
 
-  return (
-    <Box sx={{ pt: 5, pb: 100, maxWidth: 600, margin: '0 auto' }}>
-      <TabContext value={tabValue}>
+  // Show button with filter if is searching, else show search button
+  const renderButton = () => {
+    if (jioSearchValues && jioSearchValues.gymId) {
+      const gymName = gyms.find((gym) => gym.id === jioSearchValues.gymId)?.name;
+      const dateTimeName = formatPrettyDate(
+        jioSearchValues.date,
+        jioSearchValues.startTiming,
+        jioSearchValues.endTiming
+      );
+
+      return (
         <Button
-          sx={{ borderRadius: 30, justifyContent: 'flex-start' }}
+          sx={{
+            position: 'relative',
+            borderRadius: 30,
+            justifyContent: 'flex-start',
+            background: 'white',
+            boxShadow: customShadows.light.card,
+            border: '1px solid rgba(145, 158, 171, 0.24)',
+          }}
+          variant="outlined"
+          size="large"
+          color="primary"
+          fullWidth
+        >
+          {gymName && <Chip sx={{ mr: 0.5 }} label={gymName} />}
+          <Chip label={dateTimeName} />
+          <IconButton
+            sx={{
+              position: 'absolute',
+              right: 4,
+              width: 40,
+              background: 'white',
+              borderRadius: 0
+            }}
+            onClick={() => {
+              dispatch(clearJioSearchForm())
+            }}
+          >
+            <Iconify icon="eva:close-outline" />
+          </IconButton>
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          sx={{
+            borderRadius: 30,
+            justifyContent: 'flex-start',
+            background: 'white',
+            boxShadow: customShadows.light.card,
+          }}
           variant="outlined"
           size="large"
           color="primary"
@@ -68,6 +119,14 @@ export default function JiosTabs() {
             Search
           </Typography>
         </Button>
+      );
+    }
+  };
+
+  return (
+    <Box sx={{ pt: 5, pb: 100, maxWidth: 600, margin: '0 auto' }}>
+      <TabContext value={tabValue}>
+        {renderButton()}
         <Grid sx={{ pt: 1.5 }} container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Tabs
@@ -91,9 +150,9 @@ export default function JiosTabs() {
         <TabPanel value={TabValue.Open}>
           <JioCardList
             searchParams={{
-              type: jioFormValues?.type,
-              numPasses: jioFormValues?.numPasses,
-              gymId: jioFormValues?.gymId,
+              type: jioSearchValues?.type,
+              numPasses: jioSearchValues?.numPasses,
+              gymId: jioSearchValues?.gymId,
               startDateTime: getStartDateTimeString(),
               endDateTime: getEndDateTimeString(),
             }}

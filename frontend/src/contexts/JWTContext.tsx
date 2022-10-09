@@ -194,8 +194,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (state.isLoggedIn && hasUserData()) {
       localStorage.setItem(USER, JSON.stringify(state.user));
     }
-
-    console.log('hello');
   }, [state.user, state.isLoggedIn]);
 
   return (

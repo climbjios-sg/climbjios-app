@@ -17,6 +17,9 @@ const slice = createSlice({
     setJioSearchForm(state, action) {
       state.data = action.payload;
     },
+    clearJioSearchForm(state) {
+      state.data = null;
+    }
   },
 });
 
@@ -25,5 +28,12 @@ export function setJioSearchForm(data: JioFormValues) {
     dispatch(slice.actions.setJioSearchForm(data));
   };
 }
+
+export function clearJioSearchForm() {
+  return () => {
+    dispatch(slice.actions.clearJioSearchForm());
+  };
+}
+
 
 export default slice.reducer;

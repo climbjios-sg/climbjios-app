@@ -63,7 +63,7 @@ export default function JioCardList({ searchParams }: JioCardListProps) {
   }, [version, dispatch, searchParams]);
 
   return (
-    <Grid container sm={12}>
+    <Grid container>
       {displayedData}
     </Grid>
   );

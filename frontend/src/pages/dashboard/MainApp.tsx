@@ -7,7 +7,8 @@ import { useLocation, Link, useRoutes, Navigate } from 'react-router-dom';
 import Iconify from '../../components/Iconify';
 import Profile from './profile';
 import Jios from './jios/JiosRouter';
-import useAuth from '../../hooks/useAuth';
+import { listGyms } from '../../store/reducers/gyms';
+import { useDispatch } from '../../store';
 
 interface BottomTab {
   path: string;
@@ -68,6 +69,12 @@ const MainAppRouter = () =>
   ]);
 
 export default function MainApp() {
+  const dispatch = useDispatch()
+
+  React.useEffect(() => {
+    dispatch(listGyms());
+  }, [dispatch])
+
   return (
     <Page title="ClimbJios - The social network for climbers." sx={{ background: '#fafafa' }}>
       <Container>
