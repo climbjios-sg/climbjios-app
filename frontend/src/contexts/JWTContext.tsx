@@ -1,10 +1,10 @@
-import { createContext, ReactNode, useEffect, useReducer } from 'react';
+import { createContext, ReactNode, useEffect, useReducer, useCallback } from 'react';
 // utils
 import { ACCESS_TOKEN, endSession, getSessionFromStorage, REFRESH_TOKEN, USER } from '../utils/jwt';
 // @types
 import { ActionMap, AuthState, JWTContextType } from '../@types/auth';
 import { ApiUser, User } from '../@types/user';
-import { BE_API, apiUserToUser, userToApiUser } from '../utils/api';
+import { BE_API, apiUserToUser } from '../utils/api';
 import authorizedAxios from '../utils/authorizedAxios';
 
 // ----------------------------------------------------------------------
@@ -177,13 +177,13 @@ function AuthProvider({ children }: AuthProviderProps) {
     return returnedUser;
   };
 
-  const hasUserData = () => !!state.user;
+  const hasUserData = useCallback(() => !!state.user, [state.user]);
 
   useEffect(() => {
     if (state.contextFinishedLoading && hasUserData()) {
       localStorage.setItem(USER, JSON.stringify(state.user));
     }
-  }, [state.user, state.contextFinishedLoading]);
+  }, [state.user, state.contextFinishedLoading, hasUserData]);
 
   return (
     <AuthContext.Provider
