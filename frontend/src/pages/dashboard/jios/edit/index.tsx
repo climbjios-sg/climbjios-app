@@ -1,20 +1,11 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { styled } from '@mui/material/styles';
-import { Box, Button, Grid, Tab, Tabs, Typography } from '@mui/material';
-import { TabContext, TabPanel } from '@mui/lab';
-import Iconify from '../../../components/Iconify';
-import JioCardList from './JioCardList';
-import MyJioCardList from './MyJioCardList';
-import { ListJiosArgs } from '../../../store/reducers/jios';
+import Iconify from 'src/components/Iconify';
 import useRefresh from 'src/hooks/useRefresh';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import JiosForm, { JioFormValues } from './JiosForm';
-import { useDispatch, useSelector } from '../../../store';
-import { setJioFormValues } from '../../../store/reducers/jioFormValues';
+import JiosForm, { JioFormValues } from '../JiosForm';
 import { useRequest } from 'ahooks';
 import { useSnackbar } from 'notistack';
-import { createJio, updateJio } from 'src/services/jios';
+import { updateJio } from 'src/services/jios';
 
 export default function JiosEdit() {
   const { enqueueSnackbar } = useSnackbar();

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Button, Card, CardHeader, Stack, Typography } from '@mui/material';
-import Iconify from '../../../components/Iconify';
-import { IconStyle } from '../../../sections/@dashboard/user/profile/common';
-import { Jio } from '../../../@types/jio';
-import palette from '../../../theme/palette';
-import { formatStartEndDate } from '../../../utils/formatTime';
-import { getPassesText } from './common';
+import Iconify from 'src/components/Iconify';
+import { IconStyle } from 'src/sections/@dashboard/user/profile/common';
+import { Jio } from 'src/@types/jio';
+import palette from 'src/theme/palette';
+import { formatStartEndDate } from 'src/utils/formatTime';
+import { getPassesText } from '../common';
 import CloseMyJioDialog from './CloseMyJioDialog';
 import { useSnackbar } from 'notistack';
 import useRefresh from 'src/hooks/useRefresh';

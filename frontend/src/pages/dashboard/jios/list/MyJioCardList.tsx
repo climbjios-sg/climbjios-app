@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { Button, Grid } from '@mui/material';
-import { listMyJios } from '../../../store/reducers/myJios';
-import { useDispatch, useSelector } from '../../../store';
+import { listMyJios } from 'src/store/reducers/myJios';
+import { useDispatch, useSelector } from 'src/store';
 import MyJioCard from './MyJioCard';
-import JioCardSkeleton from './JioCardSkeleton';
 import EmptyJiosContent from './EmptyJiosContent';
-import EmptyContent from '../../../components/EmptyContent';
+import EmptyContent from 'src/components/EmptyContent';
 import useVersion from 'src/hooks/useVersion';
+import JioCardSkeleton from './JioCardSkeleton';
 
 export default function MyJioCardList() {
   const dispatch = useDispatch();

@@ -1,16 +1,14 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { Grid, Button } from '@mui/material';
-import { listJios, ListJiosArgs } from '../../../store/reducers/jios';
-import { useDispatch, useSelector } from '../../../store';
 import useVersion from 'src/hooks/useVersion';
 import JioCard from './JioCard';
 import JioCardSkeleton from './JioCardSkeleton';
-import EmptyContent from '../../../components/EmptyContent';
 import EmptyJiosContent from './EmptyJiosContent';
-import { PATH_DASHBOARD } from 'src/routes/paths';
-import { Link } from 'react-router-dom';
 import { setDateTime } from 'src/utils/formatTime';
+import EmptyContent from 'src/components/EmptyContent';
+import { useDispatch, useSelector } from 'src/store';
+import { listJios, ListJiosArgs } from 'src/store/reducers/jios';
 
 export default function JioCardList() {
   const dispatch = useDispatch();

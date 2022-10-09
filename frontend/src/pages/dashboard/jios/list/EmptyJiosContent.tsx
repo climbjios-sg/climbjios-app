@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Grid, Button } from '@mui/material';
-import EmptyContent from '../../../components/EmptyContent';
+import EmptyContent from 'src/components/EmptyContent';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { Link } from 'react-router-dom';
 

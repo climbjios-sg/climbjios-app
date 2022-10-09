@@ -13,12 +13,12 @@ import {
   RHFSlider,
   RHFSelect,
   RHFDatePicker,
-} from '../../../components/hook-form';
+} from 'src/components/hook-form';
 // form
 import { useForm } from 'react-hook-form';
 // @types
-import { Jio } from '../../../@types/jio';
-import { Gym } from '../../../@types/gym';
+import { Jio } from 'src/@types/jio';
+import { Gym } from 'src/@types/gym';
 // dayjs
 import { getGymList } from 'src/services/gyms';
 import { useSnackbar } from 'notistack';
