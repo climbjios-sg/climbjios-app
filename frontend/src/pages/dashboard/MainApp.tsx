@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Container, BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 // components
 import Page from '../../components/Page';
-import { useLocation, Link, useRoutes } from 'react-router-dom';
+import { useLocation, Link, useRoutes, Navigate } from 'react-router-dom';
 import Iconify from '../../components/Iconify';
 import Profile from './profile';
 import Jios from './jios';
@@ -62,14 +62,14 @@ export default function MainApp() {
     []
   );
 
-  const MainAppRouter = () =>
-    useRoutes(
-      DASHBOARD_TABS.map((tab) => ({
-        path: tab.path,
-        element: tab.element,
-      }))
-    );
+  const MainAppRouter = () => {
+    const tabRoutes = DASHBOARD_TABS.map((tab) => ({
+      path: tab.path,
+      element: tab.element,
+    }));
 
+    return useRoutes([...tabRoutes, { path: '*', element: <Navigate to="jios" replace /> }]);
+  };
 
   return (
     <Page title="ClimbJios - The social network for climbers." sx={{ background: '#fafafa' }}>
