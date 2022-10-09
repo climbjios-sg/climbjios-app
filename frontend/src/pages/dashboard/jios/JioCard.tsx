@@ -49,6 +49,7 @@ export default function JioCard({ data }: JioCardProps) {
             fullWidth
             href={`https://t.me/${data.user.telegramHandle}`}
             variant="outlined"
+            target="_blank"
           >
             <Iconify icon={'jam:telegram'} sx={{ mr: 1 }} />
             <span>Message on Telegram</span>
