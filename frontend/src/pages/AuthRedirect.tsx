@@ -50,7 +50,7 @@ export default function AuthRedirect({ children }: AuthRedirectProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     if (!auth.isLoggedIn) {
-      console.log(`Redirected from current page ${location.pathname} to ${PATH_AUTH.root}`)
+      console.log(`Redirected from current page ${location.pathname} to ${PATH_AUTH.root}`);
       navigate(PATH_AUTH.root);
       return;
     }
@@ -58,20 +58,28 @@ export default function AuthRedirect({ children }: AuthRedirectProps) {
     if (!auth.hasUserData()) {
       if (!newUserContext.hasFilledProfile()) {
         // If name and/or telegram handle is empty, redirect users for them to fill in Name + Telegram handle
-        console.log(`Redirected from current page ${location.pathname} to ${PATH_ONBOARDING.newuser}`)
+        console.log(
+          `Redirected from current page ${location.pathname} to ${PATH_ONBOARDING.newuser}`
+        );
         navigate(PATH_ONBOARDING.newuser);
         return;
       }
 
       // Either username is empty or all fields filled but user data not dispatched to JWTContext (e.g. in event of network error),
       // redirect users for them to fill in username and subsequently create user in BE
-      console.log(`Redirected from current page ${location.pathname} to ${PATH_ONBOARDING.username}`)
+      console.log(
+        `Redirected from current page ${location.pathname} to ${PATH_ONBOARDING.username}`
+      );
       navigate(PATH_ONBOARDING.username);
       return;
     }
-
-    console.log(`Redirected from current page ${location.pathname} to ${PATH_DASHBOARD.general.jios.root}`)
-    navigate(PATH_DASHBOARD.general.jios.root);
+    //User has logged in and all user data filled in, then we redirect from login to main page.
+    if (location.pathname === PATH_AUTH.root) {
+      console.log(
+        `Redirected from current page ${location.pathname} to ${PATH_DASHBOARD.general.jios.root}`
+      );
+      navigate(PATH_DASHBOARD.general.jios.root);
+    }
   }, [auth]);
 
   // Wait if context is not yet initialized

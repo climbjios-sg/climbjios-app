@@ -35,9 +35,9 @@ export default function Router() {
     {
       path: 'login',
       element: (
-        <AuthGuard>
+        <AuthRedirect>
           <Login />
-        </AuthGuard>
+        </AuthRedirect>
       ),
     },
 

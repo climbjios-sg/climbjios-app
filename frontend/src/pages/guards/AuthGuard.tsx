@@ -47,8 +47,6 @@ export default function AuthGuard({ children }: AuthGuardProps) {
       navigate(PATH_ONBOARDING.username);
       return;
     }
-
-    console.log(`No redirect.`)
   }, [auth]);
 
   // // Disable auth guard for mobile testing in dev
