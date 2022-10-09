@@ -71,9 +71,14 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
   const onSubmit = async (data: FormValuesProps) => {
     if (!data.name || !data.telegramHandle) return;
 
+    newUserContext.updateName(data.name);
+    newUserContext.updateTelegram(data.telegramHandle);
+
     if (isExistingUser) {
       try {
         // enqueueSnackbar(`User info in state is: ${JSON.stringify(newUserContext.user)}`);
+        newUserContext.updateUsername(auth.user?.username as string);
+
         await auth.updateUserData(newUserContext.user);
         enqueueSnackbar(`Profile updated successfully!`);
         navigate(-1);
@@ -86,8 +91,6 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
         throw error;
       }
     } else {
-      newUserContext.updateName(data.name);
-      newUserContext.updateTelegram(data.telegramHandle);
       navigate(PATH_ONBOARDING.username);
     }
   };
