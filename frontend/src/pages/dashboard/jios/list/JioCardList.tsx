@@ -49,6 +49,7 @@ export default function JioCardList() {
 
   useEffect(() => {
     if (!jioFormValues) {
+      dispatch(listJios({}));
       return;
     }
 
