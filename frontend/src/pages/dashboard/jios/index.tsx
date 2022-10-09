@@ -10,7 +10,6 @@ import { ListJiosArgs } from '../../../store/reducers/jios';
 import useRefresh from 'src/hooks/useRefresh';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import JiosForm, { JioFormValues } from './JiosForm';
-import { useDispatch, useSelector } from '../../../store';
 import { setJioFormValues } from '../../../store/reducers/jioFormValues';
 import { setDateTime } from '../../../utils/formatTime';
 import { useRequest } from 'ahooks';
@@ -36,7 +35,6 @@ export default function Jios() {
   const refresh = useRefresh();
   const navigate = useNavigate();
   const [tabValue, setTabValue] = useState<TabValue>(TabValue.Open);
-  const jioFormValues = useSelector((state) => state.jioFormValues.data);
 
   const handleRefresh = () => {
     refresh();
@@ -44,22 +42,6 @@ export default function Jios() {
 
   const onClickSearch = () => {
     navigate('search');
-  };
-
-  const getStartDateTimeString = () => {
-    if (jioFormValues?.date && jioFormValues?.startDateTime) {
-      return setDateTime(jioFormValues.date, jioFormValues.startDateTime).toISOString();
-    }
-
-    return undefined;
-  };
-
-  const getEndDateTimeString = () => {
-    if (jioFormValues?.date && jioFormValues?.endDateTime) {
-      return setDateTime(jioFormValues.date, jioFormValues.endDateTime).toISOString();
-    }
-
-    return undefined;
   };
 
   return (
@@ -106,15 +88,7 @@ export default function Jios() {
               </Grid>
               {/* Open Jios Tab */}
               <TabPanel value={TabValue.Open}>
-                <JioCardList
-                  searchParams={{
-                    type: jioFormValues?.type,
-                    numPasses: jioFormValues?.numPasses,
-                    gymId: jioFormValues?.gymId,
-                    startDateTime: getStartDateTimeString(),
-                    endDateTime: getEndDateTimeString(),
-                  }}
-                />
+                <JioCardList />
               </TabPanel>
               {/* My Jios Tab */}
               <TabPanel value={TabValue.MyJios}>
