@@ -12,6 +12,8 @@ import { useSnackbar } from 'notistack';
 import useRefresh from 'src/hooks/useRefresh';
 import { closeMyJio } from 'src/services/myJios';
 import { useRequest } from 'ahooks';
+import { PATH_DASHBOARD } from 'src/routes/paths';
+import { Link } from 'react-router-dom';
 
 interface MyJioCardProps {
   data: Jio;
@@ -73,7 +75,12 @@ export default function MyJioCard({ data }: MyJioCardProps) {
           </Stack>
         )}
         <Stack direction="row" spacing={1.5}>
-          <Button fullWidth startIcon={<Iconify icon={'eva:edit-fill'} />} onClick={() => {}}>
+          <Button
+            component={Link}
+            to={`${PATH_DASHBOARD.general.jios.edit}/${data.id}`}
+            fullWidth
+            startIcon={<Iconify icon={'eva:edit-fill'} />}
+          >
             Edit
           </Button>
           <Button

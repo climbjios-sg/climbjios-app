@@ -30,7 +30,7 @@ export const PATH_DASHBOARD = {
       root: path(ROOTS_DASHBOARD, '/jios'),
       search: path(ROOTS_DASHBOARD, '/jios/search'),
       create: path(ROOTS_DASHBOARD, '/jios/create'),
-      edit: path(ROOTS_DASHBOARD, '/jios/edit/:id'),
+      edit: path(ROOTS_DASHBOARD, '/jios/edit'),
     },
     profile: path(ROOTS_DASHBOARD, '/profile'),
   },
