@@ -1,11 +1,11 @@
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useContext } from 'react';
+import { useContext } from 'react';
 // form
 import { useForm } from 'react-hook-form';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Box, Card, Grid, Stack, InputAdornment, FormHelperText } from '@mui/material';
+import { Card, Grid, Stack, InputAdornment, FormHelperText } from '@mui/material';
 // @types
 import { User } from '../../@types/user';
 // components
@@ -18,7 +18,6 @@ import {
   NAME_REGEX_ERROR,
   REGEX_NAME,
   REGEX_TELEGRAM,
-  SUPPORT_EMAIL,
   TELEGRAM_REGEX_ERROR,
 } from '../../config';
 import useAuth from '../../hooks/useAuth';
@@ -26,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 // context
 import { NewUserContext } from '../../contexts/NewUserContext';
 // paths
-import { PATH_ONBOARDING } from '../../routes/paths';
+import { PATH_DASHBOARD, PATH_ONBOARDING } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -62,7 +61,6 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
   });
 
   const {
-    reset,
     setValue,
     handleSubmit,
     formState: { isSubmitting, errors },
@@ -86,7 +84,7 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
 
         await auth.updateUserData(user);
         enqueueSnackbar(`Profile updated successfully!`);
-        navigate(-1);
+        navigate(PATH_DASHBOARD.general.profile);
       } catch (error) {
         enqueueSnackbar(`Error when updating profile`, {
           variant: 'error',
