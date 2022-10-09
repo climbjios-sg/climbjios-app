@@ -57,7 +57,7 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
     resolver: yupResolver(NewProfileSchema),
     defaultValues: {
       name: isExistingUser ? auth.user?.name : '',
-      telegramHandle: isExistingUser ? auth.user?.telegramHandle : 'fghfgfh',
+      telegramHandle: isExistingUser ? auth.user?.telegramHandle : '',
     },
   });
 
@@ -76,14 +76,19 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
 
     if (isExistingUser) {
       try {
-        // enqueueSnackbar(`User info in state is: ${JSON.stringify(newUserContext.user)}`);
         newUserContext.updateUsername(auth.user?.username as string);
 
-        await auth.updateUserData(newUserContext.user);
+        let user: User = {
+          name: data.name,
+          telegramHandle: data.telegramHandle,
+          username: auth.user?.username,
+        };
+
+        await auth.updateUserData(user);
         enqueueSnackbar(`Profile updated successfully!`);
         navigate(-1);
       } catch (error) {
-        enqueueSnackbar(`${JSON.stringify(error)}`, {
+        enqueueSnackbar(`Error when updating profile`, {
           variant: 'error',
           persist: true,
         });
