@@ -57,7 +57,7 @@ export default function Router() {
             </AuthGuard>
           ),
         },
-        { path: '*', element: <Navigate to="/" replace /> },
+        { path: '*', element: <Navigate to="/newuser" replace /> },
       ],
     },
 
