@@ -63,8 +63,7 @@ export default function NewUserForm({ onExit }: Props) {
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
-      // await auth.updateProfile(data);
-      enqueueSnackbar(`User info in NewUserContext is: ${JSON.stringify(newUserContext.user)}`);
+      // enqueueSnackbar(`User info in NewUserContext is: ${JSON.stringify(newUserContext.user)}`);
       onExit();
     } catch (error) {
       enqueueSnackbar(
@@ -89,6 +88,7 @@ export default function NewUserForm({ onExit }: Props) {
               <RHFTextField
                 name="name"
                 label="Name"
+                defaultValue={auth.user?.name}
                 helperText="Your name will be displayed on your profile page. You can always change this later"
                 onChange={(e) => {
                   newUserContext.updateName(e.target.value);

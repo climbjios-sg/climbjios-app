@@ -53,12 +53,14 @@ const JWTReducer = (state: AuthState, action: JWTActions) => {
       return {
         ...state,
         isLoggedIn: true,
+        contextFinishedLoading: true,
         user: action.payload.user,
       };
     case Types.LoginWithoutUserData:
       return {
         ...state,
         isLoggedIn: true,
+        contextFinishedLoading: true,
       };
     case Types.SetUserData:
       return {
@@ -124,9 +126,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   // Gets user data from localStorage, set to context and session
   const loginFromSession = () => {
-    // If user data already exists, there is no need to login.
-    if (hasUserData()) {
-      dispatch({ type: Types.FinishedLoading });
+    // If user is already present, there is no need to login.
+    if (!!state.user) {
+      dispatch({ type: Types.LoginWithoutUserData });
       return;
     }
 
@@ -135,8 +137,10 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (data) {
       authorizedAxios.defaults.headers.common.Authorization = `Bearer ${data.accessToken}`;
       dispatch({ type: Types.LoginWithUserData, payload: { user: data.user } });
+    } else {
+      //No data in localStorage and no user data in state. Which means that user is not logged in.
+      dispatch({ type: Types.FinishedLoading });
     }
-    dispatch({ type: Types.FinishedLoading });
   };
 
   const storeTokenAndFetchUserData = async (accessToken: string, refreshToken: string) => {
@@ -147,10 +151,10 @@ function AuthProvider({ children }: AuthProviderProps) {
     const returnedUser: User | null = await fetchUserDataFromBE();
     if (returnedUser) {
       dispatch({ type: Types.LoginWithUserData, payload: { user: returnedUser } });
-    } else {
-      dispatch({ type: Types.LoginWithoutUserData });
+      return;
     }
 
+    //BE returned null for whatever reason. user is still considered to be not logged in.
     dispatch({ type: Types.FinishedLoading });
   };
 
@@ -177,13 +181,17 @@ function AuthProvider({ children }: AuthProviderProps) {
     return returnedUser;
   };
 
-  const hasUserData = useCallback(() => !!state.user, [state.user]);
+  const hasUserData = () => {
+    // For new users, BE will return "id" and possibly "name",
+    // but username and telegramHandle will be null/undefined
+    return !!state.user?.username && !!state.user?.telegramHandle;
+  };
 
   useEffect(() => {
-    if (state.contextFinishedLoading && hasUserData()) {
+    if (state.isLoggedIn && hasUserData()) {
       localStorage.setItem(USER, JSON.stringify(state.user));
     }
-  }, [state.user, state.contextFinishedLoading, hasUserData]);
+  }, [state.user, state.isLoggedIn]);
 
   return (
     <AuthContext.Provider

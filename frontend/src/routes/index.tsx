@@ -34,7 +34,11 @@ export default function Router() {
     },
     {
       path: 'login',
-      element: <Login />,
+      element: (
+        <AuthRedirect>
+          <Login />
+        </AuthRedirect>
+      ),
     },
 
     // Onboarding Routes
@@ -57,7 +61,7 @@ export default function Router() {
             </AuthGuard>
           ),
         },
-        { path: '*', element: <Navigate to="/" replace /> },
+        { path: '*', element: <Navigate to="/newuser" replace /> },
       ],
     },
 

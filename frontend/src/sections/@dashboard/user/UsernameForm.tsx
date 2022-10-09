@@ -59,7 +59,7 @@ export default function NewUserForm({ onExit }: Props) {
 
   const onSubmit = async () => {
     try {
-      enqueueSnackbar(`User info in state is: ${JSON.stringify(newUserContext.user)}`);
+      // enqueueSnackbar(`User info in state is: ${JSON.stringify(newUserContext.user)}`);
       await auth.createUser(newUserContext.user);
       onExit();
     } catch (error) {
