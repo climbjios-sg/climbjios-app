@@ -14,6 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import Iconify from '../../../components/Iconify';
+import { PATH_AUTH } from '../../../routes/paths';
 // Sections
 import ProfileEditForm from '../../../sections/profile/ProfileEditForm';
 
@@ -58,7 +59,12 @@ export default function Profile() {
                     </ListItemButton>
                   </ListItem>
                   <ListItem>
-                    <ListItemButton>
+                    <ListItemButton
+                      onClick={() => {
+                        auth.logout();
+                        navigate(PATH_AUTH.root);
+                      }}
+                    >
                       <ListItemIcon>
                         <Iconify icon="eva:log-out-outline" />
                       </ListItemIcon>

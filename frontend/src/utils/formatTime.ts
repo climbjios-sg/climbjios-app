@@ -22,11 +22,11 @@ export function setDateTime(date: Date, time: string): Date {
 }
 
 // formatStartEndDate takes a start and end date ISO string, and converts it into a string display in UI
-// e.g. 12 Dec, Wed 9am-9pm
+// e.g. Wed, 12 Dec, 9am-9pm
 export function formatStartEndDate(startISOString: string, endISOString: string): string {
   const startDateTimeObject = utcDateToLocaleDate(new Date(startISOString));
   const endDateTimeObject = utcDateToLocaleDate(new Date(endISOString));
-  const dateString = format(startDateTimeObject, 'E, d MMM'); // e.g. Wed,12 Dec
+  const dateString = format(startDateTimeObject, 'E, d MMM'); // e.g. Wed, 12 Dec
   const startTimeString = format(startDateTimeObject, 'haaa'); // e.g. 9am
   const endTimeString = format(endDateTimeObject, 'haaa'); // e.g. 9pm
   const displayDateTimeString = `${dateString}, ${startTimeString} - ${endTimeString}`;
@@ -42,4 +42,11 @@ export function isStartTimeEarlier(startDate: Date, endDate: Date): boolean {
     startTimeHours < endTimeHours ||
     (startTimeHours === endTimeHours && startTimeMinutes < endTimeMinutes)
   );
+}
+
+// e.g.
+// date = Date(12 Dec), startTime = 09:00, endTime = 21:00
+// returns 12 Dec, 09:00-21:00
+export function formatPrettyDate(date: Date, startTime: string, endTime: string): string {
+  return `${format(date, 'd MMM')}, ${startTime}-${endTime}`;
 }

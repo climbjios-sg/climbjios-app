@@ -1,12 +1,14 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 // @mui
 import { Container, BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 // components
 import Page from '../../components/Page';
-import { useLocation, Link, useRoutes } from 'react-router-dom';
+import { useLocation, Link, useRoutes, Navigate } from 'react-router-dom';
 import Iconify from '../../components/Iconify';
 import Profile from './profile';
-import Jios from './jios';
+import Jios from './jios/JiosRouter';
+import { listGyms } from '../../store/reducers/gyms';
+import { useDispatch } from '../../store';
 
 interface BottomTab {
   path: string;
@@ -40,35 +42,38 @@ function BottomTabs({ tabs }: BottomTabsProps) {
     </BottomNavigation>
   );
 }
+const DASHBOARD_TABS = [
+  {
+    path: 'jios/*',
+    to: 'jios',
+    label: 'Jios',
+    icon: <Iconify icon={'eva:people-outline'} width={20} height={20} />,
+    element: <Jios />,
+  },
+  {
+    path: 'profile/*',
+    to: 'profile',
+    label: 'Profile',
+    icon: <Iconify icon={'eva:person-outline'} width={20} height={20} />,
+    element: <Profile />,
+  },
+];
+
+const MainAppRouter = () =>
+  useRoutes([
+    ...DASHBOARD_TABS.map((tab) => ({
+      path: tab.path,
+      element: tab.element,
+    })),
+    { path: '', element: <Navigate to="jios" replace /> },
+  ]);
 
 export default function MainApp() {
-  const DASHBOARD_TABS = React.useMemo(
-    () => [
-      {
-        path: 'jios/*',
-        to: 'jios',
-        label: 'Jios',
-        icon: <Iconify icon={'eva:people-outline'} width={20} height={20} />,
-        element: <Jios />,
-      },
-      {
-        path: 'profile/*',
-        to: 'profile',
-        label: 'Profile',
-        icon: <Iconify icon={'eva:person-outline'} width={20} height={20} />,
-        element: <Profile />,
-      },
-    ],
-    []
-  );
+  const dispatch = useDispatch();
 
-  const MainAppRouter = () =>
-    useRoutes(
-      DASHBOARD_TABS.map((tab) => ({
-        path: tab.path,
-        element: tab.element,
-      }))
-    );
+  useEffect(() => {
+    dispatch(listGyms());
+  }, [dispatch]);
 
   return (
     <Page title="ClimbJios - The social network for climbers." sx={{ background: '#fafafa' }}>

@@ -1,4 +1,4 @@
-import { Card, CardHeader, Stack, Skeleton, Typography } from '@mui/material';
+import { Card, CardHeader, Stack, Skeleton } from '@mui/material';
 
 export default function JioCardSkeleton() {
   return (

@@ -39,6 +39,15 @@ export class PostService {
     });
   }
 
+  async getPost(userId: string, postId: string) {
+    const post = await this.postsDaoService.getById(postId);
+    if (post.userId !== userId) {
+      throw new HttpException('Forbidden', 403);
+    }
+
+    return post;
+  }
+
   async patchPost(userId: string, postId: string, body: PatchPostDto) {
     const post = await this.postsDaoService.getById(postId);
     if (post.userId !== userId) {

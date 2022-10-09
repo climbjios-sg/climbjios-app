@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Button, Card, CardHeader, Stack, Typography } from '@mui/material';
-import Iconify from '../../../components/Iconify';
-import { IconStyle } from '../../../sections/@dashboard/user/profile/common';
-import { Jio } from '../../../@types/jio';
-import palette from '../../../theme/palette';
-import { formatStartEndDate } from '../../../utils/formatTime';
-import { getPassesText } from './common';
+import Iconify from '../../../../../components/Iconify';
+import { IconStyle } from '../../../../../sections/@dashboard/user/profile/common';
+import { Jio } from '../../../../../@types/jio';
+import palette from '../../../../../theme/palette';
+import { formatStartEndDate } from '../../../../../utils/formatTime';
+import { getPassesText } from '../utils';
 import CloseMyJioDialog from './CloseMyJioDialog';
 import { useSnackbar } from 'notistack';
 import { closeMyJio } from 'src/store/reducers/myJios';
