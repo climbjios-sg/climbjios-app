@@ -20,7 +20,7 @@ import { useForm } from 'react-hook-form';
 import { Jio } from '../../../@types/jio';
 import { Gym } from '../../../@types/gym';
 // dayjs
-import { getGymList } from 'src/services';
+import { getGymList } from 'src/services/gyms';
 import { useSnackbar } from 'notistack';
 import { LoadingButton } from '@mui/lab';
 import { useRequest } from 'ahooks';

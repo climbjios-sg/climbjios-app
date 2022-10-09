@@ -7,7 +7,7 @@ export const BE_API = {
   user: '/v1/user',
   gyms: '/v1/gyms',
   posts: {
-    create: '/v1/posts',
+    root: '/v1/posts',
     search: '/v1/posts/search',
   },
 };

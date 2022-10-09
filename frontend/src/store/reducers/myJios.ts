@@ -70,7 +70,7 @@ export function listMyJios(options = defaultOptions) {
   return async () => {
     dispatch(slice.actions.request());
     try {
-      const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.posts.create);
+      const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.posts.root);
       const collections: Jio[] = response.data;
       dispatch(slice.actions.list(collections));
       onSuccess?.();
@@ -85,7 +85,7 @@ export function closeMyJio(id: number, options = defaultOptions) {
   const { onSuccess, onFailure } = options;
   return async () => {
     try {
-      const response = await authorizedAxios.patch<Jio>(`${BE_API.posts.create}/${id}`, {
+      const response = await authorizedAxios.patch<Jio>(`${BE_API.posts.root}/${id}`, {
         isClosed: true,
       });
       const updatedJioData = response.data;
