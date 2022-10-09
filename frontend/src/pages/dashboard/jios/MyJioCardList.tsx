@@ -49,9 +49,5 @@ export default function MyJioCardList() {
     dispatch(listMyJios());
   }, [version, dispatch]);
 
-  return (
-    <Grid container sm={12}>
-      {displayedData}
-    </Grid>
-  );
+  return <Grid container>{displayedData}</Grid>;
 }

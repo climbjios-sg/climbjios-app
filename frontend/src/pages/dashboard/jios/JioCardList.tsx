@@ -54,9 +54,5 @@ export default function JioCardList({ searchParams }: JioCardListProps) {
     dispatch(listJios(searchParams));
   }, [version, dispatch, searchParams]);
 
-  return (
-    <Grid container sm={12}>
-      {displayedData}
-    </Grid>
-  );
+  return <Grid container>{displayedData}</Grid>;
 }

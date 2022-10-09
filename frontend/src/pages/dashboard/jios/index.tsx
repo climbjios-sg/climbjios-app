@@ -46,7 +46,6 @@ export default function Jios() {
       navigate('');
     },
     onError: (error) => {
-      // TODO: error snack bar?
       // TODO: handle FE validation checks
       enqueueSnackbar('Failed to create', { variant: 'error' });
     },
