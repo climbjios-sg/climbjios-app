@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 // @mui
 import { Container, BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 // components
@@ -51,7 +51,7 @@ const DASHBOARD_TABS = [
     element: <Jios />,
   },
   {
-    path: 'profile',
+    path: 'profile/*',
     to: 'profile',
     label: 'Profile',
     icon: <Iconify icon={'eva:person-outline'} width={20} height={20} />,
@@ -69,11 +69,11 @@ const MainAppRouter = () =>
   ]);
 
 export default function MainApp() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(listGyms());
-  }, [dispatch])
+  }, [dispatch]);
 
   return (
     <Page title="ClimbJios - The social network for climbers." sx={{ background: '#fafafa' }}>
