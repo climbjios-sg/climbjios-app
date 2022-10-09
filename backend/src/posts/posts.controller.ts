@@ -27,6 +27,11 @@ export class PostController {
     return this.postService.createPost(req.user.id, body);
   }
 
+  @Get(':postId')
+  getPost(@Req() req, @Param() params) {
+    return this.postService.getPost(req.user.id, params.postId);
+  }
+
   @Patch(':postId')
   patchPost(@Req() req, @Param() params, @Body() body: PatchPostDto) {
     return this.postService.patchPost(req.user.id, params.postId, body);
