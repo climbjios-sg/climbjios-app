@@ -5,7 +5,7 @@ import { Container, Typography, Grid } from '@mui/material';
 import Page from '../../components/Page';
 import Logo from '../../components/Logo';
 // sections
-import NewUserForm from '../../sections/@dashboard/user/NewUserForm';
+import ProfileEditForm from '../../sections/profile/ProfileEditForm';
 import { PATH_ONBOARDING } from '../../routes/paths';
 import useAuth from '../../hooks/useAuth';
 
@@ -14,6 +14,7 @@ import useAuth from '../../hooks/useAuth';
 export default function Profile() {
   const auth = useAuth();
   const navigate = useNavigate();
+
   return (
     <Page title="Onboarding: Fill in your details">
       <Container
@@ -30,11 +31,7 @@ export default function Profile() {
         <Typography variant="subtitle1" gutterBottom sx={{ mt: 5, mb: 1 }}>
           Fill in your details to be shown to other climbers
         </Typography>
-        <NewUserForm
-          onExit={() => {
-            navigate(PATH_ONBOARDING.username);
-          }}
-        />
+        <ProfileEditForm isExistingUser={false} />
       </Container>
     </Page>
   );

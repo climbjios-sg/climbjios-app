@@ -7,9 +7,9 @@ import { useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import { Box, Card, Grid, Stack, InputAdornment, FormHelperText } from '@mui/material';
 // @types
-import { User } from '../../../@types/user';
+import { User } from '../../@types/user';
 // components
-import { FormProvider, RHFTextField } from '../../../components/hook-form';
+import { FormProvider, RHFTextField } from '../../components/hook-form';
 import { useSnackbar } from 'notistack';
 import {
   MAX_NAME_LEN,
@@ -20,23 +20,27 @@ import {
   REGEX_TELEGRAM,
   SUPPORT_EMAIL,
   TELEGRAM_REGEX_ERROR,
-} from '../../../config';
-import useAuth from '../../../hooks/useAuth';
+} from '../../config';
+import useAuth from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 // context
-import { NewUserContext } from '../../../contexts/NewUserContext';
+import { NewUserContext } from '../../contexts/NewUserContext';
+// paths
+import { PATH_ONBOARDING } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
 
 interface FormValuesProps extends User {}
 
 type Props = {
-  onExit: () => void;
+  isExistingUser: boolean;
 };
 
-export default function NewUserForm({ onExit }: Props) {
+export default function ProfileEditForm({ isExistingUser }: Props) {
   const auth = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const newUserContext = useContext(NewUserContext);
+  const navigate = useNavigate();
 
   const NewProfileSchema = Yup.object().shape({
     name: Yup.string()
@@ -51,7 +55,10 @@ export default function NewUserForm({ onExit }: Props) {
 
   const methods = useForm<FormValuesProps>({
     resolver: yupResolver(NewProfileSchema),
-    defaultValues: { name: '', telegramHandle: '' },
+    defaultValues: {
+      name: isExistingUser ? auth.user?.name : '',
+      telegramHandle: isExistingUser ? auth.user?.telegramHandle : '',
+    },
   });
 
   const {
@@ -62,19 +69,34 @@ export default function NewUserForm({ onExit }: Props) {
   } = methods;
 
   const onSubmit = async (data: FormValuesProps) => {
-    try {
-      // enqueueSnackbar(`User info in NewUserContext is: ${JSON.stringify(newUserContext.user)}`);
-      onExit();
-    } catch (error) {
-      enqueueSnackbar(
-        `Failed to update profile. Try again. If the problem persists, contact support ${SUPPORT_EMAIL}.`,
-        {
+    if (!data.name || !data.telegramHandle) return;
+
+    newUserContext.updateName(data.name);
+    newUserContext.updateTelegram(data.telegramHandle);
+
+    if (isExistingUser) {
+      try {
+        newUserContext.updateUsername(auth.user?.username as string);
+
+        let user: User = {
+          name: data.name,
+          telegramHandle: data.telegramHandle,
+          username: auth.user?.username,
+        };
+
+        await auth.updateUserData(user);
+        enqueueSnackbar(`Profile updated successfully!`);
+        navigate(-1);
+      } catch (error) {
+        enqueueSnackbar(`Error when updating profile`, {
           variant: 'error',
           persist: true,
-        }
-      );
-      console.error(error);
-      throw error;
+        });
+        console.error(error);
+        throw error;
+      }
+    } else {
+      navigate(PATH_ONBOARDING.username);
     }
   };
 
@@ -88,7 +110,6 @@ export default function NewUserForm({ onExit }: Props) {
               <RHFTextField
                 name="name"
                 label="Name"
-                defaultValue={auth.user?.name}
                 helperText="Your name will be displayed on your profile page. You can always change this later"
                 onChange={(e) => {
                   newUserContext.updateName(e.target.value);
@@ -97,7 +118,7 @@ export default function NewUserForm({ onExit }: Props) {
               />
               <FormHelperText error>{errors?.telegramHandle?.message}</FormHelperText>
               <RHFTextField
-                name="telegram"
+                name="telegramHandle"
                 label="Telegram Username"
                 helperText="Other climbers will communicate with you over Telegram."
                 InputProps={{
@@ -118,7 +139,7 @@ export default function NewUserForm({ onExit }: Props) {
                 variant="contained"
                 loading={isSubmitting}
               >
-                Next
+                {isExistingUser ? `Save Changes` : `Next`}
               </LoadingButton>
             </Stack>
           </Card>

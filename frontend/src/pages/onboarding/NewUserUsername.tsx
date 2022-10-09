@@ -5,7 +5,7 @@ import { Container, Typography, Grid } from '@mui/material';
 import Page from '../../components/Page';
 import Logo from '../../components/Logo';
 // sections
-import UsernameForm from '../../sections/@dashboard/user/UsernameForm';
+import UsernameForm from '../../sections/onboarding/UsernameForm';
 import { PATH_DASHBOARD } from '../../routes/paths';
 import useAuth from '../../hooks/useAuth';
 

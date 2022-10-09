@@ -135,6 +135,20 @@ function AuthProvider({ children }: AuthProviderProps) {
       return;
     }
 
+    if (process.env.REACT_APP_USE_DUMMY_USER === 'true') {
+      dispatch({
+        type: Types.LoginWithUserData,
+        payload: {
+          user: {
+            id: `test123`,
+            name: `Dummy User`,
+            telegramHandle: `dummyuser1`,
+            username: `dummyusername1`,
+          },
+        },
+      });
+    }
+
     const data = getSessionFromStorage();
     // If there is session data, load data
     if (data) {
@@ -167,8 +181,6 @@ function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const createUser = async (user: User) => {
-    const userProfile = { ...user };
-    delete userProfile.id;
     const returnedUser = await patchUserDataInBE(user);
     // Update context
     dispatch({ type: Types.SetUserData, payload: { user: returnedUser } });

@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import { Card, Grid, Stack, FormHelperText } from '@mui/material';
 // components
-import { FormProvider, RHFTextField } from '../../../components/hook-form';
+import { FormProvider, RHFTextField } from '../../components/hook-form';
 import { useSnackbar } from 'notistack';
 import {
   SUPPORT_EMAIL,
@@ -16,11 +16,11 @@ import {
   REGEX_USERNAME,
   USERNAME_LEN_ERROR,
   USERNAME_REGEX_ERROR,
-} from '../../../config';
-import useAuth from '../../../hooks/useAuth';
+} from '../../config';
+import useAuth from '../../hooks/useAuth';
 
 // context
-import { NewUserContext } from '../../../contexts/NewUserContext';
+import { NewUserContext } from '../../contexts/NewUserContext';
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ type Props = {
   onExit: () => void;
 };
 
-export default function NewUserForm({ onExit }: Props) {
+export default function UsernameForm({ onExit }: Props) {
   const auth = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const newUserContext = useContext(NewUserContext);
