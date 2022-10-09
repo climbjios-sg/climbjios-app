@@ -119,6 +119,7 @@ export default function JiosForm({
 
   if (process.env.REACT_APP_DEBUG_FORM === 'true') {
     const formData = watch();
+    console.log(formData);
   }
 
   return (
