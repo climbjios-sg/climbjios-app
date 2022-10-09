@@ -39,8 +39,8 @@ const NewJioSchema = Yup.object().shape({
   price: Yup.number().required('Price is required').positive('Price must be more than $0'),
   gymId: Yup.number().required('Gym is required').positive().integer(),
   date: Yup.date().required('Date is required'),
-  startDateTime: Yup.string().required('Start timing is required'),
-  endDateTime: Yup.string().required('End timing is required'),
+  startTiming: Yup.string().required('Start timing is required'),
+  endTiming: Yup.string().required('End timing is required'),
   openToClimbTogether: Yup.boolean().required(),
 });
 
@@ -55,9 +55,9 @@ export interface JioFormValues {
   optionalNote: Jio['optionalNote'];
   date: Date;
   // Time in 09:00 format
-  startDateTime: string;
+  startTiming: string;
   // Time in 09:00 format
-  endDateTime: string;
+  endTiming: string;
 }
 
 type Props = {
@@ -89,8 +89,8 @@ export default function JiosForm({
       price: currentJio?.price,
       gymId: currentJio?.gymId,
       date: currentJio?.date || new Date(),
-      startDateTime: currentJio?.startDateTime || '09:00',
-      endDateTime: currentJio?.endDateTime || '22:00',
+      startTiming: currentJio?.startTiming || '09:00',
+      endTiming: currentJio?.endTiming || '22:00',
       openToClimbTogether: currentJio?.openToClimbTogether,
     }),
     [currentJio]
@@ -105,8 +105,8 @@ export default function JiosForm({
 
   const submitForm = async (data: JioFormValues) => {
     // TODO: do a check for start date time must be after now
-    if (data.startDateTime >= data.endDateTime) {
-      setError('startDateTime', { type: 'custom', message: 'Start time must be before end time' });
+    if (data.startTiming >= data.endTiming) {
+      setError('startTiming', { type: 'custom', message: 'Start time must be before end time' });
       return;
     }
 
@@ -205,7 +205,7 @@ export default function JiosForm({
             <RHFTextField
               size="medium"
               type="time"
-              name="startDateTime"
+              name="startTiming"
               label="Start Time"
               InputLabelProps={{
                 shrink: true,
@@ -214,7 +214,7 @@ export default function JiosForm({
             <RHFTextField
               size="medium"
               type="time"
-              name="endDateTime"
+              name="endTiming"
               label="End Time"
               InputLabelProps={{
                 shrink: true,

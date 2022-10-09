@@ -5,10 +5,10 @@ import useVersion from 'src/hooks/useVersion';
 import JioCard from './JioCard';
 import JioCardSkeleton from './JioCardSkeleton';
 import EmptyJiosContent from './EmptyJiosContent';
-import { setDateTime } from 'src/utils/formatTime';
 import EmptyContent from 'src/components/EmptyContent';
 import { useDispatch, useSelector } from 'src/store';
 import { listJios, ListJiosArgs } from 'src/store/reducers/jios';
+import { getDateTimeString } from 'src/utils/formatTime';
 
 export default function JioCardList() {
   const dispatch = useDispatch();
@@ -48,40 +48,22 @@ export default function JioCardList() {
   }, [data, error, loading]);
 
   useEffect(() => {
-    // TODO: move to utils?
-    const getStartDateTimeString = () => {
-      if (jioFormValues?.date && jioFormValues?.startDateTime) {
-        return setDateTime(jioFormValues.date, jioFormValues.startDateTime).toISOString();
-      }
+    if (!jioFormValues) {
+      return;
+    }
 
-      return undefined;
-    };
-    const getEndDateTimeString = () => {
-      if (jioFormValues?.date && jioFormValues?.endDateTime) {
-        return setDateTime(jioFormValues.date, jioFormValues.endDateTime).toISOString();
-      }
+    const { date, startTiming, endTiming, type, numPasses, gymId } = jioFormValues;
 
-      return undefined;
-    };
     const searchParams: ListJiosArgs = {
-      type: jioFormValues?.type,
-      numPasses: jioFormValues?.numPasses,
-      gymId: jioFormValues?.gymId,
-      startDateTime: getStartDateTimeString(),
-      endDateTime: getEndDateTimeString(),
+      type: type,
+      numPasses: numPasses,
+      gymId: gymId,
+      startDateTime: getDateTimeString(date, startTiming),
+      endDateTime: getDateTimeString(date, endTiming),
     };
 
     dispatch(listJios(searchParams));
-  }, [
-    version,
-    dispatch,
-    jioFormValues?.type,
-    jioFormValues?.numPasses,
-    jioFormValues?.gymId,
-    jioFormValues?.date,
-    jioFormValues?.startDateTime,
-    jioFormValues?.endDateTime,
-  ]);
+  }, [version, dispatch, jioFormValues]);
 
   return <Grid container>{displayedData}</Grid>;
 }

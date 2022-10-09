@@ -1,5 +1,6 @@
 // ----------------------------------------------------------------------
 
+import { timeEnd } from 'console';
 import { addHours, format } from 'date-fns';
 
 export function utcDateToLocaleDate(date: Date): Date {
@@ -19,6 +20,10 @@ export function setDateTime(date: Date, time: string): Date {
   newDate.setHours(+hour);
   newDate.setMinutes(+minute);
   return newDate;
+}
+
+export function getDateTimeString(date: Date, time: string): string {
+  return setDateTime(date, time).toISOString();
 }
 
 // formatStartEndDate takes a start and end date ISO string, and converts it into a string display in UI
