@@ -40,7 +40,7 @@ export default function AuthGuard({ children }: AuthGuardProps) {
       navigate(PATH_ONBOARDING.username);
       return;
     }
-  }, [auth, location.pathname, navigate, newUserContext]);
+  }, [auth, location.pathname, navigate]);
 
   if (!auth.contextFinishedLoading) {
     return <LoadingScreen />;
