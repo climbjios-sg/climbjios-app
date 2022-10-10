@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Divider } from '@mui/material';
 import useVersion from 'src/hooks/useVersion';
 import JioCard from './JioCard';
 import JioCardSkeleton from '../JioCardSkeleton';
@@ -9,6 +9,8 @@ import EmptyContent from 'src/components/EmptyContent';
 import { useDispatch, useSelector } from 'src/store';
 import { listJios, ListJiosArgs } from 'src/store/reducers/jios';
 import { getDateTimeString } from 'src/utils/formatTime';
+import { Link } from 'react-router-dom';
+import { PATH_DASHBOARD } from '../../../../../routes/paths';
 
 export default function JioCardList() {
   const dispatch = useDispatch();
@@ -40,11 +42,23 @@ export default function JioCardList() {
       return <EmptyJiosContent />;
     }
 
-    return data.map((jio) => (
-      <Grid key={jio.id} sx={{ width: '100%', mt: 2 }} item>
-        <JioCard data={jio} />
-      </Grid>
-    ));
+    return (
+      <>
+        {data.map((jio) => (
+          <Grid key={jio.id} sx={{ width: '100%', mt: 2 }} item>
+            <JioCard data={jio} />
+          </Grid>
+        ))}
+        <Grid sx={{ width: '100%', mt: 4 }} item>
+          <Divider textAlign="center">Can't find the right Jio? 🤔</Divider>
+          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', marginTop: 25 }}>
+            <Button component={Link} to={PATH_DASHBOARD.general.jios.create} variant="contained" fullWidth size="large">
+              Create a Jio
+            </Button>
+          </div>
+        </Grid>
+      </>
+    );
   }, [data, error, loading]);
 
   useEffect(() => {
@@ -66,9 +80,5 @@ export default function JioCardList() {
     dispatch(listJios(searchParams));
   }, [version, dispatch, jioSearchValues]);
 
-  return (
-    <Grid container>
-      {displayedData}
-    </Grid>
-  );
+  return <Grid container>{displayedData}</Grid>;
 }
