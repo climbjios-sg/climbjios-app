@@ -24,14 +24,17 @@ export class UserController {
   }
 
   @Patch()
-  async postUser(@Req() req, @Body() body: PatchUserDto) {
+  async patchUser(@Req() req, @Body() body: PatchUserDto) {
     const USERNAME_IN_USE_ERROR_MESSAGE = 'username already in use!';
 
-    if (
-      body.username &&
-      (await this.userService.checkUsernameExists(body.username))
-    ) {
-      throw new HttpException(USERNAME_IN_USE_ERROR_MESSAGE, 409);
+    if (body.username) {
+      const userWithUsername = await this.userService.getByUsername(
+        body.username,
+      );
+
+      if (userWithUsername && userWithUsername.id !== req.user.id) {
+        throw new HttpException(USERNAME_IN_USE_ERROR_MESSAGE, 409);
+      }
     }
     return await this.userService.patchUser(req.user.id, body);
   }

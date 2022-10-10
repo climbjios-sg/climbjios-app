@@ -35,4 +35,8 @@ export class UserService {
   checkUsernameExists(username: string) {
     return this.userDaoService.checkUsernameExists(username);
   }
+
+  getByUsername(username: string) {
+    return this.userDaoService.findByUsername(username);
+  }
 }

@@ -14,6 +14,10 @@ export class UserDaoService {
     return query;
   }
 
+  findByUsername(username: string) {
+    return this.userModel.query().findOne({ username });
+  }
+
   updateById(userid: string, user: Partial<UserModel>) {
     return this.userModel
       .query()
