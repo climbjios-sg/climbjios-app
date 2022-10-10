@@ -3,6 +3,7 @@ import { ApiUser, User } from 'src/@types/user';
 export const BE_API = {
   auth: {
     google: '/v1/auth/google',
+    refresh: '/v1/auth/refresh'
   },
   user: '/v1/user',
   gyms: '/v1/gyms',
