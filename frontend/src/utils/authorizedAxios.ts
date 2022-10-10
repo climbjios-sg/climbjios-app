@@ -10,13 +10,27 @@ const authorizedAxios = axios.create({
   baseURL: HOST_API,
 });
 
+// Request interceptor for API calls
+authorizedAxios.interceptors.request.use(
+  async (config) => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    config.headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  }
+);
+
 // Response interceptor for API calls
 authorizedAxios.interceptors.response.use(
   (response) => response,
   async function (error) {
     const originalRequest = error.config;
     // If token expires, replay request
-    if (error.response.status === 403 && !originalRequest._retry) {
+    if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem(REFRESH_TOKEN);
       if (!refreshToken) {
@@ -25,7 +39,7 @@ authorizedAxios.interceptors.response.use(
       const { data } = await refreshAccessToken(refreshToken);
       localStorage.setItem(ACCESS_TOKEN, data.accessToken);
       localStorage.setItem(REFRESH_TOKEN, data.refreshToken);
-      axios.defaults.headers.common.Authorization = 'Bearer ' + data.accessToken;
+      authorizedAxios.defaults.headers.common.Authorization = 'Bearer ' + data.accessToken;
       return authorizedAxios(originalRequest);
     }
     return Promise.reject(error);
