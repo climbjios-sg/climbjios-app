@@ -12,9 +12,9 @@ import { BrowserTracing } from '@sentry/tracing';
 
 // ----------------------------------------------------------------------
 
-if (process.env.REACT_APP_ACTIVATE_SENTY === 'true') {
+if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
-    dsn: 'https://6773d3fdc8e748dba17b627e56eab79e@o4503935433703424.ingest.sentry.io/4503935436128256',
+    dsn: process.env.REACT_APP_SENTRY_DSN,
     integrations: [new BrowserTracing()],
   
     // Set tracesSampleRate to 1.0 to capture 100%
