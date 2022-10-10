@@ -1,17 +1,16 @@
 import * as React from 'react';
 import Iconify from 'src/components/Iconify';
-import useRefresh from 'src/hooks/useRefresh';
 import { useNavigate, useParams } from 'react-router-dom';
-import JiosForm, { JioFormValues } from '../form/JiosForm';
+import JiosCreateEditForm from '../form/JiosCreateEditForm';
+import { JioCreateEditFormValues , jioFormValuesToRequestJio } from "../form/utils";
 import { useRequest } from 'ahooks';
 import { useSnackbar } from 'notistack';
 import { getJio, updateJio } from 'src/services/jios';
 import { Jio } from 'src/@types/jio';
 import { dateToTimeString } from '../../../../utils/formatTime';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
-import { jioFormValuesToRequestJio } from '../form/utils';
 
-const jioToJioFormValues = (jio: Jio): JioFormValues => ({
+const jioToJioFormValues = (jio: Jio): JioCreateEditFormValues => ({
   type: jio.type,
   numPasses: jio.numPasses,
   price: jio.price,
@@ -47,7 +46,7 @@ export default function JiosEdit() {
     },
   });
 
-  const handleEdit = async (data: JioFormValues) => {
+  const handleEdit = async (data: JioCreateEditFormValues) => {
     if (isNaN(jioId)) {
       return;
     }
@@ -56,7 +55,7 @@ export default function JiosEdit() {
   };
 
   return !data || error || loading ? null : (
-    <JiosForm
+    <JiosCreateEditForm
       onSubmit={handleEdit}
       submitLabel="Submit"
       submitIcon={<Iconify icon={'eva:add-outline'} width={24} height={24} />}

@@ -10,7 +10,10 @@ import JioCardList from './allJios/JioCardList';
 import MyJioCardList from './myJios/MyJioCardList';
 import { useDispatch, useSelector } from '../../../../store';
 import { customShadows } from '../../../../theme/shadows';
-import { clearJioSearchForm } from '../../../../store/reducers/jioSearchForm';
+import { clearJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
+import { Jio } from '../../../../@types/jio';
+import { IconStyle } from '../../../../sections/@dashboard/user/profile/common';
+import { PATH_DASHBOARD } from '../../../../routes/paths';
 
 const StyledTab = styled(Tab)({
   '&.MuiButtonBase-root': {
@@ -22,6 +25,12 @@ enum TabValue {
   AllJios = 'All Jios',
   MyJios = 'My Jios',
 }
+
+const jioTypePillMap: Record<Jio['type'], string> = {
+  buyer: "I'm buying passes",
+  seller: "I'm selling passes",
+  other: 'Not buying/selling passes',
+};
 
 export default function JiosList() {
   const gyms = useSelector((state) => state.gyms.data);
@@ -42,49 +51,64 @@ export default function JiosList() {
 
   // Show button with filter if is searching, else show search button
   const renderButton = () => {
-    if (jioSearchValues && jioSearchValues.gymId) {
-      const gymName = gyms.find((gym) => gym.id === jioSearchValues.gymId)?.name;
-      const dateTimeName = formatPrettyDate(
-        jioSearchValues.date,
-        jioSearchValues.startTiming,
-        jioSearchValues.endTiming
-      );
+    if (jioSearchValues) {
+      const { date, startTiming, endTiming, gymId } = jioSearchValues;
+      const dateTimeName = formatPrettyDate(date, startTiming, endTiming);
 
       return (
-        <Button
-          sx={{
+        <div
+          onClick={() => {
+            navigate(PATH_DASHBOARD.general.jios.search);
+          }}
+          style={{
             position: 'relative',
             borderRadius: 30,
             justifyContent: 'flex-start',
             background: 'white',
             boxShadow: customShadows.light.card,
             border: '1px solid rgba(145, 158, 171, 0.24)',
-            overflow: 'hidden',
+            fontWeight: 700,
+            padding: '6px 8px',
           }}
-          variant="outlined"
-          size="large"
-          color="primary"
-          fullWidth
         >
-          {gymName && <Chip sx={{ mr: 0.5 }} label={gymName} />}
-          <Chip label={dateTimeName} />
+          <div style={{ display: 'flex', width: '100%', overflowX: 'scroll', paddingRight: 40 }}>
+            {gymId && (
+              <Chip
+                sx={{ mr: 0.5 }}
+                icon={<IconStyle icon={'eva:pin-outline'} />}
+                label={gyms.find((gym) => gym.id === jioSearchValues.gymId)?.name}
+              />
+            )}
+            <Chip
+              sx={{ mr: 0.5 }}
+              icon={<IconStyle icon={'eva:calendar-outline'} />}
+              label={dateTimeName}
+            />
+            {jioSearchValues.type && (
+              <Chip
+                icon={<IconStyle icon={'mingcute:coupon-line'} />}
+                label={jioTypePillMap[jioSearchValues.type]}
+              />
+            )}
+          </div>
           <IconButton
             sx={{
               position: 'absolute',
-              right: 0,
-              width: 50,
-              height: 50,
+              top: 0,
+              right: 2,
+              width: 45,
+              height: 44,
               background: 'white',
               borderTopLeftRadius: 0,
               borderBottomLeftRadius: 0,
             }}
             onClick={() => {
-              dispatch(clearJioSearchForm());
+              dispatch(clearJiosSearchForm());
             }}
           >
             <Iconify icon="eva:close-outline" />
           </IconButton>
-        </Button>
+        </div>
       );
     } else {
       return (
@@ -94,6 +118,7 @@ export default function JiosList() {
             justifyContent: 'flex-start',
             background: 'white',
             boxShadow: customShadows.light.card,
+            border: '1px solid rgba(145, 158, 171, 0.24)',
           }}
           variant="outlined"
           size="large"
@@ -103,7 +128,7 @@ export default function JiosList() {
           onClick={onClickSearch}
         >
           <Typography sx={{ ml: 1, fontSize: 16 }} variant="button">
-            Search
+            Search ClimbJios...
           </Typography>
         </Button>
       );

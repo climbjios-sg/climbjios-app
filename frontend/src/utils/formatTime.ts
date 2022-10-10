@@ -53,9 +53,13 @@ export function formatPrettyDate(date: Date, startTime: string, endTime: string)
   return `${format(date, 'd MMM')}, ${startTime}-${endTime}`;
 }
 
+// dateToTimeString returns time of date in 24hr format
 // e.g.
 // date = Date(12 Dec, 09:00)
 // returns 09:00
+// e.g.
+// date = Date(12 Dec, 23:00)
+// returns 23:00
 export function dateToTimeString(date: Date): string {
-  return format(date, 'hh:mm');
+  return format(date, 'HH:mm');
 }

@@ -50,7 +50,7 @@ export default function JioCardList() {
           </Grid>
         ))}
         <Grid sx={{ width: '100%', mt: 4 }} item>
-          <Divider textAlign="center">Can't find the right Jio? 🤔</Divider>
+          <Divider textAlign="center">Can't find the right ClimbJio? 🤔</Divider>
           <div
             style={{
               display: 'flex',
@@ -66,13 +66,13 @@ export default function JioCardList() {
               fullWidth
               size="large"
             >
-              Create Jio
+              Create ClimbJio
             </Button>
           </div>
         </Grid>
       </>
     );
-  }, [data, error, loading]);
+  }, [data, error, jioSearchValues, loading]);
 
   useEffect(() => {
     if (!jioSearchValues) {
@@ -80,15 +80,18 @@ export default function JioCardList() {
       return;
     }
 
-    const { date, startTiming, endTiming, type, numPasses, gymId } = jioSearchValues;
+    const { date, startTiming, endTiming, type, gymId } = jioSearchValues;
 
     const searchParams: ListJiosArgs = {
-      type: type,
-      numPasses: numPasses,
       gymId: gymId,
       startDateTime: getDateTimeString(date, startTiming),
       endDateTime: getDateTimeString(date, endTiming),
     };
+
+    // Add jio type to search params iff there's a preference to buy or sell passes
+    if (type !== 'other') {
+      searchParams.type = type;
+    }
 
     dispatch(listJios(searchParams));
   }, [version, dispatch, jioSearchValues]);

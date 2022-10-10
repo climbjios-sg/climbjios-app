@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import uiReducer from './ui';
 import jiosReducer from './jios';
 import myJiosReducer from './myJios';
-import jioSearchFormReducer from './jioSearchForm';
+import jioSearchFormReducer from './jiosSearchForm';
 import gymsReducer from './gyms';
 
 const rootReducer = combineReducers({

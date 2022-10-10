@@ -2,22 +2,22 @@ import { useNavigate } from 'react-router-dom';
 import Iconify from '../../../../components/Iconify';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { useDispatch, useSelector } from '../../../../store';
-import { setJioSearchForm } from '../../../../store/reducers/jioSearchForm';
-import JiosForm, { JioFormValues } from '../form/JiosForm';
+import { setJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
+import JiosSearchForm from '../form/JiosSearchForm';
+import { JioSearchFormValues } from '../form/utils';
 
 export default function JiosSearch() {
   const dispatch = useDispatch();
   const jioFormValues = useSelector((state) => state.jioSearchForm.data);
   const navigate = useNavigate();
 
-  const handleSearch = async (data: JioFormValues) => {
-    dispatch(setJioSearchForm(data));
+  const handleSearch = async (data: JioSearchFormValues) => {
+    dispatch(setJiosSearchForm(data));
     navigate(PATH_DASHBOARD.general.jios.root);
   };
 
   return (
-    <JiosForm
-      isSearch
+    <JiosSearchForm
       onSubmit={handleSearch}
       submitLabel="Search"
       submitIcon={<Iconify icon={'eva:search-outline'} width={24} height={24} />}

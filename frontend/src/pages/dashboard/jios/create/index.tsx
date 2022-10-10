@@ -1,13 +1,13 @@
 import Iconify from 'src/components/Iconify';
 import { useNavigate } from 'react-router-dom';
-import JiosForm, { JioFormValues } from '../form/JiosForm';
+import JiosCreateEditForm from '../form/JiosCreateEditForm';
+import { JioCreateEditFormValues , jioFormValuesToRequestJio } from "../form/utils";
 import { useRequest } from 'ahooks';
 import { useSnackbar } from 'notistack';
 import { createJio } from 'src/services/jios';
-import { jioFormValuesToRequestJio } from '../form/utils';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { useDispatch, useSelector } from '../../../../store';
-import { clearJioSearchForm } from '../../../../store/reducers/jioSearchForm';
+import { clearJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
 
 export default function JiosCreate() {
   const { enqueueSnackbar } = useSnackbar();
@@ -19,8 +19,8 @@ export default function JiosCreate() {
   const { run: submitCreateJio } = useRequest(createJio, {
     manual: true,
     onSuccess: () => {
-      enqueueSnackbar('Created!');
-      dispatch(clearJioSearchForm());
+      enqueueSnackbar('Created your ClimbJio! Now wait for other climbers to message you on Telegram.');
+      dispatch(clearJiosSearchForm());
       navigate(PATH_DASHBOARD.general.jios.root);
     },
     onError: (error) => {
@@ -28,12 +28,12 @@ export default function JiosCreate() {
     },
   });
 
-  const handleCreate = async (data: JioFormValues) => {
+  const handleCreate = async (data: JioCreateEditFormValues) => {
     submitCreateJio(jioFormValuesToRequestJio(data));
   };
 
   return (
-    <JiosForm
+    <JiosCreateEditForm
       defaultValues={jioSearchValues || undefined}
       onSubmit={handleCreate}
       submitLabel="Submit"
