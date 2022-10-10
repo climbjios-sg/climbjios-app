@@ -11,3 +11,9 @@ We use [GitHub Projects](https://github.com/orgs/climbjios-sg/projects/1) to han
 ## Fixing a bug
 
 ![Bug Fix Pipeline](./assets/bug-fix-pipeline-10-oct.png)
+
+## Branch naming convention
+
+`<Github_username>/<What you are working on>`
+
+e.g. `therizhao/update-readme-guide`
