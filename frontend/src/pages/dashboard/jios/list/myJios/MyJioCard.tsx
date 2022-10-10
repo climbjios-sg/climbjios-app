@@ -47,7 +47,7 @@ export default function MyJioCard({ data }: MyJioCardProps) {
   return (
     <Card>
       <CardHeader title={data.user.name} subheader={`@${data.user.username}`} />
-      <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
+      <Stack spacing={1.5} sx={{ px: 3, pb: 2, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'mingcute:coupon-fill'} color={palette.light.grey[700]} />
           <Typography variant="body2">{getPassesText(data)}</Typography>
@@ -86,7 +86,7 @@ export default function MyJioCard({ data }: MyJioCardProps) {
           <Button
             fullWidth
             color="error"
-            startIcon={<Iconify icon={'eva:trash-2-outline'} />}
+            startIcon={<Iconify icon={'eva:close-outline'} />}
             onClick={handleClose}
           >
             Close
@@ -96,7 +96,7 @@ export default function MyJioCard({ data }: MyJioCardProps) {
       <CloseMyJioDialog
         isOpen={isCloseDialogOpen}
         onCancel={handleDialogCancel}
-        onClose={handleDialogClose}
+        onConfirm={handleDialogClose}
       />
     </Card>
   );

@@ -19,15 +19,15 @@ const StyledTab = styled(Tab)({
 });
 
 enum TabValue {
-  Open = 'Open',
+  AllJios = 'All Jios',
   MyJios = 'My Jios',
 }
 
 export default function JiosList() {
   const gyms = useSelector((state) => state.gyms.data);
   const jioSearchValues = useSelector((state) => state.jioSearchForm.data);
-  const TABS: TabValue[] = [TabValue.Open, TabValue.MyJios];
-  const [tabValue, setTabValue] = React.useState<TabValue>(TabValue.Open);
+  const TABS: TabValue[] = [TabValue.AllJios, TabValue.MyJios];
+  const [tabValue, setTabValue] = React.useState<TabValue>(TabValue.AllJios);
   const dispatch = useDispatch();
   const refresh = useRefresh();
   const navigate = useNavigate();
@@ -134,7 +134,7 @@ export default function JiosList() {
           </Grid>
         </Grid>
         {/* Open Jios Tab */}
-        <TabPanel value={TabValue.Open}>
+        <TabPanel value={TabValue.AllJios}>
           <JioCardList />
         </TabPanel>
         {/* My Jios Tab */}

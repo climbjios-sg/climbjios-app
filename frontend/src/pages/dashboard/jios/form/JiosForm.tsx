@@ -153,26 +153,6 @@ export default function JiosForm({
             sx={{ alignSelf: 'center', width: `calc(100% - 20px)` }}
           />
 
-          {/* Don't show pass price for search */}
-          {!isSearch && (
-            <>
-              <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
-                How much are you willing to pay for a pass?
-              </Typography>
-              <RHFTextField
-                size="medium"
-                type="number"
-                name="price"
-                label="Price"
-                placeholder="0"
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                }}
-                sx={{ maxWidth: { md: 96 } }}
-              />
-            </>
-          )}
-
           <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
             Where are you climbing at?
           </Typography>
@@ -191,6 +171,26 @@ export default function JiosForm({
               </option>
             ))}
           </RHFSelect>
+
+          {/* Don't show pass price for search */}
+          {!isSearch && (
+            <>
+              <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
+                How much are you willing to pay for a pass?
+              </Typography>
+              <RHFTextField
+                size="medium"
+                type="number"
+                name="price"
+                label="Price"
+                fullWidth
+                placeholder="0"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+              />
+            </>
+          )}
 
           <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
             What date are you climbing on?
@@ -221,7 +221,7 @@ export default function JiosForm({
             />
           </Stack>
 
-          <Typography sx={{ mb: '-8px' }} variant="subtitle1">
+          <Typography sx={{ mb: -8 }} variant="subtitle1">
             Are you open to climbing with others?
           </Typography>
           <RHFRadioGroup
@@ -246,7 +246,7 @@ export default function JiosForm({
                 name="optionalNote"
                 label=""
                 placeholder=""
-                sx={{ maxWidth: { md: 96 } }}
+                fullWidth
               />
             </>
           )}
