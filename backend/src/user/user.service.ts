@@ -31,4 +31,8 @@ export class UserService {
         .then(() => this.userDaoService.deleteUserAccount(userId, trx)),
     );
   }
+
+  checkUsernameExists(username: string) {
+    return this.userDaoService.checkUsernameExists(username);
+  }
 }

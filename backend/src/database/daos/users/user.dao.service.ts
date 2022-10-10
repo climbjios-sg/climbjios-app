@@ -40,4 +40,8 @@ export class UserDaoService {
   deleteUserAccount(userId: string, trx: Transaction) {
     return this.userModel.query(trx).deleteById(userId);
   }
+
+  async checkUsernameExists(username: string) {
+    return !!(await this.userModel.query().findOne({ username }));
+  }
 }

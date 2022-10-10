@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, Patch, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  Patch,
+  Query,
+  Req,
+  Res,
+} from '@nestjs/common';
+import { Response } from 'express';
+import CheckUsernameDto from './dtos/checkUsername.dto';
 import PatchUserDto from './dtos/patchUser.dto';
 import { UserService } from './user.service';
 
@@ -12,12 +24,30 @@ export class UserController {
   }
 
   @Patch()
-  postUser(@Req() req, @Body() body: PatchUserDto) {
-    return this.userService.patchUser(req.user.id, body);
+  async postUser(@Req() req, @Body() body: PatchUserDto) {
+    const USERNAME_IN_USE_ERROR_MESSAGE = 'username already in use!';
+
+    if (
+      body.username &&
+      (await this.userService.checkUsernameExists(body.username))
+    ) {
+      throw new HttpException(USERNAME_IN_USE_ERROR_MESSAGE, 409);
+    }
+    return await this.userService.patchUser(req.user.id, body);
   }
 
   @Delete()
   deleteAllUserDataAndPosts(@Req() req) {
     return this.userService.deleteAllUserDataAndPosts(req.user.id);
+  }
+
+  @Get('checkUsername')
+  async checkUsernameExists(
+    @Res() res: Response,
+    @Query() query: CheckUsernameDto,
+  ) {
+    return (await this.userService.checkUsernameExists(query.username))
+      ? res.sendStatus(200)
+      : res.sendStatus(404);
   }
 }
