@@ -39,7 +39,7 @@ export default function JioCardList() {
     }
 
     if (data.length === 0) {
-      return <EmptyJiosContent />;
+      return <EmptyJiosContent isSearching={!!jioSearchValues} />;
     }
 
     return (
@@ -51,9 +51,22 @@ export default function JioCardList() {
         ))}
         <Grid sx={{ width: '100%', mt: 4 }} item>
           <Divider textAlign="center">Can't find the right Jio? 🤔</Divider>
-          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', marginTop: 25 }}>
-            <Button component={Link} to={PATH_DASHBOARD.general.jios.create} variant="contained" fullWidth size="large">
-              Create a Jio
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'column',
+              marginTop: 25,
+            }}
+          >
+            <Button
+              component={Link}
+              to={PATH_DASHBOARD.general.jios.create}
+              variant="contained"
+              fullWidth
+              size="large"
+            >
+              Create Jio
             </Button>
           </div>
         </Grid>

@@ -9,26 +9,30 @@ import DialogTitle from '@mui/material/DialogTitle';
 interface CloseMyJioDialogProps {
   isOpen: boolean;
   onCancel: () => void;
-  onClose: () => void;
+  onConfirm: () => void;
 }
 
-export default function CloseMyJioDialog({ isOpen, onCancel, onClose }: CloseMyJioDialogProps) {
+export default function CloseMyJioDialog({ isOpen, onCancel, onConfirm }: CloseMyJioDialogProps) {
   return (
     <Dialog
       open={isOpen}
-      onClose={onClose}
+      onClose={onCancel}
       aria-labelledby="close-my-jio-dialog-title"
       aria-describedby="close-my-jio-dialog-description"
     >
-      <DialogTitle id="close-my-jio-dialog-title">Are you sure?</DialogTitle>
+      <DialogTitle id="close-my-jio-dialog-title">
+        Do you really want to close this Jio?
+      </DialogTitle>
       <DialogContent>
         <DialogContentText id="close-my-jio-dialog-description">
-          Do you really want to close this jio? This process cannot be undone.
+          Jios cannot be reopened once they are closed.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onCancel}>Cancel</Button>
-        <Button onClick={onClose} autoFocus>
+        <Button sx={{ py: 2 }} onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button sx={{ py: 2 }} color="error" onClick={onConfirm} autoFocus>
           Close
         </Button>
       </DialogActions>

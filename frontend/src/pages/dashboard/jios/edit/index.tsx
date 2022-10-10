@@ -31,9 +31,9 @@ export default function JiosEdit() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
-  const { data, error, loading } = useRequest(getJio, {
+  const { data, error, loading } = useRequest(() => getJio(jioId), {
     onError: () => {
-      enqueueSnackbar('Failed to get jio', { variant: 'error' });
+      enqueueSnackbar('Failed to get Jio.', { variant: 'error' });
     },
   });
   const { run: submitUpdateJio } = useRequest(updateJio, {
@@ -43,7 +43,7 @@ export default function JiosEdit() {
       navigate(PATH_DASHBOARD.general.jios.root);
     },
     onError: () => {
-      enqueueSnackbar('Failed to update', { variant: 'error' });
+      enqueueSnackbar('Failed to update Jio.', { variant: 'error' });
     },
   });
 
