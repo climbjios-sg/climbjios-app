@@ -2,8 +2,12 @@
 
 Hello folks! Welcome to the ClimbJios repo. To start contributing, read through this guide.
 
-We use GitHub issues and project to handle everything.
+We use [GitHub Projects](https://github.com/orgs/climbjios-sg/projects/1) to handle everything from design to code.
 
 ## Building a new feature
 
-<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/GqUFT1nAXDrW7Rri7hbdkr@VsSo8s35WwPJAPh5CKXTKv"></iframe>
+![New Features Pipeline](./assets/new-features-pipeline-10-oct.png)
+
+## Fixing a bug
+
+![Bug Fix Pipeline](./assets/bug-fix-pipeline-10-oct.png)
