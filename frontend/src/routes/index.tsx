@@ -42,7 +42,6 @@ export default function Router() {
     // Onboarding Routes
     {
       path: 'onboarding',
-      element: <Navigate to={PATH_ONBOARDING.newuser} replace />,
       children: [
         {
           path: 'newuser',
