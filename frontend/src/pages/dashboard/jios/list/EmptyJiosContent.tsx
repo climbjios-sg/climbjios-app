@@ -24,7 +24,7 @@ export default function EmptyJiosContent({ isSearching }: EmptyJiosContentProps)
           variant="contained"
           fullWidth
         >
-          Create Jio
+          Create ClimbJio
         </Button>
       </div>
     </Grid>

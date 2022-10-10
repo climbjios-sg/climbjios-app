@@ -48,7 +48,7 @@ export default function MyJioCardList() {
           </Grid>
         ))}
         <Grid sx={{ width: '100%', mt: 4 }} item>
-          <Divider textAlign="center">That's all your Jios 🧗</Divider>
+          <Divider textAlign="center">That's all your ClimbJios 🧗</Divider>
           <div
             style={{
               display: 'flex',
@@ -64,7 +64,7 @@ export default function MyJioCardList() {
               fullWidth
               size="large"
             >
-              Create Jio
+              Create ClimbJio
             </Button>
           </div>
         </Grid>
