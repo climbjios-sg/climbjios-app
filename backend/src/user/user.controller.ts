@@ -49,8 +49,8 @@ export class UserController {
     @Res() res: Response,
     @Query() query: CheckUsernameDto,
   ) {
-    return (await this.userService.checkUsernameExists(query.username))
-      ? res.sendStatus(200)
-      : res.sendStatus(404);
+    return res.send({
+      exists: await this.userService.checkUsernameExists(query.username),
+    });
   }
 }
