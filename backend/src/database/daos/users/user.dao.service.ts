@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ModelClass } from 'objection';
+import { ModelClass, Transaction } from 'objection';
 import { UserModel } from 'src/database/models/user.model';
 
 @Injectable()
@@ -35,5 +35,9 @@ export class UserDaoService {
     }
 
     return await this.userModel.query().insert(user).returning('*');
+  }
+
+  deleteUserAccount(userId: string, trx: Transaction) {
+    return this.userModel.query(trx).deleteById(userId);
   }
 }

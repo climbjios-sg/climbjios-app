@@ -30,6 +30,10 @@ export class ConstantsService implements IConstantsService {
     return this.configService.get(varname) || defaultTo;
   }
 
+  private getBooleanOrThrow(varname: string) {
+    return this.configService.getOrThrow(varname).toLowerCase() === 'true';
+  }
+
   OAUTH_GOOGLE_ID = this.getOrThrow('OAUTH_GOOGLE_ID');
   OAUTH_GOOGLE_SECRET = this.getOrThrow('OAUTH_GOOGLE_SECRET');
   OAUTH_GOOGLE_REDIRECT_URL = this.getOrThrow('OAUTH_GOOGLE_REDIRECT_URL');
@@ -44,4 +48,5 @@ export class ConstantsService implements IConstantsService {
   DATABASE_NAME = this.getOrThrow('DATABASE_NAME');
   CORS_ORIGIN = this.getOrThrow('CORS_ORIGIN');
   PORT = this.getOrDefaultTo('PORT', 4000);
+  ENABLE_USER_DELETE = this.getBooleanOrThrow('ENABLE_USER_DELETE');
 }

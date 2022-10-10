@@ -85,4 +85,8 @@ export class PostsDaoService {
     });
     return await query;
   }
+
+  deleteAllUserPosts(userId: string, trx: Transaction) {
+    return this.postModel.query(trx).delete().where({ userId });
+  }
 }
