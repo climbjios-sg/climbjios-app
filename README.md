@@ -11,3 +11,7 @@ We use [GitHub Projects](https://github.com/orgs/climbjios-sg/projects/1) to han
 ## Fixing a bug
 
 ![Bug Fix Pipeline](./assets/bug-fix-pipeline-10-oct.png)
+
+## Appendix
+
+Link to edit flows: https://whimsical.com/climbjios-GqUFT1nAXDrW7Rri7hbdkr@7YNFXnKbZA9d5gjTYUxTm
