@@ -27,7 +27,7 @@ export default function Profile() {
       <Route
         path="edit"
         element={
-          <Box sx={{ pt: 5, pb: 100, maxWidth: 600, margin: '0 auto' }}>
+          <Box sx={{ pt: 5, minHeight: '100vh', pb: 20, maxWidth: 600, margin: '0 auto' }}>
             <ProfileEditForm isExistingUser={true} />
           </Box>
         }
@@ -35,7 +35,7 @@ export default function Profile() {
       <Route
         path=""
         element={
-          <Box sx={{ pt: 5, pb: 100, maxWidth: 600, margin: '0 auto' }}>
+          <Box sx={{ pt: 5, minHeight: '100vh', pb: 20, maxWidth: 600, margin: '0 auto' }}>
             <Stack direction="column" alignItems="center" sx={{ width: '100%' }}>
               <Typography sx={{ mt: 1, textAlign: 'center' }} variant="h5">
                 {auth.user?.name}

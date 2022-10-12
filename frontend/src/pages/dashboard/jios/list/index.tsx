@@ -136,7 +136,7 @@ export default function JiosList() {
   };
 
   return (
-    <Box sx={{ pt: 5, pb: 100, maxWidth: 600, margin: '0 auto' }}>
+    <Box sx={{ pt: 5, pb: 20, minHeight: '100vh', maxWidth: 600, margin: '0 auto' }}>
       <TabContext value={tabValue}>
         {renderButton()}
         <Grid sx={{ pt: 1.5 }} container justifyContent="space-between" alignItems="center">
