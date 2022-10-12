@@ -6,9 +6,9 @@ function pluralS(num: number) {
 
 export function getPassesText(data: Jio) {
   if (data.type === 'seller') {
-    return `Buying ${data.numPasses} pass${pluralS(data.numPasses)}`;
-  } else if (data.type === 'buyer') {
     return `Selling ${data.numPasses} pass${pluralS(data.numPasses)}`;
+  } else if (data.type === 'buyer') {
+    return `Buying ${data.numPasses} pass${pluralS(data.numPasses)}`;
   } else {
     return `No need passes. Just looking for friends to climb with.`;
   }

@@ -2,13 +2,14 @@ import * as React from 'react';
 import Iconify from 'src/components/Iconify';
 import { useNavigate, useParams } from 'react-router-dom';
 import JiosCreateEditForm from '../form/JiosCreateEditForm';
-import { JioCreateEditFormValues , jioFormValuesToRequestJio } from "../form/utils";
+import { JioCreateEditFormValues, jioFormValuesToRequestJio } from '../form/utils';
 import { useRequest } from 'ahooks';
 import { useSnackbar } from 'notistack';
 import { getJio, updateJio } from 'src/services/jios';
 import { Jio } from 'src/@types/jio';
 import { dateToTimeString } from '../../../../utils/formatTime';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
+import { TabValue } from '../list';
 
 const jioToJioFormValues = (jio: Jio): JioCreateEditFormValues => ({
   type: jio.type,
@@ -35,11 +36,16 @@ export default function JiosEdit() {
       enqueueSnackbar('Failed to get Jio.', { variant: 'error' });
     },
   });
+
+  const navigateOut = () => {
+    navigate(`${PATH_DASHBOARD.general.jios.root}?tab=${TabValue.MyJios}`);
+  };
+
   const { run: submitUpdateJio } = useRequest(updateJio, {
     manual: true,
     onSuccess: () => {
       enqueueSnackbar('Updated!');
-      navigate(PATH_DASHBOARD.general.jios.root);
+      navigateOut();
     },
     onError: () => {
       enqueueSnackbar('Failed to update Jio.', { variant: 'error' });
@@ -56,6 +62,9 @@ export default function JiosEdit() {
 
   return !data || error || loading ? null : (
     <JiosCreateEditForm
+      onCancel={() => {
+        navigateOut();
+      }}
       onSubmit={handleEdit}
       submitLabel="Submit"
       submitIcon={<Iconify icon={'eva:add-outline'} width={24} height={24} />}

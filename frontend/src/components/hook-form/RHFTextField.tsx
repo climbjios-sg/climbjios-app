@@ -18,9 +18,11 @@ export default function RHFTextField({ name, ...other }: Props) {
     <Controller
       name={name}
       control={control}
-      render={({ field, fieldState: { error } }) => (
+      render={({ field: { ref, ...field }, fieldState: { error } }) => (
+        // Note: Have to take out the ref for ref to passed succesfully
         <TextField
           {...field}
+          inputRef={ref}
           fullWidth
           value={typeof field.value === 'number' && field.value === 0 ? '' : field.value}
           error={!!error}

@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Iconify from '../../../../components/Iconify';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { useDispatch, useSelector } from '../../../../store';
-import { setJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
+import { clearJiosSearchForm, setJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
 import JiosSearchForm from '../form/JiosSearchForm';
 import { JioSearchFormValues } from '../form/utils';
 
@@ -18,6 +18,10 @@ export default function JiosSearch() {
 
   return (
     <JiosSearchForm
+      onClear={() => {
+        dispatch(clearJiosSearchForm());
+        navigate(PATH_DASHBOARD.general.jios.root);
+      }}
       onSubmit={handleSearch}
       submitLabel="Search"
       submitIcon={<Iconify icon={'eva:search-outline'} width={24} height={24} />}

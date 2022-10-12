@@ -28,8 +28,8 @@ export default function RHFRadioGroup({ name, options, ...other }: Props) {
     <Controller
       name={name}
       control={control}
-      render={({ field, fieldState: { error } }) => (
-        <div>
+      render={({ field: { ref, ...field }, fieldState: { error } }) => (
+        <div ref={ref}>
           <RadioGroup {...field} {...other}>
             {options.map((option) => (
               <FormControlLabel
@@ -42,7 +42,7 @@ export default function RHFRadioGroup({ name, options, ...other }: Props) {
           </RadioGroup>
 
           {!!error && (
-            <FormHelperText error sx={{ px: 2 }}>
+            <FormHelperText error >
               {error.message}
             </FormHelperText>
           )}

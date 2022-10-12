@@ -1,10 +1,4 @@
-import { addHours, format } from 'date-fns';
-
-export function utcDateToLocaleDate(date: Date): Date {
-  const minutesBeforeUtc = new Date().getTimezoneOffset(); // Difference in minutes UTC & climber's timezone, e.g. For GMT+8, it's -480
-  const minutesAfterUtc = -minutesBeforeUtc;
-  return addHours(date, minutesAfterUtc);
-}
+import { format } from 'date-fns';
 
 // getLocaleDateTime returns a datetime object with the date set to the time specified
 // e.g. date = 13/10/2022, time = 12:00
@@ -19,15 +13,21 @@ export function setDateTime(date: Date, time: string): Date {
   return newDate;
 }
 
+// Set time to 0 for a date object
+export function zeroTime(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
 export function getDateTimeString(date: Date, time: string): string {
   return setDateTime(date, time).toISOString();
 }
 
 // formatStartEndDate takes a start and end date ISO string, and converts it into a string display in UI
+// Note: Browser automatically display local timezone based on utc date string
 // e.g. Wed, 12 Dec, 9am-9pm
 export function formatStartEndDate(startISOString: string, endISOString: string): string {
-  const startDateTimeObject = utcDateToLocaleDate(new Date(startISOString));
-  const endDateTimeObject = utcDateToLocaleDate(new Date(endISOString));
+  const startDateTimeObject = new Date(startISOString);
+  const endDateTimeObject = new Date(endISOString);
   const dateString = format(startDateTimeObject, 'E, d MMM'); // e.g. Wed, 12 Dec
   const startTimeString = format(startDateTimeObject, 'haaa'); // e.g. 9am
   const endTimeString = format(endDateTimeObject, 'haaa'); // e.g. 9pm

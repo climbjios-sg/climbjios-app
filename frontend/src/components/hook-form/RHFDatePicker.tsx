@@ -22,9 +22,10 @@ export default function RHFDatePicker({ name, label }: Props) {
     <Controller
       name={name}
       control={control}
-      render={({ field, fieldState: { error } }) => (
+      render={({ field: { ref, ...field }, fieldState: { error } }) => (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
+            inputRef={ref}
             minDate={new Date()}
             label={label}
             value={field.value}
