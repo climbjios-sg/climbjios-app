@@ -16,7 +16,7 @@ export default function JioCard({ data }: JioCardProps) {
 
   return (
     <Card>
-      <CardHeader
+      {/* <CardHeader
         title={data.user.name}
         subheader={`@${data.user.username}`}
         action={
@@ -38,7 +38,7 @@ export default function JioCard({ data }: JioCardProps) {
             </Tooltip>
           )
         }
-      />
+      /> */}
       <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
@@ -54,6 +54,12 @@ export default function JioCard({ data }: JioCardProps) {
           <IconStyle icon={'mingcute:coupon-line'} color={palette.light.grey[700]} />
           <Typography variant="body2">{getPassesText(data)}</Typography>
         </Stack>
+        {data.openToClimbTogether && (
+          <Stack direction="row">
+            <IconStyle icon={'fluent:hand-wave-16-regular'} color={palette.light.grey[700]} />
+            <Typography variant="body2">Open Jio to climb together!</Typography>
+          </Stack>
+        )}
         {data.optionalNote && (
           <Stack direction="row">
             <IconStyle icon={'eva:message-square-outline'} color={palette.light.grey[700]} />
