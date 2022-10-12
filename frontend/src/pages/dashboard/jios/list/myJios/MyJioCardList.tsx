@@ -37,7 +37,7 @@ export default function MyJioCardList() {
     }
 
     if (myJiosData.length === 0) {
-      return <EmptyJiosContent />;
+      return <EmptyJiosContent title="You have no Jios." description="Why not try creating one?" />;
     }
 
     return (

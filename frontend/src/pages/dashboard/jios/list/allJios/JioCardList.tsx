@@ -23,7 +23,7 @@ export default function JioCardList() {
       return (
         <Grid sx={{ width: '100%', mt: 2 }} item>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-            <EmptyContent sx={{ py: 3 }} title="There's an error" />
+            <EmptyContent sx={{ py: 3 }} title="We have an error! That's embarassing 😢" />
             <Button variant="contained">Contact Support</Button>
           </div>
         </Grid>
@@ -38,8 +38,20 @@ export default function JioCardList() {
       );
     }
 
+    // If no content
     if (data.length === 0) {
-      return <EmptyJiosContent isSearching={!!jioSearchValues} />;
+      // If is searching
+      if (jioSearchValues) {
+        return (
+          <EmptyJiosContent
+            title="There're no Jios that match your search."
+            description="You can create one based on your search filters."
+          />
+        );
+      }
+
+      // If not searching
+      return <EmptyJiosContent title="There're no Jios now." description="" />;
     }
 
     return (
@@ -72,7 +84,7 @@ export default function JioCardList() {
         </Grid>
       </>
     );
-  }, [data, error, jioSearchValues, loading]);
+  }, [data, error, jioSearchValues, jioSearchValues, loading]);
 
   useEffect(() => {
     if (!jioSearchValues) {

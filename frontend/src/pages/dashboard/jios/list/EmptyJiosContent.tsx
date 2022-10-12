@@ -5,18 +5,15 @@ import { PATH_DASHBOARD } from 'src/routes/paths';
 import { Link } from 'react-router-dom';
 
 interface EmptyJiosContentProps {
-  isSearching?: boolean;
+  title: string;
+  description: string;
 }
 
-export default function EmptyJiosContent({ isSearching }: EmptyJiosContentProps) {
+export default function EmptyJiosContent({ title, description }: EmptyJiosContentProps) {
   return (
     <Grid sx={{ width: '100%', mt: 2 }} item>
       <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-        <EmptyContent
-          sx={{ py: 3 }}
-          title={isSearching ? "There're no Jios that match your search." : "There're no Jios now."}
-          description={isSearching ? 'You can create one based on your search filters.' : ''}
-        />
+        <EmptyContent sx={{ py: 3 }} title={title} description={description} />
         <Button
           size="large"
           component={Link}
