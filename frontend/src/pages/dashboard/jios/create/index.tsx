@@ -8,7 +8,6 @@ import { createJio } from 'src/services/jios';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { useDispatch, useSelector } from '../../../../store';
 import { clearJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
-import { TabValue } from '../list';
 
 export default function JiosCreate() {
   const { enqueueSnackbar } = useSnackbar();
@@ -18,7 +17,7 @@ export default function JiosCreate() {
   const jioSearchValues = useSelector((state) => state.jioSearchForm.data);
 
   const navigateOut = () => {
-    navigate(`${PATH_DASHBOARD.general.jios.root}?tab=${TabValue.MyJios}`);
+    navigate(PATH_DASHBOARD.general.jios.userJios);
   };
 
   const { run: submitCreateJio } = useRequest(createJio, {
@@ -44,9 +43,7 @@ export default function JiosCreate() {
 
   return (
     <JiosCreateEditForm
-      onCancel={() => {
-        navigateOut();
-      }}
+      onCancel={navigateOut}
       defaultValues={jioSearchValues || undefined}
       onSubmit={handleCreate}
       submitLabel="Submit"

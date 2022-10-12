@@ -43,7 +43,7 @@ export default function JiosSearchForm({
   const { enqueueSnackbar } = useSnackbar();
   const gyms = useSelector((state) => state.gyms.data);
 
-  const NewJioSchema = Yup.object().shape({
+  const formSchema = Yup.object().shape({
     gymId: Yup.number().positive().integer(),
     ...yupStartEndDateTimingObject,
     type: Yup.string(),
@@ -61,7 +61,7 @@ export default function JiosSearchForm({
   );
 
   const methods = useForm<JioSearchFormValues>({
-    resolver: yupResolver(NewJioSchema),
+    resolver: yupResolver(formSchema),
     defaultValues: initialFormValues,
     // Show error onChange, onBlur, onSubmit
     mode: 'all',

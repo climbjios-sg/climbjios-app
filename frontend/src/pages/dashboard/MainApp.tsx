@@ -1,6 +1,12 @@
 import { useEffect } from 'react';
 // @mui
-import { Container, BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
+import {
+  Container,
+  BottomNavigation,
+  BottomNavigationAction,
+  Paper,
+  useTheme,
+} from '@mui/material';
 // components
 import Page from '../../components/Page';
 import { useLocation, Link, useRoutes, Navigate } from 'react-router-dom';
@@ -69,6 +75,7 @@ const MainAppRouter = () =>
   ]);
 
 export default function MainApp() {
+  const theme = useTheme();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -80,7 +87,10 @@ export default function MainApp() {
       <Container>
         <MainAppRouter />
       </Container>
-      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1000 }} elevation={3}>
+      <Paper
+        sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: theme.zIndex.appBar }}
+        elevation={3}
+      >
         <BottomTabs tabs={DASHBOARD_TABS} />
       </Paper>
     </Page>

@@ -46,7 +46,7 @@ export default function JiosCreateEditForm({
   const { enqueueSnackbar } = useSnackbar();
   const gyms = useSelector((state) => state.gyms.data);
 
-  const NewJioSchema = Yup.object().shape({
+  const formSchema = Yup.object().shape({
     gymId: Yup.number().positive().integer().required('Gym is required.'),
     ...yupStartEndDateTimingObject,
     type: Yup.string().required('Looking to buy or sell passes is required.'),
@@ -84,7 +84,7 @@ export default function JiosCreateEditForm({
   );
 
   const methods = useForm<JioCreateEditFormValues>({
-    resolver: yupResolver(NewJioSchema),
+    resolver: yupResolver(formSchema),
     defaultValues: initialFormValues,
     // Show error onChange, onBlur, onSubmit
     mode: 'all',
