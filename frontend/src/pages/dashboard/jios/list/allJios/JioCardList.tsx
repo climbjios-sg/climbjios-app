@@ -44,14 +44,14 @@ export default function JioCardList() {
       if (jioSearchValues) {
         return (
           <EmptyJiosContent
-            title="There're no Jios that match your search."
+            title="No Jios matched your search."
             description="You can create one based on your search filters."
           />
         );
       }
 
       // If not searching
-      return <EmptyJiosContent title="There're no Jios now." description="" />;
+      return <EmptyJiosContent title="No Jios now." description="Why not create one?" />;
     }
 
     return (
@@ -84,7 +84,7 @@ export default function JioCardList() {
         </Grid>
       </>
     );
-  }, [data, error, jioSearchValues, jioSearchValues, loading]);
+  }, [data, error, jioSearchValues, loading]);
 
   useEffect(() => {
     if (!jioSearchValues) {

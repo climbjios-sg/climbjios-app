@@ -44,14 +44,12 @@ export default function MyJioCard({ data }: MyJioCardProps) {
     submitCloseMyJio(data.id);
   };
 
+  console.log(data, formatStartEndDate(data.startDateTime, data.endDateTime));
+
   return (
     <Card>
       <CardHeader title={data.user.name} subheader={`@${data.user.username}`} />
       <Stack spacing={1.5} sx={{ px: 3, pb: 2, pt: 2 }}>
-        <Stack direction="row">
-          <IconStyle icon={'mingcute:coupon-fill'} color={palette.light.grey[700]} />
-          <Typography variant="body2">{getPassesText(data)}</Typography>
-        </Stack>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
           <Typography variant="body2">{data.gym.name}</Typography>
@@ -62,6 +60,16 @@ export default function MyJioCard({ data }: MyJioCardProps) {
             {formatStartEndDate(data.startDateTime, data.endDateTime)}
           </Typography>
         </Stack>
+        <Stack direction="row">
+          <IconStyle icon={'mingcute:coupon-line'} color={palette.light.grey[700]} />
+          <Typography variant="body2">{getPassesText(data)}</Typography>
+        </Stack>
+        {Boolean(data.price) && (
+          <Stack direction="row">
+            <IconStyle icon={'eva:pricetags-outline'} color={palette.light.grey[700]} />
+            <Typography variant="body2">{`$${data.price}/pass`}</Typography>
+          </Stack>
+        )}
         {data.openToClimbTogether && (
           <Stack direction="row">
             <IconStyle icon={'fluent:hand-wave-16-regular'} color={palette.light.grey[700]} />
@@ -74,8 +82,9 @@ export default function MyJioCard({ data }: MyJioCardProps) {
             <Typography variant="body2">{data.optionalNote}</Typography>
           </Stack>
         )}
-        <Stack direction="row" spacing={1.5}>
+        <Stack direction="row" sx={{ pt: 2 }}>
           <Button
+            color="secondary"
             component={Link}
             to={`${PATH_DASHBOARD.general.jios.edit}/${data.id}`}
             fullWidth

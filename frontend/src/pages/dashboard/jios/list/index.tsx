@@ -14,6 +14,7 @@ import { clearJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
 import { Jio } from '../../../../@types/jio';
 import { IconStyle } from '../../../../sections/@dashboard/user/profile/common';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
+import { useSearchParams } from 'react-router-dom';
 
 const StyledTab = styled(Tab)({
   '&.MuiButtonBase-root': {
@@ -21,7 +22,7 @@ const StyledTab = styled(Tab)({
   },
 });
 
-enum TabValue {
+export enum TabValue {
   AllJios = 'All Jios',
   MyJios = 'My Jios',
 }
@@ -33,10 +34,20 @@ const jioTypePillMap: Record<Jio['type'], string> = {
 };
 
 export default function JiosList() {
+  const [searchParams] = useSearchParams();
+  const getStartingTab = (): TabValue => {
+    const tabParam = searchParams.get('tab');
+    const tabValues: string[] = Object.values(TabValue);
+    if (tabParam && tabValues.includes(tabParam)) {
+      return tabParam as TabValue;
+    }
+
+    return TabValue.AllJios;
+  };
   const gyms = useSelector((state) => state.gyms.data);
   const jioSearchValues = useSelector((state) => state.jioSearchForm.data);
   const TABS: TabValue[] = [TabValue.AllJios, TabValue.MyJios];
-  const [tabValue, setTabValue] = React.useState<TabValue>(TabValue.AllJios);
+  const [tabValue, setTabValue] = React.useState<TabValue>(getStartingTab());
   const dispatch = useDispatch();
   const refresh = useRefresh();
   const navigate = useNavigate();
@@ -57,9 +68,6 @@ export default function JiosList() {
 
       return (
         <div
-          onClick={() => {
-            navigate(PATH_DASHBOARD.general.jios.search);
-          }}
           style={{
             position: 'relative',
             borderRadius: 30,
@@ -71,7 +79,12 @@ export default function JiosList() {
             padding: '6px 8px',
           }}
         >
-          <div style={{ display: 'flex', width: '100%', overflowX: 'scroll', paddingRight: 40 }}>
+          <div
+            style={{ display: 'flex', width: '100%', overflowX: 'scroll', paddingRight: 40 }}
+            onClick={() => {
+              navigate(PATH_DASHBOARD.general.jios.search);
+            }}
+          >
             {gymId && (
               <Chip
                 sx={{ mr: 0.5 }}

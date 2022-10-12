@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Box, Typography, Stack, InputAdornment } from '@mui/material';
+import { Box, Typography, Stack, InputAdornment, Button } from '@mui/material';
 // components
 import {
   FormProvider,
@@ -18,23 +18,28 @@ import { useForm } from 'react-hook-form';
 import { Gym } from '../../../../@types/gym';
 // dayjs
 import { useSnackbar } from 'notistack';
-import { LoadingButton } from '@mui/lab';
 import { useSelector } from '../../../../store';
-import { setDateTime } from '../../../../utils/formatTime';
-import { formatJioFormValues, JioCreateEditFormValues, JIOTYPE_OPTION } from './utils';
+import {
+  formatJioFormValues,
+  JioCreateEditFormValues,
+  JIOTYPE_OPTION,
+  yupStartEndDateTimingObject,
+} from './utils';
+import { addDays } from 'date-fns';
+import FloatingBottomCard from '../../../../components/FloatingBottomCard';
 
 type Props = {
   onSubmit: (data: JioCreateEditFormValues) => Promise<void>;
   submitIcon: React.ReactElement;
   submitLabel: string;
-  isSearch?: boolean;
+  onCancel: () => void;
   defaultValues?: Partial<JioCreateEditFormValues>;
 };
 
 export default function JiosCreateEditForm({
   onSubmit,
+  onCancel,
   defaultValues: currentJio,
-  isSearch,
   submitIcon,
   submitLabel,
 }: Props) {
@@ -42,18 +47,32 @@ export default function JiosCreateEditForm({
   const gyms = useSelector((state) => state.gyms.data);
 
   const NewJioSchema = Yup.object().shape({
-    gymId: Yup.number().required('Gym is required.').positive().integer(),
-    date: Yup.date().required('Date is required.'),
-    startTiming: Yup.string().required('Start timing is required.'),
-    endTiming: Yup.string().required('End timing is required.'),
+    gymId: Yup.number().positive().integer().required('Gym is required.'),
+    ...yupStartEndDateTimingObject,
     type: Yup.string().required('Looking to buy or sell passes is required.'),
-    price: Yup.number().positive('Price must be more than $0').optional(),
+    price: Yup.number()
+      .positive('Price must be a positive number.')
+      .when('type', {
+        is: (jioType: JioCreateEditFormValues['type']) => jioType === 'other',
+        then: (schema) => schema.optional(),
+        otherwise: (schema) =>
+          schema
+            .typeError('Price is required.') // Triggered when price is an empty string. Overwrites default unfriendly error message.
+            .required('Price is required.'),
+      }),
+    openToClimbTogether: Yup.boolean().when('type', {
+      is: (jioType: JioCreateEditFormValues['type']) => jioType === 'other',
+      then: (schema) => schema.optional(),
+      otherwise: (schema) => schema.required('Open to climb together is required.'),
+    }),
   });
+
+  console.log(currentJio?.date);
 
   const initialFormValues = React.useMemo(
     () => ({
       gymId: currentJio?.gymId,
-      date: currentJio?.date || new Date(),
+      date: currentJio?.date || addDays(new Date(), 1),
       startTiming: currentJio?.startTiming || '09:00',
       endTiming: currentJio?.endTiming || '22:00',
       type: currentJio?.type,
@@ -67,28 +86,18 @@ export default function JiosCreateEditForm({
   const methods = useForm<JioCreateEditFormValues>({
     resolver: yupResolver(NewJioSchema),
     defaultValues: initialFormValues,
+    // Show error onChange, onBlur, onSubmit
+    mode: 'all',
   });
-  const { handleSubmit, setFocus, setError, watch } = methods;
+  const {
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting },
+    setFocus,
+  } = methods;
   const formData = watch();
 
   const submitForm = async (data: JioCreateEditFormValues) => {
-    // TODO: Fix custom validation to run together with Yup validation
-    // Currently yup side validates first, then we have to click submit again for our custom validation to run
-    if (data.startTiming >= data.endTiming) {
-      setError('startTiming', { type: 'custom', message: 'Start time must be before end time' });
-      setFocus('startTiming');
-      return;
-    }
-
-    if (setDateTime(data.date, data.startTiming) < new Date()) {
-      setError('startTiming', {
-        type: 'custom',
-        message: 'Start date and time must be after current time',
-      });
-      setFocus('startTiming');
-      return;
-    }
-
     try {
       await onSubmit(formatJioFormValues(data));
     } catch (error) {
@@ -96,11 +105,25 @@ export default function JiosCreateEditForm({
     }
   };
 
+  // Scroll to input on error
+  React.useEffect(() => {
+    const firstError = (Object.keys(errors) as Array<keyof typeof errors>).reduce<
+      keyof typeof errors | null
+    >((field, a) => {
+      const fieldKey = field as keyof typeof errors;
+      return !!errors[fieldKey] ? fieldKey : a;
+    }, null);
+
+    if (firstError) {
+      setFocus(firstError);
+    }
+  }, [errors, isSubmitting, setFocus]);
+
   return (
     <Box
       sx={{
         pt: 5,
-        pb: 20,
+        pb: 25,
         px: '15px',
         maxWidth: 600,
         margin: '0 auto',
@@ -157,7 +180,7 @@ export default function JiosCreateEditForm({
           <Typography variant="subtitle1">Are you looking to buy or sell passes?</Typography>
           <RHFRadioGroup sx={{ mt: -1.5 }} name="type" options={JIOTYPE_OPTION} color="primary" />
 
-          {/* Display passes related data iif climber is buying or selling */}
+          {/* Display passes related data iff climber is buying or selling */}
           {formData.type && formData.type !== 'other' && (
             <>
               <Typography variant="subtitle1" sx={{ pb: 1 }}>
@@ -192,6 +215,7 @@ export default function JiosCreateEditForm({
                 Are you open to climbing with others?
               </Typography>
               <RHFRadioGroup
+                sx={{ mt: -1.5 }}
                 name="openToClimbTogether"
                 options={[
                   { label: 'Yes', value: true },
@@ -214,18 +238,23 @@ export default function JiosCreateEditForm({
             placeholder=""
             fullWidth
           />
-
-          <LoadingButton
+        </Stack>
+        <FloatingBottomCard>
+          <Button
             type="submit"
-            fullWidth
             size="large"
             variant="contained"
             color="primary"
             startIcon={submitIcon}
+            fullWidth
+            disableElevation
           >
             <Typography variant="button">{submitLabel}</Typography>
-          </LoadingButton>
-        </Stack>
+          </Button>
+          <Button size="medium" fullWidth sx={{ mt: 1.5 }} onClick={onCancel}>
+            Cancel
+          </Button>
+        </FloatingBottomCard>
       </FormProvider>
     </Box>
   );

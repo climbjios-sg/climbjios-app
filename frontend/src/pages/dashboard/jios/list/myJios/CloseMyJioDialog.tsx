@@ -5,6 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Iconify from 'src/components/Iconify';
 
 interface CloseMyJioDialogProps {
   isOpen: boolean;
@@ -20,7 +21,7 @@ export default function CloseMyJioDialog({ isOpen, onCancel, onConfirm }: CloseM
       aria-labelledby="close-my-jio-dialog-title"
       aria-describedby="close-my-jio-dialog-description"
     >
-      <DialogTitle id="close-my-jio-dialog-title">
+      <DialogTitle sx={{ mb: 1 }} id="close-my-jio-dialog-title">
         Do you really want to close this Jio?
       </DialogTitle>
       <DialogContent>
@@ -28,11 +29,17 @@ export default function CloseMyJioDialog({ isOpen, onCancel, onConfirm }: CloseM
           Jios cannot be reopened once they are closed.
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ pb: '5px !important' }}>
         <Button sx={{ py: 2 }} onClick={onCancel}>
           Cancel
         </Button>
-        <Button sx={{ py: 2 }} color="error" onClick={onConfirm} autoFocus>
+        <Button
+          startIcon={<Iconify icon={'eva:close-outline'} />}
+          sx={{ py: 2 }}
+          color="error"
+          onClick={onConfirm}
+          autoFocus
+        >
           Close
         </Button>
       </DialogActions>

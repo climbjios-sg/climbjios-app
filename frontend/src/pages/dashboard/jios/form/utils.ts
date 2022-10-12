@@ -1,6 +1,7 @@
+import * as Yup from 'yup';
+import { isAfter, isEqual } from 'date-fns';
 import { Jio, RequestJio } from '../../../../@types/jio';
-
-import { getDateTimeString } from '../../../../utils/formatTime';
+import { dateToTimeString, getDateTimeString, zeroTime } from '../../../../utils/formatTime';
 
 // ----------------------------------------------------------------------
 
@@ -64,4 +65,44 @@ export const formatJioFormValues = (data: JioCreateEditFormValues): JioCreateEdi
     price: 0,
     openToClimbTogether: true,
   };
+};
+
+export const currentDateTimeZeroed = zeroTime(new Date());
+
+// ------------- Yup validation objects -------------
+
+export const yupDateTodayOrAfter = {
+  message: 'Date must be today or after.',
+  test: (value: Date | undefined) =>
+    Boolean(
+      value &&
+        (isEqual(zeroTime(value), currentDateTimeZeroed) ||
+          isAfter(zeroTime(value), currentDateTimeZeroed))
+    ),
+};
+
+// Validates date, startTiming & endTiming
+export const yupStartEndDateTimingObject = {
+  date: Yup.date().required('Date is required.').test(yupDateTodayOrAfter),
+  startTiming: Yup.string()
+    .required('Start time is required.')
+    .when('endTiming', (endTiming: string, schema) =>
+      schema.test({
+        name: 'startTiming',
+        message: 'Start time must be before end time.',
+        test: (value: string | undefined) => Boolean(value && value < endTiming),
+      })
+    )
+    // If date is today, then start time must be after current time
+    .when('date', {
+      is: (value: Date) => Boolean(value && isEqual(zeroTime(value), currentDateTimeZeroed)),
+      then: (schema) =>
+        schema.test({
+          name: 'startTiming',
+          message: 'Start time must be after current time.',
+          test: (value: string | undefined) =>
+            Boolean(value && value > dateToTimeString(new Date())),
+        }),
+    }),
+  endTiming: Yup.string().required('End time is required.'),
 };
