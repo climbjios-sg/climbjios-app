@@ -4,6 +4,8 @@ import { Stack, Button, Typography } from '@mui/material';
 import Iconify from '../../../components/Iconify';
 //
 import { BE_API } from 'src/utils/api';
+// @ts-ignore (react-telegram-login is missing a @types file)
+import TelegramLoginButton from 'react-telegram-login';
 
 // ----------------------------------------------------------------------
 
@@ -21,6 +23,7 @@ export default function LoginForm() {
         >
           <Typography variant="button">Continue with Google</Typography>
         </Button>
+        <TelegramLoginButton dataAuthUrl={`${process.env.REACT_APP_HOST_API_KEY}${BE_API.auth.telegramRedirect}`} botName="climbjios_bot" />,
       </Stack>
     </>
   );

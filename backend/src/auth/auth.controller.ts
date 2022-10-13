@@ -13,6 +13,7 @@ import RefreshDto from './dtos/refresh.dto';
 import { GoogleOauthGuard } from './googleOauth/googleOauth.guard';
 import { JwtAuthService } from './jwtAuth/jwtAuth.service';
 import { Public } from './jwtAuth/public.decorator';
+import { TelegramOauthGuard } from './telegramOauth/telegramOauth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -32,6 +33,17 @@ export class AuthController {
   @Get('google/redirect')
   @UseGuards(GoogleOauthGuard)
   async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
+    const { accessToken, refreshToken } =
+      await this.jwtAuthService.generateJwts(req.user);
+    const redirectUrl = `${this.constantsService.CORS_ORIGIN}?accessToken=${accessToken}&refreshToken=${refreshToken}`;
+
+    return res.redirect(redirectUrl);
+  }
+
+  @Public()
+  @Get('telegram/redirect')
+  @UseGuards(TelegramOauthGuard)
+  async telegramAuthRedirect(@Req() req: Request, @Res() res: Response) {
     const { accessToken, refreshToken } =
       await this.jwtAuthService.generateJwts(req.user);
     const redirectUrl = `${this.constantsService.CORS_ORIGIN}?accessToken=${accessToken}&refreshToken=${refreshToken}`;

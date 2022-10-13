@@ -37,6 +37,7 @@ export class ConstantsService implements IConstantsService {
   OAUTH_GOOGLE_ID = this.getOrThrow('OAUTH_GOOGLE_ID');
   OAUTH_GOOGLE_SECRET = this.getOrThrow('OAUTH_GOOGLE_SECRET');
   OAUTH_GOOGLE_REDIRECT_URL = this.getOrThrow('OAUTH_GOOGLE_REDIRECT_URL');
+  OAUTH_TELEGRAM_BOT_TOKEN = this.getOrThrow('OAUTH_TELEGRAM_BOT_TOKEN');
   ACCESS_TOKEN_SECRET = this.getOrThrow('ACCESS_TOKEN_SECRET');
   ACCESS_TOKEN_EXPIRY = this.getOrThrow('ACCESS_TOKEN_EXPIRY');
   REFRESH_TOKEN_SECRET = this.getOrThrow('REFRESH_TOKEN_SECRET');

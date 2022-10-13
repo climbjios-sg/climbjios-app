@@ -1,42 +1,12 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Running the frontend locally with Telegram OAuth Login
+Telegram OAuth requires a domain to work properly. The following are some instructions on how you can test this out locally on your machine:
 
-## 1.Install
+#### Telegram setup
+1. Create a Telegram bot via @BotFather on Telegram (instructions [here](https://core.telegram.org/bots#3-how-do-i-create-a-bot))
+2. Set the `OAUTH_TELEGRAM_BOT_TOKEN` environment variable in the backend
 
-### npm
-
-```
-npm i
-or
-npm i --legacy-peer-deps
-```
-
-### yarn
-
-```
-yarn install
-```
-
-## 2.Start
-
-```sh
-npm start
-or
-yarn start
-```
-
-## 3.Build
-
-```sh
-npm run build or yarn build
-```
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-
-Your app is ready to be deployed.
-
-## User Guide
-
-You can find detailed instructions on using Create React App and many tips in [its documentation](https://facebook.github.io/create-react-app/).
+#### ngrok tunnelling setup
+1. Install ngrok and configure your ngrok auth token (instructions [here](https://dashboard.ngrok.com/get-started/setup))
+2. Run `ngrok http 3000` to start the tunnel (you will be exposing your local machine port to the internet at the given URL)
+3. On Telegram's @BotFather, run the `/setdomain` command. Select the corresponding bot in the 'Telegram setup' section above and paste the URL received when running step 2.
+4. Access your local machine deployment via the URL received in step 2. The Telegram login widget should appear as a button.
