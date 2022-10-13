@@ -5,9 +5,10 @@ import { AuthService } from './auth.service';
 import { GoogleOauthModule } from './googleOauth/googleOauth.module';
 import { JwtAuthGuard } from './jwtAuth/jwtAuth.guard';
 import { JwtAuthModule } from './jwtAuth/jwtAuth.module';
+import { TelegramOauthModule } from './telegramOauth/telegramOauth.module';
 
 @Module({
-  imports: [JwtAuthModule, GoogleOauthModule],
+  imports: [JwtAuthModule, GoogleOauthModule, TelegramOauthModule],
   controllers: [AuthController],
   providers: [
     AuthService,
