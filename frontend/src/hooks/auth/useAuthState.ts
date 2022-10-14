@@ -1,3 +1,37 @@
-const useAuthState = () => {};
+import { useEffect, useState } from 'react';
+import useCheckAuth from './useCheckAuth';
+
+interface State {
+  loading: boolean;
+  loaded: boolean;
+  authenticated: boolean;
+}
+
+/// used to render different content based on whether authenticated;
+
+const useAuthState = () => {
+  const [state, setState] = useState<State>({
+    loading: true,
+    loaded: false,
+    authenticated: true,
+  });
+
+  const checkAuth = useCheckAuth();
+
+  useEffect(() => {
+    const callCheckAuth = async () => {
+      try {
+        await checkAuth(false);
+
+        setState({ loading: false, loaded: true, authenticated: true });
+      } catch (error) {
+        setState({ loading: false, loaded: true, authenticated: false });
+      }
+    };
+
+    callCheckAuth();
+  }, [checkAuth]);
+  return state;
+};
 
 export default useAuthState;

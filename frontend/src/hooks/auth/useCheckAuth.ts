@@ -9,17 +9,21 @@ import useLogout from './useLogout';
  *
  * handle the navigation logic as well
  */
-const useCheckAuth = () => {
+const useCheckAuth = (): CheckAuth => {
   const authProvider = useAuthProvider();
   const { enqueueSnackbar } = useSnackbar();
   const logout = useLogout();
 
   const checkAuth = useCallback(
-    () =>
+    (logoutOnError = true, disableNotification = false) =>
       authProvider.checkAuth().catch((error) => {
-        logout();
+        if (logoutOnError) {
+          logout();
 
-        enqueueSnackbar('Please log in to continue', { variant: 'error' });
+          if (!disableNotification) {
+            enqueueSnackbar('Please log in to continue', { variant: 'error' });
+          }
+        }
         throw error;
       }),
     [authProvider, enqueueSnackbar, logout]
@@ -27,5 +31,7 @@ const useCheckAuth = () => {
 
   return checkAuth;
 };
+
+type CheckAuth = (logoutOnError?: boolean, disableNotification?: boolean) => Promise<any>;
 
 export default useCheckAuth;
