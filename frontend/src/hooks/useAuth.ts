@@ -4,6 +4,9 @@ import { AuthContext } from '../contexts/JWTContext';
 
 // ----------------------------------------------------------------------
 
+/**
+ * deprecated
+ */
 const useAuth = () => {
   const context = useContext(AuthContext);
 
