@@ -53,10 +53,15 @@ export type UserIdentity = {
   avatar?: string;
 };
 
+// TODO: allow pass in where to redirect to?
+
 export type AuthProvider = {
+  // TODO: fix any types
   login: (params: any) => Promise<any>;
-  logout: (params: any) => Promise<void | false | string>;
-  checkAuth: (params: any) => Promise<void>;
+  // logout: () => Promise<void | false | string>;
+  logout: () => Promise<any>;
+  checkAuth: () => Promise<void>;
+  // checkAuth: (params: any) => Promise<void>;
   checkError: (error: any) => Promise<void>;
   // getPermissions: (params: any) => Promise<any>;
   getIdentity?: () => Promise<UserIdentity>;
