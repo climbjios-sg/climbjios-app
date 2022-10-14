@@ -24,6 +24,7 @@
     "prepare": "cd .. && husky install backend/.husky",
     "knex": "knex --knexfile knexfile.ts",
     "migrate": "node ./scripts/createDatabase.js; yarn knex migrate:latest",
+    "drop-db": "node ./scripts/dropDatabase.js",
     "migrate:make": "yarn knex migrate:make -x ts",
     "seed": "yarn knex seed:run",
     "seed:stg": "NODE_ENV=staging yarn seed",
