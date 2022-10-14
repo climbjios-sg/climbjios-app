@@ -39,4 +39,8 @@ export class UserService {
   getByUsername(username: string) {
     return this.userDaoService.findByUsername(username);
   }
+
+  getByTelegramHandle(telegramHandle: string) {
+    return this.userDaoService.findByTelegramHandle(telegramHandle);
+  }
 }

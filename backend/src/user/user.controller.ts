@@ -26,6 +26,8 @@ export class UserController {
   @Patch()
   async patchUser(@Req() req, @Body() body: PatchUserDto) {
     const USERNAME_IN_USE_ERROR_MESSAGE = 'username already in use!';
+    const TELEGRAM_HANDLE_IN_USE_ERROR_MESSAGE =
+      'telegram handle already in use!';
 
     if (body.username) {
       const userWithUsername = await this.userService.getByUsername(
@@ -34,6 +36,16 @@ export class UserController {
 
       if (userWithUsername && userWithUsername.id !== req.user.id) {
         throw new HttpException(USERNAME_IN_USE_ERROR_MESSAGE, 409);
+      }
+    }
+
+    if (body.telegramHandle) {
+      const userWithTelegramHandle = await this.userService.getByTelegramHandle(
+        body.telegramHandle,
+      );
+
+      if (userWithTelegramHandle && userWithTelegramHandle.id !== req.user.id) {
+        throw new HttpException(TELEGRAM_HANDLE_IN_USE_ERROR_MESSAGE, 409);
       }
     }
     return await this.userService.patchUser(req.user.id, body);

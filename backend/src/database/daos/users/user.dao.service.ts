@@ -18,6 +18,10 @@ export class UserDaoService {
     return this.userModel.query().findOne({ username });
   }
 
+  findByTelegramHandle(telegramHandle: string) {
+    return this.userModel.query().findOne({ telegramHandle });
+  }
+
   updateById(userid: string, user: Partial<UserModel>) {
     return this.userModel
       .query()
@@ -47,6 +51,10 @@ export class UserDaoService {
 
   async checkUsernameExists(username: string) {
     return !!(await this.userModel.query().findOne({ username }));
+  }
+
+  async checkTelegramHandleExists(telegramHandle: string) {
+    return !!(await this.userModel.query().findOne({ telegramHandle }));
   }
 
   // Used only for metric alerts
