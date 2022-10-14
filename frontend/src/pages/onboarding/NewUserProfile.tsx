@@ -31,7 +31,7 @@ export default function Profile() {
         <Typography variant="subtitle1" gutterBottom sx={{ mt: 5, mb: 1 }}>
           Fill in your details to be shown to other climbers
         </Typography>
-        <ProfileEditForm isExistingUser={false} />
+        <ProfileEditForm isExistingUser buttonText="Next" />
       </Container>
     </Page>
   );

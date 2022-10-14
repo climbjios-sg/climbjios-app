@@ -33,9 +33,10 @@ interface FormValuesProps extends User {}
 
 type Props = {
   isExistingUser: boolean;
+  buttonText: string;
 };
 
-export default function ProfileEditForm({ isExistingUser }: Props) {
+export default function ProfileEditForm({ isExistingUser, buttonText }: Props) {
   const auth = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const newUserContext = useContext(NewUserContext);
@@ -137,7 +138,7 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
                 variant="contained"
                 loading={isSubmitting}
               >
-                {isExistingUser ? `Save Changes` : `Next`}
+                {buttonText}
               </LoadingButton>
             </Stack>
           </Card>

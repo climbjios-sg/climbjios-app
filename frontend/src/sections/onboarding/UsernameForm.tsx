@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo, useContext } from 'react';
+import { useContext, useEffect } from 'react';
 // form
 import { useForm } from 'react-hook-form';
 // @mui
@@ -10,7 +10,6 @@ import { Card, Grid, Stack, FormHelperText } from '@mui/material';
 import { FormProvider, RHFTextField } from '../../components/hook-form';
 import { useSnackbar } from 'notistack';
 import {
-  SUPPORT_EMAIL,
   MIN_USERNAME_LEN,
   MAX_USERNAME_LEN,
   REGEX_USERNAME,
@@ -47,11 +46,12 @@ export default function UsernameForm({ onExit }: Props) {
 
   const methods = useForm<FormValuesProps>({
     resolver: yupResolver(NewProfileSchema),
-    defaultValues: { username: '' },
+    // To be fixed: Auto-populate username with telegram handle for now
+    // In the future can just skip this form
+    defaultValues: { username: auth.user?.telegramHandle },
   });
 
   const {
-    reset,
     setValue,
     handleSubmit,
     formState: { isSubmitting, errors },
@@ -71,6 +71,11 @@ export default function UsernameForm({ onExit }: Props) {
       throw error;
     }
   };
+
+  // Temp fix to pass form if climber doesn't change their auto-filled username
+  useEffect(() => {
+    newUserContext.updateUsername(auth.user?.telegramHandle || '');
+  }, [auth.user?.telegramHandle, newUserContext]);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
