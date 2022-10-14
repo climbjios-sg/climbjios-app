@@ -62,7 +62,7 @@ export type AuthProvider = {
   logout: () => Promise<any>;
   checkAuth: () => Promise<void>;
   // checkAuth: (params: any) => Promise<void>;
-  checkError: (error: any) => Promise<void>;
+  checkError: (status: number) => Promise<void>;
   // getPermissions: (params: any) => Promise<any>;
   getIdentity?: () => Promise<UserIdentity>;
   [key: string]: any;

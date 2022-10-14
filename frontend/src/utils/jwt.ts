@@ -16,6 +16,8 @@ const isValidToken = (accessToken: string) => {
   return decoded.exp > currentTime;
 };
 
+/// old logic
+
 type UserStorage = {
   user: User;
   accessToken: string;
@@ -30,7 +32,13 @@ export const getSessionFromStorage = (): UserStorage | null => {
   const accessToken = localStorage.getItem(ACCESS_TOKEN);
   const refreshToken = localStorage.getItem(REFRESH_TOKEN);
   const userData = localStorage.getItem(USER);
-  if (accessToken && isValidToken(accessToken) && refreshToken && isValidToken(refreshToken) && userData) {
+  if (
+    accessToken &&
+    isValidToken(accessToken) &&
+    refreshToken &&
+    isValidToken(refreshToken) &&
+    userData
+  ) {
     return {
       user: JSON.parse(userData),
       accessToken,
