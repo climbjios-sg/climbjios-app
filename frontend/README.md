@@ -4,6 +4,7 @@ Telegram OAuth requires a domain to work properly. The following are some instru
 #### Telegram setup
 1. Create a Telegram bot via @BotFather on Telegram (instructions [here](https://core.telegram.org/bots#3-how-do-i-create-a-bot))
 2. Set the `OAUTH_TELEGRAM_BOT_TOKEN` environment variable in the backend
+3. Set the `REACT_APP_TELEGRAM_OAUTH_BOT_USERNAME` environment variable in the frontend
 
 #### ngrok tunnelling setup
 1. Install ngrok and configure your ngrok auth token (instructions [here](https://dashboard.ngrok.com/get-started/setup))
