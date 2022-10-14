@@ -46,6 +46,8 @@ export default function UsernameForm({ onExit }: Props) {
 
   const methods = useForm<FormValuesProps>({
     resolver: yupResolver(NewProfileSchema),
+    // To be fixed: Auto-populate username with telegram handle for now
+    // In the future can just skip this form
     defaultValues: { username: auth.user?.telegramHandle },
   });
 
