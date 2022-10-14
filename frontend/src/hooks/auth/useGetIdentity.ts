@@ -39,7 +39,7 @@ const useGetIdentity = () => {
       }
     };
     callAuthProvider();
-  });
+  }, [authProvider]);
 
   return state;
 };
