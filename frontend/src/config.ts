@@ -1,4 +1,5 @@
 import XRegExp from 'xregexp';
+import { AuthProviderType } from './@types/auth';
 // routes
 import { PATH_DASHBOARD } from './routes/paths';
 
@@ -73,3 +74,5 @@ export const NAME_REGEX_ERROR = `Name cannot contain numbers and special charact
 export const TELEGRAM_REGEX_ERROR = `Invalid Telegram handle. Please check your entry and try again`;
 export const USERNAME_LEN_ERROR = `Username must be between ${MIN_USERNAME_LEN} and ${MAX_USERNAME_LEN} characters long`;
 export const USERNAME_REGEX_ERROR = `Username can only contain alphabets and numbers. It cannot contain blank spaces`;
+
+export const DEFAULT_AUTH_PROVIDER: AuthProviderType = 'jwt';
