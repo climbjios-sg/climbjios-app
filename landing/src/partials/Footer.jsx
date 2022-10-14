@@ -68,7 +68,7 @@ function Footer() {
               ·{' '}
               <a
                 className="text-gray-600 dark:text-gray-400 hover:underline transition duration-150 ease-in-out"
-                to={externalUrls.github}
+                href={externalUrls.github}
               >
                 GitHub
               </a>
