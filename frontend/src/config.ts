@@ -56,7 +56,7 @@ Name must also be between 3 to 30 characters. Update this regex when length limi
 
 //Telegram Handle
 export const REGEX_TELEGRAM =
-  /^(?=.{5,32}$)(?!.*__)(?!^(telegram|admin|support))[a-z][a-z0-9_]*[a-z0-9]$/;
+  /^(?=.{5,32}$)(?!.*__)(?!^(telegram|admin|support))[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z0-9]$/;
 
 //Username
 export const MIN_USERNAME_LEN = 3;
