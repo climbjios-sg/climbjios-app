@@ -1,11 +1,10 @@
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Card, Stack, Container, Typography } from '@mui/material';
-import useResponsive from '../../hooks/useResponsive';
+import { Box, Stack, Container, Typography } from '@mui/material';
+
 // components
 import Page from '../../components/Page';
 import Logo from '../../components/Logo';
-import Image from '../../components/Image';
 // sections
 import { LoginForm } from '../../sections/auth/login';
 
@@ -31,15 +30,6 @@ const HeaderStyle = styled('header')(({ theme }) => ({
     alignItems: 'flex-start',
     padding: theme.spacing(7, 5, 0, 7),
   },
-}));
-
-const SectionStyle = styled(Card)(({ theme }) => ({
-  width: '100%',
-  maxWidth: 464,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2),
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from '@emotion/styled';
+import { styled } from '@mui/system';
 import { TabContext, TabPanel } from '@mui/lab';
 import { Tab, Button, Typography, Grid, Tabs, Box, IconButton, Chip } from '@mui/material';
 import { useNavigate } from 'react-router';
@@ -20,6 +20,24 @@ const StyledTab = styled(Tab)({
   '&.MuiButtonBase-root': {
     marginRight: 16,
   },
+});
+
+const SearchingButtonWrapper = styled('div')({
+  position: 'relative',
+  borderRadius: 30,
+  justifyContent: 'flex-start',
+  background: 'white',
+  boxShadow: customShadows.light.card,
+  border: '1px solid rgba(145, 158, 171, 0.24)',
+  fontWeight: 700,
+  padding: '6px 8px',
+});
+
+const SearchingButtonChipContainer = styled('div')({
+  display: 'flex',
+  width: '100%',
+  overflowX: 'scroll',
+  paddingRight: 40,
 });
 
 export enum TabValue {
@@ -67,20 +85,8 @@ export default function JiosList() {
       const dateTimeName = formatPrettyDate(date, startTiming, endTiming);
 
       return (
-        <div
-          style={{
-            position: 'relative',
-            borderRadius: 30,
-            justifyContent: 'flex-start',
-            background: 'white',
-            boxShadow: customShadows.light.card,
-            border: '1px solid rgba(145, 158, 171, 0.24)',
-            fontWeight: 700,
-            padding: '6px 8px',
-          }}
-        >
-          <div
-            style={{ display: 'flex', width: '100%', overflowX: 'scroll', paddingRight: 40 }}
+        <SearchingButtonWrapper>
+          <SearchingButtonChipContainer
             onClick={() => {
               navigate(PATH_DASHBOARD.general.jios.search);
             }}
@@ -103,7 +109,7 @@ export default function JiosList() {
                 label={jioTypePillMap[jioSearchValues.type]}
               />
             )}
-          </div>
+          </SearchingButtonChipContainer>
           <IconButton
             sx={{
               position: 'absolute',
@@ -121,7 +127,7 @@ export default function JiosList() {
           >
             <Iconify icon="eva:close-outline" />
           </IconButton>
-        </div>
+        </SearchingButtonWrapper>
       );
     } else {
       return (

@@ -1,5 +1,7 @@
 // ----------------------------------------------------------------------
 
+import { TabValue } from '../pages/dashboard/jios/list';
+
 function path(root: string, sublink: string) {
   return `${root}${sublink}`;
 }
@@ -28,6 +30,7 @@ export const PATH_DASHBOARD = {
   general: {
     jios: {
       root: path(ROOTS_DASHBOARD, '/jios'),
+      userJios: path(ROOTS_DASHBOARD, `/jios?tab=${TabValue.MyJios}`),
       search: path(ROOTS_DASHBOARD, '/jios/search'),
       create: path(ROOTS_DASHBOARD, '/jios/create'),
       edit: path(ROOTS_DASHBOARD, '/jios/edit'),

@@ -41,7 +41,7 @@ export default function JioCardList() {
     // If no content
     if (data.length === 0) {
       // If is searching
-      if (jioSearchValues) {
+      if (jioSearchValues !== null) {
         return (
           <EmptyJiosContent
             title="No Jios matched your search."

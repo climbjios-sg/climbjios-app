@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Iconify from 'src/components/Iconify';
 import { useNavigate, useParams } from 'react-router-dom';
 import JiosCreateEditForm from '../form/JiosCreateEditForm';
@@ -9,7 +8,6 @@ import { getJio, updateJio } from 'src/services/jios';
 import { Jio } from 'src/@types/jio';
 import { dateToTimeString } from '../../../../utils/formatTime';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
-import { TabValue } from '../list';
 
 const jioToJioFormValues = (jio: Jio): JioCreateEditFormValues => ({
   type: jio.type,
@@ -38,7 +36,7 @@ export default function JiosEdit() {
   });
 
   const navigateOut = () => {
-    navigate(`${PATH_DASHBOARD.general.jios.root}?tab=${TabValue.MyJios}`);
+    navigate(PATH_DASHBOARD.general.jios.userJios);
   };
 
   const { run: submitUpdateJio } = useRequest(updateJio, {
@@ -62,9 +60,7 @@ export default function JiosEdit() {
 
   return !data || error || loading ? null : (
     <JiosCreateEditForm
-      onCancel={() => {
-        navigateOut();
-      }}
+      onCancel={navigateOut}
       onSubmit={handleEdit}
       submitLabel="Submit"
       submitIcon={<Iconify icon={'eva:add-outline'} width={24} height={24} />}

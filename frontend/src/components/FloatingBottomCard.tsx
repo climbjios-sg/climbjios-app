@@ -1,10 +1,12 @@
-import { Paper } from '@mui/material';
+import { Paper, useTheme } from '@mui/material';
 
 interface Props {
   children: React.ReactNode;
 }
 
 export default function FloatingBottomCard({ children }: Props) {
+  const theme = useTheme();
+
   return (
     <Paper
       elevation={3}
@@ -12,7 +14,7 @@ export default function FloatingBottomCard({ children }: Props) {
         position: 'fixed',
         left: 0,
         bottom: 0,
-        zIndex: 10000,
+        zIndex: theme.zIndex.drawer,
         width: '100vw',
         display: 'flex',
         flexDirection: 'column',
@@ -22,9 +24,9 @@ export default function FloatingBottomCard({ children }: Props) {
         borderRadiusTopRight: '8px',
         paddingBottom: '12px',
         '& button': {
-            boxShadow: 'none',
-            maxWidth: 580,
-        }
+          boxShadow: 'none',
+          maxWidth: 580,
+        },
       }}
     >
       {children}
