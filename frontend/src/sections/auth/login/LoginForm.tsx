@@ -23,7 +23,7 @@ export default function LoginForm() {
         >
           <Typography variant="button">Continue with Google</Typography>
         </Button>
-        <TelegramLoginButton dataAuthUrl={`${process.env.REACT_APP_HOST_API_KEY}${BE_API.auth.telegramRedirect}`} botName="climbjios_bot" />,
+        <TelegramLoginButton dataAuthUrl={`${process.env.REACT_APP_HOST_API_KEY}${BE_API.auth.telegramRedirect}`} botName={`${process.env.REACT_APP_TELEGRAM_OAUTH_BOT_USERNAME}`} />
       </Stack>
     </>
   );
