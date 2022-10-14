@@ -1,8 +1,11 @@
 import { AuthProvider } from 'src/@types/auth';
 import { PATH_AUTH } from 'src/routes/paths';
+import { getUserIdentity } from 'src/services/user';
 
-export const ACCESS_TOKEN = 'accessToken';
-export const REFRESH_TOKEN = 'refreshToken';
+// TODO: move to utils?
+
+const ACCESS_TOKEN = 'accessToken';
+const REFRESH_TOKEN = 'refreshToken';
 
 const endSession = () => {
   localStorage.removeItem(ACCESS_TOKEN);
@@ -55,11 +58,9 @@ export const jwtAuthProvider: AuthProvider = {
 
     return;
   },
-  getIdentity: async () =>
-    Promise.resolve({
-      id: '',
-      name: '',
-      username: '',
-      telegramHandle: '',
-    }),
+  getIdentity: async () => {
+    const response = await getUserIdentity();
+    const userIdentity = response.data;
+    return userIdentity;
+  },
 };
