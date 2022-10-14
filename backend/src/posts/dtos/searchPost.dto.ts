@@ -6,6 +6,7 @@ import {
   IsDateString,
   IsOptional,
   IsIn,
+  IsBoolean,
 } from 'class-validator';
 import { PostType } from '../../utils/types';
 
@@ -38,4 +39,11 @@ export default class SearchPostDto {
   @IsOptional()
   @IsDateString()
   endDateTime: Date;
+
+  @IsOptional()
+  @IsBoolean()
+  @Transform((val) =>
+    val.value === 'true' ? true : val.value === 'false' ? false : '',
+  )
+  isClosed: boolean = false;
 }
