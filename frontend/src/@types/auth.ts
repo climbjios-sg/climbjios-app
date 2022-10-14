@@ -46,10 +46,11 @@ export type NewUserContextType = {
 
 // TODO: remove User and ApiUser types
 export type UserIdentity = {
-  id?: string;
+  id: string;
   name?: string;
   username?: string;
   telegramHandle?: string;
+  avatar?: string;
 };
 
 export type AuthProvider = {
