@@ -10,11 +10,8 @@ import { Card, Grid, Stack, FormHelperText } from '@mui/material';
 import { FormProvider, RHFTextField } from '../../components/hook-form';
 import { useSnackbar } from 'notistack';
 import {
-  MIN_USERNAME_LEN,
-  MAX_USERNAME_LEN,
-  REGEX_USERNAME,
-  USERNAME_LEN_ERROR,
-  USERNAME_REGEX_ERROR,
+  REGEX_TELEGRAM,
+  TELEGRAM_REGEX_ERROR,
 } from '../../config';
 import useAuth from '../../hooks/useAuth';
 
@@ -38,10 +35,8 @@ export default function UsernameForm({ onExit }: Props) {
 
   const NewProfileSchema = Yup.object().shape({
     username: Yup.string()
-      .min(MIN_USERNAME_LEN, USERNAME_LEN_ERROR)
-      .max(MAX_USERNAME_LEN, USERNAME_LEN_ERROR)
-      .matches(REGEX_USERNAME, USERNAME_REGEX_ERROR)
-      .required('Username is required'),
+      .required('Username is required.')
+      .matches(REGEX_TELEGRAM, TELEGRAM_REGEX_ERROR),
   });
 
   const methods = useForm<FormValuesProps>({
