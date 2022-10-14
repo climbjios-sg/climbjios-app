@@ -89,4 +89,23 @@ export class PostsDaoService {
   deleteAllUserPosts(userId: string, trx: Transaction) {
     return this.postModel.query(trx).delete().where({ userId });
   }
+
+  // Used only for metric alerts
+  getPostsCount() {
+    return this.postModel
+      .query()
+      .count()
+      .first()
+      .then((r: any) => r.count);
+  }
+
+  // Used only for metric alerts
+  getOpenPostsCount() {
+    return this.postModel
+      .query()
+      .count()
+      .where({ isClosed: false })
+      .first()
+      .then((r: any) => r.count);
+  }
 }
