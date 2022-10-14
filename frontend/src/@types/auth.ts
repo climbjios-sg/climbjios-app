@@ -62,4 +62,4 @@ export type AuthProvider = {
   [key: string]: any;
 };
 
-export type AuthProviderType = 'jwt';
+export type AuthProviderType = 'default' | 'jwt';
