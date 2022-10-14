@@ -37,3 +37,4 @@ lerna-debug.log*
 # .env files
 .env
 *.code-workspace
+*.exe
