@@ -19,7 +19,8 @@ export class AppService {
   @Cron(CronExpression.EVERY_3_HOURS)
   async telegramAlerts() {
     return this.telegramAlertsService.log({
-      num_users: await this.userDaoService.getUserCount(),
+      num_telegram_users: await this.userDaoService.getTelegramUserCount(),
+      num_google_users: await this.userDaoService.getGoogleUserCount(),
       num_posts: await this.postsDaoService.getPostsCount(),
       num_open_posts: await this.postsDaoService.getOpenPostsCount(),
     });

@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ModelClass, Transaction } from 'objection';
 import { UserModel } from 'src/database/models/user.model';
+import { AuthProvider } from 'src/utils/types';
 
 @Injectable()
 export class UserDaoService {
@@ -58,10 +59,21 @@ export class UserDaoService {
   }
 
   // Used only for metric alerts
-  getUserCount() {
+  getTelegramUserCount() {
     return this.userModel
       .query()
       .count()
+      .where({ authProvider: AuthProvider.TELEGRAM })
+      .first()
+      .then((r: any) => r.count);
+  }
+
+  // Used only for metric alerts
+  getGoogleUserCount() {
+    return this.userModel
+      .query()
+      .count()
+      .where({ authProvider: AuthProvider.GOOGLE })
       .first()
       .then((r: any) => r.count);
   }
