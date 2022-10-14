@@ -3,19 +3,24 @@ import { useNavigate } from 'react-router';
 import { PATH_AUTH } from 'src/routes/paths';
 import useAuthProvider from './useAuthProvider';
 
-const useLogout = () => {
+const useLogout = (): Logout => {
   // TODO: clear redux store here
   const authProvider = useAuthProvider();
 
   const navigate = useNavigate();
 
-  const logout = useCallback(async () => {
-    await authProvider.logout();
+  const logout = useCallback(
+    async (redirectTo = PATH_AUTH.root) => {
+      await authProvider.logout();
 
-    navigate(PATH_AUTH.root);
-  }, [authProvider, navigate]);
+      navigate(redirectTo);
+    },
+    [authProvider, navigate]
+  );
 
   return logout;
 };
+
+type Logout = (redirectTo?: string) => Promise<any>;
 
 export default useLogout;

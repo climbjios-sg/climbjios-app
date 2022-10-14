@@ -1,5 +1,6 @@
 import { useSnackbar } from 'notistack';
 import { useCallback } from 'react';
+import { PATH_AUTH } from 'src/routes/paths';
 import useAuthProvider from './useAuthProvider';
 import useLogout from './useLogout';
 
@@ -14,11 +15,12 @@ const useCheckAuth = (): CheckAuth => {
   const { enqueueSnackbar } = useSnackbar();
   const logout = useLogout();
 
+  // TODO: extract redirect url
   const checkAuth = useCallback(
-    (logoutOnError = true, disableNotification = false) =>
+    (logoutOnError = true, disableNotification = false, redirectTo = PATH_AUTH.root) =>
       authProvider.checkAuth().catch((error) => {
         if (logoutOnError) {
-          logout();
+          logout(redirectTo);
 
           if (!disableNotification) {
             enqueueSnackbar('Please log in to continue', { variant: 'error' });
@@ -32,6 +34,10 @@ const useCheckAuth = (): CheckAuth => {
   return checkAuth;
 };
 
-type CheckAuth = (logoutOnError?: boolean, disableNotification?: boolean) => Promise<any>;
+type CheckAuth = (
+  logoutOnError?: boolean,
+  disableNotification?: boolean,
+  redirectTo?: string
+) => Promise<any>;
 
 export default useCheckAuth;
