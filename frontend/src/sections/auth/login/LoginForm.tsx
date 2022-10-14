@@ -6,15 +6,10 @@ import Iconify from '../../../components/Iconify';
 import { BE_API } from 'src/utils/api';
 // @ts-ignore (react-telegram-login is missing a @types file)
 import TelegramLoginButton from 'react-telegram-login';
-import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
-  useEffect(() => {
-    document.querySelector('ifrmae');
-  }, []);
-
   return (
     <>
       <Stack sx={{ maxWidth: 600 }} direction="column" alignItems="center" justifyContent="space-between" spacing={1.5}>
