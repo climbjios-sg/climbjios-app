@@ -10,9 +10,17 @@ import { PostDaoModule } from './database/daos/posts/posts.dao.module';
 import { GymsModule } from './gyms/gyms.module';
 import { GymsDaoModule } from './database/daos/gyms/gyms.dao.module';
 import { ConstantsModule } from './utils/constants/constants.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { HttpModule } from '@nestjs/axios';
+import { TelegramAlertsModule } from './utils/telegramAlerts/telegramAlerts.module';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from './utils/filters/AllExceptions.filter';
 
 @Module({
   imports: [
+    HttpModule,
+    ScheduleModule.forRoot(),
+    TelegramAlertsModule,
     ConstantsModule,
 
     // Database and DAOs
@@ -28,6 +36,12 @@ import { ConstantsModule } from './utils/constants/constants.module';
     GymsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+  ],
 })
 export class AppModule {}

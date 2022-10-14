@@ -48,4 +48,13 @@ export class UserDaoService {
   async checkUsernameExists(username: string) {
     return !!(await this.userModel.query().findOne({ username }));
   }
+
+  // Used only for metric alerts
+  getUserCount() {
+    return this.userModel
+      .query()
+      .count()
+      .first()
+      .then((r: any) => r.count);
+  }
 }
