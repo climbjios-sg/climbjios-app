@@ -1,6 +1,6 @@
 import React from 'react';
 import WorkTogetherImage from '../images/060-woman-man-phone-app.svg';
-import { CLIMBJIO_TELEGRAM_BETA_URL } from '../constants';
+import { externalUrls } from '../constants';
 
 function FeaturesSplit() {
   return (
@@ -27,7 +27,9 @@ function FeaturesSplit() {
                     Give us feedback on the{' '}
                     <a
                       className="text-blue-600"
-                      href={CLIMBJIO_TELEGRAM_BETA_URL}
+                      target="_blank"
+                      rel="noopener"
+                      href={externalUrls.climbJiosTelegramBetaUrl}
                     >
                       ClimbJios Beta Telegram Group
                     </a>

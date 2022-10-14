@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '../utils/Modal';
 import HeroClimberImage from '../images/hero-climber.jpg';
-import { APP_URL } from '../constants';
+import { externalUrls } from '../constants';
 
 function HeroHome() {
   return (
@@ -29,7 +29,7 @@ function HeroHome() {
               {/* CTA form */}
               <a
                 className="btn text-white bg-primary shrink-0 mt-8 font-bold"
-                href={APP_URL}
+                href={externalUrls.appUrl}
               >
                 Sign Up Now
               </a>

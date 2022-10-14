@@ -12,9 +12,8 @@ function FeaturesBlocks() {
             data-aos-id-featbl
           >
             {/* 1st item */}
-            <a
+            <div
               className="flex flex-col p-5 group text-white bg-gradient-to-tr from-teal-500 to-teal-400 dark:to-teal-500 shadow-2xl"
-              href="#0"
               data-aos="fade-down"
               data-aos-anchor="[data-aos-id-featbl]"
             >
@@ -25,12 +24,11 @@ function FeaturesBlocks() {
               <div className="grow opacity-80 mb-4">
                 Buy & sell passes on the go. Search for specific gyms.
               </div>
-            </a>
+            </div>
 
             {/* 2nd item */}
-            <a
+            <div
               className="flex flex-col p-5 group text-white bg-gradient-to-tr from-purple-500 to-purple-400 dark:to-purple-500 shadow-2xl"
-              href="#0"
               data-aos="fade-down"
               data-aos-anchor="[data-aos-id-featbl]"
               data-aos-delay="100"
@@ -42,12 +40,11 @@ function FeaturesBlocks() {
               <div className="grow opacity-80 mb-4">
                 Dedicated profile page. Find your climbing buddies.
               </div>
-            </a>
+            </div>
 
             {/* 3rd item */}
-            <a
+            <div
               className="flex flex-col p-5 group text-white bg-gradient-to-tr from-pink-500 to-pink-400 dark:to-pink-500 shadow-2xl"
-              href="#0"
               data-aos="fade-down"
               data-aos-anchor="[data-aos-id-featbl]"
               data-aos-delay="300"
@@ -59,7 +56,7 @@ function FeaturesBlocks() {
               <div className="grow opacity-80 mb-4">
                 Watch and share Beta videos for climbing routes in each gym.
               </div>
-            </a>
+            </div>
           </div>
         </div>
       </div>

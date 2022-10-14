@@ -10,7 +10,6 @@ import Footer from '../partials/Footer';
 function Home() {
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
-      <Header />
       {/*  Page content */}
       <main className="grow">
         {/*  Page illustration */}
@@ -27,9 +26,6 @@ function Home() {
         <FeaturesSplit />
         <Cta title="Let's build our community together." />
       </main>
-
-      {/*  Site footer */}
-      <Footer />
     </div>
   );
 }

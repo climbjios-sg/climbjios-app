@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { externalUrls, paths } from '../constants';
 import LogoWithText from '../images/logo-with-text.svg';
 
 function Footer() {
@@ -56,35 +57,35 @@ function Footer() {
 
           {/* Bottom area */}
           <div className="flex flex-wrap items-center justify-between">
-            {/* Social links */}
+            {/* Middle links */}
             <div className="text-sm md:order-1 text-gray-700 mb-2 md:mb-0">
               <Link
                 className="text-gray-600 dark:text-gray-400 hover:underline transition duration-150 ease-in-out"
-                to="#"
+                to={paths.ourStory}
               >
                 Our Story
               </Link>{' '}
               ·{' '}
-              <Link
+              <a
                 className="text-gray-600 dark:text-gray-400 hover:underline transition duration-150 ease-in-out"
-                to="#"
+                to={externalUrls.github}
               >
                 GitHub
-              </Link>
+              </a>
             </div>
 
-            {/* Middle links */}
+            {/* Right links */}
             <div className="text-sm md:order-1 text-gray-700 mb-2 md:mb-0 ">
               <Link
                 className="text-gray-600 dark:text-gray-400 hover:underline transition duration-150 ease-in-out"
-                to="#"
+                to={paths.terms}
               >
                 Terms
               </Link>{' '}
               ·{' '}
               <Link
                 className="text-gray-600 dark:text-gray-400 hover:underline transition duration-150 ease-in-out"
-                to="#"
+                to={paths.privacyPolicy}
               >
                 Privacy Policy
               </Link>

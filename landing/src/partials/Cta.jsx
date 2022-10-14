@@ -1,5 +1,5 @@
 import React from 'react';
-import { APP_URL } from "../constants";
+import { externalUrls } from "../constants";
 
 
 function Cta({title}) {
@@ -73,7 +73,7 @@ function Cta({title}) {
 
             <a
               className="btn text-white bg-primary shrink-0 font-bold"
-              href={APP_URL}
+              href={externalUrls.appUrl}
             >
               Sign Up Now
             </a>

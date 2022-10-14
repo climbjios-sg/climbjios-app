@@ -12,6 +12,13 @@ import AOS from 'aos';
 
 import Home from './pages/Home';
 import PageNotFound from './pages/PageNotFound';
+import Blog from './pages/Blog';
+import OurStory from './pages/OurStory';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Terms from './pages/Terms';
+import Header from './partials/Header';
+import Footer from './partials/Footer';
+import { paths } from './constants';
 
 function App() {
 
@@ -34,10 +41,15 @@ function App() {
 
   return (
     <>
+      <Header />
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route exact path={paths.root} element={<Home />} />
+        <Route exact path={paths.ourStory} element={<OurStory />} />
+        <Route exact path={paths.privacyPolicy} element={<PrivacyPolicy />} />
+        <Route exact path={paths.terms} element={<Terms />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+      <Footer />
     </>
   );
 }
