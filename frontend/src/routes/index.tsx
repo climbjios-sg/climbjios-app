@@ -25,16 +25,10 @@ export default function Router() {
   useAutoLogin();
 
   return useRoutes([
-    // Main Routes
-    // {
-    //   path: '/',
-    //   element: <Public />,
-    // },
     {
       path: 'login',
       element: <Login />,
     },
-
     // Onboarding Routes
     {
       path: 'onboarding',
@@ -58,7 +52,6 @@ export default function Router() {
         { path: '*', element: <Navigate to="/newuser" replace /> },
       ],
     },
-
     // Dashboard Routes
     {
       path: 'dashboard/*',
