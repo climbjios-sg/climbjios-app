@@ -39,8 +39,8 @@ export function listJios(searchParams: GetJioListRequest) {
   return async () => {
     dispatch(slice.actions.request());
     try {
-      const response: AxiosResponse = await getJioList(searchParams);
-      const collections: JioResponse[] = response.data;
+      const response = await getJioList(searchParams);
+      const collections = response.data;
       dispatch(slice.actions.success(collections));
     } catch (err) {
       dispatch(slice.actions.failure(err));

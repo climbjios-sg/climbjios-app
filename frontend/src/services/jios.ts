@@ -3,7 +3,7 @@ import authorizedAxios from 'src/utils/authorizedAxios';
 import { BE_API } from 'src/utils/api';
 
 export const getJioList = (searchParams: GetJioListRequest) =>
-  authorizedAxios.get<Jio[]>(BE_API.posts.search, {
+  authorizedAxios.get<JioResponse[]>(BE_API.posts.search, {
     params: searchParams,
   });
 

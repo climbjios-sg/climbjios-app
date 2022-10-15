@@ -60,8 +60,8 @@ export function listMyJios() {
   return async () => {
     dispatch(slice.actions.request());
     try {
-      const response: AxiosResponse = await getMyJioList();
-      const collections: Jio[] = response.data;
+      const response = await getMyJioList();
+      const collections = response.data;
       dispatch(slice.actions.list(collections));
     } catch (err) {
       dispatch(slice.actions.failure(err));

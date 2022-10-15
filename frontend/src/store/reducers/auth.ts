@@ -48,7 +48,6 @@ export const setAuthProvider = (authProvider: AuthProvider) => async () => {
 export function createUserIdentity(user: UserRequest) {
   return async () => {
     const response = await createUser(user);
-    // const user = response.data;
     const userIdentity: UserIdentity = {
       ...response.data,
       avatar: '',
@@ -60,7 +59,6 @@ export function createUserIdentity(user: UserRequest) {
 export function updateUserIdentity(user: UserRequest) {
   return async () => {
     const response = await updateUser(user);
-    // const user = response.data;
     const userIdentity: UserIdentity = {
       ...response.data,
       avatar: '',

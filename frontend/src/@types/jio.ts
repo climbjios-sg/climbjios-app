@@ -32,7 +32,7 @@ export type JioRequest = Pick<
 
 export type JioResponse = Jio;
 
-export type GetJioListRequest = Pick<Jio, 'type' | 'numPasses' | 'gymId'> & {
+export type GetJioListRequest = Partial<Pick<Jio, 'type' | 'numPasses' | 'gymId'>> & {
   // Get jios that end after this date string.
   // DateTime string in ISO 8601 format
   startDateTime?: string;
