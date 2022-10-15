@@ -1,5 +1,6 @@
 import { useSnackbar } from 'notistack';
 import { useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { PATH_AUTH } from 'src/routes/paths';
 import useAuthProvider from './useAuthProvider';
 import useLogout from './useLogout';
@@ -14,11 +15,12 @@ const useCheckAuth = (): CheckAuth => {
   const authProvider = useAuthProvider();
   const { enqueueSnackbar } = useSnackbar();
   const logout = useLogout();
+  const [searchParams] = useSearchParams();
 
   // TODO: extract redirect url
   const checkAuth = useCallback(
-    (logoutOnError = true, disableNotification = false, redirectTo = PATH_AUTH.root) =>
-      authProvider.checkAuth().catch((error) => {
+    async (logoutOnError = true, disableNotification = false, redirectTo = PATH_AUTH.root) => {
+      const callLogout = () => {
         if (logoutOnError) {
           logout(redirectTo);
 
@@ -26,9 +28,35 @@ const useCheckAuth = (): CheckAuth => {
             enqueueSnackbar('Please log in to continue', { variant: 'error' });
           }
         }
-        throw error;
-      }),
-    [authProvider, enqueueSnackbar, logout]
+        // throw error;
+      };
+
+      try {
+        await authProvider.checkAuth();
+      } catch (error) {
+        // TODO: extract out the logic
+        // TODO: use const for token
+        const accessToken = searchParams.get('accessToken');
+        const refreshToken = searchParams.get('refreshToken');
+
+        if (accessToken === null || refreshToken === null) {
+          callLogout();
+          throw error;
+        }
+
+        try {
+          await authProvider.login({
+            accessToken,
+            refreshToken,
+          });
+        } catch {
+          callLogout();
+          throw error;
+        }
+      }
+    },
+
+    [authProvider, enqueueSnackbar, logout, searchParams]
   );
 
   return checkAuth;

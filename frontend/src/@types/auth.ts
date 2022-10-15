@@ -1,3 +1,4 @@
+import { TokensResponse } from './token';
 import { User } from './user';
 
 // ----------------------------------------------------------------------
@@ -56,8 +57,9 @@ export type UserIdentity = {
 // TODO: allow pass in where to redirect to?
 
 export type AuthProvider = {
-  // TODO: fix any types
-  login: (params: any) => Promise<any>;
+  // TODO: fix any types, dont use token type here, since we dont want to constraint the auth method
+
+  login: (params?: any) => Promise<any>;
   // login: () => Promise<any>;
   // logout: () => Promise<void | false | string>;
   logout: () => Promise<any>;
