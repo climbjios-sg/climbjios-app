@@ -59,4 +59,4 @@ export const ProfileProvider = ({
   return <ProfileContext.Provider value={context}>{children}</ProfileContext.Provider>;
 };
 
-export const useAuth = () => useContext(ProfileContext);
+export const useProfile = () => useContext(ProfileContext);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { UserIdentity } from 'src/@types/user';
-import { useAuth } from 'src/contexts/auth/ProfileContext';
+import { useProfile } from 'src/contexts/auth/ProfileContext';
 import useAuthProvider from './useAuthProvider';
 
 const defaultIdentity: UserIdentity = {
@@ -20,7 +20,7 @@ const useGetIdentity = () => {
     loaded: false,
   });
 
-  const { userIdentity } = useAuth();
+  const { userIdentity } = useProfile();
   const authProvider = useAuthProvider();
 
   useEffect(() => {

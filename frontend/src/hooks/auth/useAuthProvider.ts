@@ -1,7 +1,7 @@
-import { useAuth } from 'src/contexts/auth/ProfileContext';
+import { useProfile } from 'src/contexts/auth/ProfileContext';
 
 const useAuthProvider = () => {
-  const { authProvider } = useAuth();
+  const { authProvider } = useProfile();
 
   return authProvider;
 };
