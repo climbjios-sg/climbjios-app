@@ -46,8 +46,8 @@ export class PostsDaoService {
   async getUpcomingPosts(search: SearchPostDto) {
     const query = this.postModel
       .query()
-      .orderBy('startDateTime', 'ASC')
-      .orderBy('endDateTime', 'ASC')
+      .orderBy('startDateTime', 'DESC')
+      .orderBy('endDateTime', 'DESC')
       .orderBy('gymId', 'ASC')
       .withGraphFetched('[gym,user]');
 
