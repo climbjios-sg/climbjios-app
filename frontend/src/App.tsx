@@ -11,6 +11,10 @@ import NotistackProvider from './components/NotistackProvider';
 import MotionLazyContainer from './components/animate/MotionLazyContainer';
 // context
 import { NewUserProvider } from './contexts/NewUserContext';
+import { useDispatch } from './store';
+import { setAuthProvider } from './store/reducers/auth';
+import { DEFAULT_AUTH_PROVIDER } from './config';
+import { authProviderFactory } from './authProviders';
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +23,17 @@ if (process.env.REACT_APP_GA_TRACKING_ID) {
 }
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const initAuthProvider = async () => {
+      const customAuthProvider = await authProviderFactory(DEFAULT_AUTH_PROVIDER);
+      dispatch(setAuthProvider(customAuthProvider));
+    };
+
+    initAuthProvider();
+  });
+
   useEffect(() => {
     if (process.env.REACT_APP_GA_TRACKING_ID) {
       ReactGA.send({

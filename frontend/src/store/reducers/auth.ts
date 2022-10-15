@@ -31,12 +31,8 @@ const slice = createSlice({
   },
 });
 
-export const setAuthProvider = async (type: AuthProviderType) => {
-  const customAuthProvider = await authProviderFactory(type);
-
-  return async () => {
-    dispatch(slice.actions.setAuthProvider(customAuthProvider));
-  };
+export const setAuthProvider = (authProvider: AuthProvider) => async () => {
+  dispatch(slice.actions.setAuthProvider(authProvider));
 };
 
 export default slice.reducer;

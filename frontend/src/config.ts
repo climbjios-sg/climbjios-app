@@ -75,4 +75,4 @@ export const TELEGRAM_REGEX_ERROR = `Invalid Telegram handle. Please check your 
 export const USERNAME_LEN_ERROR = `Username must be between ${MIN_USERNAME_LEN} and ${MAX_USERNAME_LEN} characters long`;
 export const USERNAME_REGEX_ERROR = `Username can only contain alphabets and numbers. It cannot contain blank spaces`;
 
-export const AUTH_PROVIDER: AuthProviderType = 'jwt';
+export const DEFAULT_AUTH_PROVIDER: AuthProviderType = 'jwt';
