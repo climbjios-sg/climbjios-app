@@ -92,4 +92,4 @@ const OnboardingNewUserUsername = Loadable(
 const MainApp = Loadable(lazy(() => import('../pages/dashboard/MainApp')));
 
 // LANDING
-const Page404 = Loadable(lazy(() => import('../pages/Page404')));
+const Page404 = Loadable(lazy(() => import('../pages/error/Page404')));
