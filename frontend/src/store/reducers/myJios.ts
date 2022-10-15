@@ -4,7 +4,7 @@ import authorizedAxios from '../../utils/authorizedAxios';
 import { AxiosResponse } from 'axios';
 import { dispatch } from '..';
 import { createSlice } from '@reduxjs/toolkit';
-import { getMyJios } from 'src/services/myJios';
+import { getMyJioList } from 'src/services/myJios';
 
 interface State {
   loading: boolean;
@@ -60,7 +60,7 @@ export function listMyJios() {
   return async () => {
     dispatch(slice.actions.request());
     try {
-      const response: AxiosResponse = await getMyJios();
+      const response: AxiosResponse = await getMyJioList();
       const collections: Jio[] = response.data;
       dispatch(slice.actions.list(collections));
     } catch (err) {
