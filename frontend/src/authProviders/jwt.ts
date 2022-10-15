@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import { AuthProvider } from 'src/@types/auth';
 import { PATH_AUTH } from 'src/routes/paths';
 import { refreshAccessToken } from 'src/services/token';
-import { getUserIdentity } from 'src/services/user';
+import { getUser } from 'src/services/user';
 
 // TODO: move to utils?
 
@@ -137,7 +137,7 @@ export const jwtAuthProvider: AuthProvider = {
     return;
   },
   getIdentity: async () => {
-    const response = await getUserIdentity();
+    const response = await getUser();
     const userIdentity = response.data;
     return userIdentity;
   },

@@ -14,7 +14,7 @@ interface NewUserActions {
 }
 
 const initialState: User = {
-  id: undefined,
+  id: '',
   name: '',
   telegramHandle: '',
   username: '',

@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import useAuthProvider from './useAuthProvider';
 import { PATH_ONBOARDING } from '../../routes/paths';
-import { TokensResponse } from 'src/@types/token';
+import { JwtTokenSet } from 'src/@types/token';
 
 /// use this for BE custom auth;
 const useLogin = (): Login => {
@@ -24,6 +24,6 @@ const useLogin = (): Login => {
   return login;
 };
 
-type Login = (params: TokensResponse, redirectTo?: string) => Promise<any>;
+type Login = (params: JwtTokenSet, redirectTo?: string) => Promise<any>;
 
 export default useLogin;

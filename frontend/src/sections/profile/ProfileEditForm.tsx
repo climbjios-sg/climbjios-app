@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import { Card, Grid, Stack, InputAdornment, FormHelperText } from '@mui/material';
 // @types
-import { User } from '../../@types/user';
+import { RequestUser } from '../../@types/user';
 // components
 import { FormProvider, RHFTextField } from '../../components/hook-form';
 import { useSnackbar } from 'notistack';
@@ -20,26 +20,30 @@ import {
   REGEX_TELEGRAM,
   TELEGRAM_REGEX_ERROR,
 } from '../../config';
-import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 // context
 import { NewUserContext } from '../../contexts/NewUserContext';
 // paths
 import { PATH_DASHBOARD, PATH_ONBOARDING } from '../../routes/paths';
+import useGetIdentity from 'src/hooks/auth/useGetIdentity';
+import { useDispatch } from 'src/store';
+import { updateUserIdentity } from 'src/store/reducers/auth';
 
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends User {}
+interface FormValuesProps extends RequestUser {}
 
 type Props = {
   isExistingUser: boolean;
 };
 
+// TODO: REMOVE NEW USER CONTEXT
 export default function ProfileEditForm({ isExistingUser }: Props) {
-  const auth = useAuth();
+  const { identity } = useGetIdentity();
   const { enqueueSnackbar } = useSnackbar();
   const newUserContext = useContext(NewUserContext);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const NewProfileSchema = Yup.object().shape({
     name: Yup.string()
@@ -55,8 +59,8 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
   const methods = useForm<FormValuesProps>({
     resolver: yupResolver(NewProfileSchema),
     defaultValues: {
-      name: isExistingUser ? auth.user?.name : '',
-      telegramHandle: isExistingUser ? auth.user?.telegramHandle : '',
+      name: isExistingUser ? identity?.name : '',
+      telegramHandle: isExistingUser ? identity?.telegramHandle : '',
     },
   });
 
@@ -74,15 +78,15 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
 
     if (isExistingUser) {
       try {
-        newUserContext.updateUsername(auth.user?.username as string);
+        newUserContext.updateUsername(identity?.username as string);
 
-        let user: User = {
+        let user: RequestUser = {
           name: data.name,
           telegramHandle: data.telegramHandle,
-          username: auth.user?.username,
+          username: identity?.username,
         };
 
-        await auth.updateUserData(user);
+        await dispatch(updateUserIdentity(user));
         enqueueSnackbar(`Profile updated successfully!`);
         navigate(PATH_DASHBOARD.general.profile);
       } catch (error) {

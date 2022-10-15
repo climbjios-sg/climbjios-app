@@ -30,3 +30,5 @@ export type RequestJio = Pick<
   | 'openToClimbTogether'
   | 'optionalNote'
 >;
+
+export type ResponseJio = Jio;

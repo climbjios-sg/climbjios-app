@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useMemo, useContext } from 'react';
+import { useContext } from 'react';
 // form
 import { useForm } from 'react-hook-form';
 // @mui
@@ -10,17 +10,17 @@ import { Card, Grid, Stack, FormHelperText } from '@mui/material';
 import { FormProvider, RHFTextField } from '../../components/hook-form';
 import { useSnackbar } from 'notistack';
 import {
-  SUPPORT_EMAIL,
   MIN_USERNAME_LEN,
   MAX_USERNAME_LEN,
   REGEX_USERNAME,
   USERNAME_LEN_ERROR,
   USERNAME_REGEX_ERROR,
 } from '../../config';
-import useAuth from '../../hooks/useAuth';
 
 // context
 import { NewUserContext } from '../../contexts/NewUserContext';
+import { useDispatch } from 'src/store';
+import { createUserIdentity } from 'src/store/reducers/auth';
 
 // ----------------------------------------------------------------------
 
@@ -32,10 +32,11 @@ type Props = {
   onExit: () => void;
 };
 
+// TODO: REMOVE NEW USER CONTEXT
 export default function UsernameForm({ onExit }: Props) {
-  const auth = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const newUserContext = useContext(NewUserContext);
+  const dispatch = useDispatch();
 
   const NewProfileSchema = Yup.object().shape({
     username: Yup.string()
@@ -51,7 +52,6 @@ export default function UsernameForm({ onExit }: Props) {
   });
 
   const {
-    reset,
     setValue,
     handleSubmit,
     formState: { isSubmitting, errors },
@@ -59,8 +59,8 @@ export default function UsernameForm({ onExit }: Props) {
 
   const onSubmit = async () => {
     try {
-      // enqueueSnackbar(`User info in state is: ${JSON.stringify(newUserContext.user)}`);
-      await auth.createUser(newUserContext.user);
+      // TODO: remove new user context
+      await dispatch(createUserIdentity(newUserContext.user));
       onExit();
     } catch (error) {
       enqueueSnackbar(`${JSON.stringify(error)}`, {

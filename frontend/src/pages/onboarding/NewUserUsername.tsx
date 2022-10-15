@@ -7,12 +7,10 @@ import Logo from '../../components/Logo';
 // sections
 import UsernameForm from '../../sections/onboarding/UsernameForm';
 import { PATH_DASHBOARD } from '../../routes/paths';
-import useAuth from '../../hooks/useAuth';
 
 // ----------------------------------------------------------------------
 
 export default function NewUserUsername() {
-  const auth = useAuth();
   const navigate = useNavigate();
   return (
     <Page title="Onboarding: Choose username">

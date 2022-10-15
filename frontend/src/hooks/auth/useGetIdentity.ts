@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { UserIdentity } from 'src/@types/auth';
+import { UserIdentity } from 'src/@types/user';
 import useAuthProvider from './useAuthProvider';
 
 const defaultIdentity: UserIdentity = {

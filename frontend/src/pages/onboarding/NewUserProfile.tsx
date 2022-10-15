@@ -7,14 +7,10 @@ import Logo from '../../components/Logo';
 // sections
 import ProfileEditForm from '../../sections/profile/ProfileEditForm';
 import { PATH_ONBOARDING } from '../../routes/paths';
-import useAuth from '../../hooks/useAuth';
 
 // ----------------------------------------------------------------------
 
 export default function Profile() {
-  const auth = useAuth();
-  const navigate = useNavigate();
-
   return (
     <Page title="Onboarding: Fill in your details">
       <Container

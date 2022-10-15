@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 
-import useAuth from '../../../hooks/useAuth';
 import { useNavigate, Route, Routes } from 'react-router-dom';
 import {
   Divider,
@@ -17,10 +16,17 @@ import Iconify from '../../../components/Iconify';
 import { PATH_AUTH } from '../../../routes/paths';
 // Sections
 import ProfileEditForm from '../../../sections/profile/ProfileEditForm';
+import useGetIdentity from 'src/hooks/auth/useGetIdentity';
+import useLogout from 'src/hooks/auth/useLogout';
 
 export default function Profile() {
-  const auth = useAuth();
+  const { identity } = useGetIdentity();
+  const logout = useLogout();
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <Routes>
@@ -38,13 +44,13 @@ export default function Profile() {
           <Box sx={{ pt: 5, minHeight: '100vh', pb: 20, maxWidth: 600, margin: '0 auto' }}>
             <Stack direction="column" alignItems="center" sx={{ width: '100%' }}>
               <Typography sx={{ mt: 1, textAlign: 'center' }} variant="h5">
-                {auth.user?.name}
+                {identity?.name}
               </Typography>
               <Typography
                 sx={{ mt: 1, transform: 'translateX(-2px)', textAlign: 'center', color: 'gray' }}
                 variant="subtitle1"
               >
-                {`@${auth.user?.username}`}
+                {`@${identity?.username}`}
               </Typography>
             </Stack>
             <Box sx={{ bgcolor: 'background.paper', textAlign: 'left', mt: 3 }}>
@@ -59,12 +65,7 @@ export default function Profile() {
                     </ListItemButton>
                   </ListItem>
                   <ListItem>
-                    <ListItemButton
-                      onClick={() => {
-                        auth.logout();
-                        navigate(PATH_AUTH.root);
-                      }}
-                    >
+                    <ListItemButton onClick={handleLogout}>
                       <ListItemIcon>
                         <Iconify icon="eva:log-out-outline" />
                       </ListItemIcon>
