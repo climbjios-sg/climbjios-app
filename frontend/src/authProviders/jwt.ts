@@ -1,5 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import { AuthProvider } from 'src/@types/auth';
+import { UserIdentity } from 'src/@types/user';
 import { PATH_AUTH } from 'src/routes/paths';
 import { refreshAccessToken } from 'src/services/token';
 import { getUser } from 'src/services/user';
@@ -138,7 +139,7 @@ export const jwtAuthProvider: AuthProvider = {
   },
   getIdentity: async () => {
     const response = await getUser();
-    const userIdentity = response.data;
+    const userIdentity: UserIdentity = { ...response.data, avatar: '' };
     return userIdentity;
   },
 };

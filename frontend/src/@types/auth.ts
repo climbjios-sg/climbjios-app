@@ -6,7 +6,7 @@ export type AuthProvider = {
   logout: () => Promise<any>;
   checkAuth: () => Promise<void>;
   checkError: (status: number) => Promise<void>;
-  getIdentity?: () => Promise<UserIdentity>;
+  getIdentity: () => Promise<UserIdentity>;
 };
 
 export type AuthProviderType = 'default' | 'jwt';

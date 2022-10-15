@@ -1,7 +1,9 @@
-import { useSelector } from 'src/store';
+import { useAuth } from 'src/contexts/auth/ProfileContext';
 
-const useAuthProvider = () => useSelector((state) => state.auth.authProvider);
+const useAuthProvider = () => {
+  const { authProvider } = useAuth();
+
+  return authProvider;
+};
 
 export default useAuthProvider;
-
-

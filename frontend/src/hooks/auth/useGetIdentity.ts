@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { UserIdentity } from 'src/@types/user';
+import { useAuth } from 'src/contexts/auth/ProfileContext';
 import useAuthProvider from './useAuthProvider';
 
 const defaultIdentity: UserIdentity = {
@@ -13,12 +14,14 @@ interface State {
   error?: any;
 }
 
+// TODO: better way?
 const useGetIdentity = () => {
   const [state, setState] = useState<State>({
     loading: true,
     loaded: false,
   });
 
+  const { userIdentity } = useAuth();
   const authProvider = useAuthProvider();
 
   useEffect(() => {
@@ -38,8 +41,17 @@ const useGetIdentity = () => {
         });
       }
     };
-    callAuthProvider();
-  }, [authProvider]);
+
+    if (userIdentity) {
+      setState({
+        loading: false,
+        loaded: true,
+        identity: userIdentity,
+      });
+    } else {
+      callAuthProvider();
+    }
+  }, [authProvider, userIdentity]);
 
   return state;
 };

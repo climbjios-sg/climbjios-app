@@ -27,7 +27,6 @@ import { useNavigate } from 'react-router-dom';
 import { PATH_DASHBOARD, PATH_ONBOARDING } from '../../routes/paths';
 import useGetIdentity from 'src/hooks/auth/useGetIdentity';
 import { useDispatch } from 'src/store';
-import { updateUserIdentity } from 'src/store/reducers/auth';
 
 // ----------------------------------------------------------------------
 
@@ -87,7 +86,7 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
           username: identity?.username,
         };
 
-        await dispatch(updateUserIdentity(user));
+        // dispatch(updateUserIdentity(user));
         enqueueSnackbar(`Profile updated successfully!`);
         navigate(PATH_DASHBOARD.general.profile);
       } catch (error) {

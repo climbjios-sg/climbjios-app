@@ -8,6 +8,8 @@ import { store } from './store';
 import { Provider } from 'react-redux';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
+import { authProviderFactory } from './authProviders';
+import { DEFAULT_AUTH_PROVIDER } from './config';
 
 // ----------------------------------------------------------------------
 
@@ -25,15 +27,22 @@ if (process.env.REACT_APP_SENTRY_DSN) {
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-root.render(
-  <HelmetProvider>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
-  </HelmetProvider>
-);
+const prepareAuthProvider = async () => {
+  const authProvider = await authProviderFactory(DEFAULT_AUTH_PROVIDER);
+  return authProvider;
+};
+
+prepareAuthProvider().then((authProvider) => {
+  root.render(
+    <HelmetProvider>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App authProvider={authProvider} />
+        </BrowserRouter>
+      </Provider>
+    </HelmetProvider>
+  );
+});
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

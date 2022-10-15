@@ -20,7 +20,6 @@ import {
 // context
 // import { NewUserContext } from '../../contexts/NewUserContext';
 import { useDispatch } from 'src/store';
-import { createUserIdentity } from 'src/store/reducers/auth';
 
 // ----------------------------------------------------------------------
 

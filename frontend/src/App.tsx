@@ -10,30 +10,18 @@ import { ProgressBarStyle } from './components/ProgressBar';
 import NotistackProvider from './components/NotistackProvider';
 import MotionLazyContainer from './components/animate/MotionLazyContainer';
 // context
-// import { NewUserProvider } from './contexts/NewUserContext';
-import { useDispatch } from './store';
-import { setAuthProvider } from './store/reducers/auth';
-import { DEFAULT_AUTH_PROVIDER } from './config';
-import { authProviderFactory } from './authProviders';
+import { ProfileProvider } from './contexts/auth/ProfileContext';
+import { AuthProvider } from './@types/auth';
 
-// ----------------------------------------------------------------------
+interface Props {
+  authProvider: AuthProvider;
+}
 
 if (process.env.REACT_APP_GA_TRACKING_ID) {
   ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
 }
 
-export default function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const initAuthProvider = async () => {
-      const customAuthProvider = await authProviderFactory(DEFAULT_AUTH_PROVIDER);
-      dispatch(setAuthProvider(customAuthProvider));
-    };
-
-    initAuthProvider();
-  });
-
+export default function App({ authProvider }: Props) {
   useEffect(() => {
     if (process.env.REACT_APP_GA_TRACKING_ID) {
       ReactGA.send({
@@ -44,14 +32,16 @@ export default function App() {
   }, []);
 
   return (
-    <MotionLazyContainer>
-      <ThemeProvider>
-        <NotistackProvider>
-          <ProgressBarStyle />
-          <ScrollToTop />
-          <Router />
-        </NotistackProvider>
-      </ThemeProvider>
-    </MotionLazyContainer>
+    <ProfileProvider authProvider={authProvider}>
+      <MotionLazyContainer>
+        <ThemeProvider>
+          <NotistackProvider>
+            <ProgressBarStyle />
+            <ScrollToTop />
+            <Router />
+          </NotistackProvider>
+        </ThemeProvider>
+      </MotionLazyContainer>
+    </ProfileProvider>
   );
 }
