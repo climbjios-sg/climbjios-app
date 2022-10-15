@@ -1,12 +1,13 @@
 import { ReactNode } from 'react';
 import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 
-type Props = {
+interface Props {
+  // children?: ReactNode;
   children?: ReactNode;
-};
+}
 
 export default function Public({ children }: Props) {
   useAutoLogin();
 
-  return children;
+  return <>{children}</>;
 }

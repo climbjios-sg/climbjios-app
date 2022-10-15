@@ -1,8 +1,8 @@
 import { Suspense, lazy, ElementType } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
+import Public from 'src/components/auth/Public';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-import AuthRedirect from '../pages/AuthRedirect';
 import AuthGuard from '../pages/guards/AuthGuard';
 import { PATH_ONBOARDING, PATH_PAGE } from './paths';
 
@@ -26,14 +26,14 @@ export default function Router() {
     // Main Routes
     {
       path: '/',
-      element: <AuthRedirect />,
+      element: <Public />,
     },
     {
       path: 'login',
       element: (
-        <AuthRedirect>
+        <Public>
           <Login />
-        </AuthRedirect>
+        </Public>
       ),
     },
 
