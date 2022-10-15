@@ -15,6 +15,7 @@ import { HttpModule } from '@nestjs/axios';
 import { TelegramAlertsModule } from './utils/telegramAlerts/telegramAlerts.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './utils/filters/AllExceptions.filter';
+import { UserProfileDaoModule } from './database/daos/userProfiles/userProfile.dao.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { AllExceptionsFilter } from './utils/filters/AllExceptions.filter';
     UserDaoModule,
     PostDaoModule,
     GymsDaoModule,
+    UserProfileDaoModule,
 
     // Modules with controllers
     AuthModule,

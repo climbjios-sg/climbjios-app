@@ -5,6 +5,7 @@ import { VerifiedCallback } from 'passport-jwt';
 import { ConstantsService } from '../../utils/constants/constants.service';
 import { UserDaoService } from '../../database/daos/users/user.dao.service';
 import { AuthProvider } from '../../utils/types';
+import { UserProfileModel } from '../../database/models/userProfile.model';
 
 @Injectable()
 export class TelegramOauthStrategy extends PassportStrategy(
@@ -26,8 +27,12 @@ export class TelegramOauthStrategy extends PassportStrategy(
     const user = await this.userDaoService.findOrCreateOAuthUser({
       authProvider: AuthProvider.TELEGRAM,
       authProviderId: id,
-      name: `${name.givenName}${name.familyName ? ` ${name.familyName}` : ''}`,
-      telegramHandle: username,
+      userProfile: {
+        name: `${name.givenName}${
+          name.familyName ? ` ${name.familyName}` : ''
+        }`,
+        telegramHandle: username,
+      } as UserProfileModel,
     });
 
     done(null, user);

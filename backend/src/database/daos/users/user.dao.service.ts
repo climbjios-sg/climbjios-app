@@ -15,20 +15,8 @@ export class UserDaoService {
     return query;
   }
 
-  findByUsername(username: string) {
-    return this.userModel.query().findOne({ username });
-  }
-
-  findByTelegramHandle(telegramHandle: string) {
-    return this.userModel.query().findOne({ telegramHandle });
-  }
-
   updateById(userid: string, user: Partial<UserModel>) {
-    return this.userModel
-      .query()
-      .patch(user)
-      .findById(userid)
-      .returning(['id', 'name', 'username', 'telegramHandle']);
+    return this.userModel.query().patch(user).findById(userid);
   }
 
   async findOrCreateOAuthUser(user: Partial<UserModel>) {
@@ -43,19 +31,11 @@ export class UserDaoService {
       return existingEntry;
     }
 
-    return await this.userModel.query().insert(user).returning('*');
+    return await this.userModel.query().insertGraph(user);
   }
 
   deleteUserAccount(userId: string, trx: Transaction) {
     return this.userModel.query(trx).deleteById(userId);
-  }
-
-  async checkUsernameExists(username: string) {
-    return !!(await this.userModel.query().findOne({ username }));
-  }
-
-  async checkTelegramHandleExists(telegramHandle: string) {
-    return !!(await this.userModel.query().findOne({ telegramHandle }));
   }
 
   // Used only for metric alerts
