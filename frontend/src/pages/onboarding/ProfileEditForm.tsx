@@ -21,8 +21,6 @@ import {
   TELEGRAM_REGEX_ERROR,
 } from '../../config';
 import { useNavigate } from 'react-router-dom';
-// context
-// import { NewUserContext } from '../../contexts/NewUserContext';
 // paths
 import { PATH_DASHBOARD, PATH_ONBOARDING } from '../../routes/paths';
 import useGetIdentity from 'src/hooks/auth/useGetIdentity';
@@ -37,11 +35,9 @@ type Props = {
 };
 
 // TODO: redo the form
-// TODO: REMOVE NEW USER CONTEXT
 export default function ProfileEditForm({ isExistingUser }: Props) {
   const { identity } = useGetIdentity();
   const { enqueueSnackbar } = useSnackbar();
-  // const newUserContext = useContext(NewUserContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

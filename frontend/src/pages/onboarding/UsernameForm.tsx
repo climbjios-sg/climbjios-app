@@ -16,9 +16,6 @@ import {
   USERNAME_LEN_ERROR,
   USERNAME_REGEX_ERROR,
 } from '../../config';
-
-// context
-// import { NewUserContext } from '../../contexts/NewUserContext';
 import { useDispatch } from 'src/store';
 
 // ----------------------------------------------------------------------
@@ -32,10 +29,8 @@ type Props = {
 };
 
 // TODO: redo the form
-// TODO: REMOVE NEW USER CONTEXT
 export default function UsernameForm({ onExit }: Props) {
   const { enqueueSnackbar } = useSnackbar();
-  // const newUserContext = useContext(NewUserContext);
   const dispatch = useDispatch();
 
   const NewProfileSchema = Yup.object().shape({
@@ -60,7 +55,6 @@ export default function UsernameForm({ onExit }: Props) {
   const onSubmit = async () => {
     try {
       // TODO: remove new user context
-
       // await dispatch(createUserIdentity(newUserContext.user));
       onExit();
     } catch (error) {
