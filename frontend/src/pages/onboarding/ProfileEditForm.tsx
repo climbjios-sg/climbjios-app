@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import { Card, Grid, Stack, InputAdornment, FormHelperText } from '@mui/material';
 // @types
-import { RequestUser } from '../../@types/user';
+import { UserRequest } from '../../@types/user';
 // components
 import { FormProvider, RHFTextField } from '../../components/hook-form';
 import { useSnackbar } from 'notistack';
@@ -31,7 +31,7 @@ import { updateUserIdentity } from 'src/store/reducers/auth';
 
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends RequestUser {}
+interface FormValuesProps extends UserRequest {}
 
 type Props = {
   isExistingUser: boolean;
@@ -81,7 +81,7 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
       try {
         // newUserContext.updateUsername(identity?.username as string);
 
-        let user: RequestUser = {
+        let user: UserRequest = {
           name: data.name,
           telegramHandle: data.telegramHandle,
           username: identity?.username,

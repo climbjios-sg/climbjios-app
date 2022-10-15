@@ -1,7 +1,7 @@
 import Iconify from 'src/components/Iconify';
 import { useNavigate, useParams } from 'react-router-dom';
 import JiosCreateEditForm from '../form/JiosCreateEditForm';
-import { JioCreateEditFormValues, jioFormValuesToRequestJio } from '../form/utils';
+import { JioCreateEditFormValues, jioFormValuesToJioRequest } from '../form/utils';
 import useSafeRequest from 'src/hooks/useSafeRequest';
 import { useSnackbar } from 'notistack';
 import { getJio, updateJio } from 'src/services/jios';
@@ -55,7 +55,7 @@ export default function JiosEdit() {
       return;
     }
 
-    submitUpdateJio(jioFormValuesToRequestJio(data), jioId);
+    submitUpdateJio(jioFormValuesToJioRequest(data), jioId);
   };
 
   return !data || error || loading ? null : (

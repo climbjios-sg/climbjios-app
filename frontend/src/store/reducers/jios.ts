@@ -1,22 +1,8 @@
-import { BE_API } from '../../utils/api';
-import { Jio } from '../../@types/jio';
-import authorizedAxios from '../../utils/authorizedAxios';
+import { GetJioListRequest, Jio } from '../../@types/jio';
 import { AxiosResponse } from 'axios';
 import { dispatch } from '..';
 import { createSlice } from '@reduxjs/toolkit';
 import { getJioList } from 'src/services/jios';
-
-export interface ListJiosArgs {
-  type?: Jio['type'];
-  numPasses?: Jio['numPasses'];
-  gymId?: Jio['gymId'];
-  // Get jios that end after this date string.
-  // DateTime string in ISO 8601 format
-  startDateTime?: string;
-  // Get jios that end before this date string.
-  // DateTime string in ISO 8601 format
-  endDateTime?: string;
-}
 
 interface State {
   loading: boolean;
@@ -49,12 +35,12 @@ const slice = createSlice({
   },
 });
 
-export function listJios(listJiosQueryParams: ListJiosArgs) {
+export function listJios(searchParams: GetJioListRequest) {
   return async () => {
     dispatch(slice.actions.request());
     try {
-      const response: AxiosResponse = await getJioList(listJiosQueryParams);
-      const collections: Jio[] = response.data;
+      const response: AxiosResponse = await getJioList(searchParams);
+      const collections: JioResponse[] = response.data;
       dispatch(slice.actions.success(collections));
     } catch (err) {
       dispatch(slice.actions.failure(err));

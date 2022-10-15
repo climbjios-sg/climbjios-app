@@ -1,18 +1,17 @@
-import { RequestJio, Jio, ResponseJio } from '../@types/jio';
+import { JioRequest, Jio, JioResponse, GetJioListRequest } from '../@types/jio';
 import authorizedAxios from 'src/utils/authorizedAxios';
 import { BE_API } from 'src/utils/api';
-import { ListJiosArgs } from 'src/store/reducers/jios';
 
-export const getJioList = (searchParams: ListJiosArgs) =>
+export const getJioList = (searchParams: GetJioListRequest) =>
   authorizedAxios.get<Jio[]>(BE_API.posts.search, {
     params: searchParams,
   });
 
 export const getJio = (id: number) =>
-  authorizedAxios.get<ResponseJio>(`${BE_API.posts.root}/${id}`);
+  authorizedAxios.get<JioResponse>(`${BE_API.posts.root}/${id}`);
 
-export const createJio = (data: RequestJio) =>
-  authorizedAxios.post<ResponseJio>(BE_API.posts.root, data);
+export const createJio = (data: JioRequest) =>
+  authorizedAxios.post<JioResponse>(BE_API.posts.root, data);
 
-export const updateJio = (data: RequestJio, id: number) =>
-  authorizedAxios.patch<ResponseJio>(`${BE_API.posts.root}/${id}`, data);
+export const updateJio = (data: JioRequest, id: number) =>
+  authorizedAxios.patch<JioResponse>(`${BE_API.posts.root}/${id}`, data);

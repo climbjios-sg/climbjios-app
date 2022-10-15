@@ -1,7 +1,7 @@
 import Iconify from 'src/components/Iconify';
 import { useNavigate } from 'react-router-dom';
 import JiosCreateEditForm from '../form/JiosCreateEditForm';
-import { JioCreateEditFormValues, jioFormValuesToRequestJio } from '../form/utils';
+import { JioCreateEditFormValues, jioFormValuesToJioRequest } from '../form/utils';
 import { useSnackbar } from 'notistack';
 import { createJio } from 'src/services/jios';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
@@ -38,7 +38,7 @@ export default function JiosCreate() {
   });
 
   const handleCreate = async (data: JioCreateEditFormValues) => {
-    submitCreateJio(jioFormValuesToRequestJio(data));
+    submitCreateJio(jioFormValuesToJioRequest(data));
   };
 
   return (

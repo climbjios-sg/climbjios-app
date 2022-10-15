@@ -1,7 +1,6 @@
 import { Gym } from './gym';
 import { User } from './user';
 
-// Jio represents a jio response
 export interface Jio {
   id: number;
   type: 'seller' | 'buyer' | 'other';
@@ -19,7 +18,7 @@ export interface Jio {
   gym: Gym;
 }
 
-export type RequestJio = Pick<
+export type JioRequest = Pick<
   Jio,
   | 'type'
   | 'numPasses'
@@ -31,4 +30,13 @@ export type RequestJio = Pick<
   | 'optionalNote'
 >;
 
-export type ResponseJio = Jio;
+export type JioResponse = Jio;
+
+export type GetJioListRequest = Pick<Jio, 'type' | 'numPasses' | 'gymId'> & {
+  // Get jios that end after this date string.
+  // DateTime string in ISO 8601 format
+  startDateTime?: string;
+  // Get jios that end before this date string.
+  // DateTime string in ISO 8601 format
+  endDateTime?: string;
+};

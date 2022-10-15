@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { isAfter, isEqual } from 'date-fns';
-import { Jio, RequestJio } from '../../../../@types/jio';
+import { Jio, JioRequest } from '../../../../@types/jio';
 import { dateToTimeString, getDateTimeString, zeroTime } from '../../../../utils/formatTime';
 
 // ----------------------------------------------------------------------
@@ -31,7 +31,7 @@ export type JioSearchFormValues = Pick<
   'gymId' | 'date' | 'startTiming' | 'endTiming' | 'type'
 >;
 
-export const jioFormValuesToRequestJio = ({
+export const jioFormValuesToJioRequest = ({
   type,
   numPasses,
   price,
@@ -41,7 +41,7 @@ export const jioFormValuesToRequestJio = ({
   date,
   startTiming,
   endTiming,
-}: JioCreateEditFormValues): RequestJio => ({
+}: JioCreateEditFormValues): JioRequest => ({
   type,
   numPasses,
   price,

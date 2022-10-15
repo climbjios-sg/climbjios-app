@@ -1,6 +1,6 @@
 import { dispatch } from '..';
 import { createSlice } from '@reduxjs/toolkit';
-import { RequestUser, UserIdentity } from 'src/@types/user';
+import { UserRequest, UserIdentity } from 'src/@types/user';
 import { defaultAuthProvider } from 'src/authProviders/default';
 import { createUser, updateUser } from 'src/services/user';
 import { AuthProvider } from 'src/@types/auth';
@@ -45,7 +45,7 @@ export const setAuthProvider = (authProvider: AuthProvider) => async () => {
   dispatch(slice.actions.setAuthProvider(authProvider));
 };
 
-export function createUserIdentity(user: RequestUser) {
+export function createUserIdentity(user: UserRequest) {
   return async () => {
     const response = await createUser(user);
     // const user = response.data;
@@ -57,7 +57,7 @@ export function createUserIdentity(user: RequestUser) {
   };
 }
 
-export function updateUserIdentity(user: RequestUser) {
+export function updateUserIdentity(user: UserRequest) {
   return async () => {
     const response = await updateUser(user);
     // const user = response.data;

@@ -7,10 +7,11 @@ import JioCardSkeleton from '../JioCardSkeleton';
 import EmptyJiosContent from '../EmptyJiosContent';
 import EmptyContent from 'src/components/EmptyContent';
 import { useDispatch, useSelector } from 'src/store';
-import { listJios, ListJiosArgs } from 'src/store/reducers/jios';
+import { listJios } from 'src/store/reducers/jios';
 import { getDateTimeString } from 'src/utils/formatTime';
 import { Link } from 'react-router-dom';
 import { PATH_DASHBOARD } from '../../../../../routes/paths';
+import { GetJioListRequest } from 'src/@types/jio';
 
 export default function JioCardList() {
   const dispatch = useDispatch();
@@ -94,7 +95,7 @@ export default function JioCardList() {
 
     const { date, startTiming, endTiming, type, gymId } = jioSearchValues;
 
-    const searchParams: ListJiosArgs = {
+    const searchParams: GetJioListRequest = {
       gymId: gymId,
       startDateTime: getDateTimeString(date, startTiming),
       endDateTime: getDateTimeString(date, endTiming),

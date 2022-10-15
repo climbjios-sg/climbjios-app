@@ -5,10 +5,10 @@ export type User = {
   telegramHandle: string;
 };
 
-export type RequestUser = Partial<User>;
-export type ResponseUser = Partial<User>;
+export type UserRequest = Partial<User>;
+export type UserResponse = Partial<User>;
 
 // TODO: move this to auth provider types
-export type UserIdentity = ResponseUser & {
+export type UserIdentity = UserResponse & {
   avatar?: string;
 };

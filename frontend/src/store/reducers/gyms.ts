@@ -1,5 +1,5 @@
 import { getGymList } from 'src/services/gyms';
-import { Gym } from '../../@types/gym';
+import { Gym, ResponseGym } from '../../@types/gym';
 import { AxiosResponse } from 'axios';
 import { dispatch } from '..';
 import { createSlice } from '@reduxjs/toolkit';
@@ -40,7 +40,7 @@ export function listGyms() {
     dispatch(slice.actions.request());
     try {
       const response: AxiosResponse = await getGymList();
-      const collections: Gym[] = response.data;
+      const collections: ResponseGym[] = response.data;
       dispatch(slice.actions.success(collections));
     } catch (err) {
       dispatch(slice.actions.failure(err));

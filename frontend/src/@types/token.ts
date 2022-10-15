@@ -3,5 +3,5 @@ export type JwtTokenSet = {
   accessToken: string;
 };
 
-export type RequestJwtTokenSet = Pick<JwtTokenSet, 'refreshToken'>;
-export type ResponseJwtTokenSet = JwtTokenSet;
+export type JwtTokenSetRequest = Pick<JwtTokenSet, 'refreshToken'>;
+export type JwtTokenSetResponse = JwtTokenSet;
