@@ -21,6 +21,11 @@ import { LeadClimbingGradesDaoModule } from './database/daos/leadClimbingGrades/
 import { SncsCertificationsDaoModule } from './database/daos/sncsCertifications/sncsCertifications.dao.module';
 import { PronounsDaoModule } from './database/daos/pronouns/pronouns.dao.module';
 import { UserProfileDaoModule } from './database/daos/userProfiles/userProfile.dao.module';
+import { BoulderingGradesModule } from './boulderingGrades/boulderingGrades.module';
+import { LeadClimbingGradesModule } from './leadClimbingGrades/leadClimbingGrades.module';
+import { TopRopeGradesModule } from './topRopeGrades/topRopeGrades.module';
+import { PronounsModule } from './pronouns/pronouns.module';
+import { SncsCertificationsModule } from './sncsCertifications/sncsCertifications.module';
 
 @Module({
   imports: [
@@ -46,6 +51,11 @@ import { UserProfileDaoModule } from './database/daos/userProfiles/userProfile.d
     UserModule,
     PostModule,
     GymsModule,
+    BoulderingGradesModule,
+    LeadClimbingGradesModule,
+    TopRopeGradesModule,
+    SncsCertificationsModule,
+    PronounsModule,
   ],
   controllers: [AppController],
   providers: [
