@@ -61,6 +61,11 @@ export const jwtAuthProvider: AuthProvider = {
       }
       const { refreshToken: sessionRefreshToken } = session;
       const response = await refreshAccessToken({ refreshToken: sessionRefreshToken });
+
+      if (response.status === 404) {
+        throw new Error();
+      }
+
       setSession(response.data);
     }
   },
