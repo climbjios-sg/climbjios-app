@@ -11,6 +11,8 @@ interface Session {
   refreshToken: string;
 }
 
+const hasAuthenticated = () => getSession() !== null;
+const isPublicUrl = (url: string) => [PATH_AUTH.root].includes(url);
 const isValidToken = (accessToken: string) => {
   if (!accessToken) {
     return false;
@@ -32,20 +34,15 @@ const getSession = (): Session | null => {
 
   return null;
 };
-
 const setSession = ({ accessToken, refreshToken }: Session) => {
   localStorage.setItem(ACCESS_TOKEN, accessToken);
   localStorage.setItem(REFRESH_TOKEN, refreshToken);
 };
-
 const deleteSession = () => {
   // TODO: use redux persist
   localStorage.removeItem(ACCESS_TOKEN);
   localStorage.removeItem(REFRESH_TOKEN);
 };
-
-const hasAuthenticated = () => getSession() !== null;
-const isPublicUrl = (url: string) => [PATH_AUTH.root].includes(url);
 
 export const jwtAuthProvider: AuthProvider = {
   login: async (params) => {
