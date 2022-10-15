@@ -24,7 +24,7 @@ const useSafeRequest = <TData, TParams extends any[]>(
         await checkError(data.status);
       } catch {
         try {
-          await login({});
+          await login();
         } catch {
           logout();
         }
