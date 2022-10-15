@@ -14,7 +14,6 @@ interface State {
   error?: any;
 }
 
-// TODO: better way?
 const useGetIdentity = () => {
   const [state, setState] = useState<State>({
     loading: true,

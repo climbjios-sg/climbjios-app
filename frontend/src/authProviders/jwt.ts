@@ -4,15 +4,9 @@ import { UserIdentity } from 'src/@types/user';
 import { PATH_AUTH } from 'src/routes/paths';
 import { refreshAccessToken } from 'src/services/token';
 import { getUser } from 'src/services/user';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/utils/jwt';
 
-// TODO: move to utils?
-
-const ACCESS_TOKEN = 'accessToken';
-const REFRESH_TOKEN = 'refreshToken';
-
-// TODO: basically just refresh response type ?
 interface Session {
-  // user: User;
   accessToken: string;
   refreshToken: string;
 }
@@ -22,25 +16,15 @@ const isValidToken = (accessToken: string) => {
     return false;
   }
   const decoded = jwtDecode<{ exp: number }>(accessToken);
-
   const currentTime = Date.now() / 1000;
-
   return decoded.exp > currentTime;
 };
 
 const getSession = (): Session | null => {
   const accessToken = localStorage.getItem(ACCESS_TOKEN);
   const refreshToken = localStorage.getItem(REFRESH_TOKEN);
-  // const userData = localStorage.getItem(USER);
-  if (
-    accessToken &&
-    isValidToken(accessToken) &&
-    refreshToken &&
-    isValidToken(refreshToken)
-    // && userData
-  ) {
+  if (accessToken && isValidToken(accessToken) && refreshToken && isValidToken(refreshToken)) {
     return {
-      // user: JSON.parse(userData),
       accessToken,
       refreshToken,
     };
@@ -54,34 +38,19 @@ const setSession = ({ accessToken, refreshToken }: Session) => {
   localStorage.setItem(REFRESH_TOKEN, refreshToken);
 };
 
-// TODO: use redux persist
 const deleteSession = () => {
+  // TODO: use redux persist
   localStorage.removeItem(ACCESS_TOKEN);
   localStorage.removeItem(REFRESH_TOKEN);
 };
 
-const hasAuthenticated = () =>
-  // const accessToken = localStorage.getItem(ACCESS_TOKEN);
-  // const refreshToken = localStorage.getItem(REFRESH_TOKEN);
-
-  // if
-
-  // const {accessToken, refreshToken} = getSession()
-  // return accessToken !== null && refreshToken !== null;
-
-  getSession() !== null;
+const hasAuthenticated = () => getSession() !== null;
 const isPublicUrl = (url: string) => [PATH_AUTH.root].includes(url);
 
-// TODO: init auth provider with a http client (axios object)
-// TODO: avoid using global axios object
 export const jwtAuthProvider: AuthProvider = {
-  /// will try to convert from unauth to auth state
-  /// but if no access and refresh token, this cannot be used since BE doesnot support custom auth
-  login: async ({ refreshToken, accessToken }) => {
-    // const response = await authorizedAxios.post()
-    /// no implementation
+  login: async (params) => {
+    const { refreshToken, accessToken } = params as Session;
 
-    // TODO: fix any type
     if (refreshToken && accessToken) {
       setSession({
         refreshToken,
@@ -99,32 +68,14 @@ export const jwtAuthProvider: AuthProvider = {
     }
   },
   logout: async () => {
-    // TODO: use utils
-
-    // localStorage.removeItem(ACCESS_TOKEN);
-    // localStorage.removeItem(REFRESH_TOKEN);
     deleteSession();
-
-    return;
   },
-  // TODO: better way? pass in error?
-  // rename to check response and; check status;
 
-  /**
-   * 401 error means two things
-   * - token expires -> can auto relogin
-   * - access and refresh token expire -> need to relogin
-   */
   checkError: async (status) => {
-    // TODO: define error type, better way?
-    // const { status } = error;
-
     if (status === 401 || status === 403) {
       deleteSession();
       throw new Error();
     }
-
-    return;
   },
   checkAuth: async () => {
     if (isPublicUrl(window.location.hash)) {
@@ -134,8 +85,6 @@ export const jwtAuthProvider: AuthProvider = {
     if (!hasAuthenticated()) {
       throw new Error();
     }
-
-    return;
   },
   getIdentity: async () => {
     const response = await getUser();

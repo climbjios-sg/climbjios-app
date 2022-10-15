@@ -2,7 +2,6 @@ import { ReactNode } from 'react';
 import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 
 interface Props {
-  // children?: ReactNode;
   children?: ReactNode;
 }
 

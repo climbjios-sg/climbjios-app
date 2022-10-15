@@ -7,8 +7,6 @@ interface State {
   authenticated: boolean;
 }
 
-/// used to render different content based on whether authenticated;
-
 const useAuthState = () => {
   const [state, setState] = useState<State>({
     loading: true,

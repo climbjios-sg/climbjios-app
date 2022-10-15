@@ -1,9 +1,7 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/utils/jwt';
 import useLogin from './useLogin';
-
-/// observe url params, if has tokens, then try to login using that token;
-/// if not, then do nothing; cos cannot assume not authenticated
 
 const useAutoLogin = () => {
   const login = useLogin();
@@ -11,9 +9,8 @@ const useAutoLogin = () => {
 
   useEffect(() => {
     const callLogin = async () => {
-      // TODO: use const
-      const accessToken = searchParams.get('accessToken');
-      const refreshToken = searchParams.get('refreshToken');
+      const accessToken = searchParams.get(ACCESS_TOKEN);
+      const refreshToken = searchParams.get(REFRESH_TOKEN);
 
       if (accessToken === null || refreshToken === null) {
         return;
@@ -24,9 +21,7 @@ const useAutoLogin = () => {
           accessToken,
           refreshToken,
         });
-      } catch {
-        /// do nothing
-      }
+      } catch {}
     };
 
     callLogin();

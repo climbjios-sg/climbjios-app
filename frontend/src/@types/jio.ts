@@ -18,6 +18,8 @@ export interface Jio {
   gym: Gym;
 }
 
+// Generic request and response types
+
 export type JioRequest = Pick<
   Jio,
   | 'type'
@@ -29,8 +31,9 @@ export type JioRequest = Pick<
   | 'openToClimbTogether'
   | 'optionalNote'
 >;
-
 export type JioResponse = Jio;
+
+// Specific request and response types
 
 export type GetJioListRequest = Partial<Pick<Jio, 'type' | 'numPasses' | 'gymId'>> & {
   // Get jios that end after this date string.
