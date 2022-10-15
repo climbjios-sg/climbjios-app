@@ -7,7 +7,7 @@ import JioCardSkeleton from '../JioCardSkeleton';
 import EmptyJiosContent from '../EmptyJiosContent';
 import EmptyContent from 'src/components/EmptyContent';
 import { useDispatch, useSelector } from 'src/store';
-import { getJios, ListJiosArgs } from 'src/store/reducers/jios';
+import { listJios, ListJiosArgs } from 'src/store/reducers/jios';
 import { getDateTimeString } from 'src/utils/formatTime';
 import { Link } from 'react-router-dom';
 import { PATH_DASHBOARD } from '../../../../../routes/paths';
@@ -88,7 +88,7 @@ export default function JioCardList() {
 
   useEffect(() => {
     if (!jioSearchValues) {
-      dispatch(getJios({}));
+      dispatch(listJios({}));
       return;
     }
 
@@ -105,7 +105,7 @@ export default function JioCardList() {
       searchParams.type = type;
     }
 
-    dispatch(getJios(searchParams));
+    dispatch(listJios(searchParams));
   }, [version, dispatch, jioSearchValues]);
 
   return <Grid container>{displayedData}</Grid>;
