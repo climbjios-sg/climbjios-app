@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import useAuthProvider from './useAuthProvider';
-import useCheckAuth from './useCheckAuth';
+import useLogin from './useLogin';
 
 /// helps you trigger checkauth on component mount
 const useAutoLogin = () => {
-  const checkAuth = useCheckAuth();
+  const login = useLogin();
   const [searchParams] = useSearchParams();
-  const authProvider = useAuthProvider();
 
   useEffect(() => {
     const callCheckAuth = async () => {
@@ -19,7 +17,7 @@ const useAutoLogin = () => {
       }
 
       try {
-        await authProvider.login({
+        await login({
           accessToken,
           refreshToken,
         });
@@ -29,7 +27,7 @@ const useAutoLogin = () => {
     };
 
     callCheckAuth();
-  }, [authProvider, checkAuth, searchParams]);
+  }, [login, searchParams]);
 };
 
 export default useAutoLogin;
