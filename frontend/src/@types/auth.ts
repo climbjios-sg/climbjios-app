@@ -66,7 +66,7 @@ export type AuthProvider = {
   checkError: (status: number) => Promise<void>;
   // getPermissions: (params: any) => Promise<any>;
   getIdentity?: () => Promise<UserIdentity>;
-  [key: string]: any;
+  // [key: string]: any;
 };
 
 export type AuthProviderType = 'default' | 'jwt';

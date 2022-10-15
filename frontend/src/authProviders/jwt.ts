@@ -71,6 +71,7 @@ const hasAuthenticated = () =>
   getSession() !== null;
 const isPublicUrl = (url: string) => [PATH_AUTH.root].includes(url);
 
+// TODO: init auth provider with a http client (axios object)
 // TODO: avoid using global axios object
 export const jwtAuthProvider: AuthProvider = {
   /// will try to convert from unauth to auth state
@@ -82,7 +83,8 @@ export const jwtAuthProvider: AuthProvider = {
     const session = getSession();
 
     if (session === null) {
-      return;
+      // TODO: create custom error
+      throw new Error();
     }
 
     const { refreshToken } = session;

@@ -17,16 +17,6 @@ const initialState: State = {
   data: [],
 };
 
-interface Options {
-  onSuccess?: () => void;
-  onError?: () => void;
-}
-
-const defaultOptions: Options = {
-  onSuccess: () => {},
-  onError: () => {},
-};
-
 const slice = createSlice({
   name: 'myJios',
   initialState,
@@ -65,18 +55,15 @@ const slice = createSlice({
   },
 });
 
-export function listMyJios(options = defaultOptions) {
-  const { onSuccess, onError } = options;
+export function listMyJios() {
   return async () => {
     dispatch(slice.actions.request());
     try {
       const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.posts.root);
       const collections: Jio[] = response.data;
       dispatch(slice.actions.list(collections));
-      onSuccess?.();
     } catch (err) {
       dispatch(slice.actions.failure(err));
-      onError?.();
     }
   };
 }
