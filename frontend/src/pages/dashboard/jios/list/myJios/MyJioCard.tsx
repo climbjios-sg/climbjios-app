@@ -11,7 +11,7 @@ import CloseMyJioDialog from './CloseMyJioDialog';
 import { useSnackbar } from 'notistack';
 import useRefresh from 'src/hooks/useRefresh';
 import { closeMyJio } from 'src/services/myJios';
-import { useRequest } from 'ahooks';
+import useSafeRequest from 'src/hooks/useSafeRequest';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { Link } from 'react-router-dom';
 
@@ -23,7 +23,7 @@ export default function MyJioCard({ data }: MyJioCardProps) {
   const { enqueueSnackbar } = useSnackbar();
   const refresh = useRefresh();
   const [isCloseDialogOpen, setIsCloseDialogOpen] = useState(false);
-  const { run: submitCloseMyJio } = useRequest(closeMyJio, {
+  const { run: submitCloseMyJio } = useSafeRequest(closeMyJio, {
     manual: true,
     onSuccess: () => {
       enqueueSnackbar('Closed!');

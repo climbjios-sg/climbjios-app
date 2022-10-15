@@ -5,10 +5,10 @@ import { useEffect } from 'react';
 import useAuthProvider from './auth/useAuthProvider';
 import useLogout from './auth/useLogout';
 
-const useSafeRequest = <TData>(
-  service: () => Promise<AxiosResponse<TData, any>>,
-  options?: Options<AxiosResponse<TData, any>, []>,
-  plugins?: Plugin<AxiosResponse<TData, any>, []>[]
+const useSafeRequest = <TData, TParams extends any[]>(
+  service: (...args: TParams) => Promise<AxiosResponse<TData, any>>,
+  options?: Options<AxiosResponse<TData>, TParams>,
+  plugins?: Plugin<AxiosResponse<TData>, TParams>[]
 ) => {
   const { data, ...rest } = useRequest(service, options, plugins);
   const logout = useLogout();

@@ -2,12 +2,12 @@ import Iconify from 'src/components/Iconify';
 import { useNavigate } from 'react-router-dom';
 import JiosCreateEditForm from '../form/JiosCreateEditForm';
 import { JioCreateEditFormValues, jioFormValuesToRequestJio } from '../form/utils';
-import { useRequest } from 'ahooks';
 import { useSnackbar } from 'notistack';
 import { createJio } from 'src/services/jios';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { useDispatch, useSelector } from '../../../../store';
 import { clearJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
+import useSafeRequest from 'src/hooks/useSafeRequest';
 
 export default function JiosCreate() {
   const { enqueueSnackbar } = useSnackbar();
@@ -20,7 +20,7 @@ export default function JiosCreate() {
     navigate(PATH_DASHBOARD.general.jios.userJios);
   };
 
-  const { run: submitCreateJio } = useRequest(createJio, {
+  const { run: submitCreateJio } = useSafeRequest(createJio, {
     manual: true,
     onSuccess: () => {
       enqueueSnackbar(
