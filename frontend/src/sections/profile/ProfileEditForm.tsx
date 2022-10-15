@@ -79,7 +79,7 @@ export default function ProfileEditForm({ isExistingUser, buttonText }: Props) {
 
         let user: User = {
           name: data.name,
-          telegramHandle: data.telegramHandle,
+          telegramHandle: auth.user?.telegramHandle,
           username: auth.user?.username,
         };
 
@@ -117,9 +117,14 @@ export default function ProfileEditForm({ isExistingUser, buttonText }: Props) {
               />
               <FormHelperText error>{errors?.telegramHandle?.message}</FormHelperText>
               <RHFTextField
+                disabled={isExistingUser}
                 name="telegramHandle"
                 label="Telegram Username"
-                helperText="Other climbers will communicate with you over Telegram."
+                helperText={
+                  isExistingUser
+                    ? 'Other climbers will communicate with you over Telegram. If you need to update your Telegram username, please contact Support at @rizhaow (via Telegram)'
+                    : "Other climbers will communicate with you over Telegram. Do check that your username is correct, else you won't be able to receive any messages from others."
+                }
                 InputProps={{
                   startAdornment: <InputAdornment position="start">@</InputAdornment>,
                 }}
