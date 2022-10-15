@@ -1,14 +1,8 @@
-// @mui
 import { styled } from '@mui/material/styles';
 import { Box, Stack, Container, Typography } from '@mui/material';
-
-// components
 import Page from '../../components/Page';
 import Logo from '../../components/Logo';
 import LoginForm from './LoginForm';
-// sections
-
-// ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {

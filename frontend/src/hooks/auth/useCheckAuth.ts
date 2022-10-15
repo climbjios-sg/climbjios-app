@@ -34,22 +34,28 @@ const useCheckAuth = (): CheckAuth => {
       try {
         await authProvider.checkAuth();
       } catch (error) {
-        // TODO: extract out the logic
+        console.log('kw1');
+        // TODO: extract out the logic, better way?
         // TODO: use const for token
         const accessToken = searchParams.get('accessToken');
         const refreshToken = searchParams.get('refreshToken');
+        console.log('kw2', accessToken, refreshToken, window.location.href);
 
         if (accessToken === null || refreshToken === null) {
           callLogout();
           throw error;
         }
+        console.log('kw3');
 
         try {
+          console.log('kw4');
           await authProvider.login({
             accessToken,
             refreshToken,
           });
+          console.log('kw5');
         } catch {
+          console.log('kw6');
           callLogout();
           throw error;
         }

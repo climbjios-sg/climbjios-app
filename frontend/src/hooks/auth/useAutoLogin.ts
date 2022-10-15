@@ -2,13 +2,16 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import useLogin from './useLogin';
 
-/// helps you trigger checkauth on component mount
+/// observe url params, if has tokens, then try to login using that token;
+/// if not, then do nothing; cos cannot assume not authenticated
+
 const useAutoLogin = () => {
   const login = useLogin();
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const callCheckAuth = async () => {
+    const callLogin = async () => {
+      // TODO: use const
       const accessToken = searchParams.get('accessToken');
       const refreshToken = searchParams.get('refreshToken');
 
@@ -26,7 +29,7 @@ const useAutoLogin = () => {
       }
     };
 
-    callCheckAuth();
+    callLogin();
   }, [login, searchParams]);
 };
 

@@ -18,6 +18,7 @@ export const PATH_PAGE = {
   page404: '/404',
 };
 
+// TODO: rename path, use numbering for onboarding steps?
 export const PATH_ONBOARDING = {
   newuser: path(ROOTS_ONBOARDING, '/newuser'),
   username: path(ROOTS_ONBOARDING, '/username'),

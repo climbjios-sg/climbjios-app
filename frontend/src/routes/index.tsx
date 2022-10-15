@@ -2,6 +2,7 @@ import { Suspense, lazy, ElementType } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 import Authenticated from 'src/components/auth/Authenticated';
 import Public from 'src/components/auth/Public';
+import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 
@@ -21,19 +22,17 @@ const Loadable = (Component: ElementType) => (props: any) => {
 };
 
 export default function Router() {
+  useAutoLogin();
+
   return useRoutes([
     // Main Routes
-    {
-      path: '/',
-      element: <Public />,
-    },
+    // {
+    //   path: '/',
+    //   element: <Public />,
+    // },
     {
       path: 'login',
-      element: (
-        <Public>
-          <Login />
-        </Public>
-      ),
+      element: <Login />,
     },
 
     // Onboarding Routes
@@ -73,7 +72,7 @@ export default function Router() {
       path: '404',
       element: <Page404 />,
     },
-    { path: '*', element: <Navigate to="/404" replace /> },
+    { path: '*', element: <Navigate to="/dashboard/" replace /> },
   ]);
 }
 
