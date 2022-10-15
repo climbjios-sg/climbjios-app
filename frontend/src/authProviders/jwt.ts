@@ -76,34 +76,26 @@ const isPublicUrl = (url: string) => [PATH_AUTH.root].includes(url);
 export const jwtAuthProvider: AuthProvider = {
   /// will try to convert from unauth to auth state
   /// but if no access and refresh token, this cannot be used since BE doesnot support custom auth
-  login: async () => {
+  login: async ({ refreshToken, accessToken }) => {
     // const response = await authorizedAxios.post()
     /// no implementation
 
-    const session = getSession();
-
-    if (session === null) {
-      // TODO: create custom error
-      throw new Error();
+    // TODO: fix any type
+    if (refreshToken && accessToken) {
+      setSession({
+        refreshToken,
+        accessToken,
+      });
+    } else {
+      const session = getSession();
+      if (session === null) {
+        // TODO: create custom error
+        throw new Error();
+      }
+      const { refreshToken: sessionRefreshToken } = session;
+      const response = await refreshAccessToken(sessionRefreshToken);
+      setSession(response.data);
     }
-
-    const { refreshToken } = session;
-
-    // try {
-    const response = await refreshAccessToken(refreshToken);
-
-    // const collections: Jio[] = response.data;
-    // dispatch(slice.actions.list(collections));
-    // onSuccess?.();
-
-    // const {refreshToken: newRefreshToken, accessToken: newAccessToken} = response.data
-
-    setSession(response.data);
-
-    // } catch (err) {
-    //   dispatch(slice.actions.failure(err));
-    //   onError?.();
-    // }
   },
   logout: async () => {
     // TODO: use utils

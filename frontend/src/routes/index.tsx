@@ -26,9 +26,7 @@ export default function Router() {
     // Main Routes
     {
       path: '/',
-      element: (
-        <AuthRedirect />
-      ),
+      element: <AuthRedirect />,
     },
     {
       path: 'login',
@@ -93,9 +91,6 @@ const OnboardingNewUserUsername = Loadable(
 
 // APP
 const MainApp = Loadable(lazy(() => import('../pages/dashboard/MainApp')));
-
-// USER PUBLIC PROFILE
-const UserPublicProfile = Loadable(lazy(() => import('../pages/UserPublicProfile')));
 
 // LANDING
 const Page404 = Loadable(lazy(() => import('../pages/Page404')));
