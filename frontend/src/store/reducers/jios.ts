@@ -4,6 +4,7 @@ import authorizedAxios from '../../utils/authorizedAxios';
 import { AxiosResponse } from 'axios';
 import { dispatch } from '..';
 import { createSlice } from '@reduxjs/toolkit';
+import { getJios } from 'src/services/jios';
 
 export interface ListJiosArgs {
   type?: Jio['type'];
@@ -52,9 +53,7 @@ export function listJios(listJiosQueryParams: ListJiosArgs) {
   return async () => {
     dispatch(slice.actions.request());
     try {
-      const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.posts.search, {
-        params: listJiosQueryParams,
-      });
+      const response: AxiosResponse = await getJios(listJiosQueryParams);
       const collections: Jio[] = response.data;
       dispatch(slice.actions.success(collections));
     } catch (err) {
