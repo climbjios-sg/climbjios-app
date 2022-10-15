@@ -1,8 +1,7 @@
 import axios from 'axios';
 // config
 import { HOST_API } from '../config';
-import { refreshAccessToken } from '../services/token';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from './jwt';
+import { ACCESS_TOKEN } from './jwt';
 
 // ----------------------------------------------------------------------
 
