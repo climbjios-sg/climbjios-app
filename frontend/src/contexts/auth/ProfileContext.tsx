@@ -12,6 +12,13 @@ export interface ProfileContextValue {
 
 const ProfileContext = createContext<ProfileContextValue>({} as ProfileContextValue);
 
+/**
+ * Provider for ProfileContext
+ *
+ * authProvider and userIdentity can only be provided using context
+ * since they are non-serializable
+ * @see {@link https://redux-toolkit.js.org/api/serializabilityMiddleware}
+ */
 export const ProfileProvider = ({
   children,
   authProvider,
