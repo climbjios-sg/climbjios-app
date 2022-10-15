@@ -31,6 +31,8 @@ authorizedAxios.interceptors.response.use(
     const originalRequest = error.config;
     // If token expires, replay request
     if (error.response.status === 401 && !originalRequest._retry) {
+      // TODO: use authprovider.login()
+
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem(REFRESH_TOKEN);
       if (!refreshToken) {
@@ -39,6 +41,8 @@ authorizedAxios.interceptors.response.use(
       const { data } = await refreshAccessToken(refreshToken);
       localStorage.setItem(ACCESS_TOKEN, data.accessToken);
       localStorage.setItem(REFRESH_TOKEN, data.refreshToken);
+
+      // TODO: why need this?
       authorizedAxios.defaults.headers.common.Authorization = 'Bearer ' + data.accessToken;
       return authorizedAxios(originalRequest);
     }
