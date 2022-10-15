@@ -44,8 +44,6 @@ export default function MyJioCard({ data }: MyJioCardProps) {
     submitCloseMyJio(data.id);
   };
 
-  console.log(data, formatStartEndDate(data.startDateTime, data.endDateTime));
-
   return (
     <Card>
       <CardHeader title={data.user.name} subheader={`@${data.user.username}`} />
