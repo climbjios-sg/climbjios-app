@@ -4,7 +4,7 @@ import { TabContext, TabPanel } from '@mui/lab';
 import { Tab, Button, Typography, Grid, Tabs, Box, IconButton, Chip } from '@mui/material';
 import { useNavigate } from 'react-router';
 import Iconify from '../../../../components/Iconify';
-import useRefresh from '../../../../hooks/useRefresh';
+import useRefresh from '../../../../hooks/ui/useRefresh';
 import { formatPrettyDate } from '../../../../utils/formatTime';
 import JioCardList from './allJios/JioCardList';
 import MyJioCardList from './myJios/MyJioCardList';

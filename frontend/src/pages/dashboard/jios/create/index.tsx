@@ -7,7 +7,7 @@ import { createJio } from 'src/services/jios';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { useDispatch, useSelector } from '../../../../store';
 import { clearJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
-import useSafeRequest from 'src/hooks/useSafeRequest';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
 
 export default function JiosCreate() {
   const { enqueueSnackbar } = useSnackbar();

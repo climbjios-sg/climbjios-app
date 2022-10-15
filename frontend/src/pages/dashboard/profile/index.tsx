@@ -1,9 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-
 import { useNavigate, Route, Routes } from 'react-router-dom';
 import {
-  Divider,
   List,
   ListItem,
   ListItemButton,
@@ -13,9 +11,6 @@ import {
   Typography,
 } from '@mui/material';
 import Iconify from '../../../components/Iconify';
-import { PATH_AUTH } from '../../../routes/paths';
-// Sections
-import ProfileEditForm from '../../onboarding/ProfileEditForm';
 import useGetIdentity from 'src/hooks/auth/useGetIdentity';
 import useLogout from 'src/hooks/auth/useLogout';
 

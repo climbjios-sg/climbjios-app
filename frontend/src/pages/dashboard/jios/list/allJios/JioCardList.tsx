@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { Grid, Button, Divider } from '@mui/material';
-import useVersion from 'src/hooks/useVersion';
+import useVersion from 'src/hooks/ui/useVersion';
 import JioCard from './JioCard';
 import JioCardSkeleton from '../JioCardSkeleton';
 import EmptyJiosContent from '../EmptyJiosContent';

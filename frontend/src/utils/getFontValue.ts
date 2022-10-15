@@ -2,7 +2,7 @@
 import { useTheme } from '@mui/material/styles';
 import { Variant } from '@mui/material/styles/createTypography';
 // hooks
-import useResponsive from '../hooks/useResponsive';
+import useResponsive from '../hooks/ui/useResponsive';
 
 // ----------------------------------------------------------------------
 

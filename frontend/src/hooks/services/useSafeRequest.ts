@@ -2,8 +2,8 @@ import { useRequest } from 'ahooks';
 import { Options, Plugin } from 'ahooks/lib/useRequest/src/types';
 import { AxiosResponse } from 'axios';
 import { useEffect } from 'react';
-import useAuthProvider from './auth/useAuthProvider';
-import useLogout from './auth/useLogout';
+import useAuthProvider from '../auth/useAuthProvider';
+import useLogout from '../auth/useLogout';
 
 const useSafeRequest = <TData, TParams extends any[]>(
   service: (...args: TParams) => Promise<AxiosResponse<TData, any>>,
