@@ -10,7 +10,7 @@ import { ProgressBarStyle } from './components/ProgressBar';
 import NotistackProvider from './components/NotistackProvider';
 import MotionLazyContainer from './components/animate/MotionLazyContainer';
 // context
-import { NewUserProvider } from './contexts/NewUserContext';
+// import { NewUserProvider } from './contexts/NewUserContext';
 import { useDispatch } from './store';
 import { setAuthProvider } from './store/reducers/auth';
 import { DEFAULT_AUTH_PROVIDER } from './config';
@@ -44,16 +44,14 @@ export default function App() {
   }, []);
 
   return (
-    <NewUserProvider>
-      <MotionLazyContainer>
-        <ThemeProvider>
-          <NotistackProvider>
-            <ProgressBarStyle />
-            <ScrollToTop />
-            <Router />
-          </NotistackProvider>
-        </ThemeProvider>
-      </MotionLazyContainer>
-    </NewUserProvider>
+    <MotionLazyContainer>
+      <ThemeProvider>
+        <NotistackProvider>
+          <ProgressBarStyle />
+          <ScrollToTop />
+          <Router />
+        </NotistackProvider>
+      </ThemeProvider>
+    </MotionLazyContainer>
   );
 }

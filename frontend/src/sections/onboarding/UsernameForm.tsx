@@ -18,7 +18,7 @@ import {
 } from '../../config';
 
 // context
-import { NewUserContext } from '../../contexts/NewUserContext';
+// import { NewUserContext } from '../../contexts/NewUserContext';
 import { useDispatch } from 'src/store';
 import { createUserIdentity } from 'src/store/reducers/auth';
 
@@ -35,7 +35,7 @@ type Props = {
 // TODO: REMOVE NEW USER CONTEXT
 export default function UsernameForm({ onExit }: Props) {
   const { enqueueSnackbar } = useSnackbar();
-  const newUserContext = useContext(NewUserContext);
+  // const newUserContext = useContext(NewUserContext);
   const dispatch = useDispatch();
 
   const NewProfileSchema = Yup.object().shape({
@@ -60,7 +60,8 @@ export default function UsernameForm({ onExit }: Props) {
   const onSubmit = async () => {
     try {
       // TODO: remove new user context
-      await dispatch(createUserIdentity(newUserContext.user));
+
+      // await dispatch(createUserIdentity(newUserContext.user));
       onExit();
     } catch (error) {
       enqueueSnackbar(`${JSON.stringify(error)}`, {
@@ -84,7 +85,7 @@ export default function UsernameForm({ onExit }: Props) {
                 label="Username"
                 helperText="Other climbers will identify you by your unique username. You can't change this later"
                 onChange={(e) => {
-                  newUserContext.updateUsername(e.target.value);
+                  // newUserContext.updateUsername(e.target.value);
                   setValue('username', e.target.value);
                 }}
               />

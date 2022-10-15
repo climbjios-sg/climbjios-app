@@ -1,14 +1,14 @@
 import { User, UserIdentity } from './user';
 
 // TODO: to be deprecated
-export type NewUserContextType = {
-  user: User;
-  updateName: (input: string) => void;
-  updateTelegram: (input: string) => void;
-  updateUsername: (input: string) => void;
-  hasFilledProfile: () => boolean;
-  hasFilledOnboardingInfo: () => boolean;
-};
+// export type NewUserContextType = {
+//   user: User;
+//   updateName: (input: string) => void;
+//   updateTelegram: (input: string) => void;
+//   updateUsername: (input: string) => void;
+//   hasFilledProfile: () => boolean;
+//   hasFilledOnboardingInfo: () => boolean;
+// };
 
 /**
  * new auth logic:

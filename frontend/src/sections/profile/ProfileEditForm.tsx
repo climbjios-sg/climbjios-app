@@ -22,7 +22,7 @@ import {
 } from '../../config';
 import { useNavigate } from 'react-router-dom';
 // context
-import { NewUserContext } from '../../contexts/NewUserContext';
+// import { NewUserContext } from '../../contexts/NewUserContext';
 // paths
 import { PATH_DASHBOARD, PATH_ONBOARDING } from '../../routes/paths';
 import useGetIdentity from 'src/hooks/auth/useGetIdentity';
@@ -37,11 +37,12 @@ type Props = {
   isExistingUser: boolean;
 };
 
+// TODO: redo the form
 // TODO: REMOVE NEW USER CONTEXT
 export default function ProfileEditForm({ isExistingUser }: Props) {
   const { identity } = useGetIdentity();
   const { enqueueSnackbar } = useSnackbar();
-  const newUserContext = useContext(NewUserContext);
+  // const newUserContext = useContext(NewUserContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -73,12 +74,12 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
   const onSubmit = async (data: FormValuesProps) => {
     if (!data.name || !data.telegramHandle) return;
 
-    newUserContext.updateName(data.name);
-    newUserContext.updateTelegram(data.telegramHandle);
+    // newUserContext.updateName(data.name);
+    // newUserContext.updateTelegram(data.telegramHandle);
 
     if (isExistingUser) {
       try {
-        newUserContext.updateUsername(identity?.username as string);
+        // newUserContext.updateUsername(identity?.username as string);
 
         let user: RequestUser = {
           name: data.name,
@@ -114,8 +115,8 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
                 label="Name"
                 helperText="Your name will be displayed on your profile page. You can always change this later"
                 onChange={(e) => {
-                  newUserContext.updateName(e.target.value);
-                  setValue('name', e.target.value);
+                  // newUserContext.updateName(e.target.value);
+                  // setValue('name', e.target.value);
                 }}
               />
               <FormHelperText error>{errors?.telegramHandle?.message}</FormHelperText>
@@ -127,8 +128,8 @@ export default function ProfileEditForm({ isExistingUser }: Props) {
                   startAdornment: <InputAdornment position="start">@</InputAdornment>,
                 }}
                 onChange={(e) => {
-                  newUserContext.updateTelegram(e.target.value);
-                  setValue('telegramHandle', e.target.value);
+                  // newUserContext.updateTelegram(e.target.value);
+                  // setValue('telegramHandle', e.target.value);
                 }}
               />
             </Stack>
