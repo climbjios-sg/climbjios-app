@@ -1,10 +1,9 @@
 import { Suspense, lazy, ElementType } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
+import Authenticated from 'src/components/auth/Authenticated';
 import Public from 'src/components/auth/Public';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-import AuthGuard from '../pages/guards/AuthGuard';
-import { PATH_ONBOARDING, PATH_PAGE } from './paths';
 
 // ----------------------------------------------------------------------
 
@@ -44,17 +43,17 @@ export default function Router() {
         {
           path: 'newuser',
           element: (
-            <AuthGuard>
+            <Authenticated>
               <OnboardingNewUserProfile />
-            </AuthGuard>
+            </Authenticated>
           ),
         },
         {
           path: 'username',
           element: (
-            <AuthGuard>
+            <Authenticated>
               <OnboardingNewUserUsername />
-            </AuthGuard>
+            </Authenticated>
           ),
         },
         { path: '*', element: <Navigate to="/newuser" replace /> },
@@ -65,9 +64,9 @@ export default function Router() {
     {
       path: 'dashboard/*',
       element: (
-        <AuthGuard>
+        <Authenticated>
           <MainApp />
-        </AuthGuard>
+        </Authenticated>
       ),
     },
     {
