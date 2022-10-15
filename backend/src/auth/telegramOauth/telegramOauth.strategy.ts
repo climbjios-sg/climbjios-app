@@ -12,6 +12,8 @@ export class TelegramOauthStrategy extends PassportStrategy(
   Strategy,
   'telegram',
 ) {
+  static NO_USERNAME = 'NO_USERNAME';
+
   constructor(
     constantsService: ConstantsService,
     private readonly userDaoService: UserDaoService,
@@ -23,6 +25,11 @@ export class TelegramOauthStrategy extends PassportStrategy(
 
   async validate(profile: any, done: VerifiedCallback) {
     const { id, name, username } = profile;
+
+    // Do not create account if user has no Telegram username
+    if (!username) {
+      return done(null, TelegramOauthStrategy.NO_USERNAME);
+    }
 
     const user = await this.userDaoService.findOrCreateOAuthUser({
       authProvider: AuthProvider.TELEGRAM,

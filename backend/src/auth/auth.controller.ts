@@ -13,6 +13,7 @@ import RefreshDto from './dtos/refresh.dto';
 import { JwtAuthService } from './jwtAuth/jwtAuth.service';
 import { Public } from './jwtAuth/public.decorator';
 import { TelegramOauthGuard } from './telegramOauth/telegramOauth.guard';
+import { TelegramOauthStrategy } from './telegramOauth/telegramOauth.strategy';
 
 @Controller('auth')
 export class AuthController {
@@ -48,6 +49,13 @@ export class AuthController {
   @Get('telegram/redirect')
   @UseGuards(TelegramOauthGuard)
   async telegramAuthRedirect(@Req() req: Request, @Res() res: Response) {
+    // If user has no Telegram username, redirect them to frontend instructions to create one
+    if (req.user === TelegramOauthStrategy.NO_USERNAME) {
+      return res.redirect(
+        `${this.constantsService.CORS_ORIGIN}/updateTelegramUsername`,
+      );
+    }
+
     const { accessToken, refreshToken } =
       await this.jwtAuthService.generateJwts(req.user);
     const redirectUrl = `${this.constantsService.CORS_ORIGIN}?accessToken=${accessToken}&refreshToken=${refreshToken}`;
