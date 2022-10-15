@@ -4,5 +4,5 @@ export class UserProfileFavouriteGymModel extends BaseModel {
   static tableName = 'userProfileFavouriteGyms';
 
   readonly userProfileId: string;
-  readonly gymId: string;
+  readonly gymId: number;
 }

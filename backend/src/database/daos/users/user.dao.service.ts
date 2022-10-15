@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ModelClass, Transaction } from 'objection';
+import { ModelClass } from 'objection';
 import { UserModel } from 'src/database/models/user.model';
 import { AuthProvider } from 'src/utils/types';
 
@@ -32,10 +32,6 @@ export class UserDaoService {
     }
 
     return await this.userModel.query().insertGraph(user);
-  }
-
-  deleteUserAccount(userId: string, trx: Transaction) {
-    return this.userModel.query(trx).deleteById(userId);
   }
 
   // Used only for metric alerts

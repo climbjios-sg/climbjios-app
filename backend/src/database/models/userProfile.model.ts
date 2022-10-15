@@ -80,7 +80,7 @@ export class UserProfileModel extends BaseModel {
       modelClass: GymModel,
       filter: (query) => query.select('id', 'name', 'permanentlyClosed'),
       join: {
-        from: 'userProfile.id',
+        from: 'userProfiles.id',
         through: {
           from: 'userProfileFavouriteGyms.userProfileId',
           to: 'userProfileFavouriteGyms.gymId',

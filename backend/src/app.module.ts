@@ -15,6 +15,11 @@ import { HttpModule } from '@nestjs/axios';
 import { TelegramAlertsModule } from './utils/telegramAlerts/telegramAlerts.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './utils/filters/AllExceptions.filter';
+import { BoulderingGradesDaoModule } from './database/daos/boulderingGrades/boulderingGrades.dao.module';
+import { TopRopeGradesDaoModule } from './database/daos/topRopeGrades/topRopeGrades.dao.module';
+import { LeadClimbingGradesDaoModule } from './database/daos/leadClimbingGrades/leadClimbingGrades.dao.module';
+import { SncsCertificationsDaoModule } from './database/daos/sncsCertifications/sncsCertifications.dao.module';
+import { PronounsDaoModule } from './database/daos/pronouns/pronouns.dao.module';
 import { UserProfileDaoModule } from './database/daos/userProfiles/userProfile.dao.module';
 
 @Module({
@@ -29,6 +34,11 @@ import { UserProfileDaoModule } from './database/daos/userProfiles/userProfile.d
     UserDaoModule,
     PostDaoModule,
     GymsDaoModule,
+    BoulderingGradesDaoModule,
+    TopRopeGradesDaoModule,
+    LeadClimbingGradesDaoModule,
+    SncsCertificationsDaoModule,
+    PronounsDaoModule,
     UserProfileDaoModule,
 
     // Modules with controllers
