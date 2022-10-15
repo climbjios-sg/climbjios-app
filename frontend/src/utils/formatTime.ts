@@ -29,8 +29,8 @@ export function formatStartEndDate(startISOString: string, endISOString: string)
   const startDateTimeObject = new Date(startISOString);
   const endDateTimeObject = new Date(endISOString);
   const dateString = format(startDateTimeObject, 'E, d MMM'); // e.g. Wed, 12 Dec
-  const startTimeString = format(startDateTimeObject, 'haaa'); // e.g. 9am
-  const endTimeString = format(endDateTimeObject, 'haaa'); // e.g. 9pm
+  const startTimeString = format(startDateTimeObject, 'h:mmaaa'); // e.g. 9:59am
+  const endTimeString = format(endDateTimeObject, 'h:mmaaa'); // e.g. 9:59pm
   const displayDateTimeString = `${dateString}, ${startTimeString} - ${endTimeString}`;
   return displayDateTimeString;
 }
