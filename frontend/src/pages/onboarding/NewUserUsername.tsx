@@ -5,7 +5,7 @@ import { Container, Typography, Grid } from '@mui/material';
 import Page from '../../components/Page';
 import Logo from '../../components/Logo';
 // sections
-import UsernameForm from '../../sections/onboarding/UsernameForm';
+import UsernameForm from './UsernameForm';
 import { PATH_DASHBOARD } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
@@ -28,11 +28,11 @@ export default function NewUserUsername() {
         <Typography variant="subtitle1" gutterBottom sx={{ mt: 5, mb: 1 }}>
           Set a username for others to identify you
         </Typography>
-        <UsernameForm
+        {/* <UsernameForm
           onExit={() => {
             navigate(PATH_DASHBOARD.general.jios.root);
           }}
-        />
+        /> */}
       </Container>
     </Page>
   );

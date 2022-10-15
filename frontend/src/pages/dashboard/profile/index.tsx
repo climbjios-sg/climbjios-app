@@ -15,7 +15,7 @@ import {
 import Iconify from '../../../components/Iconify';
 import { PATH_AUTH } from '../../../routes/paths';
 // Sections
-import ProfileEditForm from '../../../sections/profile/ProfileEditForm';
+import ProfileEditForm from '../../onboarding/ProfileEditForm';
 import useGetIdentity from 'src/hooks/auth/useGetIdentity';
 import useLogout from 'src/hooks/auth/useLogout';
 
@@ -34,7 +34,7 @@ export default function Profile() {
         path="edit"
         element={
           <Box sx={{ pt: 5, minHeight: '100vh', pb: 20, maxWidth: 600, margin: '0 auto' }}>
-            <ProfileEditForm isExistingUser={true} />
+            {/* <ProfileEditForm isExistingUser={true} /> */}
           </Box>
         }
       />

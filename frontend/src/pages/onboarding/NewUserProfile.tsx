@@ -5,7 +5,7 @@ import { Container, Typography, Grid } from '@mui/material';
 import Page from '../../components/Page';
 import Logo from '../../components/Logo';
 // sections
-import ProfileEditForm from '../../sections/profile/ProfileEditForm';
+import ProfileEditForm from './ProfileEditForm';
 import { PATH_ONBOARDING } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
@@ -27,7 +27,7 @@ export default function Profile() {
         <Typography variant="subtitle1" gutterBottom sx={{ mt: 5, mb: 1 }}>
           Fill in your details to be shown to other climbers
         </Typography>
-        <ProfileEditForm isExistingUser={false} />
+        {/* <ProfileEditForm isExistingUser={false} /> */}
       </Container>
     </Page>
   );

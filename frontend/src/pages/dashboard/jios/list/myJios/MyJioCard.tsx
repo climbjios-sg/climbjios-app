@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { Button, Card, CardHeader, Stack, Typography } from '@mui/material';
 import Iconify from 'src/components/Iconify';
-import { IconStyle } from 'src/sections/@dashboard/user/profile/common';
+import { IconStyle } from 'src/utils/common';
 import { Jio } from 'src/@types/jio';
 import palette from 'src/theme/palette';
 import { formatStartEndDate } from 'src/utils/formatTime';

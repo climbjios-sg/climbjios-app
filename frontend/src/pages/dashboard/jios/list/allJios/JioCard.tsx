@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Card, CardHeader, Stack, Typography } from '@mui/material';
 import Iconify from '../../../../../components/Iconify';
-import { IconStyle } from '../../../../../sections/@dashboard/user/profile/common';
+import { IconStyle } from 'src/utils/common';
 import { Jio } from '../../../../../@types/jio';
 import palette from '../../../../../theme/palette';
 import { formatStartEndDate } from '../../../../../utils/formatTime';

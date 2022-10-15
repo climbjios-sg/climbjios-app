@@ -1,7 +1,7 @@
 // @mui
 import { styled } from '@mui/material/styles';
+import Iconify from 'src/components/Iconify';
 // components
-import Iconify from '../../../../components/Iconify';
 
 export const IconStyle = styled(Iconify)(({ theme }) => ({
   width: 20,

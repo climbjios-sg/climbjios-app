@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from '../../../../store';
 import { customShadows } from '../../../../theme/shadows';
 import { clearJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
 import { Jio } from '../../../../@types/jio';
-import { IconStyle } from '../../../../sections/@dashboard/user/profile/common';
+import { IconStyle } from 'src/utils/common';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { useSearchParams } from 'react-router-dom';
 

@@ -32,6 +32,7 @@ type Props = {
   onExit: () => void;
 };
 
+// TODO: redo the form
 // TODO: REMOVE NEW USER CONTEXT
 export default function UsernameForm({ onExit }: Props) {
   const { enqueueSnackbar } = useSnackbar();

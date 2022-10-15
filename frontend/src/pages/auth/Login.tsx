@@ -5,8 +5,8 @@ import { Box, Stack, Container, Typography } from '@mui/material';
 // components
 import Page from '../../components/Page';
 import Logo from '../../components/Logo';
+import LoginForm from './LoginForm';
 // sections
-import { LoginForm } from '../../sections/auth/login';
 
 // ----------------------------------------------------------------------
 

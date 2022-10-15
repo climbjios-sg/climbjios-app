@@ -22,8 +22,8 @@ import { useSelector } from '../../../../store';
 import { setDateTime } from '../../../../utils/formatTime';
 import { JioSearchFormValues, JIOTYPE_OPTION, yupStartEndDateTimingObject } from './utils';
 import { addDays } from 'date-fns';
-import { IconStyle } from '../../../../sections/@dashboard/user/profile/common';
 import FloatingBottomCard from '../../../../components/FloatingBottomCard';
+import { IconStyle } from 'src/utils/common';
 
 type Props = {
   onSubmit: (data: JioSearchFormValues) => Promise<void>;
