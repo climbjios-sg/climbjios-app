@@ -57,7 +57,8 @@ export type UserIdentity = {
 
 export type AuthProvider = {
   // TODO: fix any types
-  login: (params: any) => Promise<any>;
+  // login: (params: any) => Promise<any>;
+  login: () => Promise<any>;
   // logout: () => Promise<void | false | string>;
   logout: () => Promise<any>;
   checkAuth: () => Promise<void>;

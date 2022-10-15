@@ -30,6 +30,8 @@ authorizedAxios.interceptors.response.use(
   async function (error) {
     const originalRequest = error.config;
     // If token expires, replay request
+    // TODO: to be deprecated
+
     if (error.response.status === 401 && !originalRequest._retry) {
       // TODO: use authprovider.login()
 
