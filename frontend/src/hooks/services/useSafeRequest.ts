@@ -12,7 +12,7 @@ const useSafeRequest = <TData, TParams extends any[]>(
 ) => {
   const { data, refreshAsync, ...rest } = useRequest(service, options, plugins);
   const logout = useLogout();
-  const { login, checkError } = useAuthProvider();
+  const authProvider = useAuthProvider();
 
   useEffect(() => {
     const callCheckError = async () => {
@@ -21,10 +21,10 @@ const useSafeRequest = <TData, TParams extends any[]>(
       }
 
       try {
-        await checkError(data.status);
+        await authProvider.checkError(data.status);
       } catch {
         try {
-          await login();
+          await authProvider.login();
           refreshAsync();
         } catch {
           logout();
@@ -32,7 +32,7 @@ const useSafeRequest = <TData, TParams extends any[]>(
       }
     };
     callCheckError();
-  }, [checkError, data?.status, login, logout, refreshAsync]);
+  }, [authProvider, data?.status, logout, refreshAsync]);
 
   return { data, refreshAsync, ...rest };
 };

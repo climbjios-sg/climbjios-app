@@ -7,18 +7,15 @@ import { JwtTokenSet } from 'src/@types/token';
 type Login = (params: JwtTokenSet, redirectTo?: string) => Promise<any>;
 
 const useLogin = (): Login => {
-  const { login } = useAuthProvider();
+  const authProvider = useAuthProvider();
   const navigate = useNavigate();
 
   const callLogin: Login = useCallback(
     async (params, redirectTo = PATH_DASHBOARD.root) => {
-      const res = await login(params);
-
+      await authProvider.login(params);
       navigate(redirectTo);
-
-      return res;
     },
-    [login, navigate]
+    [authProvider, navigate]
   );
 
   return callLogin;

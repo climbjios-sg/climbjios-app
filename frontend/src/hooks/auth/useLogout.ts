@@ -10,15 +10,15 @@ type Logout = (redirectTo?: string) => Promise<any>;
 const useLogout = (): Logout => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { logout } = useAuthProvider();
+  const authProvider = useAuthProvider();
 
   const callLogout = useCallback(
     async (redirectTo = PATH_AUTH.root) => {
-      await logout();
+      await authProvider.logout();
       dispatch(clearState());
       navigate(redirectTo);
     },
-    [dispatch, logout, navigate]
+    [authProvider, dispatch, navigate]
   );
 
   return callLogout;

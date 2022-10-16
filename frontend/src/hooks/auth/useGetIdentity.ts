@@ -21,12 +21,12 @@ const useGetIdentity = () => {
   });
 
   const { userIdentity } = useProfile();
-  const { getIdentity } = useAuthProvider();
+  const authProvider = useAuthProvider();
 
   useEffect(() => {
     const callGetIdentity = async () => {
       try {
-        const identity = await getIdentity();
+        const identity = await authProvider.getIdentity();
         setState({
           loading: false,
           loaded: true,
@@ -50,7 +50,7 @@ const useGetIdentity = () => {
     } else {
       callGetIdentity();
     }
-  }, [getIdentity, userIdentity]);
+  }, [authProvider, userIdentity]);
 
   return state;
 };
