@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom';
 // @mui
-import { Container, Typography, Grid } from '@mui/material';
+import { Container, Typography, Button } from '@mui/material';
 // components
 import Page from '../../components/Page';
 import Logo from '../../components/Logo';
+
 // sections
 
 // ----------------------------------------------------------------------
@@ -35,8 +35,17 @@ export default function Onboarding() {
         <Typography variant="subtitle1" gutterBottom sx={{ mt: 5, mb: 1 }}>
           Fill in your details to be shown to other climbers
         </Typography>
-
-        {null}
+        <Button
+          type="submit"
+          size="large"
+          variant="contained"
+          color="primary"
+          // startIcon={submitIcon}
+          fullWidth
+          disableElevation
+        >
+          <Typography variant="button">{'Next'}</Typography>
+        </Button>
       </Container>
     </Page>
   );

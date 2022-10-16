@@ -29,7 +29,7 @@ export default function Profile() {
         path="edit"
         element={
           <Box sx={{ pt: 5, minHeight: '100vh', pb: 20, maxWidth: 600, margin: '0 auto' }}>
-            {/* <ProfileEditForm isExistingUser={true} /> */}
+            {null}
           </Box>
         }
       />
