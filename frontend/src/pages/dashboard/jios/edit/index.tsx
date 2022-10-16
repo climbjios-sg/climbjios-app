@@ -1,7 +1,7 @@
 import Iconify from 'src/components/Iconify';
 import { useNavigate, useParams } from 'react-router-dom';
-import JiosCreateEditForm from '../form/JiosCreateEditForm';
-import { JioCreateEditFormValues, jioFormValuesToJioRequest } from '../form/utils';
+import JiosCreateEditForm from '../forms/JiosCreateEditForm';
+import { JioCreateEditFormValues, jioFormValuesToJioRequest } from '../forms/utils';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { useSnackbar } from 'notistack';
 import { getJio, updateJio } from 'src/services/jios';
