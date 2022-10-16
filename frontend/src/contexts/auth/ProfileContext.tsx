@@ -8,6 +8,7 @@ export interface ProfileContextValue {
   userIdentity?: UserIdentity;
   createUserIdentity: (user: UserRequest) => () => Promise<void>;
   updateUserIdentity: (user: UserRequest) => () => Promise<void>;
+  setUserIdentity: React.Dispatch<React.SetStateAction<UserIdentity | undefined>>;
 }
 
 const ProfileContext = createContext<ProfileContextValue>({} as ProfileContextValue);
@@ -52,6 +53,7 @@ export const ProfileProvider = ({
       userIdentity,
       createUserIdentity,
       updateUserIdentity,
+      setUserIdentity,
     }),
     [authProvider, userIdentity]
   );

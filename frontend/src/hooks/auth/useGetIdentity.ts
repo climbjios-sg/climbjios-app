@@ -3,10 +3,6 @@ import { UserIdentity } from 'src/@types/user';
 import { useProfile } from 'src/contexts/auth/ProfileContext';
 import useAuthProvider from './useAuthProvider';
 
-const defaultIdentity: UserIdentity = {
-  id: '',
-};
-
 interface State {
   loading: boolean;
   loaded: boolean;
@@ -20,17 +16,18 @@ const useGetIdentity = () => {
     loaded: false,
   });
 
-  const { userIdentity } = useProfile();
+  const { userIdentity, setUserIdentity } = useProfile();
   const authProvider = useAuthProvider();
 
   useEffect(() => {
     const callGetIdentity = async () => {
       try {
         const identity = await authProvider.getIdentity();
+        setUserIdentity(identity);
         setState({
           loading: false,
           loaded: true,
-          identity: identity || defaultIdentity,
+          identity: identity,
         });
       } catch (error) {
         setState({
