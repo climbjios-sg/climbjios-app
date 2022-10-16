@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
 // @mui
-import { Container, Typography, Button } from '@mui/material';
+import { Container, Typography, Button, Card, Stack } from '@mui/material';
+
 // components
 import Page from '../../components/Page';
 import Logo from '../../components/Logo';
@@ -59,6 +60,7 @@ export default function Onboarding() {
     </>
   );
 
+  // TODO: fix css
   return (
     <Page title="Onboarding: Fill in your details">
       <Container
@@ -71,37 +73,43 @@ export default function Onboarding() {
           justifyContent: 'center',
         }}
       >
-        <Logo />
-        <Typography
-          variant="h4"
-          // gutterBottom sx={{ mt: 5, mb: 1 }}
-        >
+        <Logo
+          sx={{
+            mb: 3,
+          }}
+        />
+        <Typography variant="h4" gutterBottom>
           Complete your profile
-        </Typography>{' '}
-        <Typography
-          variant="subtitle1"
-          // gutterBottom sx={{ mt: 5, mb: 1 }}
-        >
+        </Typography>
+        <Typography variant="subtitle1" gutterBottom>
           Fill in your details to be shown to other climbers
         </Typography>
-        {renderForm()}
-        <Button
-          type="submit"
-          size="large"
-          variant="contained"
-          color="primary"
-          // startIcon={submitIcon}
-          fullWidth
-          disableElevation
-          onClick={handleClickButton}
+        <Card
+          sx={{
+            width: '100%',
+            mt: 3,
+          }}
         >
-          <Typography variant="button">{'Next'}</Typography>
-        </Button>
-        {activeStep > 1 && (
-          <Button size="medium" fullWidth onClick={handleClickBackButton} sx={{ mt: 1.5 }}>
-            Back
-          </Button>
-        )}
+          <Stack spacing={1.5} sx={{ px: 3, pb: 2, pt: 2 }}>
+            {renderForm()}
+            <Button
+              type="submit"
+              size="large"
+              variant="contained"
+              color="primary"
+              fullWidth
+              disableElevation
+              onClick={handleClickButton}
+            >
+              <Typography variant="button">{'Next'}</Typography>
+            </Button>
+            {activeStep > 1 && (
+              <Button size="medium" fullWidth onClick={handleClickBackButton} sx={{ mt: 1.5 }}>
+                Back
+              </Button>
+            )}
+          </Stack>
+        </Card>
       </Container>
     </Page>
   );

@@ -11,9 +11,15 @@ const useLogin = (): Login => {
   const navigate = useNavigate();
 
   const callLogin: Login = useCallback(
-    async (params, redirectTo = PATH_ONBOARDING.root) => {
+    async (params, redirectTo = PATH_DASHBOARD.root) => {
       await authProvider.login(params);
-      navigate(redirectTo);
+      const { name } = await authProvider.getIdentity();
+
+      if (name === undefined) {
+        navigate(PATH_ONBOARDING.root);
+      } else {
+        navigate(redirectTo);
+      }
     },
     [authProvider, navigate]
   );
