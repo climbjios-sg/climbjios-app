@@ -47,7 +47,7 @@ const useGetIdentity = () => {
     } else {
       callGetIdentity();
     }
-  }, [authProvider, userIdentity]);
+  }, [authProvider, setUserIdentity, userIdentity]);
 
   return state;
 };
