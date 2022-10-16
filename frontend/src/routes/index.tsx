@@ -5,6 +5,7 @@ import Public from 'src/components/auth/Public';
 import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 // components
 import LoadingScreen from '../components/LoadingScreen';
+import Onboarding from '../pages/onboarding';
 
 // ----------------------------------------------------------------------
 
@@ -32,25 +33,11 @@ export default function Router() {
     // Onboarding Routes
     {
       path: 'onboarding',
-      children: [
-        {
-          path: 'newuser',
-          element: (
-            <Authenticated>
-              <OnboardingNewUserProfile />
-            </Authenticated>
-          ),
-        },
-        {
-          path: 'username',
-          element: (
-            <Authenticated>
-              <OnboardingNewUserUsername />
-            </Authenticated>
-          ),
-        },
-        { path: '*', element: <Navigate to="/newuser" replace /> },
-      ],
+      element: (
+        <Authenticated>
+          <Onboarding />
+        </Authenticated>
+      ),
     },
     // Dashboard Routes
     {
@@ -73,12 +60,7 @@ export default function Router() {
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
 
 // ONBOARDING
-const OnboardingNewUserProfile = Loadable(lazy(() => import('../pages/onboarding/NewUserProfile')));
-// const OnboardingNotionStepOne = Loadable(lazy(() => import('../pages/onboarding/NotionStepOne')));
-// const OnboardingNotionStepTwo = Loadable(lazy(() => import('../pages/onboarding/NotionStepTwo')));
-const OnboardingNewUserUsername = Loadable(
-  lazy(() => import('../pages/onboarding/NewUserUsername'))
-);
+const Onboarding = Loadable(lazy(() => import('../pages/onboarding')));
 
 // APP
 const Dashboard = Loadable(lazy(() => import('../pages/dashboard')));

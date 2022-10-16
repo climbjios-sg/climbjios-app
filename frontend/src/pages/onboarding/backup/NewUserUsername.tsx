@@ -2,17 +2,16 @@ import { useNavigate } from 'react-router-dom';
 // @mui
 import { Container, Typography, Grid } from '@mui/material';
 // components
-import Page from '../../components/Page';
-import Logo from '../../components/Logo';
+import Page from '../../../components/Page';
+import Logo from '../../../components/Logo';
 // sections
-import ProfileEditForm from './ProfileEditForm';
-import { PATH_ONBOARDING } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
 
-export default function Profile() {
+export default function NewUserUsername() {
+  const navigate = useNavigate();
   return (
-    <Page title="Onboarding: Fill in your details">
+    <Page title="Onboarding: Choose username">
       <Container
         maxWidth="md"
         sx={{
@@ -25,9 +24,13 @@ export default function Profile() {
       >
         <Logo />
         <Typography variant="subtitle1" gutterBottom sx={{ mt: 5, mb: 1 }}>
-          Fill in your details to be shown to other climbers
+          Set a username for others to identify you
         </Typography>
-        {/* <ProfileEditForm isExistingUser={false} /> */}
+        {/* <UsernameForm
+          onExit={() => {
+            navigate(PATH_DASHBOARD.general.jios.root);
+          }}
+        /> */}
       </Container>
     </Page>
   );

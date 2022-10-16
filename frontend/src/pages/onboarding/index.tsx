@@ -5,15 +5,22 @@ import { Container, Typography, Grid } from '@mui/material';
 import Page from '../../components/Page';
 import Logo from '../../components/Logo';
 // sections
-import UsernameForm from './UsernameForm';
-import { PATH_DASHBOARD } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
 
-export default function NewUserUsername() {
-  const navigate = useNavigate();
+enum Steps {
+  Username = 'Username',
+  Details = 'Details',
+  FavoriteGyms = 'Favorite Gyms',
+  ClimbingGrades = 'Climbing Grades',
+  ClimbingCert = 'Climbing Cert',
+}
+
+const STEPS = Object.values(Steps);
+
+export default function Onboarding() {
   return (
-    <Page title="Onboarding: Choose username">
+    <Page title="Onboarding: Fill in your details">
       <Container
         maxWidth="md"
         sx={{
@@ -26,13 +33,10 @@ export default function NewUserUsername() {
       >
         <Logo />
         <Typography variant="subtitle1" gutterBottom sx={{ mt: 5, mb: 1 }}>
-          Set a username for others to identify you
+          Fill in your details to be shown to other climbers
         </Typography>
-        {/* <UsernameForm
-          onExit={() => {
-            navigate(PATH_DASHBOARD.general.jios.root);
-          }}
-        /> */}
+
+        {null}
       </Container>
     </Page>
   );

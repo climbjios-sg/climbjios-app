@@ -7,9 +7,9 @@ import { useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import { Card, Grid, Stack, InputAdornment, FormHelperText } from '@mui/material';
 // @types
-import { UserRequest } from '../../@types/user';
+import { UserRequest } from '../../../@types/user';
 // components
-import { FormProvider, RHFTextField } from '../../components/hook-form';
+import { FormProvider, RHFTextField } from '../../../components/hook-form';
 import { useSnackbar } from 'notistack';
 import {
   MAX_NAME_LEN,
@@ -19,10 +19,10 @@ import {
   REGEX_NAME,
   REGEX_TELEGRAM,
   TELEGRAM_REGEX_ERROR,
-} from '../../config';
+} from '../../../config';
 import { useNavigate } from 'react-router-dom';
 // paths
-import { PATH_DASHBOARD, PATH_ONBOARDING } from '../../routes/paths';
+import { PATH_DASHBOARD, PATH_ONBOARDING } from '../../../routes/paths';
 import useGetIdentity from 'src/hooks/auth/useGetIdentity';
 import { useDispatch } from 'src/store';
 
@@ -33,6 +33,8 @@ interface FormValuesProps extends UserRequest {}
 type Props = {
   isExistingUser: boolean;
 };
+
+/// form 1: username, telegram username
 
 // TODO: redo the form
 export default function ProfileEditForm({ isExistingUser }: Props) {
