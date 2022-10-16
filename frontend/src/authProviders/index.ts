@@ -1,7 +1,7 @@
-import { AuthProviderType } from 'src/@types/auth';
+import { AuthProvider, AuthProviderType } from 'src/@types/auth';
 
-export const authProviderFactory = (type: AuthProviderType) => {
-  // Using dynamic import since only one authProvider needs to be loaded
+export const authProviderFactory = (type: AuthProviderType): Promise<AuthProvider> => {
+  // Uses dynamic import to reduce overhead
   switch (type) {
     case 'jwt':
       return import('./jwt').then((provider) => provider.jwtAuthProvider);

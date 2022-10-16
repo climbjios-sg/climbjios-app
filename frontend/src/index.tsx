@@ -25,14 +25,10 @@ if (process.env.REACT_APP_SENTRY_DSN) {
   });
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-
-const prepareAuthProvider = async () => {
+const renderRoot = async () => {
+  const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
   const authProvider = await authProviderFactory(DEFAULT_AUTH_PROVIDER);
-  return authProvider;
-};
 
-prepareAuthProvider().then((authProvider) => {
   root.render(
     <HelmetProvider>
       <Provider store={store}>
@@ -42,7 +38,9 @@ prepareAuthProvider().then((authProvider) => {
       </Provider>
     </HelmetProvider>
   );
-});
+};
+
+renderRoot();
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

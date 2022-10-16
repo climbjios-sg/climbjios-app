@@ -72,7 +72,6 @@ export const jwtAuthProvider: AuthProvider = {
   logout: async () => {
     deleteSession();
   },
-
   checkError: async (status) => {
     if (status === 401 || status === 403) {
       deleteSession();
