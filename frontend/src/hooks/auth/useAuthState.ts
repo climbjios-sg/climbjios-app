@@ -13,7 +13,6 @@ const useAuthState = () => {
     loaded: false,
     authenticated: true,
   });
-
   const checkAuth = useCheckAuth();
 
   useEffect(() => {
@@ -29,6 +28,7 @@ const useAuthState = () => {
 
     callCheckAuth();
   }, [checkAuth]);
+
   return state;
 };
 
