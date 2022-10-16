@@ -5,6 +5,7 @@ interface Props {
   children?: ReactNode;
 }
 
+// TODO: useCheckOnboarded
 export default function Authenticated({ children }: Props) {
   useAuthenticated();
 
