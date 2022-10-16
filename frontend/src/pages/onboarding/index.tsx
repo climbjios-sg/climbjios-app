@@ -41,6 +41,13 @@ export default function Onboarding() {
     }
   };
 
+  const handleClickBackButton = () => {
+    if (activeStep <= 1) {
+      return;
+    }
+    setActiveStep((currentStep) => currentStep - 1);
+  };
+
   const renderForm = () => (
     <>
       {activeStep === 1 && <UsernameForm />}
@@ -65,7 +72,16 @@ export default function Onboarding() {
         }}
       >
         <Logo />
-        <Typography variant="subtitle1" gutterBottom sx={{ mt: 5, mb: 1 }}>
+        <Typography
+          variant="h4"
+          // gutterBottom sx={{ mt: 5, mb: 1 }}
+        >
+          Complete your profile
+        </Typography>{' '}
+        <Typography
+          variant="subtitle1"
+          // gutterBottom sx={{ mt: 5, mb: 1 }}
+        >
           Fill in your details to be shown to other climbers
         </Typography>
         {renderForm()}
@@ -81,6 +97,11 @@ export default function Onboarding() {
         >
           <Typography variant="button">{'Next'}</Typography>
         </Button>
+        {activeStep > 1 && (
+          <Button size="medium" fullWidth onClick={handleClickBackButton} sx={{ mt: 1.5 }}>
+            Back
+          </Button>
+        )}
       </Container>
     </Page>
   );
