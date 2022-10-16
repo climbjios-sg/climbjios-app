@@ -48,6 +48,7 @@ function BottomTabs({ tabs }: BottomTabsProps) {
     </BottomNavigation>
   );
 }
+
 const DASHBOARD_TABS = [
   {
     path: 'jios/*',
@@ -65,7 +66,7 @@ const DASHBOARD_TABS = [
   },
 ];
 
-const MainAppRouter = () =>
+const DashboardRouter = () =>
   useRoutes([
     ...DASHBOARD_TABS.map((tab) => ({
       path: tab.path,
@@ -74,7 +75,7 @@ const MainAppRouter = () =>
     { path: '*', element: <Navigate to="jios" replace /> },
   ]);
 
-export default function MainApp() {
+export default function Dashboard() {
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -85,7 +86,7 @@ export default function MainApp() {
   return (
     <Page title="ClimbJios - The social network for climbers." sx={{ background: '#fafafa' }}>
       <Container>
-        <MainAppRouter />
+        <DashboardRouter />
       </Container>
       <Paper
         sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: theme.zIndex.appBar }}

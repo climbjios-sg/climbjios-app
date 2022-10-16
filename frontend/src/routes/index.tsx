@@ -57,7 +57,7 @@ export default function Router() {
       path: 'dashboard/*',
       element: (
         <Authenticated>
-          <MainApp />
+          <Dashboard />
         </Authenticated>
       ),
     },
@@ -81,7 +81,7 @@ const OnboardingNewUserUsername = Loadable(
 );
 
 // APP
-const MainApp = Loadable(lazy(() => import('../pages/dashboard/MainApp')));
+const Dashboard = Loadable(lazy(() => import('../pages/dashboard')));
 
 // LANDING
 const Page404 = Loadable(lazy(() => import('../pages/error/Page404')));
