@@ -17,6 +17,9 @@ interface IConstantsService {
   DATABASE_USER: string;
   DATABASE_PASSWORD: string;
   DATABASE_NAME: string;
+  AWS_ACCESS_KEY_ID: string;
+  AWS_SECRET_ACCESS_KEY: string;
+  AWS_S3_BUCKET_NAME: string;
   CORS_ORIGIN: string;
   PORT: number;
 }
@@ -52,6 +55,9 @@ export class ConstantsService implements IConstantsService {
   DATABASE_USER = this.getOrThrow('DATABASE_USER');
   DATABASE_PASSWORD = this.getOrThrow('DATABASE_PASSWORD');
   DATABASE_NAME = this.getOrThrow('DATABASE_NAME');
+  AWS_ACCESS_KEY_ID = this.getOrThrow('AWS_ACCESS_KEY_ID');
+  AWS_SECRET_ACCESS_KEY = this.getOrThrow('AWS_SECRET_ACCESS_KEY');
+  AWS_S3_BUCKET_NAME = this.getOrThrow('AWS_S3_BUCKET_NAME');
   CORS_ORIGIN = this.getOrThrow('CORS_ORIGIN');
   PORT = this.getOrDefaultTo('PORT', 4000);
 }
