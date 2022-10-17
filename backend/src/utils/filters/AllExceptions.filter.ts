@@ -6,7 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { UserDaoService } from 'src/database/daos/users/user.dao.service';
+import { UserProfileDaoService } from '../../database/daos/userProfiles/userProfile.dao.service';
 import { TelegramAlertsService } from '../telegramAlerts/telegramAlerts.service';
 
 @Catch()
@@ -14,7 +14,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
   constructor(
     private readonly httpAdapterHost: HttpAdapterHost,
     private readonly telegramAlertsService: TelegramAlertsService,
-    private readonly userDaoService: UserDaoService,
+    private readonly userProfileDaoService: UserProfileDaoService,
   ) {}
 
   async catch(exception: Error, host: ArgumentsHost) {
@@ -24,29 +24,39 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     const ctx = host.switchToHttp();
     const request = ctx.getRequest();
-    console.log(request);
 
     const httpStatus =
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const responseBody = {
-      statusCode: httpStatus,
-      message: exception.message,
-      path: httpAdapter.getRequestUrl(request),
-    };
+    let responseBody;
+    if (exception instanceof HttpException) {
+      const res = exception.getResponse();
+      if (typeof res === 'string') {
+        responseBody = {
+          message: res,
+        };
+      } else {
+        responseBody = res;
+      }
+    } else {
+      responseBody = {
+        message: exception.message,
+      };
+    }
 
     // Log error
     this.telegramAlertsService.error({
+      statusCode: httpStatus,
       ...responseBody,
+      path: httpAdapter.getRequestUrl(request),
       timestamp: new Date().toISOString(),
       user: request.user
-        ? await this.userDaoService.findById(request.user.id, [
-            'id',
-            'name',
-            'telegramHandle',
-          ])
+        ? await this.userProfileDaoService.findByUserId({
+            userId: request.user.id,
+            select: ['userId', 'name', 'telegramHandle'],
+          })
         : undefined,
     });
 

@@ -4,30 +4,33 @@ import { PostModel } from '../../models/post.model';
 import CreatePostDto from '../../../posts/dtos/createPost.dto';
 import SearchPostDto from '../../../posts/dtos/searchPost.dto';
 import { PostType } from 'src/utils/types';
+import { UserProfileDaoService } from '../userProfiles/userProfile.dao.service';
 
 @Injectable()
 export class PostsDaoService {
+  static allGraphs = `[creatorProfile.${UserProfileDaoService.allGraphs},gym]`;
+
   constructor(@Inject('PostModel') private postModel: ModelClass<PostModel>) {}
 
   getUserPosts(userId: string) {
     return this.postModel
       .query()
       .select()
-      .where('userId', userId)
+      .where('creatorId', userId)
       .orderBy('endDateTime', 'DESC')
-      .withGraphFetched('[user,gym]');
+      .withGraphFetched(PostsDaoService.allGraphs);
   }
 
   getById(postId: string, trx?: Transaction) {
     return this.postModel
       .query(trx)
       .findById(postId)
-      .withGraphFetched('[user,gym]');
+      .withGraphFetched(PostsDaoService.allGraphs);
   }
 
   create(
     post: CreatePostDto & {
-      userId: string;
+      creatorId: string;
       isClosed: boolean;
     },
   ) {
@@ -40,7 +43,7 @@ export class PostsDaoService {
       .patch(data)
       .findById(id)
       .returning('*')
-      .withGraphFetched('[user,gym]');
+      .withGraphFetched(PostsDaoService.allGraphs);
   }
 
   async getUpcomingPosts(search: SearchPostDto) {
@@ -49,7 +52,7 @@ export class PostsDaoService {
       .orderBy('startDateTime', 'ASC')
       .orderBy('endDateTime', 'ASC')
       .orderBy('gymId', 'ASC')
-      .withGraphFetched('[gym,user]');
+      .withGraphFetched(PostsDaoService.allGraphs);
 
     // No filters set
     if (!Object.keys(search).length) {

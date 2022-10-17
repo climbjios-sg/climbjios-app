@@ -2,12 +2,12 @@ import { Model } from 'objection';
 import { PostType } from '../../utils/types';
 import { BaseModel } from './base.model';
 import { GymModel } from './gym.model';
-import { UserModel } from './user.model';
+import { UserProfileModel } from './userProfile.model';
 
 export class PostModel extends BaseModel {
   static tableName = 'posts';
 
-  readonly userId: string;
+  readonly creatorId: string;
   readonly type: PostType;
   readonly numPasses: number;
   readonly price: number;
@@ -18,18 +18,25 @@ export class PostModel extends BaseModel {
   readonly optionalNote: string;
   readonly isClosed: boolean;
 
-  readonly user: UserModel;
+  readonly creatorProfile: UserProfileModel;
   readonly gym: GymModel;
 
   static relationMappings = () => ({
-    user: {
-      relation: Model.BelongsToOneRelation,
-      modelClass: UserModel,
+    creatorProfile: {
+      relation: Model.HasOneRelation,
+      modelClass: UserProfileModel,
       filter: (query) =>
-        query.select('id', 'name', 'username', 'telegramHandle'),
+        query.select([
+          'userId',
+          'name',
+          'telegramHandle',
+          'height',
+          'reach',
+          'profilePictureUrl',
+        ]),
       join: {
-        from: 'posts.userId',
-        to: 'users.id',
+        from: 'posts.creatorId',
+        to: 'userProfiles.userId',
       },
     },
     gym: {
