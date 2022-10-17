@@ -8,7 +8,6 @@ export async function seed(knex: Knex): Promise<void> {
   await knex('topRopeGrades').insert([
     { name: '4' },
     { name: '5c' },
-    { name: '5c+' },
     { name: '6a' },
     { name: '6a+' },
     { name: '6b' },
