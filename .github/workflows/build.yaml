@@ -1,0 +1,36 @@
+name: Build backend
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Build backend and commit to 'dist' branch
+    runs-on: ubuntu-latest
+    steps:
+    - name: git checkout master
+      uses: actions/checkout@master
+    - name: Use Node.js
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: '16'
+    - name: Install and build
+      run: cd backend; yarn install; yarn build;
+    - name: Copy necessary files for deployment
+      run: |
+        mkdir deploy
+        cp backend/package.json deploy/package.json
+        cp backend/knexfile.js deploy/knexfile.js
+        cp -r backend/dist deploy/dist
+        cp -r backend/scripts deploy/scripts
+        cp -r backend/src/database/migrations deploy/migrations
+        cp -r backend/src/database/seeds deploy/seeds
+    - name: Push
+      uses: s0/git-publish-subdir-action@develop
+      env:
+        REPO: self
+        BRANCH: dist # The branch name where you want to push the assets
+        FOLDER: deploy # The directory where your assets are generated
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
+        MESSAGE: "Build: ({sha}) {msg}" # The commit message
