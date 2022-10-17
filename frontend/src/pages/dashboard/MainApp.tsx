@@ -15,6 +15,7 @@ import Profile from './profile';
 import Jios from './jios';
 import { listGyms } from '../../store/reducers/gyms';
 import { useDispatch } from '../../store';
+import Beta from './beta';
 
 interface BottomTab {
   path: string;
@@ -55,6 +56,13 @@ const DASHBOARD_TABS = [
     label: 'Jios',
     icon: <Iconify icon={'eva:people-outline'} width={20} height={20} />,
     element: <Jios />,
+  },
+  {
+    path: 'beta/*',
+    to: 'beta',
+    label: 'Beta',
+    icon: <Iconify icon={'akar-icons:video'} width={20} height={20} />,
+    element: <Beta />,
   },
   {
     path: 'profile/*',
