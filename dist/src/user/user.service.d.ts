@@ -1,0 +1,43 @@
+import { BoulderingGradesDaoService } from '../database/daos/boulderingGrades/boulderingGrades.dao.service';
+import { GymsDaoService } from '../database/daos/gyms/gyms.dao.service';
+import { LeadClimbingGradesDaoService } from '../database/daos/leadClimbingGrades/leadClimbingGrades.dao.service';
+import { PronounsDaoService } from '../database/daos/pronouns/pronouns.dao.service';
+import { SncsCertificationsDaoService } from '../database/daos/sncsCertifications/sncsCertifications.dao.service';
+import { TopRopeGradesDaoService } from '../database/daos/topRopeGrades/topRopeGrades.dao.service';
+import { UserProfileDaoService } from '../database/daos/userProfiles/userProfile.dao.service';
+import PatchUserProfileDto from './dtos/patchUserProfile.dto';
+export declare class UserService {
+    private readonly userProfileDaoService;
+    private readonly boulderingGradesDaoService;
+    private readonly topRopeGradesDaoService;
+    private readonly leadClimbingGradesDaoService;
+    private readonly sncsCertificationsDaoService;
+    private readonly pronounsDaoService;
+    private readonly gymsDaoService;
+    constructor(userProfileDaoService: UserProfileDaoService, boulderingGradesDaoService: BoulderingGradesDaoService, topRopeGradesDaoService: TopRopeGradesDaoService, leadClimbingGradesDaoService: LeadClimbingGradesDaoService, sncsCertificationsDaoService: SncsCertificationsDaoService, pronounsDaoService: PronounsDaoService, gymsDaoService: GymsDaoService);
+    getUserProfile(userId: string): Promise<{
+        userId: string;
+        name?: string;
+        telegramHandle?: string;
+        height?: number;
+        reach?: number;
+        pronounId?: number;
+        highestBoulderingGradeId?: number;
+        highestTopRopeGradeId?: number;
+        highestLeadClimbingGradeId?: number;
+        sncsCertificationId?: number;
+        profilePictureUrl?: string;
+        pronoun?: import("../database/models/pronoun.model").PronounModel;
+        highestBoulderingGrade?: import("../database/models/boulderingGrade.model").BoulderingGradeModel;
+        highestTopRopeGrade?: import("../database/models/topRopeGrade.model").TopRopeGradeModel;
+        highestLeadClimbingGrade?: import("../database/models/leadClimbingGrade.model").LeadClimbingGradeModel;
+        sncsCertification?: import("../database/models/sncsCertification.model").SncsCertificationModel;
+        favouriteGyms?: import("../database/models/gym.model").GymModel[];
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        $modelClass: import("objection").ModelClass<import("../database/models/userProfile.model").UserProfileModel>;
+        QueryBuilderType: import("objection").QueryBuilder<import("../database/models/userProfile.model").UserProfileModel, import("../database/models/userProfile.model").UserProfileModel[]>;
+    }>;
+    patchUserProfile(userId: string, body: PatchUserProfileDto): Promise<import("../database/models/userProfile.model").UserProfileModel>;
+}
