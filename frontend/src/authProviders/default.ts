@@ -5,6 +5,7 @@ export const defaultAuthProvider: AuthProvider = {
   logout: async () => Promise.resolve(),
   checkError: async () => Promise.resolve(),
   checkAuth: async () => Promise.resolve(),
+  checkOnboarded: async () => Promise.resolve(),
   getIdentity: async () =>
     Promise.resolve({
       id: '',

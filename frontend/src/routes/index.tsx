@@ -1,6 +1,7 @@
 import { Suspense, lazy, ElementType } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 import Authenticated from 'src/components/auth/Authenticated';
+import Onboarded from 'src/components/auth/Onboarded';
 import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 // components
 import LoadingScreen from '../components/LoadingScreen';
@@ -43,7 +44,9 @@ export default function Router() {
       path: 'dashboard/*',
       element: (
         <Authenticated>
-          <Dashboard />
+          <Onboarded>
+            <Dashboard />
+          </Onboarded>
         </Authenticated>
       ),
     },

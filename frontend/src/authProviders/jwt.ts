@@ -87,6 +87,14 @@ export const jwtAuthProvider: AuthProvider = {
       throw new Error();
     }
   },
+  checkOnboarded: async () => {
+    const response = await getUser();
+    const userIdentity: UserIdentity = { ...response.data, avatar: '' };
+
+    if (userIdentity.name === undefined) {
+      throw new Error();
+    }
+  },
   getIdentity: async () => {
     const response = await getUser();
     const userIdentity: UserIdentity = { ...response.data, avatar: '' };
