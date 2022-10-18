@@ -4,7 +4,6 @@ import { Stack, InputAdornment, FormHelperText } from '@mui/material';
 import { RHFTextField } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
 import { UserRequest } from 'src/@types/user';
-import Separator from 'src/components/Separator';
 
 export const UsernameForm = () => {
   const { formState } = useFormContext<UserRequest>();
