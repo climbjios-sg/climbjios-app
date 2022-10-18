@@ -60,6 +60,7 @@ export default function Onboarding() {
   const _handleSubmit = async (data: UserRequest) => {
     try {
       await updateUserIdentity(data);
+      enqueueSnackbar('Thanks for completing the onboarding :) Enjoy!');
       navigate(PATH_DASHBOARD.general.jios.root);
     } catch (error) {
       enqueueSnackbar('Failed to submit form', { variant: 'error' });
