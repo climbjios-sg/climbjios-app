@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, FormHelperText } from '@mui/material';
+import { Stack, FormHelperText, FormGroup, FormLabel, Typography } from '@mui/material';
 // components
 import { RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
@@ -11,22 +11,28 @@ export const FavoriteGymsForm = () => {
 
   return (
     <Stack spacing={2}>
-      <FormHelperText error>{errors?.favouriteGyms?.message}</FormHelperText>
-      <RHFSelect
-        label="Favorite Gyms"
-        name="favouriteGyms"
-        SelectProps={{ native: true }}
-        defaultValue=""
-        helperText="Choose a gym that you frequently visit."
-      >
-        {/* Disabled Option for first option to not auto-render */}
-        {/* <option value="" disabled />
+      <FormGroup>
+        <Typography variant="subtitle1">Favourite Gyms</Typography>
+        <FormHelperText error>{errors?.favouriteGyms?.message}</FormHelperText>
+        <RHFSelect
+          label="Select Gym(s)"
+          name="favouriteGyms"
+          SelectProps={{
+            native: true,
+            // multiple: true,
+          }}
+          // defaultValue=""
+          helperText="Choose a gym that you frequently visit."
+        >
+          {/* Disabled Option for first option to not auto-render */}
+          {/* <option value="" disabled />
             {gyms.map((gym: Gym) => (
               <option key={gym.id} value={gym.id}>
                 {gym.name}
               </option>
             ))} */}
-      </RHFSelect>
+        </RHFSelect>
+      </FormGroup>
     </Stack>
   );
 };

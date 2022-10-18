@@ -99,7 +99,7 @@ export default function Onboarding() {
           <Stack spacing={1.5} justifyContent="center" alignItems="center">
             <Logo />
             <Typography variant="h4">Complete your profile</Typography>
-            <Typography variant="subtitle1">
+            <Typography variant="subtitle1" color="secondary">
               Fill in your details to be shown to other climbers
             </Typography>
             <Card
