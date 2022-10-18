@@ -3,8 +3,8 @@ import { useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { PATH_AUTH } from 'src/routes/paths';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/utils/jwt';
-import useAuthProvider from './useAuthProvider';
-import useLogout from './useLogout';
+import useAuthProvider from '../auth/useAuthProvider';
+import useLogout from '../auth/useLogout';
 
 type CheckAuth = (
   logoutOnError?: boolean,

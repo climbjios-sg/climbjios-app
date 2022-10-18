@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import useOnboarded from 'src/hooks/auth/useOnboarded';
+import useOnboarded from 'src/hooks/guards/useOnboarded';
 
 interface Props {
   children?: ReactNode;

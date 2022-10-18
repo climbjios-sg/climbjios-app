@@ -1,43 +1,45 @@
 import { useSnackbar } from 'notistack';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PATH_DASHBOARD } from 'src/routes/paths';
-import useAuthProvider from './useAuthProvider';
+import { PATH_ONBOARDING } from 'src/routes/paths';
+import useAuthProvider from '../auth/useAuthProvider';
 
-type CheckNotOnboarded = (
+
+
+type CheckOnboarded = (
   redirectOnError?: boolean,
   disableNotification?: boolean,
   redirectTo?: string
 ) => Promise<any>;
 
-const useCheckNotOnboarded = (): CheckNotOnboarded => {
+const useCheckOnboarded = (): CheckOnboarded => {
   const authProvider = useAuthProvider();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
-  const checkNotOnboarded = useCallback(
+  const checkOnboarded = useCallback(
     async (
       redirectOnError = true,
       disableNotification = false,
-      redirectTo = PATH_DASHBOARD.root
+      redirectTo = PATH_ONBOARDING.root
     ) => {
       try {
         await authProvider.checkOnboarded();
-
+      } catch (error) {
         if (redirectOnError) {
           navigate(redirectTo);
 
           if (!disableNotification) {
-            enqueueSnackbar('You have already been onboarded', { variant: 'error' });
+            enqueueSnackbar('Please complete onboarding to continue', { variant: 'warning' });
           }
         }
-      } catch (error) {}
+      }
     },
 
     [authProvider, enqueueSnackbar, navigate]
   );
 
-  return checkNotOnboarded;
+  return checkOnboarded;
 };
 
-export default useCheckNotOnboarded;
+export default useCheckOnboarded;

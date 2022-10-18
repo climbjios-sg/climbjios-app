@@ -1,8 +1,8 @@
 import { Suspense, lazy, ElementType } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
-import Authenticated from 'src/components/auth/Authenticated';
-import Onboarded from 'src/components/auth/Onboarded';
-import NotOnboarded from 'src/components/auth/NotOnboarded';
+import Authenticated from 'src/components/guards/Authenticated';
+import Onboarded from 'src/components/guards/Onboarded';
+import NotOnboarded from 'src/components/guards/NotOnboarded';
 import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 // components
 import LoadingScreen from '../components/LoadingScreen';
