@@ -22,6 +22,10 @@ export function getDateTimeString(date: Date, time: string): string {
   return setDateTime(date, time).toISOString();
 }
 
+export function formatDate(date: Date) {
+  return format(new Date(date), 'dd MMMM yyyy');
+}
+
 // formatStartEndDate takes a start and end date ISO string, and converts it into a string display in UI
 // Note: Browser automatically display local timezone based on utc date string
 // e.g. Wed, 12 Dec, 9am-9pm

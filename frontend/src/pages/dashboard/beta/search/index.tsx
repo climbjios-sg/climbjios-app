@@ -16,6 +16,8 @@ export default function BetaGymSearch() {
           placeholder="Search Gyms..."
           sx={{
             '.MuiOutlinedInput-root': {
+              background: 'white',
+              fontWeight: 700,
               borderRadius: 30,
             },
           }}

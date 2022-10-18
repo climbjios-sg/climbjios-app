@@ -36,6 +36,7 @@ export const PATH_DASHBOARD = {
       edit: path(ROOTS_DASHBOARD, '/jios/edit'),
     },
     profile: path(ROOTS_DASHBOARD, '/profile'),
+    beta: path(ROOTS_DASHBOARD, '/beta'),
   },
 };
 

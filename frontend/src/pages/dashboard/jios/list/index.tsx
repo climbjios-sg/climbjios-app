@@ -146,7 +146,7 @@ export default function JiosList() {
           startIcon={<Iconify icon="eva:search-outline" />}
           onClick={onClickSearch}
         >
-          <Typography sx={{ ml: 1, fontSize: 16 }} variant="button">
+          <Typography sx={{ ml: 1, fontSize: 16, color: 'text.secondary' }} variant="button">
             Search ClimbJios...
           </Typography>
         </Button>
