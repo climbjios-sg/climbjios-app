@@ -54,4 +54,8 @@ export class ConstantsService implements IConstantsService {
   DATABASE_NAME = this.getOrThrow('DATABASE_NAME');
   CORS_ORIGIN = this.getOrThrow('CORS_ORIGIN');
   PORT = this.getOrDefaultTo('PORT', 4000);
+  CLOUDFLARE_ACCOUNT_ID = this.getOrDefaultTo('CLOUDFLARE_ACCOUNT_ID');
+  CLOUDFLARE_STREAM_API_TOKEN = this.getOrDefaultTo(
+    'CLOUDFLARE_STREAM_API_TOKEN',
+  );
 }

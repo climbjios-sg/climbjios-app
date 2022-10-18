@@ -26,6 +26,8 @@ import { LeadClimbingGradesModule } from './leadClimbingGrades/leadClimbingGrade
 import { TopRopeGradesModule } from './topRopeGrades/topRopeGrades.module';
 import { PronounsModule } from './pronouns/pronouns.module';
 import { SncsCertificationsModule } from './sncsCertifications/sncsCertifications.module';
+import { BetasController } from './betas/betas.controller';
+import { BetasService } from './betas/betas.service';
 
 @Module({
   imports: [
@@ -57,13 +59,14 @@ import { SncsCertificationsModule } from './sncsCertifications/sncsCertification
     SncsCertificationsModule,
     PronounsModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, BetasController],
   providers: [
     AppService,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
+    BetasService,
   ],
 })
 export class AppModule {}
