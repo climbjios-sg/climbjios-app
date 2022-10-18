@@ -12,8 +12,9 @@ export const ClimbingCertForm = () => {
   return (
     <Stack spacing={2}>
       <FormGroup>
-        <Typography variant="subtitle1">SNCS Certification</Typography>
-        <FormHelperText error>{errors?.sncsCertificationId?.message}</FormHelperText>
+        <Typography variant="subtitle1" gutterBottom>
+          SNCS Certification
+        </Typography>
         <RHFSelect
           label="Level"
           name="sncsCertificationId"
@@ -21,8 +22,6 @@ export const ClimbingCertForm = () => {
             native: true,
             // multiple: true,
           }}
-          // defaultValue=""
-          // helperText="Choose a gym that you frequently visit."
         >
           {/* Disabled Option for first option to not auto-render */}
           {/* <option value="" disabled />

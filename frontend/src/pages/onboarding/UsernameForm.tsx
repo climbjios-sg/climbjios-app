@@ -11,17 +11,28 @@ export const UsernameForm = () => {
 
   return (
     <Stack spacing={2}>
-      <FormHelperText error>{errors?.name?.message}</FormHelperText>
       <RHFTextField
         name="name"
         label="Name"
-        helperText="Your name will be displayed on your profile page. You can always change this later"
+        helperText={
+          errors?.name?.message ? (
+            <FormHelperText error>{errors?.name?.message}</FormHelperText>
+          ) : (
+            'Your name will be displayed on your profile page. You can always change this later'
+          )
+        }
       />
       <FormHelperText error>{errors?.telegramHandle?.message}</FormHelperText>
       <RHFTextField
         name="telegramHandle"
         label="Telegram Username"
-        helperText="Other climbers will communicate with you over Telegram."
+        helperText={
+          errors?.telegramHandle?.message ? (
+            <FormHelperText error>{errors?.telegramHandle?.message}</FormHelperText>
+          ) : (
+            'Other climbers will communicate with you over Telegram'
+          )
+        }
         InputProps={{
           startAdornment: <InputAdornment position="start">@</InputAdornment>,
         }}

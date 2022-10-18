@@ -12,8 +12,9 @@ export const ClimbingGradesForm = () => {
   return (
     <Stack spacing={2}>
       <FormGroup>
-        <Typography variant="subtitle1">Highest bouldering grade achieved</Typography>
-        <FormHelperText error>{errors?.highestBoulderingGradeId?.message}</FormHelperText>
+        <Typography variant="subtitle1" gutterBottom>
+          Highest bouldering grade achieved
+        </Typography>
         <RHFSelect
           label="Grade"
           name="highestBoulderingGradeId"
@@ -21,8 +22,6 @@ export const ClimbingGradesForm = () => {
             native: true,
             // multiple: true,
           }}
-          // defaultValue=""
-          // helperText="Choose a gym that you frequently visit."
         >
           {/* Disabled Option for first option to not auto-render */}
           {/* <option value="" disabled />
@@ -34,7 +33,9 @@ export const ClimbingGradesForm = () => {
         </RHFSelect>
       </FormGroup>
       <FormGroup>
-        <Typography variant="subtitle1">Highest Top Rope grade achieved</Typography>
+        <Typography variant="subtitle1" gutterBottom>
+          Highest Top Rope grade achieved
+        </Typography>
         <FormHelperText error>{errors?.highestTopRopeGradeId?.message}</FormHelperText>
         <RHFSelect
           label="Grade"
@@ -56,8 +57,9 @@ export const ClimbingGradesForm = () => {
         </RHFSelect>
       </FormGroup>
       <FormGroup>
-        <Typography variant="subtitle1">Highest Lead Climbing grade achieved</Typography>
-        <FormHelperText error>{errors?.highestLeadClimbingGradeId?.message}</FormHelperText>
+        <Typography variant="subtitle1" gutterBottom>
+          Highest Lead Climbing grade achieved
+        </Typography>
         <RHFSelect
           label="Grade"
           name="highestLeadClimbingGradeId"
@@ -65,8 +67,6 @@ export const ClimbingGradesForm = () => {
             native: true,
             // multiple: true,
           }}
-          // defaultValue=""
-          // helperText="Choose a gym that you frequently visit."
         >
           {/* Disabled Option for first option to not auto-render */}
           {/* <option value="" disabled />

@@ -28,7 +28,6 @@ export const AvatarForm = () => {
 
   return (
     <Stack spacing={2}>
-      <FormHelperText error>{errors?.profilePictureUrl?.message}</FormHelperText>
       <RHFUploadAvatar
         name="profilePictureUrl"
         maxSize={3145728}

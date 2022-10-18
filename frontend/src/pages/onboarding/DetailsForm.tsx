@@ -11,7 +11,6 @@ export const DetailsForm = () => {
 
   return (
     <Stack spacing={2}>
-      <FormHelperText error>{errors?.height?.message}</FormHelperText>
       <RHFTextField
         type="number"
         name="height"
@@ -21,13 +20,18 @@ export const DetailsForm = () => {
           endAdornment: <InputAdornment position="end">cm</InputAdornment>,
         }}
       />
-      <FormHelperText error>{errors?.reach?.message}</FormHelperText>
       <RHFSelect
         label="Reach"
         name="reach"
         SelectProps={{ native: true }}
         defaultValue=""
-        helperText="Leave this empty if you are unsure or do not know what reach is."
+        helperText={
+          errors?.reach?.message ? (
+            <FormHelperText error>{errors?.reach?.message}</FormHelperText>
+          ) : (
+            'Leave this empty if you are unsure or do not know what reach is.'
+          )
+        }
       >
         {/* Disabled Option for first option to not auto-render */}
         {/* <option value="" disabled />

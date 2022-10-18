@@ -12,8 +12,9 @@ export const FavoriteGymsForm = () => {
   return (
     <Stack spacing={2}>
       <FormGroup>
-        <FormHelperText error>{errors?.favouriteGyms?.message}</FormHelperText>
-        <Typography variant="subtitle1">Favourite Gyms</Typography>
+        <Typography variant="subtitle1" gutterBottom>
+          Favourite Gyms
+        </Typography>
         <RHFSelect
           label="Select Gym(s)"
           name="favouriteGyms"
@@ -22,7 +23,13 @@ export const FavoriteGymsForm = () => {
             // multiple: true,
           }}
           // defaultValue=""
-          helperText="Choose a gym that you frequently visit."
+          helperText={
+            errors?.favouriteGyms?.message ? (
+              <FormHelperText error>{errors?.favouriteGyms?.message}</FormHelperText>
+            ) : (
+              'Choose a gym that you frequently visit.'
+            )
+          }
         >
           {/* Disabled Option for first option to not auto-render */}
           {/* <option value="" disabled />
