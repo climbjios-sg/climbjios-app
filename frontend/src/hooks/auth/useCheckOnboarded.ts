@@ -28,7 +28,7 @@ const useCheckOnboarded = (): CheckOnboarded => {
           navigate(redirectTo);
 
           if (!disableNotification) {
-            enqueueSnackbar('Please complete onboarding to continue');
+            enqueueSnackbar('Please complete onboarding to continue', { variant: 'warning' });
           }
         }
       }

@@ -91,6 +91,7 @@ export const jwtAuthProvider: AuthProvider = {
     const response = await getUser();
     const userIdentity: UserIdentity = { ...response.data, avatar: '' };
 
+    // TODO: check all required fields here
     if (userIdentity.name === undefined) {
       throw new Error();
     }
