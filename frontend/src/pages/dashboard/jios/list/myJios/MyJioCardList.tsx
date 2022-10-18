@@ -5,11 +5,11 @@ import { listMyJios } from 'src/store/reducers/myJios';
 import { useDispatch, useSelector } from 'src/store';
 import MyJioCard from './MyJioCard';
 import EmptyJiosContent from '../EmptyJiosContent';
-import EmptyContent from 'src/components/EmptyContent';
 import useVersion from 'src/hooks/ui/useVersion';
 import JioCardSkeleton from '../JioCardSkeleton';
 import { Link } from 'react-router-dom';
 import { PATH_DASHBOARD } from '../../../../../routes/paths';
+import ErrorContent from '../ErrorContent';
 
 export default function MyJioCardList() {
   const dispatch = useDispatch();
@@ -18,14 +18,7 @@ export default function MyJioCardList() {
   const myJiosData = data.filter((jio) => !jio.isClosed);
   const displayedData = React.useMemo(() => {
     if (error) {
-      return (
-        <Grid sx={{ width: '100%', mt: 2 }} item>
-          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-            <EmptyContent sx={{ py: 3 }} title="There's an error" />
-            <Button variant="contained">Contact Support</Button>
-          </div>
-        </Grid>
-      );
+      return <ErrorContent />;
     }
 
     if (loading) {

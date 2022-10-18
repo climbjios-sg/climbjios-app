@@ -11,6 +11,7 @@ import { listJios } from 'src/store/reducers/jios';
 import { getDateTimeString } from 'src/utils/formatTime';
 import { Link } from 'react-router-dom';
 import { PATH_DASHBOARD } from '../../../../../routes/paths';
+import { addMinutes } from 'date-fns';
 import { GetJioListRequest } from 'src/@types/jio';
 
 export default function JioCardList() {
@@ -89,7 +90,12 @@ export default function JioCardList() {
 
   useEffect(() => {
     if (!jioSearchValues) {
-      dispatch(listJios({}));
+      dispatch(
+        listJios({
+          // Starting climbs 30 min after current ime
+          startDateTime: addMinutes(new Date(), 30).toISOString(),
+        })
+      );
       return;
     }
 

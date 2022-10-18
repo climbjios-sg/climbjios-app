@@ -12,20 +12,15 @@ export async function seed(knex: Knex): Promise<void> {
   // Inserts seed entries
   await knex('users').insert([
     {
-      name: 'Alison',
       email: 'alison@test.com',
-      username: 'alison123',
-      telegramHandle: 'alisonTeleMe',
-      authProvider: 'test',
+      authProvider: 'google',
       authProviderId: 'authTestId1',
+      refreshToken: 'refresh_token',
     },
     {
-      name: 'Bob',
-      email: 'bob@test.com',
-      username: 'bob_',
-      telegramHandle: 'bob_da_best',
-      authProvider: 'test',
+      authProvider: 'telegram',
       authProviderId: 'authTestId2',
+      refreshToken: 'refresh_token',
     },
   ]);
 }

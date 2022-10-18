@@ -32,6 +32,7 @@ export const ICON = {
 
 // SUPPORT EMAIL
 export const SUPPORT_EMAIL = 'rizhaow@gmail.com';
+export const SUPPORT_TELEGRAM = 'https://t.me/rizhaow';
 
 // NEW USER SIGNUP
 // Form validation
@@ -50,7 +51,7 @@ export const REGEX_NAME = XRegExp(/^[\p{L}\p{M}\p{Zs}.'-]{3,30}$/u);
 
 // Telegram Handle
 export const REGEX_TELEGRAM =
-  /^(?=.{5,32}$)(?!.*__)(?!^(telegram|admin|support))[a-z][a-z0-9_]*[a-z0-9]$/;
+  /^(?=.{5,32}$)(?!.*__)(?!^(telegram|admin|support))[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z0-9]$/;
 
 // Username
 export const MIN_USERNAME_LEN = 3;

@@ -45,7 +45,7 @@ function Header() {
           {/* Site branding */}
           <div className="shrink-0 mr-5 w-40 h-10 md:w-48 translate-x-[-1rem]">
             {/* Logo */}
-            <Link to="/" className="block" aria-label="Cruip">
+            <Link to="/" className="block" aria-label="ClimbJios">
               <img src={LogoWithText}></img>
             </Link>
           </div>
@@ -112,7 +112,18 @@ function Header() {
               ref={mobileNav}
               className="fixed top-0 h-screen z-20 left-0 w-full max-w-sm -ml-16 overflow-scroll bg-white dark:bg-gray-900 shadow-lg no-scrollbar"
             >
-              <div className="py-10 pr-4 pl-20 font-bold text-lg">
+              <div className="py-6 pr-4 pl-20 font-bold text-lg">
+                {/* Logo */}
+                <Link
+                  onClick={() => {
+                    setMobileNavOpen(false);
+                  }}
+                  to="/"
+                  className="block w-40 translate-x-[-1rem]"
+                  aria-label="ClimbJios"
+                >
+                  <img src={LogoWithText}></img>
+                </Link>
                 {/* Links */}
                 <ul>
                   <li>

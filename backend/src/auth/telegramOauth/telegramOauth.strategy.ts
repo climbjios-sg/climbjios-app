@@ -5,12 +5,15 @@ import { VerifiedCallback } from 'passport-jwt';
 import { ConstantsService } from '../../utils/constants/constants.service';
 import { UserDaoService } from '../../database/daos/users/user.dao.service';
 import { AuthProvider } from '../../utils/types';
+import { UserProfileModel } from '../../database/models/userProfile.model';
 
 @Injectable()
 export class TelegramOauthStrategy extends PassportStrategy(
   Strategy,
   'telegram',
 ) {
+  static NO_USERNAME = 'NO_USERNAME';
+
   constructor(
     constantsService: ConstantsService,
     private readonly userDaoService: UserDaoService,
@@ -23,11 +26,20 @@ export class TelegramOauthStrategy extends PassportStrategy(
   async validate(profile: any, done: VerifiedCallback) {
     const { id, name, username } = profile;
 
+    // Do not create account if user has no Telegram username
+    if (!username) {
+      return done(null, TelegramOauthStrategy.NO_USERNAME);
+    }
+
     const user = await this.userDaoService.findOrCreateOAuthUser({
       authProvider: AuthProvider.TELEGRAM,
       authProviderId: id,
-      name: `${name.givenName}${name.familyName ? ` ${name.familyName}` : ''}`,
-      telegramHandle: username,
+      userProfile: {
+        name: `${name.givenName}${
+          name.familyName ? ` ${name.familyName}` : ''
+        }`,
+        telegramHandle: username,
+      } as UserProfileModel,
     });
 
     done(null, user);

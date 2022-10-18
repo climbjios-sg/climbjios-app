@@ -5,6 +5,9 @@ interface IConstantsService {
   OAUTH_GOOGLE_ID: string;
   OAUTH_GOOGLE_SECRET: string;
   OAUTH_GOOGLE_REDIRECT_URL: string;
+  OAUTH_TELEGRAM_BOT_TOKEN: string;
+  TELEGRAM_ALERTS_BOT_TOKEN: string;
+  TELEGRAM_ALERTS_CHAT_ID: string;
   ACCESS_TOKEN_SECRET: string;
   ACCESS_TOKEN_EXPIRY: string;
   REFRESH_TOKEN_SECRET: string;
@@ -38,6 +41,8 @@ export class ConstantsService implements IConstantsService {
   OAUTH_GOOGLE_SECRET = this.getOrThrow('OAUTH_GOOGLE_SECRET');
   OAUTH_GOOGLE_REDIRECT_URL = this.getOrThrow('OAUTH_GOOGLE_REDIRECT_URL');
   OAUTH_TELEGRAM_BOT_TOKEN = this.getOrThrow('OAUTH_TELEGRAM_BOT_TOKEN');
+  TELEGRAM_ALERTS_BOT_TOKEN = this.getOrThrow('TELEGRAM_ALERTS_BOT_TOKEN');
+  TELEGRAM_ALERTS_CHAT_ID = this.getOrThrow('TELEGRAM_ALERTS_CHAT_ID');
   ACCESS_TOKEN_SECRET = this.getOrThrow('ACCESS_TOKEN_SECRET');
   ACCESS_TOKEN_EXPIRY = this.getOrThrow('ACCESS_TOKEN_EXPIRY');
   REFRESH_TOKEN_SECRET = this.getOrThrow('REFRESH_TOKEN_SECRET');
@@ -49,5 +54,4 @@ export class ConstantsService implements IConstantsService {
   DATABASE_NAME = this.getOrThrow('DATABASE_NAME');
   CORS_ORIGIN = this.getOrThrow('CORS_ORIGIN');
   PORT = this.getOrDefaultTo('PORT', 4000);
-  ENABLE_USER_DELETE = this.getBooleanOrThrow('ENABLE_USER_DELETE');
 }

@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ModelClass, Transaction } from 'objection';
+import { ModelClass } from 'objection';
 import { UserModel } from 'src/database/models/user.model';
+import { AuthProvider } from 'src/utils/types';
 
 @Injectable()
 export class UserDaoService {
@@ -14,16 +15,8 @@ export class UserDaoService {
     return query;
   }
 
-  findByUsername(username: string) {
-    return this.userModel.query().findOne({ username });
-  }
-
   updateById(userid: string, user: Partial<UserModel>) {
-    return this.userModel
-      .query()
-      .patch(user)
-      .findById(userid)
-      .returning(['id', 'name', 'username', 'telegramHandle']);
+    return this.userModel.query().patch(user).findById(userid);
   }
 
   async findOrCreateOAuthUser(user: Partial<UserModel>) {
@@ -38,14 +31,26 @@ export class UserDaoService {
       return existingEntry;
     }
 
-    return await this.userModel.query().insert(user).returning('*');
+    return await this.userModel.query().insertGraph(user);
   }
 
-  deleteUserAccount(userId: string, trx: Transaction) {
-    return this.userModel.query(trx).deleteById(userId);
+  // Used only for metric alerts
+  getTelegramUserCount() {
+    return this.userModel
+      .query()
+      .count()
+      .where({ authProvider: AuthProvider.TELEGRAM })
+      .first()
+      .then((r: any) => r.count);
   }
 
-  async checkUsernameExists(username: string) {
-    return !!(await this.userModel.query().findOne({ username }));
+  // Used only for metric alerts
+  getGoogleUserCount() {
+    return this.userModel
+      .query()
+      .count()
+      .where({ authProvider: AuthProvider.GOOGLE })
+      .first()
+      .then((r: any) => r.count);
   }
 }
