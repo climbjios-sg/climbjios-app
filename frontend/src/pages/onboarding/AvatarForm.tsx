@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormHelperText, Stack, Typography } from '@mui/material';
 // components
 import { RHFUploadAvatar } from '../../components/hook-form';
@@ -16,9 +16,10 @@ export const AvatarForm = () => {
       if (file) {
         setValue(
           'profilePictureUrl',
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
+          // Object.assign(file, {
+          //   preview: URL.createObjectURL(file),
+          // })
+          ''
         );
       }
     },
