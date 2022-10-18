@@ -26,20 +26,20 @@ export default function AuthGuard({ children }: AuthGuardProps) {
       return;
     }
 
-    if (!auth.hasUserData()) {
-      if (!newUserContext.hasFilledProfile()) {
-        // If name and/or telegram handle is empty, redirect users for them to fill in Name + Telegram handle
-        console.log(`Redirected from current page ${location.pathname} to ${PATH_ONBOARDING.newuser}`)
-        navigate(PATH_ONBOARDING.newuser);
-        return;
-      }
+    // if (!auth.hasUserData()) {
+    //   if (!newUserContext.hasFilledProfile()) {
+    //     // If name and/or telegram handle is empty, redirect users for them to fill in Name + Telegram handle
+    //     console.log(`Redirected from current page ${location.pathname} to ${PATH_ONBOARDING.newuser}`)
+    //     navigate(PATH_ONBOARDING.newuser);
+    //     return;
+    //   }
 
-      // Either username is empty or all fields filled but user data not dispatched to JWTContext (e.g. in event of network error),
-      // redirect users for them to fill in username and subsequently create user in BE
-      console.log(`Redirected from current page ${location.pathname} to ${PATH_ONBOARDING.username}`)
-      navigate(PATH_ONBOARDING.username);
-      return;
-    }
+    //   // Either username is empty or all fields filled but user data not dispatched to JWTContext (e.g. in event of network error),
+    //   // redirect users for them to fill in username and subsequently create user in BE
+    //   console.log(`Redirected from current page ${location.pathname} to ${PATH_ONBOARDING.username}`)
+    //   navigate(PATH_ONBOARDING.username);
+    //   return;
+    // }
   }, [auth, location.pathname, navigate]);
 
   if (!auth.contextFinishedLoading) {

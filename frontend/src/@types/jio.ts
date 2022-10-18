@@ -15,7 +15,7 @@ export interface Jio {
   createdAt: string;
   updatedAt: string;
   isClosed: boolean;
-  user: User;
+  creatorProfile: User;
   gym: Gym;
 }
 

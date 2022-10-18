@@ -70,7 +70,7 @@ export default function UsernameForm({ onExit }: Props) {
   // Temp fix to pass form if climber doesn't change their auto-filled username
   useEffect(() => {
     newUserContext.updateUsername(auth.user?.telegramHandle || '');
-  }, [auth.user?.telegramHandle, newUserContext]);
+  }, [auth.user?.telegramHandle]);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
