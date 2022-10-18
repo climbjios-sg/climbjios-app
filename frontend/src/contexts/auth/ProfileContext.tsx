@@ -6,7 +6,7 @@ import { updateUser } from 'src/services/user';
 export interface ProfileContextValue {
   authProvider: AuthProvider;
   userIdentity?: UserIdentity;
-  updateUserIdentity: (user: UserRequest) => () => Promise<void>;
+  updateUserIdentity: (user: UserRequest) => Promise<void>;
   setUserIdentity: React.Dispatch<React.SetStateAction<UserIdentity | undefined>>;
 }
 
@@ -28,8 +28,11 @@ export const ProfileProvider = ({
 }) => {
   const [userIdentity, setUserIdentity] = useState<UserIdentity>();
 
-  const updateUserIdentity = (user: UserRequest) => async () => {
+  const updateUserIdentity = async (user: UserRequest) => {
+    console.log('debug: user is', user);
     const response = await updateUser(user);
+    console.log('debug: response is', response);
+
     const userIdentity: UserIdentity = {
       ...response.data,
     };
