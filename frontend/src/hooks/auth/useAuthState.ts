@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import useCheckAuth from './useCheckAuth';
+import useCheckAuth from '../guards/useCheckAuth';
 
 interface State {
   loading: boolean;

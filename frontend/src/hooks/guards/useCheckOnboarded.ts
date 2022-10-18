@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { PATH_ONBOARDING } from 'src/routes/paths';
 import useAuthProvider from '../auth/useAuthProvider';
 
-
-
 type CheckOnboarded = (
   redirectOnError?: boolean,
   disableNotification?: boolean,

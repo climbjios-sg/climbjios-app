@@ -1,11 +1,9 @@
 import { Suspense, lazy, ElementType } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
-import Authenticated from 'src/components/guards/Authenticated';
-import Onboarded from 'src/components/guards/Onboarded';
-import NotOnboarded from 'src/components/guards/NotOnboarded';
 import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 // components
 import LoadingScreen from '../components/LoadingScreen';
+import CommonGuard from 'src/components/guards/CommonGuard';
 
 // ----------------------------------------------------------------------
 
@@ -35,22 +33,18 @@ export default function Router() {
     {
       path: 'onboarding',
       element: (
-        <Authenticated>
-          <NotOnboarded>
-            <Onboarding />
-          </NotOnboarded>
-        </Authenticated>
+        <CommonGuard authenticated notOnboarded>
+          <Onboarding />
+        </CommonGuard>
       ),
     },
     // Dashboard Routes
     {
       path: 'dashboard/*',
       element: (
-        <Authenticated>
-          <Onboarded>
-            <Dashboard />
-          </Onboarded>
-        </Authenticated>
+        <CommonGuard authenticated onboarded>
+          <Dashboard />
+        </CommonGuard>
       ),
     },
     {
