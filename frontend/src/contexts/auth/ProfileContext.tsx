@@ -1,12 +1,11 @@
 import { createContext, useContext, useMemo, ReactNode, useState } from 'react';
 import { AuthProvider } from 'src/@types/auth';
 import { UserIdentity, UserRequest } from 'src/@types/user';
-import { createUser, updateUser } from 'src/services/user';
+import { updateUser } from 'src/services/user';
 
 export interface ProfileContextValue {
   authProvider: AuthProvider;
   userIdentity?: UserIdentity;
-  createUserIdentity: (user: UserRequest) => () => Promise<void>;
   updateUserIdentity: (user: UserRequest) => () => Promise<void>;
   setUserIdentity: React.Dispatch<React.SetStateAction<UserIdentity | undefined>>;
 }
@@ -29,20 +28,10 @@ export const ProfileProvider = ({
 }) => {
   const [userIdentity, setUserIdentity] = useState<UserIdentity>();
 
-  const createUserIdentity = (user: UserRequest) => async () => {
-    const response = await createUser(user);
-    const userIdentity: UserIdentity = {
-      ...response.data,
-      avatar: '',
-    };
-    setUserIdentity(userIdentity);
-  };
-
   const updateUserIdentity = (user: UserRequest) => async () => {
     const response = await updateUser(user);
     const userIdentity: UserIdentity = {
       ...response.data,
-      avatar: '',
     };
     setUserIdentity(userIdentity);
   };
@@ -51,7 +40,6 @@ export const ProfileProvider = ({
     () => ({
       authProvider,
       userIdentity,
-      createUserIdentity,
       updateUserIdentity,
       setUserIdentity,
     }),

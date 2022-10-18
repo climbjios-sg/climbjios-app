@@ -18,6 +18,9 @@ import * as Yup from 'yup';
 import { UserRequest } from 'src/@types/user';
 import { useSnackbar } from 'notistack';
 import { FormProvider } from 'src/components/hook-form';
+import { useProfile } from 'src/contexts/auth/ProfileContext';
+import { PATH_DASHBOARD } from 'src/routes/paths';
+import { useNavigate } from 'react-router';
 
 // sections
 
@@ -40,27 +43,24 @@ const formSchema = Yup.object().shape({});
 
 export default function Onboarding() {
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState<number>(1);
   const isComplete = activeStep === STEPS.length;
+  const { updateUserIdentity } = useProfile();
 
   const initialFormValues: UserRequest = useMemo(() => ({}), []);
   const methods = useForm<UserRequest>({
     resolver: yupResolver(formSchema),
     defaultValues: initialFormValues,
     // Show error onChange, onBlur, onSubmit
-    mode: 'all',
+    mode: 'onSubmit',
   });
-  const {
-    handleSubmit,
-    watch,
-    formState: { errors, isSubmitting },
-    // setFocus,
-  } = methods;
-  const formData = watch();
+  const { handleSubmit } = methods;
+
   const _handleSubmit = async (data: UserRequest) => {
     try {
-      // await onSubmit(formatJioFormValues(data));
-      // submit form here
+      await updateUserIdentity(data);
+      navigate(PATH_DASHBOARD.general.jios.root);
     } catch (error) {
       enqueueSnackbar('Failed to submit form', { variant: 'error' });
     }
@@ -70,8 +70,6 @@ export default function Onboarding() {
     if (!isComplete) {
       setActiveStep((currentStep) => currentStep + 1);
     } else {
-      // TODO: submit
-      // _handleSubmit()
       handleSubmit(_handleSubmit)();
     }
   };
@@ -95,17 +93,9 @@ export default function Onboarding() {
   );
 
   return (
-    <FormProvider
-      methods={methods}
-      // onSubmit={handleSubmit(_handleSubmit)}
-    >
+    <FormProvider methods={methods}>
       <Page title="Onboarding: Fill in your details">
-        <Container
-          maxWidth="md"
-          sx={{
-            my: 3,
-          }}
-        >
+        <Container maxWidth="md" sx={{ my: 3 }}>
           <Stack spacing={1.5} justifyContent="center" alignItems="center">
             <Logo />
             <Typography variant="h4">Complete your profile</Typography>
@@ -121,7 +111,6 @@ export default function Onboarding() {
               <Stack spacing={1.5}>
                 {renderForm()}
                 <Button
-                  // type="submit"
                   size="large"
                   variant="contained"
                   color="primary"
