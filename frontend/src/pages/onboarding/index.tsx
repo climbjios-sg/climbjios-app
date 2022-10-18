@@ -121,7 +121,7 @@ export default function Onboarding() {
               <Stack spacing={1.5}>
                 {renderForm()}
                 <Button
-                  type="submit"
+                  // type="submit"
                   size="large"
                   variant="contained"
                   color="primary"
