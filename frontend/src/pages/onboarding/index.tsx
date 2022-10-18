@@ -10,7 +10,7 @@ import { UsernameForm } from './UsernameForm';
 import { DetailsForm } from './DetailsForm';
 import { FavoriteGymsForm } from './FavoriteGymsForm';
 import { ClimbingGradesForm } from './ClimbingGradesForm';
-import { ClimbingCert } from './ClimbingCertForm';
+import { ClimbingCertForm } from './ClimbingCertForm';
 import { AvatarForm } from './AvatarForm';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -35,7 +35,6 @@ enum Steps {
   ClimbingCert = 'Climbing Cert',
   Avatar = 'Avatar',
 }
-
 const STEPS = Object.values(Steps);
 const formSchema = Yup.object().shape({});
 
@@ -88,7 +87,7 @@ export default function Onboarding() {
       {activeStep === 2 && <DetailsForm />}
       {activeStep === 3 && <FavoriteGymsForm />}
       {activeStep === 4 && <ClimbingGradesForm />}
-      {activeStep === 5 && <ClimbingCert />}
+      {activeStep === 5 && <ClimbingCertForm />}
       {activeStep === 6 && <AvatarForm />}
     </>
   );
