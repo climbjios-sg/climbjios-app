@@ -22,14 +22,10 @@ export const FavoriteGymsForm = () => {
             native: true,
             // multiple: true,
           }}
-          // defaultValue=""
-          helperText={
-            errors?.favouriteGyms?.message ? (
-              <FormHelperText error>{errors?.favouriteGyms?.message}</FormHelperText>
-            ) : (
-              'Choose a gym that you frequently visit.'
-            )
-          }
+          helperText={errors?.favouriteGyms?.message || 'Choose a gym that you frequently visit.'}
+          FormHelperTextProps={{
+            error: !!errors?.favouriteGyms?.message,
+          }}
         >
           {/* Disabled Option for first option to not auto-render */}
           {/* <option value="" disabled />

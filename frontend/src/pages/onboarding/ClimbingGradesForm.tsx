@@ -44,8 +44,6 @@ export const ClimbingGradesForm = () => {
             native: true,
             // multiple: true,
           }}
-          // defaultValue=""
-          // helperText="Choose a gym that you frequently visit."
         >
           {/* Disabled Option for first option to not auto-render */}
           {/* <option value="" disabled />

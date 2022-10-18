@@ -26,12 +26,12 @@ export const DetailsForm = () => {
         SelectProps={{ native: true }}
         defaultValue=""
         helperText={
-          errors?.reach?.message ? (
-            <FormHelperText error>{errors?.reach?.message}</FormHelperText>
-          ) : (
-            'Leave this empty if you are unsure or do not know what reach is.'
-          )
+          errors?.reach?.message ||
+          'Leave this empty if you are unsure or do not know what reach is.'
         }
+        FormHelperTextProps={{
+          error: !!errors?.reach?.message,
+        }}
       >
         {/* Disabled Option for first option to not auto-render */}
         {/* <option value="" disabled />

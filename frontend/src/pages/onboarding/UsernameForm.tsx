@@ -15,24 +15,24 @@ export const UsernameForm = () => {
         name="name"
         label="Name"
         helperText={
-          errors?.name?.message ? (
-            <FormHelperText error>{errors?.name?.message}</FormHelperText>
-          ) : (
-            'Your name will be displayed on your profile page. You can always change this later'
-          )
+          errors?.name?.message ||
+          'Your name will be displayed on your profile page. You can always change this later.'
         }
+        FormHelperTextProps={{
+          error: !!errors?.name?.message,
+        }}
       />
       <FormHelperText error>{errors?.telegramHandle?.message}</FormHelperText>
       <RHFTextField
         name="telegramHandle"
         label="Telegram Username"
         helperText={
-          errors?.telegramHandle?.message ? (
-            <FormHelperText error>{errors?.telegramHandle?.message}</FormHelperText>
-          ) : (
-            'Other climbers will communicate with you over Telegram'
-          )
+          errors?.telegramHandle?.message ||
+          'Other climbers will communicate with you over Telegram.'
         }
+        FormHelperTextProps={{
+          error: !!errors?.telegramHandle?.message,
+        }}
         InputProps={{
           startAdornment: <InputAdornment position="start">@</InputAdornment>,
         }}
