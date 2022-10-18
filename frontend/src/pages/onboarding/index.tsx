@@ -98,8 +98,8 @@ export default function Onboarding() {
           <Stack spacing={1.5} justifyContent="center" alignItems="center">
             <Logo />
             <Typography variant="h4">Complete your profile</Typography>
-            <Typography variant="subtitle1" sx={{ color: 'text.secondary', mb: 2 }}>
-              Recommended for smoother onboarding
+            <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
+              Fill in your details to be shown to other climbers
             </Typography>
             <Card
               sx={{
