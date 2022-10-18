@@ -20,7 +20,6 @@ const Loadable = (Component: ElementType) => (props: any) => {
   );
 };
 
-// TODO: do not allow routing to other pages, when not onboarded
 export default function Router() {
   useAutoLogin();
 

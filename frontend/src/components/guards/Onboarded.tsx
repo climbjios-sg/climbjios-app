@@ -5,7 +5,6 @@ interface Props {
   children?: ReactNode;
 }
 
-// TODO: useOnboarded
 export default function Onboarded({ children }: Props) {
   useOnboarded();
 

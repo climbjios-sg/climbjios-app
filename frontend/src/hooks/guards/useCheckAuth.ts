@@ -33,7 +33,6 @@ const useCheckAuth = (): CheckAuth => {
       try {
         await authProvider.checkAuth();
       } catch (error) {
-        // TODO: extract into a hook
         const accessToken = searchParams.get(ACCESS_TOKEN);
         const refreshToken = searchParams.get(REFRESH_TOKEN);
 
