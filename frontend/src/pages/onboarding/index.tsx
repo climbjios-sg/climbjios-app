@@ -12,10 +12,12 @@ import { FavoriteGymsForm } from './FavoriteGymsForm';
 import { ClimbingGradesForm } from './ClimbingGradesForm';
 import { ClimbingCert } from './ClimbingCertForm';
 import { AvatarForm } from './AvatarForm';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { UserRequest } from 'src/@types/user';
+import { useSnackbar } from 'notistack';
+import { FormProvider } from 'src/components/hook-form';
 
 // sections
 
