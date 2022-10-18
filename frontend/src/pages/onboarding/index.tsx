@@ -6,7 +6,6 @@ import { Container, Typography, Button, Card, Stack } from '@mui/material';
 // components
 import Page from '../../components/Page';
 import Logo from '../../components/Logo';
-import { UsernameForm } from './UsernameForm';
 import { DetailsForm } from './DetailsForm';
 import { FavoriteGymsForm } from './FavoriteGymsForm';
 import { ClimbingGradesForm } from './ClimbingGradesForm';
@@ -27,8 +26,9 @@ import Separator from 'src/components/Separator';
 
 // ----------------------------------------------------------------------
 
+// TODO: remove enum
 enum Steps {
-  Username = 'Username',
+  // Username = 'Username',
   Details = 'Details',
   FavoriteGyms = 'Favorite Gyms',
   ClimbingGrades = 'Climbing Grades',
@@ -83,12 +83,11 @@ export default function Onboarding() {
 
   const renderForm = () => (
     <>
-      {activeStep === 1 && <UsernameForm />}
-      {activeStep === 2 && <DetailsForm />}
-      {activeStep === 3 && <FavoriteGymsForm />}
-      {activeStep === 4 && <ClimbingGradesForm />}
-      {activeStep === 5 && <ClimbingCertForm />}
-      {activeStep === 6 && <AvatarForm />}
+      {activeStep === 1 && <DetailsForm />}
+      {activeStep === 2 && <FavoriteGymsForm />}
+      {activeStep === 3 && <ClimbingGradesForm />}
+      {activeStep === 4 && <ClimbingCertForm />}
+      {activeStep === 5 && <AvatarForm />}
     </>
   );
 
