@@ -89,7 +89,7 @@ export const jwtAuthProvider: AuthProvider = {
   },
   checkOnboarded: async () => {
     const response = await getUser();
-    const userIdentity: UserIdentity = { ...response.data, avatar: '' };
+    const userIdentity: UserIdentity = { ...response.data };
 
     // TODO: check all required fields here
     if (userIdentity.name === undefined) {
@@ -98,7 +98,7 @@ export const jwtAuthProvider: AuthProvider = {
   },
   getIdentity: async () => {
     const response = await getUser();
-    const userIdentity: UserIdentity = { ...response.data, avatar: '' };
+    const userIdentity: UserIdentity = { ...response.data };
     return userIdentity;
   },
 };

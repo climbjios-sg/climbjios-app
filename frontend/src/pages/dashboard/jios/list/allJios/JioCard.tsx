@@ -14,7 +14,7 @@ interface JioCardProps {
 export default function JioCard({ data }: JioCardProps) {
   return (
     <Card>
-      <CardHeader title={data.user.name} subheader={`@${data.user.username}`} />
+      <CardHeader title={data.user.name} subheader={`@${data.user.name}`} />
       <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
