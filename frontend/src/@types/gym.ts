@@ -4,5 +4,5 @@ export interface Gym {
   permanentlyClosed: boolean;
 }
 
-export type RequestGym = Partial<Gym>;
-export type ResponseGym = Gym;
+export type GymRequest = Partial<Gym>;
+export type GymResponse = Gym;
