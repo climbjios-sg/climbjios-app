@@ -1,3 +1,3 @@
 import React from 'react';
 
-export const FavoriteGyms = () => <div>FavoriteGyms</div>;
+export const FavoriteGymsForm = () => <div>FavoriteGyms</div>;

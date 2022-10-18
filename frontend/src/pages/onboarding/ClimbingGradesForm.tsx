@@ -1,3 +1,3 @@
 import React from 'react';
 
-export const ClimbingGrades = () => <div>ClimbingGrades</div>;
+export const ClimbingGradesForm = () => <div>ClimbingGrades</div>;

@@ -18,7 +18,9 @@ const useLogin = (): Login => {
       if (name === undefined) {
         navigate(PATH_ONBOARDING.root);
       } else {
-        navigate(redirectTo);
+        // TODO: change back after debug
+        navigate(PATH_ONBOARDING.root);
+        // navigate(redirectTo);
       }
     },
     [authProvider, navigate]
