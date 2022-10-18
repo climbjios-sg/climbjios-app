@@ -21,6 +21,7 @@ import { FormProvider } from 'src/components/hook-form';
 import { useProfile } from 'src/contexts/auth/ProfileContext';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { useNavigate } from 'react-router';
+import Separator from 'src/components/Separator';
 
 // sections
 
@@ -110,6 +111,7 @@ export default function Onboarding() {
             >
               <Stack spacing={1.5}>
                 {renderForm()}
+                <Separator />
                 <Button
                   size="large"
                   variant="contained"
@@ -118,7 +120,7 @@ export default function Onboarding() {
                   disableElevation
                   onClick={handleClickButton}
                 >
-                  <Typography variant="button">{'Next'}</Typography>
+                  <Typography variant="button">Next</Typography>
                 </Button>
                 {activeStep > 1 && (
                   <Button size="medium" fullWidth onClick={handleClickBackButton} sx={{ mt: 1.5 }}>
