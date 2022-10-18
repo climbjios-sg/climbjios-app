@@ -17,7 +17,7 @@ export class PostService {
     return this.postsDaoService.getUserPosts(userId);
   }
 
-  async createPost(userId: string, body: CreatePostDto) {
+  async createPost(creatorId: string, body: CreatePostDto) {
     /**
      * Pre-condition: DTO already checks that
      * - startDateTime and endDateTime fall on the same day
@@ -33,7 +33,7 @@ export class PostService {
     }
 
     return this.postsDaoService.create({
-      userId,
+      creatorId,
       ...body,
       isClosed: false,
     });
@@ -41,7 +41,7 @@ export class PostService {
 
   async getPost(userId: string, postId: string) {
     const post = await this.postsDaoService.getById(postId);
-    if (post.userId !== userId) {
+    if (post.creatorId !== userId) {
       throw new HttpException('Forbidden', 403);
     }
 
@@ -50,7 +50,7 @@ export class PostService {
 
   async patchPost(userId: string, postId: string, body: PatchPostDto) {
     const post = await this.postsDaoService.getById(postId);
-    if (post.userId !== userId) {
+    if (post.creatorId !== userId) {
       throw new HttpException('Forbidden', 403);
     }
 

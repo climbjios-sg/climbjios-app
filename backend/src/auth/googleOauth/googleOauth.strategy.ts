@@ -5,6 +5,7 @@ import { VerifiedCallback } from 'passport-jwt';
 import { ConstantsService } from '../../utils/constants/constants.service';
 import { UserDaoService } from '../../database/daos/users/user.dao.service';
 import { AuthProvider } from '../../utils/types';
+import { UserProfileModel } from 'src/database/models/userProfile.model';
 
 @Injectable()
 export class GoogleOauthStrategy extends PassportStrategy(Strategy, 'google') {
@@ -31,8 +32,10 @@ export class GoogleOauthStrategy extends PassportStrategy(Strategy, 'google') {
     const user = await this.userDaoService.findOrCreateOAuthUser({
       authProvider: AuthProvider.GOOGLE,
       authProviderId: id,
-      name: `${name.givenName} ${name.familyName}`,
       email: emails[0].value,
+      userProfile: {
+        name: `${name.givenName} ${name.familyName}`,
+      } as UserProfileModel,
     });
 
     done(null, user);
