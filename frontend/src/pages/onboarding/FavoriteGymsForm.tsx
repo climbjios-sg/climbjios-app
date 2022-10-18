@@ -12,8 +12,8 @@ export const FavoriteGymsForm = () => {
   return (
     <Stack spacing={2}>
       <FormGroup>
-        <Typography variant="subtitle1">Favourite Gyms</Typography>
         <FormHelperText error>{errors?.favouriteGyms?.message}</FormHelperText>
+        <Typography variant="subtitle1">Favourite Gyms</Typography>
         <RHFSelect
           label="Select Gym(s)"
           name="favouriteGyms"
