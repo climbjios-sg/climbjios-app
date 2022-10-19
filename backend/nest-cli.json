@@ -1,5 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "root": "src",
+  "projects": {
+    "cronjob": {
+      "type": "application",
+      "root": "src/cronjob",
+      "entryFile": "main",
+      "sourceRoot": "src/cronjob"
+    }
+  }
 }

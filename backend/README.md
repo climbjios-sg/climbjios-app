@@ -5,6 +5,9 @@ Ensure you have `PostgreSQL`, `NodeJS` and `yarn` installed on your local machin
 The latest LTS should be fine.
 
 ```bash
+# Copy and setup .env file
+$ cp .env.example .env
+
 # Install dependencies
 $ yarn install
 
@@ -16,11 +19,11 @@ $ yarn migrate; yarn seed
 ## Running the app
 
 ```bash
-# development
-$ yarn start
-
-# watch mode
+# watch mode (development)
 $ yarn start:dev
+
+# watch mode (cronjob)
+$ yarn start:dev:cronjob
 
 # production mode
 $ yarn start:prod
