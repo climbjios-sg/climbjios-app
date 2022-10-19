@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { FormHelperText, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 // components
 import { RHFUploadAvatar } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
@@ -8,8 +8,7 @@ import { MAX_UPLOAD_SIZE } from 'src/config';
 import { AvatarFormValues } from './types';
 
 export const AvatarForm = () => {
-  const { formState, setValue } = useFormContext<AvatarFormValues>();
-  const { errors } = formState;
+  const { setValue } = useFormContext<AvatarFormValues>();
   const handleDrop = useCallback(
     (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];

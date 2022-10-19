@@ -1,13 +1,11 @@
 import React from 'react';
 import { Stack, FormGroup, Typography } from '@mui/material';
 // components
-import { RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
 import { UserRequest } from 'src/@types/user';
 import { getGymList } from 'src/services/gyms';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { useSnackbar } from 'notistack';
-import RHFMultiSelect from 'src/components/hook-form/RHFMultiSelect';
 import RHFAutoMultiSelect from 'src/components/hook-form/RHFAutoMultiSelect';
 
 export const FavoriteGymsForm = () => {

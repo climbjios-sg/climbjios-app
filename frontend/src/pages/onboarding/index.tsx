@@ -12,12 +12,9 @@ import { ClimbingGradesForm } from './ClimbingGradesForm';
 import { ClimbingCertForm } from './ClimbingCertForm';
 import { AvatarForm } from './AvatarForm';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
 import { UserRequest } from 'src/@types/user';
 import { useSnackbar } from 'notistack';
 import { FormProvider } from 'src/components/hook-form';
-import { useProfile } from 'src/contexts/auth/ProfileContext';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { useNavigate } from 'react-router';
 import Separator from 'src/components/Separator';
@@ -88,6 +85,7 @@ export default function Onboarding() {
     mode: 'onSubmit',
   });
   const { handleSubmit: handleSubmitAvatar } = avatarMethods;
+
   const { run: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
     manual: true,
     onError: (error) => {

@@ -14,6 +14,7 @@ export const ClimbingGradesForm = () => {
   const { formState } = useFormContext<UserRequest>();
   const { errors } = formState;
   const { enqueueSnackbar } = useSnackbar();
+
   const { data: boulderingGrades } = useSafeRequest(getBoulderingGradeList, {
     // Caches successful data
     cacheKey: 'boulderingGrades',
