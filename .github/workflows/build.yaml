@@ -19,20 +19,15 @@ jobs:
       run: cd backend; yarn install; yarn build;
     - name: Copy necessary files for deployment
       run: |
-        mkdir deploy
-        cp backend/package.json deploy/package.json
-        cp backend/yarn.lock deploy/yarn.lock
-        cp backend/tsconfig.json deploy/tsconfig.json
-        cp backend/knexfile.ts deploy/knexfile.ts
-        cp -r backend/dist deploy/dist
-        cp -r backend/scripts deploy/scripts
-        cp -r backend/src/database/migrations deploy/migrations
-        cp -r backend/src/database/seeds deploy/seeds
+        cd backend
+        cp ./package.json dist/package.json
+        cp ./yarn.lock dist/yarn.lock
+        cp -r ./scripts dist/scripts
     - name: Push
       uses: s0/git-publish-subdir-action@develop
       env:
         REPO: self
         BRANCH: dist # The branch name where you want to push the assets
-        FOLDER: deploy # The directory where your assets are generated
+        FOLDER: backend/dist # The directory where your assets are generated
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
         MESSAGE: "Build: ({sha}) {msg}" # The commit message

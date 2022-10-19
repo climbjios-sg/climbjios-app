@@ -17,13 +17,12 @@ if [[ "$APPLICATION" != "$BACKEND" ]] && [[ "$APPLICATION" != "$CRONJOB" ]]; the
 fi
 
 yarn install --frozen-lockfile --production=true
-yarn add -D typescript ts-node
 
 if [[ "$APPLICATION" == "$BACKEND" ]]; then
-    yarn migrate
+    yarn migrate:js
     # yarn seed # run this with caution to prevent wiping tables with seeds
 
-    pm2 start ./dist/src/main.js --name "climbjios-backend-${NODE_ENV}" -i $NUM_INSTANCES --wait-ready
+    pm2 start ./src/main.js --name "climbjios-backend-${NODE_ENV}" -i $NUM_INSTANCES --wait-ready
 elif [[ "$APPLICATION" == "$CRONJOB" ]]; then
-    pm2 start ./dist/src/cronjob/main.js --name "climbjios-cronjob-${NODE_ENV}" -i $NUM_INSTANCES --wait-ready
+    pm2 start ./src/cronjob/main.js --name "climbjios-cronjob-${NODE_ENV}" -i $NUM_INSTANCES --wait-ready
 fi
