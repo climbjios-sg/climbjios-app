@@ -22,7 +22,6 @@ interface IConstantsService {
   AWS_S3_BUCKET_NAME: string;
   AWS_REGION: string;
   CORS_ORIGIN: string;
-  PORT: number;
 }
 
 @Injectable()
@@ -61,5 +60,4 @@ export class ConstantsService implements IConstantsService {
   AWS_S3_BUCKET_NAME = this.getOrThrow('AWS_S3_BUCKET_NAME');
   AWS_REGION = this.getOrThrow('AWS_REGION');
   CORS_ORIGIN = this.getOrThrow('CORS_ORIGIN');
-  PORT = this.getOrDefaultTo('PORT', 4000);
 }
