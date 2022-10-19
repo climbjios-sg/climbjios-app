@@ -5,7 +5,7 @@ import { RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
 import { UserRequest } from 'src/@types/user';
 import { Gym } from 'src/@types/gym';
-import useGetGyms from 'src/hooks/auth/useGetGyms';
+import useGetGyms from 'src/hooks/services/useGetGyms';
 
 // TODO: multi select
 export const FavoriteGymsForm = () => {
