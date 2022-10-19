@@ -32,8 +32,8 @@ let TelegramOauthStrategy = TelegramOauthStrategy_1 = class TelegramOauthStrateg
         const user = await this.userDaoService.findOrCreateOAuthUser({
             authProvider: types_1.AuthProvider.TELEGRAM,
             authProviderId: id,
+            oauthName: `${name.givenName}${name.familyName ? ` ${name.familyName}` : ''}`,
             userProfile: {
-                name: `${name.givenName}${name.familyName ? ` ${name.familyName}` : ''}`,
                 telegramHandle: username,
             },
         });

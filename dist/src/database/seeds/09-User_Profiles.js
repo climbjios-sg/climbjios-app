@@ -20,7 +20,6 @@ async function seed(knex) {
             pronounId: 2,
             highestBoulderingGradeId: 1,
             highestTopRopeGradeId: 1,
-            profilePictureUrl: 'https://img.freepik.com/free-photo/portrait-young-beautiful-woman-gesticulating_273609-40467.jpg',
         },
         {
             userId: userIds[1],
@@ -28,7 +27,6 @@ async function seed(knex) {
             telegramHandle: 'bob_da_best',
             highestLeadClimbingGradeId: 2,
             sncsCertificationId: 2,
-            profilePictureUrl: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg',
         },
     ]);
 }

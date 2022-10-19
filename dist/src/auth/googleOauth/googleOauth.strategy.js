@@ -32,9 +32,8 @@ let GoogleOauthStrategy = class GoogleOauthStrategy extends (0, passport_1.Passp
             authProvider: types_1.AuthProvider.GOOGLE,
             authProviderId: id,
             email: emails[0].value,
-            userProfile: {
-                name: `${name.givenName} ${name.familyName}`,
-            },
+            oauthName: `${name.givenName} ${name.familyName}`,
+            userProfile: {},
         });
         done(null, user);
     }

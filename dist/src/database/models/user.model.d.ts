@@ -5,6 +5,7 @@ export declare class UserModel extends BaseModel {
     static tableName: string;
     readonly authProvider: AuthProvider;
     readonly authProviderId: string;
+    readonly oauthName: string;
     readonly refreshToken?: string;
     readonly email?: string;
     readonly userProfile: UserProfileModel;
