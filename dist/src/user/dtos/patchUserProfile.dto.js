@@ -65,11 +65,6 @@ __decorate([
 ], PatchUserProfileDto.prototype, "bio", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], PatchUserProfileDto.prototype, "profilePictureUrl", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.ArrayMinSize)(1),
     (0, class_validator_1.IsNumber)(undefined, { each: true }),
     __metadata("design:type", Array)
