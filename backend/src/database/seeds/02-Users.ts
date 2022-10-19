@@ -13,11 +13,13 @@ export async function seed(knex: Knex): Promise<void> {
   await knex('users').insert([
     {
       email: 'alison@test.com',
+      oauthName: 'Alison Lim',
       authProvider: 'google',
       authProviderId: 'authTestId1',
       refreshToken: 'refresh_token',
     },
     {
+      oauthName: 'Bob Tan',
       authProvider: 'telegram',
       authProviderId: 'authTestId2',
       refreshToken: 'refresh_token',
