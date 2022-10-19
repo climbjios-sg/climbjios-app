@@ -22,6 +22,7 @@ jobs:
         mkdir deploy
         cp backend/package.json deploy/package.json
         cp backend/yarn.lock deploy/yarn.lock
+        cp backend/tsconfig.json deploy/tsconfig.json
         cp backend/knexfile.ts deploy/knexfile.ts
         cp -r backend/dist deploy/dist
         cp -r backend/scripts deploy/scripts
