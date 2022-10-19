@@ -1,35 +1,68 @@
 import { Box, AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import axios from 'axios';
 import { useNavigate } from 'react-router';
-import Iconify from '../../../../components/Iconify';
-import useErrorSnackbar from '../../../../hooks/useErrorSnackbar';
-import { getUploadUrl } from '../../../../services/betas';
-import BetaCreateEditForm, { BetaFormValueProps } from '../form/BetaCreateEditForm';
+import { BetaCreateEditFormValues } from 'src/@types/beta';
+import Iconify from 'src/components/Iconify';
+import { postCreateBeta, uploadBetaVideoToCloudfare } from '../../../../services/betas';
+import { useDispatch } from '../../../../store';
+import { openMessageBar } from '../../../../store/reducers/messageBar';
+import BetaCreateEditForm from '../form/BetaCreateEditForm';
 
 export default function BetaCreate() {
-  const snackbar = useErrorSnackbar();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleSubmit = async (data: BetaFormValueProps) => {
+  const handleSubmit = async (beta: BetaCreateEditFormValues) => {
+    navigate(-1);
+    dispatch(
+      openMessageBar({
+        icon: 'game-icons:mountain-climbing',
+        message: 'Uploading your beta...',
+        loading: true,
+      })
+    );
     try {
-      const { data: uploadData } = await getUploadUrl();
-      const formData = new FormData();
-      formData.append('file', data.video as File);
-      await axios.post(uploadData.uploadUrl, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const cloudflareVideoUid = await uploadBetaVideoToCloudfare(beta.video as File);
+      await postCreateBeta({
+        cloudflareVideoUid,
+        gymId: beta.gymId,
+        wallId: beta.wallId,
+        colorId: beta.colorId,
+        gymGradeId: beta.gymGradeId,
       });
+      dispatch(
+        openMessageBar({
+          icon: 'noto:party-popper',
+          message: 'Woohoo! Uploaded your Beta!',
+          autoHideDuration: 4000,
+          enableCloseButton: true,
+        })
+      );
     } catch (err) {
-      snackbar.enqueueWithSupport('Failed to create Beta.');
-      throw err;
+      dispatch(
+        openMessageBar({
+          icon: 'icon-park-outline:file-failed',
+          message: 'Failed to upload your beta 😢. Try again!',
+          autoHideDuration: 6000,
+          enableCloseButton: true,
+        })
+      );
     }
   };
   return (
-    <Box sx={{ pt: 5, pb: 20, minHeight: '100vh', maxWidth: 600, margin: '0 auto' }}>
-      <AppBar position="static">
-        <Toolbar>
+    <Stack direction="column" alignItems="center">
+      <AppBar
+        sx={{
+          background: 'white',
+          width: '100vw',
+          maxWidth: 600,
+          color: 'text.primary',
+        }}
+        position="static"
+      >
+        <Toolbar sx={{ pl: { xs: 1, md: 1 } }}>
           <IconButton
+            sx={{ mr: 1 }}
+            color="primary"
             onClick={() => {
               navigate(-1);
             }}
@@ -41,9 +74,9 @@ export default function BetaCreate() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Stack direction="column" alignItems="center">
+      <Box sx={{ pt: 5, pb: 20, minHeight: '100vh', maxWidth: 600, margin: '0 auto' }}>
         <BetaCreateEditForm onSubmit={handleSubmit} />
-      </Stack>
-    </Box>
+      </Box>
+    </Stack>
   );
 }

@@ -1,13 +1,14 @@
 import { useDropzone } from 'react-dropzone';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 // type
 import { UploadProps } from './type';
 //
 import Image from '../Image';
 import RejectionFiles from './RejectionFiles';
 import BlockContent from './BlockContent';
+import VideoBlockContent from './VideoBlockContent';
 
 // ----------------------------------------------------------------------
 
@@ -112,20 +113,30 @@ export function UploadSingleFileVideo({
       >
         <input {...getInputProps()} />
 
-        <BlockContent />
-
-        {file && (
-          <video
-            src={typeof file === 'string' ? file : file.preview}
-            style={{
-              top: 8,
-              left: 8,
-              borderRadius: 1,
-              position: 'absolute',
-              width: 'calc(100% - 16px)',
-              height: 'calc(100% - 16px)',
+        {file ? (
+          <Container
+            sx={{
+              width: '80vw',
+              height: 300,
             }}
-          />
+          >
+            <video
+              autoPlay
+              muted
+              loop
+              src={typeof file === 'string' ? file : file.preview}
+              style={{
+                top: 8,
+                left: 8,
+                borderRadius: 1,
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+              }}
+            />
+          </Container>
+        ) : (
+          <VideoBlockContent />
         )}
       </DropZoneStyle>
 

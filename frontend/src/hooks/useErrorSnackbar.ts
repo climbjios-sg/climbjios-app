@@ -7,8 +7,8 @@ export default function useErrorSnackbar() {
   return {
     enqueueWithSupport: (message: string) => {
       enqueueSnackbar(
-        `${message}. If the problem persists, please contact us via ${SUPPORT_EMAIL}`,
-        { variant: 'error' }
+        `${message} If the problem doesn't go away, please contact us via ${SUPPORT_EMAIL}`,
+        { variant: 'error', autoHideDuration: 10000 }
       );
     },
   };

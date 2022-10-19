@@ -4,7 +4,7 @@ export interface Gym {
   permanentlyClosed: boolean;
 }
 
-export interface GymGrades {
+export interface GymGrade {
   id: number;
   name: string;
 }

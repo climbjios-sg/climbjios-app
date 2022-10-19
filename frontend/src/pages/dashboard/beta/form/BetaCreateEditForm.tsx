@@ -1,44 +1,56 @@
 import * as Yup from 'yup';
 import * as React from 'react';
-import { Button, Typography } from '@mui/material';
+import { capitalize, Stack } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import {
   RHFUploadSingleFileVideo,
   FormProvider,
   RHFSelect,
 } from '../../../../components/hook-form';
-import { CustomFile } from '../../../../components/upload';
 import { useSelector } from '../../../../store';
 import { useRequest } from 'ahooks';
 import { getGymGrades } from '../../../../services/gyms';
 import useErrorSnackbar from '../../../../hooks/useErrorSnackbar';
-
-export type BetaFormValueProps = {
-  video: CustomFile | undefined | string;
-  gymId: string;
-  colorId: string;
-  wallId: string;
-  gradeId: string;
-};
+import { yupResolver } from '@hookform/resolvers/yup';
+import useRHFScrollToInputOnError from '../../../../hooks/useRHFScrollToInputOnError';
+import { LoadingButton } from '@mui/lab';
+import { BetaCreateEditFormValues } from '../../../../@types/beta';
 
 type BetaCreateEditFormProps = {
-  onSubmit: (data: BetaFormValueProps) => void;
+  onSubmit: (data: BetaCreateEditFormValues) => Promise<void>;
+  defaultValues?: Partial<BetaCreateEditFormValues>;
 };
 
-export default function BetaCreateEditForm({ onSubmit }: BetaCreateEditFormProps) {
+const formSchema = Yup.object().shape({
+  video: Yup.mixed().required('Oopsy! You forgot about your climbing video.'),
+  gymId: Yup.number().required('Oopsy! Gym is required for other climbers to find your Beta.'),
+  colorId: Yup.number().required('Oopsy! Color is required for other climbers to find your Beta.'),
+  wallId: Yup.number().required('Oopsy! Wall is required for other climbers to find your Beta.'),
+  gymGradeId: Yup.number().required('Oopsy! Grade is required for other climbers to find your Beta.'),
+});
+
+export default function BetaCreateEditForm({ onSubmit, defaultValues }: BetaCreateEditFormProps) {
   const gyms = useSelector((state) => state.gyms.data);
   const colors = useSelector((state) => state.colors.data);
   const walls = useSelector((state) => state.walls.data);
-  const methods = useForm<BetaFormValueProps>({
+  const methods = useForm<BetaCreateEditFormValues>({
+    resolver: yupResolver(formSchema),
+    defaultValues,
     mode: 'all',
   });
   const errorSnackbar = useErrorSnackbar();
 
-  const { handleSubmit, setValue, watch } = methods;
+  const {
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isSubmitting },
+    setFocus,
+  } = methods;
 
   const { gymId } = watch();
 
-  const { data } = useRequest(() => getGymGrades(gymId), {
+  const { data } = useRequest(() => getGymGrades(gymId.toString()), {
     ready: Boolean(gymId),
     refreshDeps: [gymId],
     onError: () => {
@@ -64,89 +76,76 @@ export default function BetaCreateEditForm({ onSubmit }: BetaCreateEditFormProps
     [setValue]
   );
 
+  useRHFScrollToInputOnError({ errors, setFocus, isSubmitting });
+
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <RHFUploadSingleFileVideo
-        name="video"
-        onDrop={handleDrop}
-        helperText={
-          <Typography
-            variant="caption"
-            sx={{
-              mt: 2,
-              mx: 'auto',
-              display: 'block',
-              textAlign: 'center',
-              color: 'text.secondary',
-            }}
-          >
-            Max length of 1 min
-          </Typography>
-        }
-      />
-      <RHFSelect
-        label="Select Gym"
-        fullWidth
-        name="gymId"
-        SelectProps={{ native: true }}
-        defaultValue=""
-      >
-        {/* Disabled Option for first option to not auto-render */}
-        <option value="" disabled />
-        {gyms.map((gym) => (
-          <option key={gym.id} value={gym.id}>
-            {gym.name}
-          </option>
-        ))}
-      </RHFSelect>
-      <RHFSelect
-        label="Select Colour"
-        fullWidth
-        name="colorId"
-        SelectProps={{ native: true }}
-        defaultValue=""
-      >
-        {/* Disabled Option for first option to not auto-render */}
-        <option value="" disabled />
-        {colors.map((color) => (
-          <option key={color.id} value={color.id}>
-            {color.name}
-          </option>
-        ))}
-      </RHFSelect>
-      <RHFSelect
-        label="Select Wall"
-        fullWidth
-        name="wallId"
-        SelectProps={{ native: true }}
-        defaultValue=""
-      >
-        {/* Disabled Option for first option to not auto-render */}
-        <option value="" disabled />
-        {walls.map((wall) => (
-          <option key={wall.id} value={wall.id}>
-            {wall.name}
-          </option>
-        ))}
-      </RHFSelect>
-      <RHFSelect
-        label="Select Grade"
-        fullWidth
-        name="gradeId"
-        SelectProps={{ native: true }}
-        defaultValue=""
-      >
-        {/* Disabled Option for first option to not auto-render */}
-        <option value="" disabled />
-        {grades.map((grade) => (
-          <option key={grade.id} value={grade.id}>
-            {grade.name}
-          </option>
-        ))}
-      </RHFSelect>
-      <Button variant="contained" type="submit">
-        Submit
-      </Button>
+      <Stack direction="column" alignItems="center" spacing={3}>
+        <RHFUploadSingleFileVideo name="video" onDrop={handleDrop} />
+        <RHFSelect
+          label="Select Gym"
+          fullWidth
+          name="gymId"
+          SelectProps={{ native: true }}
+          defaultValue=""
+        >
+          {/* Disabled Option for first option to not auto-render */}
+          <option value="" disabled />
+          {gyms.map((gym) => (
+            <option key={gym.id} value={gym.id}>
+              {gym.name}
+            </option>
+          ))}
+        </RHFSelect>
+        <RHFSelect
+          label="Select Colour"
+          fullWidth
+          name="colorId"
+          SelectProps={{ native: true }}
+          defaultValue=""
+        >
+          {/* Disabled Option for first option to not auto-render */}
+          <option value="" disabled />
+          {colors.map((color) => (
+            <option key={color.id} value={color.id}>
+              {capitalize(color.name)}
+            </option>
+          ))}
+        </RHFSelect>
+        <RHFSelect
+          label="Select Wall"
+          fullWidth
+          name="wallId"
+          SelectProps={{ native: true }}
+          defaultValue=""
+        >
+          {/* Disabled Option for first option to not auto-render */}
+          <option value="" disabled />
+          {walls.map((wall) => (
+            <option key={wall.id} value={wall.id}>
+              {capitalize(wall.name)}
+            </option>
+          ))}
+        </RHFSelect>
+        <RHFSelect
+          label="Select Grade"
+          fullWidth
+          name="gymGradeId"
+          SelectProps={{ native: true }}
+          defaultValue=""
+        >
+          {/* Disabled Option for first option to not auto-render */}
+          <option value="" disabled />
+          {grades.map((grade) => (
+            <option key={grade.id} value={grade.id}>
+              {capitalize(grade.name)}
+            </option>
+          ))}
+        </RHFSelect>
+        <LoadingButton loading={isSubmitting} variant="contained" type="submit" fullWidth size="large">
+          Submit
+        </LoadingButton>
+      </Stack>
     </FormProvider>
   );
 }

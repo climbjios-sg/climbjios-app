@@ -6,13 +6,13 @@ export async function up(knex: Knex): Promise<void> {
     table.uuid('creatorId').notNullable().references('id').inTable('users');
     table.integer('gymId').notNullable().references('id').inTable('gyms');
     table
-      .integer('gradeId')
+      .integer('gymGradeId')
       .notNullable()
       .references('id')
       .inTable('gymGrades');
     table.integer('colorId').notNullable().references('id').inTable('colors');
     table.integer('wallId').notNullable().references('id').inTable('walls');
-    table.string('videoUrl').notNullable();
+    table.string('cloudflareVideoUid').notNullable();
     table.timestamps(true, true);
   });
 }

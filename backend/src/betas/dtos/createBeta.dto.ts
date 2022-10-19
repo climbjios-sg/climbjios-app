@@ -7,6 +7,10 @@ export default class CreateBetaDto {
 
   @IsNumber()
   @IsDefined()
+  gymGradeId: number;
+
+  @IsNumber()
+  @IsDefined()
   wallId: number;
 
   @IsNumber()
@@ -15,5 +19,5 @@ export default class CreateBetaDto {
 
   @IsString()
   @IsDefined()
-  videoUid: string;
+  cloudflareVideoUid: string;
 }

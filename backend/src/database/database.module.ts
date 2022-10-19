@@ -15,6 +15,7 @@ import { TopRopeGradeModel } from './models/topRopeGrade.model';
 import { UserModel } from './models/user.model';
 import { UserProfileModel } from './models/userProfile.model';
 import { UserProfileFavouriteGymModel } from './models/userProfileFavouriteGym.model';
+import { BetaModel } from './models/beta.model';
 
 const models = [
   GymModel,
@@ -30,6 +31,7 @@ const models = [
   GymGradeModel,
   ColorModel,
   WallModel,
+  BetaModel,
 ];
 const modelProviders = models.map((model) => ({
   provide: model.name,

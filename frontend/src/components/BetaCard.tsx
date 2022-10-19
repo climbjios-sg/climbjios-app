@@ -5,13 +5,13 @@ import Image from './Image';
 import SvgIconStyle from './SvgIconStyle';
 import { User } from '../@types/user';
 import { formatDate } from '../utils/formatTime';
-import { Beta } from '../@types/beta';
+import { BetaDemo } from '../@types/beta';
 
 // ----------------------------------------------------------------------
 
 type Props = {
   author: User;
-  beta: Beta;
+  beta: BetaDemo;
   //   video:
 };
 

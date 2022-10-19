@@ -10,6 +10,7 @@ import { PostModule } from './posts/posts.module';
 import { PostDaoModule } from './database/daos/posts/posts.dao.module';
 import { GymsModule } from './gyms/gyms.module';
 import { GymsDaoModule } from './database/daos/gyms/gyms.dao.module';
+import { BetasDaoModule } from './database/daos/betas/betas.dao.module';
 import { ConstantsModule } from './utils/constants/constants.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HttpModule } from '@nestjs/axios';
@@ -54,6 +55,7 @@ import { WallsModule } from './walls/walls.module';
     GymGradesDaoModule,
     ColorsDaoModule,
     WallsDaoModule,
+    BetasDaoModule,
 
     // Modules with controllers
     AuthModule,

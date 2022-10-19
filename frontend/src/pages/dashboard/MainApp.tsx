@@ -18,6 +18,7 @@ import { useDispatch } from '../../store';
 import Beta from './beta';
 import { listColors } from '../../store/reducers/colors';
 import { listWalls } from '../../store/reducers/walls';
+import MessageBarWithStore from './MessageBarWithStore';
 
 interface BottomTab {
   path: string;
@@ -95,7 +96,8 @@ export default function MainApp() {
   }, [dispatch]);
 
   return (
-    <Page title="ClimbJios - The social network for climbers." sx={{ background: '#fafafa' }}>
+    <Page title="ClimbJios - The social network for climbers.">
+      <MessageBarWithStore />
       <Container>
         <MainAppRouter />
       </Container>

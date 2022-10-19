@@ -1,3 +1,4 @@
+import { BetasDaoService } from './../database/daos/betas/betas.dao.service';
 import { HttpService } from '@nestjs/axios';
 import { HttpException, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
@@ -9,10 +10,19 @@ export class BetasService {
   constructor(
     private readonly constantsService: ConstantsService,
     private readonly httpService: HttpService,
+    private readonly betaDaoService: BetasDaoService,
   ) {}
 
   async createBeta(creatorId: string, body: CreateBetaDto) {
-    throw new Error('Method not implemented.');
+    try {
+      return await this.betaDaoService.create({
+        creatorId,
+        ...body,
+      });
+    } catch (err) {
+      console.error('Create beta failed', err);
+      throw new HttpException('Failed', 500);
+    }
   }
 
   async getVideoUploadUrl() {
@@ -37,8 +47,8 @@ export class BetasService {
       }
 
       return {
-        uploadUrl: data.result.uploadURL,
-        uid: data.result.uid,
+        cloudflareUploadUrl: data.result.uploadURL,
+        cloudflareVideoUid: data.result.uid,
       };
     } catch (error) {
       console.error('Get video upload URL failed', JSON.stringify(error));

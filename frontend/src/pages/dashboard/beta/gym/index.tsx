@@ -20,8 +20,9 @@ import { PATH_DASHBOARD } from '../../../../routes/paths';
 import chroma from 'chroma-js';
 import BetaCard from '../../../../components/BetaCard';
 import { User } from '../../../../@types/user';
-import { Beta } from '../../../../@types/beta';
+import { BetaDemo } from '../../../../@types/beta';
 import _ from 'lodash';
+import MessageBarWithStore from '../../MessageBarWithStore';
 
 const FloatingContainer = styled('div')({
   position: 'fixed',
@@ -52,7 +53,7 @@ const dot = (color = 'transparent') => ({
 
 const FAKE_BETA: {
   author: User;
-  beta: Beta;
+  beta: BetaDemo;
 } = {
   author: {
     username: '@rizhaow',
@@ -88,6 +89,7 @@ export default function BetaGym() {
   return (
     <>
       <FloatingContainer sx={{ zIndex: theme.zIndex.drawer }}>
+        <MessageBarWithStore />
         <Paper
           elevation={1}
           sx={{
