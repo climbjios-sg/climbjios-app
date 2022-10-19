@@ -35,7 +35,7 @@ export async function seed(knex: Knex): Promise<void> {
     { gymId: 2, name: '11', order: 11 },
     { gymId: 2, name: '12', order: 12 },
     { gymId: 2, name: 'Wildcard', order: 13 },
-    // // 3, b8A
+    // 3, b8A
     { gymId: 3, name: '1', order: 1 },
     { gymId: 3, name: '2', order: 2 },
     { gymId: 3, name: '3', order: 3 },
@@ -317,7 +317,8 @@ export async function seed(knex: Knex): Promise<void> {
     { gymId: 21, name: '6 Bar', order: 7 },
     { gymId: 21, name: '7 Bar', order: 8 },
     { gymId: 21, name: '8 Bar', order: 9 },
-    { gymId: 21, name: 'Wildcard', order: 10 },
+    { gymId: 21, name: 'Supercharged', order: 10 },
+    { gymId: 21, name: 'Wildcard', order: 11 },
     // 22, Fit Bloc (Kent Ridge)
     { gymId: 22, name: '0 Bar', order: 1 },
     { gymId: 22, name: '1 Bar', order: 2 },
@@ -328,7 +329,8 @@ export async function seed(knex: Knex): Promise<void> {
     { gymId: 22, name: '6 Bar', order: 7 },
     { gymId: 22, name: '7 Bar', order: 8 },
     { gymId: 22, name: '8 Bar', order: 9 },
-    { gymId: 22, name: 'Wildcard', order: 10 },
+    { gymId: 21, name: 'Supercharged', order: 10 },
+    { gymId: 21, name: 'Wildcard', order: 11 },
     // 23, Ground Up Climbing
     { gymId: 23, name: 'V0', order: 1 },
     { gymId: 23, name: 'V1', order: 2 },
