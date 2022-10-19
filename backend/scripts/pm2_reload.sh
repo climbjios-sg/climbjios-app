@@ -1,3 +1,5 @@
+#!/bin/bash
+
 APPLICATION=$1
 
 BACKEND="backend"

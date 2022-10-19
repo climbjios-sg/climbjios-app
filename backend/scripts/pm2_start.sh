@@ -1,3 +1,5 @@
+#!/bin/bash
+
 APPLICATION=$1
 NUM_INSTANCES=$2
 
