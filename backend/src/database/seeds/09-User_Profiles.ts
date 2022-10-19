@@ -26,8 +26,6 @@ export async function seed(knex: Knex): Promise<void> {
       highestTopRopeGradeId: 1,
       // highestLeadClimbingGradeId
       // sncsCertificationId
-      profilePictureUrl:
-        'https://img.freepik.com/free-photo/portrait-young-beautiful-woman-gesticulating_273609-40467.jpg',
     },
     {
       userId: userIds[1],
@@ -40,8 +38,6 @@ export async function seed(knex: Knex): Promise<void> {
       // highestTopRopeGradeId: ,
       highestLeadClimbingGradeId: 2,
       sncsCertificationId: 2,
-      profilePictureUrl:
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg',
     },
   ]);
 }
