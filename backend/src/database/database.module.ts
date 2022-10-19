@@ -1,3 +1,6 @@
+import { WallModel } from './models/wall.model';
+import { ColorModel } from './models/color.model';
+import { GymGradeModel } from './models/gymGrade.model';
 import { Global, Module } from '@nestjs/common';
 import Knex from 'knex';
 import { knexSnakeCaseMappers, Model } from 'objection';
@@ -24,6 +27,9 @@ const models = [
   PronounModel,
   UserProfileModel,
   UserProfileFavouriteGymModel,
+  GymGradeModel,
+  ColorModel,
+  WallModel,
 ];
 const modelProviders = models.map((model) => ({
   provide: model.name,

@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { HttpException, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { ConstantsService } from '../utils/constants/constants.service';
+import CreateBetaDto from './dtos/createBeta.dto';
 
 @Injectable()
 export class BetasService {
@@ -9,6 +10,10 @@ export class BetasService {
     private readonly constantsService: ConstantsService,
     private readonly httpService: HttpService,
   ) {}
+
+  async createBeta(creatorId: string, body: CreateBetaDto) {
+    throw new Error('Method not implemented.');
+  }
 
   async getVideoUploadUrl() {
     try {

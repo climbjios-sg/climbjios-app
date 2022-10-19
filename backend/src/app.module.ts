@@ -1,3 +1,4 @@
+import { WallsDaoModule } from './database/daos/walls/walls.dao.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -26,8 +27,11 @@ import { LeadClimbingGradesModule } from './leadClimbingGrades/leadClimbingGrade
 import { TopRopeGradesModule } from './topRopeGrades/topRopeGrades.module';
 import { PronounsModule } from './pronouns/pronouns.module';
 import { SncsCertificationsModule } from './sncsCertifications/sncsCertifications.module';
-import { BetasController } from './betas/betas.controller';
-import { BetasService } from './betas/betas.service';
+import { GymGradesDaoModule } from './database/daos/gymGrades/gymGrades.dao.module';
+import { ColorsModule } from './colors/colors.module';
+import { ColorsDaoModule } from './database/daos/colors/colors.dao.module';
+import { BetasModule } from './betas/betas.module';
+import { WallsModule } from './walls/walls.module';
 
 @Module({
   imports: [
@@ -47,6 +51,9 @@ import { BetasService } from './betas/betas.service';
     SncsCertificationsDaoModule,
     PronounsDaoModule,
     UserProfileDaoModule,
+    GymGradesDaoModule,
+    ColorsDaoModule,
+    WallsDaoModule,
 
     // Modules with controllers
     AuthModule,
@@ -58,15 +65,17 @@ import { BetasService } from './betas/betas.service';
     TopRopeGradesModule,
     SncsCertificationsModule,
     PronounsModule,
+    ColorsModule,
+    BetasModule,
+    WallsModule,
   ],
-  controllers: [AppController, BetasController],
+  controllers: [AppController],
   providers: [
     AppService,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
-    BetasService,
   ],
 })
 export class AppModule {}
