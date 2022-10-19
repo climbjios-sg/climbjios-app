@@ -45,7 +45,7 @@ export default function Profile() {
                 sx={{ mt: 1, transform: 'translateX(-2px)', textAlign: 'center', color: 'gray' }}
                 variant="subtitle1"
               >
-                {`@${identity?.name}`}
+                {`@${identity?.telegramHandle}`}
               </Typography>
             </Stack>
             <Box sx={{ bgcolor: 'background.paper', textAlign: 'left', mt: 3 }}>
