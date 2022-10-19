@@ -16,10 +16,12 @@ const knexConfig = {
         database: process.env.DATABASE_NAME,
     },
     migrations: {
-        directory: IS_DEPLOYMENT ? './migrations' : './src/database/migrations',
+        directory: './src/database/migrations',
+        loadExtensions: IS_DEPLOYMENT ? ['.js'] : undefined,
     },
     seeds: {
-        directory: IS_DEPLOYMENT ? './seeds' : './src/database/seeds',
+        directory: './src/database/seeds',
+        loadExtensions: IS_DEPLOYMENT ? ['.js'] : undefined,
     },
     ...knexSnakeCaseMappers(),
 }

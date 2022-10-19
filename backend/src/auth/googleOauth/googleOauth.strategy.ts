@@ -33,9 +33,8 @@ export class GoogleOauthStrategy extends PassportStrategy(Strategy, 'google') {
       authProvider: AuthProvider.GOOGLE,
       authProviderId: id,
       email: emails[0].value,
-      userProfile: {
-        name: `${name.givenName} ${name.familyName}`,
-      } as UserProfileModel,
+      oauthName: `${name.givenName} ${name.familyName}`,
+      userProfile: {} as UserProfileModel,
     });
 
     done(null, user);

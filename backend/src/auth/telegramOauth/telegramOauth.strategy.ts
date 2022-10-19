@@ -34,10 +34,10 @@ export class TelegramOauthStrategy extends PassportStrategy(
     const user = await this.userDaoService.findOrCreateOAuthUser({
       authProvider: AuthProvider.TELEGRAM,
       authProviderId: id,
+      oauthName: `${name.givenName}${
+        name.familyName ? ` ${name.familyName}` : ''
+      }`,
       userProfile: {
-        name: `${name.givenName}${
-          name.familyName ? ` ${name.familyName}` : ''
-        }`,
         telegramHandle: username,
       } as UserProfileModel,
     });

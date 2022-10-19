@@ -8,3 +8,6 @@ export enum PostType {
   SELLER = 'seller',
   OTHER = 'other',
 }
+export enum S3UploadType {
+  PROFILE_PICTURE = 'profile_picture',
+}

@@ -49,8 +49,8 @@ export default class PatchUserProfileDto {
   sncsCertificationId: number;
 
   @IsOptional()
-  @IsString()
-  profilePictureUrl: string;
+  @IsNotEmpty()
+  bio: string;
 
   @IsOptional()
   @ArrayMinSize(1)
