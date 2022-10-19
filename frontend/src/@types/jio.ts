@@ -5,19 +5,20 @@ type JioType = 'seller' | 'buyer' | 'other';
 
 export interface Jio {
   id: number;
-  type: JioType;
+  creatorId: string;
   numPasses: number;
   price: number;
   gymId: number;
-  startDateTime: string;
-  endDateTime: string;
   openToClimbTogether: boolean;
   optionalNote: string;
   createdAt: string;
   updatedAt: string;
   isClosed: boolean;
-  user: User;
+  startDateTime: string;
+  endDateTime: string;
+  type: JioType;
   gym: Gym;
+  creatorProfile: User;
 }
 
 // Generic request and response types

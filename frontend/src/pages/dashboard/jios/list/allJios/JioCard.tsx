@@ -12,11 +12,9 @@ interface JioCardProps {
 }
 
 export default function JioCard({ data }: JioCardProps) {
-  // FIXME: data.user is undefined
-
   return (
     <Card>
-      <CardHeader title={data.user?.name} subheader={`@${data.user?.name}`} />
+      <CardHeader title={data.creatorProfile.name} subheader={`@${data.creatorProfile.name}`} />
       <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
@@ -55,7 +53,7 @@ export default function JioCard({ data }: JioCardProps) {
             sx={{ mt: 1 }}
             color="secondary"
             fullWidth
-            href={`https://t.me/${data.user?.telegramHandle}`}
+            href={`https://t.me/${data.creatorProfile.telegramHandle}`}
             variant="outlined"
             target="_blank"
             rel="noopener"
