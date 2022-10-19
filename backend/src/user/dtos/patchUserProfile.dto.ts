@@ -53,10 +53,6 @@ export default class PatchUserProfileDto {
   bio: string;
 
   @IsOptional()
-  @IsString()
-  profilePictureUrl: string;
-
-  @IsOptional()
   @ArrayMinSize(1)
   @IsNumber(undefined, { each: true })
   favouriteGymIds: number[];
