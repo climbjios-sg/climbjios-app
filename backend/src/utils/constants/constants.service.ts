@@ -28,6 +28,10 @@ interface IConstantsService {
 export class ConstantsService implements IConstantsService {
   constructor(private readonly configService: ConfigService) {}
 
+  private get(varname: string) {
+    return this.configService.get(varname);
+  }
+
   private getOrThrow(varname: string) {
     return this.configService.getOrThrow(varname);
   }
@@ -44,8 +48,8 @@ export class ConstantsService implements IConstantsService {
   OAUTH_GOOGLE_SECRET = this.getOrThrow('OAUTH_GOOGLE_SECRET');
   OAUTH_GOOGLE_REDIRECT_URL = this.getOrThrow('OAUTH_GOOGLE_REDIRECT_URL');
   OAUTH_TELEGRAM_BOT_TOKEN = this.getOrThrow('OAUTH_TELEGRAM_BOT_TOKEN');
-  TELEGRAM_ALERTS_BOT_TOKEN = this.getOrThrow('TELEGRAM_ALERTS_BOT_TOKEN');
-  TELEGRAM_ALERTS_CHAT_ID = this.getOrThrow('TELEGRAM_ALERTS_CHAT_ID');
+  TELEGRAM_ALERTS_BOT_TOKEN = this.get('TELEGRAM_ALERTS_BOT_TOKEN');
+  TELEGRAM_ALERTS_CHAT_ID = this.get('TELEGRAM_ALERTS_CHAT_ID');
   ACCESS_TOKEN_SECRET = this.getOrThrow('ACCESS_TOKEN_SECRET');
   ACCESS_TOKEN_EXPIRY = this.getOrThrow('ACCESS_TOKEN_EXPIRY');
   REFRESH_TOKEN_SECRET = this.getOrThrow('REFRESH_TOKEN_SECRET');
