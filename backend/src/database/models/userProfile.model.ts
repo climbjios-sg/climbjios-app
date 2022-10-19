@@ -25,6 +25,7 @@ export class UserProfileModel extends BaseModel {
   readonly highestTopRopeGradeId?: number;
   readonly highestLeadClimbingGradeId?: number;
   readonly sncsCertificationId?: number;
+  readonly bio?: string;
 
   readonly pronoun?: PronounModel;
   readonly highestBoulderingGrade?: BoulderingGradeModel;
