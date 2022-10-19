@@ -13,6 +13,8 @@ export const DetailsForm = () => {
   const { errors } = formState;
   const { enqueueSnackbar } = useSnackbar();
   const { data: pronouns } = useSafeRequest(getPronounList, {
+    // Caches successful data
+    cacheKey: 'pronouns',
     onError: () => {
       enqueueSnackbar('Failed to get pronouns.', { variant: 'error' });
     },

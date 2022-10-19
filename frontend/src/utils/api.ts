@@ -10,7 +10,7 @@ export const BE_API = {
   boulderingGrades: '/v1/boulderingGrades',
   topRopeGrades: '/v1/topRopeGrades',
   leadClimbingGrades: '/v1/leadClimbingGrades',
-  sncsCertfications: '/v1/sncsCertfications',
+  sncsCertfications: '/v1/sncsCertifications',
   pronouns: '/v1/pronouns',
   posts: {
     root: '/v1/posts',

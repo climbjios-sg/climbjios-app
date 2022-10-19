@@ -6,13 +6,21 @@ import { useFormContext } from 'react-hook-form';
 import { UserRequest } from 'src/@types/user';
 import { Gym } from 'src/@types/gym';
 import useGetGyms from 'src/hooks/services/useGetGyms';
+import { getGymList } from 'src/services/gyms';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
+import { useSnackbar } from 'notistack';
 
-// TODO: multi select
 export const FavoriteGymsForm = () => {
   const { formState } = useFormContext<UserRequest>();
   const { errors } = formState;
-  const { data } = useGetGyms();
-  // const [personName, setPersonName] = React.useState<string[]>([]);
+  const { enqueueSnackbar } = useSnackbar();
+  const { data: gyms } = useSafeRequest(getGymList, {
+    // Caches successful data
+    cacheKey: 'gyms',
+    onError: () => {
+      enqueueSnackbar('Failed to get gyms.', { variant: 'error' });
+    },
+  });
 
   return (
     <Stack spacing={2}>
@@ -21,23 +29,17 @@ export const FavoriteGymsForm = () => {
           Favourite Gyms
         </Typography>
         <RHFSelect
-          label="Select Gym(s)"
           name="favouriteGyms"
-          // value={[]}
-          SelectProps={{
-            native: true,
-            // multiple: true,
-          }}
+          label="Select Gym(s)"
           helperText={errors?.favouriteGyms?.message || 'Choose a gym that you frequently visit.'}
           FormHelperTextProps={{
             error: !!errors?.favouriteGyms,
           }}
         >
-          {/* Disabled Option for first option to not auto-render */}
-          {/* <option value={''} disabled /> */}
-          {data?.map((gym: Gym) => (
-            <option key={gym.id} value={gym.id}>
-              {gym.name}
+          <option value="" />
+          {gyms?.data.map((option) => (
+            <option key={option.id} value={option.name}>
+              {option.name}
             </option>
           ))}
         </RHFSelect>

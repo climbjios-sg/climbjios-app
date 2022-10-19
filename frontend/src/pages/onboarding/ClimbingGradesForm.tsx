@@ -4,10 +4,37 @@ import { Stack, FormHelperText, FormGroup, FormLabel, Typography } from '@mui/ma
 import { RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
 import { UserRequest } from 'src/@types/user';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
+import { useSnackbar } from 'notistack';
+import { getBoulderingGradeList } from 'src/services/boulderingGrades';
+import { getTopRopeGradeList } from 'src/services/topRopeGrades';
+import { getLeadClimbingGradeList } from 'src/services/leadClimbingGrades';
 
 export const ClimbingGradesForm = () => {
   const { formState } = useFormContext<UserRequest>();
   const { errors } = formState;
+  const { enqueueSnackbar } = useSnackbar();
+  const { data: boulderingGrades } = useSafeRequest(getBoulderingGradeList, {
+    // Caches successful data
+    cacheKey: 'boulderingGrades',
+    onError: () => {
+      enqueueSnackbar('Failed to get boulderingGrades.', { variant: 'error' });
+    },
+  });
+  const { data: topRopeGrades } = useSafeRequest(getTopRopeGradeList, {
+    // Caches successful data
+    cacheKey: 'topRopeGrades',
+    onError: () => {
+      enqueueSnackbar('Failed to get topRopeGrades.', { variant: 'error' });
+    },
+  });
+  const { data: leadClimbingGrades } = useSafeRequest(getLeadClimbingGradeList, {
+    // Caches successful data
+    cacheKey: 'leadClimbingGrades',
+    onError: () => {
+      enqueueSnackbar('Failed to get leadClimbingGrades.', { variant: 'error' });
+    },
+  });
 
   return (
     <Stack spacing={2}>
@@ -15,21 +42,13 @@ export const ClimbingGradesForm = () => {
         <Typography variant="subtitle1" gutterBottom>
           Highest bouldering grade achieved
         </Typography>
-        <RHFSelect
-          label="Grade"
-          name="highestBoulderingGradeId"
-          SelectProps={{
-            native: true,
-            // multiple: true,
-          }}
-        >
-          {/* Disabled Option for first option to not auto-render */}
-          {/* <option value="" disabled />
-            {gyms.map((gym: Gym) => (
-              <option key={gym.id} value={gym.id}>
-                {gym.name}
-              </option>
-            ))} */}
+        <RHFSelect name="highestBoulderingGradeId" label="Grade">
+          <option value="" />
+          {boulderingGrades?.data.map((option) => (
+            <option key={option.id} value={option.name}>
+              {option.name}
+            </option>
+          ))}
         </RHFSelect>
       </FormGroup>
       <FormGroup>
@@ -37,42 +56,26 @@ export const ClimbingGradesForm = () => {
           Highest Top Rope grade achieved
         </Typography>
         <FormHelperText error>{errors?.highestTopRopeGradeId?.message}</FormHelperText>
-        <RHFSelect
-          label="Grade"
-          name="highestTopRopeGradeId"
-          SelectProps={{
-            native: true,
-            // multiple: true,
-          }}
-        >
-          {/* Disabled Option for first option to not auto-render */}
-          {/* <option value="" disabled />
-            {gyms.map((gym: Gym) => (
-              <option key={gym.id} value={gym.id}>
-                {gym.name}
-              </option>
-            ))} */}
+        <RHFSelect name="highestTopRopeGradeId" label="Grade">
+          <option value="" />
+          {topRopeGrades?.data.map((option) => (
+            <option key={option.id} value={option.name}>
+              {option.name}
+            </option>
+          ))}
         </RHFSelect>
       </FormGroup>
       <FormGroup>
         <Typography variant="subtitle1" gutterBottom>
           Highest Lead Climbing grade achieved
         </Typography>
-        <RHFSelect
-          label="Grade"
-          name="highestLeadClimbingGradeId"
-          SelectProps={{
-            native: true,
-            // multiple: true,
-          }}
-        >
-          {/* Disabled Option for first option to not auto-render */}
-          {/* <option value="" disabled />
-            {gyms.map((gym: Gym) => (
-              <option key={gym.id} value={gym.id}>
-                {gym.name}
-              </option>
-            ))} */}
+        <RHFSelect name="highestLeadClimbingGradeId" label="Grade">
+          <option value="" />
+          {leadClimbingGrades?.data.map((option) => (
+            <option key={option.id} value={option.name}>
+              {option.name}
+            </option>
+          ))}
         </RHFSelect>
       </FormGroup>
     </Stack>
