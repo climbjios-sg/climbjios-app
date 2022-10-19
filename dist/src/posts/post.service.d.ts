@@ -11,7 +11,7 @@ export declare class PostService {
     getOwnPosts(userId: string): import("objection").QueryBuilder<import("../database/models/post.model").PostModel, import("../database/models/post.model").PostModel[]>;
     createPost(creatorId: string, body: CreatePostDto): Promise<import("../database/models/post.model").PostModel>;
     getPost(userId: string, postId: string): Promise<import("../database/models/post.model").PostModel>;
-    patchPost(userId: string, postId: string, body: PatchPostDto): Promise<import("../database/models/post.model").PostModel | HttpException>;
+    patchPost(userId: string, postId: string, body: PatchPostDto): Promise<HttpException | import("../database/models/post.model").PostModel>;
     searchPosts(query: SearchPostDto): Promise<import("../database/models/post.model").PostModel[]>;
     private checkPostTypeAndNumPasses;
 }

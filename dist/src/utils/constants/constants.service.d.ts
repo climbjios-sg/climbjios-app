@@ -20,11 +20,11 @@ interface IConstantsService {
     AWS_S3_BUCKET_NAME: string;
     AWS_REGION: string;
     CORS_ORIGIN: string;
-    PORT: number;
 }
 export declare class ConstantsService implements IConstantsService {
     private readonly configService;
     constructor(configService: ConfigService);
+    private get;
     private getOrThrow;
     private getOrDefaultTo;
     private getBooleanOrThrow;
@@ -48,6 +48,5 @@ export declare class ConstantsService implements IConstantsService {
     AWS_S3_BUCKET_NAME: any;
     AWS_REGION: any;
     CORS_ORIGIN: any;
-    PORT: any;
 }
 export {};

@@ -9,5 +9,5 @@ export declare class PostController {
     createPost(req: any, body: CreatePostDto): Promise<import("../database/models/post.model").PostModel>;
     searchPosts(query: SearchPostDto): Promise<import("../database/models/post.model").PostModel[]>;
     getPost(req: any, params: any): Promise<import("../database/models/post.model").PostModel>;
-    patchPost(req: any, params: any, body: PatchPostDto): Promise<import("../database/models/post.model").PostModel | import("@nestjs/common").HttpException>;
+    patchPost(req: any, params: any, body: PatchPostDto): Promise<import("@nestjs/common").HttpException | import("../database/models/post.model").PostModel>;
 }

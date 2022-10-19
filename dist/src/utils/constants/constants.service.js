@@ -19,8 +19,8 @@ let ConstantsService = class ConstantsService {
         this.OAUTH_GOOGLE_SECRET = this.getOrThrow('OAUTH_GOOGLE_SECRET');
         this.OAUTH_GOOGLE_REDIRECT_URL = this.getOrThrow('OAUTH_GOOGLE_REDIRECT_URL');
         this.OAUTH_TELEGRAM_BOT_TOKEN = this.getOrThrow('OAUTH_TELEGRAM_BOT_TOKEN');
-        this.TELEGRAM_ALERTS_BOT_TOKEN = this.getOrThrow('TELEGRAM_ALERTS_BOT_TOKEN');
-        this.TELEGRAM_ALERTS_CHAT_ID = this.getOrThrow('TELEGRAM_ALERTS_CHAT_ID');
+        this.TELEGRAM_ALERTS_BOT_TOKEN = this.get('TELEGRAM_ALERTS_BOT_TOKEN');
+        this.TELEGRAM_ALERTS_CHAT_ID = this.get('TELEGRAM_ALERTS_CHAT_ID');
         this.ACCESS_TOKEN_SECRET = this.getOrThrow('ACCESS_TOKEN_SECRET');
         this.ACCESS_TOKEN_EXPIRY = this.getOrThrow('ACCESS_TOKEN_EXPIRY');
         this.REFRESH_TOKEN_SECRET = this.getOrThrow('REFRESH_TOKEN_SECRET');
@@ -35,7 +35,9 @@ let ConstantsService = class ConstantsService {
         this.AWS_S3_BUCKET_NAME = this.getOrThrow('AWS_S3_BUCKET_NAME');
         this.AWS_REGION = this.getOrThrow('AWS_REGION');
         this.CORS_ORIGIN = this.getOrThrow('CORS_ORIGIN');
-        this.PORT = this.getOrDefaultTo('PORT', 4000);
+    }
+    get(varname) {
+        return this.configService.get(varname);
     }
     getOrThrow(varname) {
         return this.configService.getOrThrow(varname);

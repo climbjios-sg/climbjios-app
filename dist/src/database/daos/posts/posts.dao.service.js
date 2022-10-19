@@ -109,6 +109,12 @@ let PostsDaoService = PostsDaoService_1 = class PostsDaoService {
             .first()
             .then((r) => r.count);
     }
+    closePostsWithEndDateBefore(date) {
+        return this.postModel
+            .query()
+            .update({ isClosed: true })
+            .where('endDateTime', '<', date);
+    }
 };
 PostsDaoService.allGraphs = `[creatorProfile.${userProfile_dao_service_1.UserProfileDaoService.allGraphs},gym]`;
 PostsDaoService = PostsDaoService_1 = __decorate([

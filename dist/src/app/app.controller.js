@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
-const public_decorator_1 = require("./auth/jwtAuth/public.decorator");
+const public_decorator_1 = require("../auth/jwtAuth/public.decorator");
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;

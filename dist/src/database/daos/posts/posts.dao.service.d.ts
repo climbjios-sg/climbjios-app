@@ -17,4 +17,5 @@ export declare class PostsDaoService {
     deleteAllUserPosts(userId: string, trx: Transaction): import("objection").QueryBuilder<PostModel, number>;
     getPostsCount(): Promise<any>;
     getOpenPostsCount(): Promise<any>;
+    closePostsWithEndDateBefore(date: Date): import("objection").QueryBuilder<PostModel, number>;
 }
