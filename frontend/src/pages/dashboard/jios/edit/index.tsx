@@ -29,7 +29,7 @@ export default function JiosEdit() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
-  const { data, error, loading } = useSafeRequest(() => getJio(jioId), {
+  const { data } = useSafeRequest(() => getJio(jioId), {
     onError: () => {
       enqueueSnackbar('Failed to get Jio.', { variant: 'error' });
     },
@@ -58,7 +58,8 @@ export default function JiosEdit() {
     submitUpdateJio(jioFormValuesToJioRequest(data), jioId);
   };
 
-  return !data || error || loading ? null : (
+  // TODO: handle error and loading
+  return !data ? null : (
     <JiosCreateEditForm
       onCancel={navigateOut}
       onSubmit={handleEdit}

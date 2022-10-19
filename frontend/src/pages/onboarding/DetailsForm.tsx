@@ -4,10 +4,19 @@ import { Stack, InputAdornment, FormHelperText } from '@mui/material';
 import { RHFTextField, RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
 import { UserRequest } from 'src/@types/user';
+import { getPronounList } from 'src/services/pronouns';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
+import { useSnackbar } from 'notistack';
 
 export const DetailsForm = () => {
   const { formState } = useFormContext<UserRequest>();
   const { errors } = formState;
+  const { enqueueSnackbar } = useSnackbar();
+  const { data: pronouns } = useSafeRequest(getPronounList, {
+    onError: () => {
+      enqueueSnackbar('Failed to get pronouns.', { variant: 'error' });
+    },
+  });
 
   return (
     <Stack spacing={2}>
@@ -20,11 +29,10 @@ export const DetailsForm = () => {
           endAdornment: <InputAdornment position="end">cm</InputAdornment>,
         }}
       />
-      <RHFSelect
-        label="Reach"
+      <RHFTextField
+        type="number"
         name="reach"
-        SelectProps={{ native: true }}
-        defaultValue=""
+        label="Reach"
         helperText={
           errors?.reach?.message ||
           'Leave this empty if you are unsure or do not know what reach is.'
@@ -32,29 +40,14 @@ export const DetailsForm = () => {
         FormHelperTextProps={{
           error: !!errors?.reach,
         }}
-      >
-        {/* Disabled Option for first option to not auto-render */}
-        {/* <option value="" disabled />
-            {gyms.map((gym: Gym) => (
-              <option key={gym.id} value={gym.id}>
-                {gym.name}
-              </option>
-            ))} */}
-      </RHFSelect>
-      <RHFSelect
-        label="Pronoun"
-        // fullWidth
-        name="pronounId"
-        SelectProps={{ native: true }}
-        defaultValue=""
-      >
-        {/* Disabled Option for first option to not auto-render */}
-        {/* <option value="" disabled />
-            {gyms.map((gym: Gym) => (
-              <option key={gym.id} value={gym.id}>
-                {gym.name}
-              </option>
-            ))} */}
+      />
+      <RHFSelect name="pronounId" label="Pronoun">
+        <option value="" />
+        {pronouns?.data.map((option) => (
+          <option key={option.id} value={option.name}>
+            {option.name}
+          </option>
+        ))}
       </RHFSelect>
     </Stack>
   );
