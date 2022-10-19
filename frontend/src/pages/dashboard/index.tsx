@@ -15,6 +15,10 @@ import Profile from './profile';
 import Jios from './jios';
 import { listGyms } from '../../store/reducers/gyms';
 import { useDispatch } from '../../store';
+import Beta from './beta';
+import { listColors } from '../../store/reducers/colors';
+import { listWalls } from '../../store/reducers/walls';
+import MessageBarWithStore from './MessageBarWithStore';
 
 interface BottomTab {
   path: string;
@@ -58,6 +62,13 @@ const DASHBOARD_TABS = [
     element: <Jios />,
   },
   {
+    path: 'beta/*',
+    to: 'beta',
+    label: 'Beta',
+    icon: <Iconify icon={'akar-icons:video'} width={20} height={20} />,
+    element: <Beta />,
+  },
+  {
     path: 'profile/*',
     to: 'profile',
     label: 'Profile',
@@ -81,10 +92,13 @@ export default function Dashboard() {
 
   useEffect(() => {
     dispatch(listGyms());
+    dispatch(listColors());
+    dispatch(listWalls());
   }, [dispatch]);
 
   return (
-    <Page title="ClimbJios - The social network for climbers." sx={{ background: '#fafafa' }}>
+    <Page title="ClimbJios - The social network for climbers.">
+      <MessageBarWithStore />
       <Container>
         <DashboardRouter />
       </Container>

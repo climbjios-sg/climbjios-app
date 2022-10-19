@@ -13,7 +13,7 @@ import {
   RHFDatePicker,
 } from '../../../../components/hook-form';
 // form
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm, UseFormSetValue } from 'react-hook-form';
 // @types
 import { Gym } from '../../../../@types/gym';
 // dayjs
@@ -27,6 +27,7 @@ import {
 } from './utils';
 import { addDays } from 'date-fns';
 import FloatingBottomCard from '../../../../components/FloatingBottomCard';
+import useRHFScrollToInputOnError from '../../../../hooks/useRHFScrollToInputOnError';
 
 type Props = {
   onSubmit: (data: JioCreateEditFormValues) => Promise<void>;
@@ -104,18 +105,7 @@ export default function JiosCreateEditForm({
   };
 
   // Scroll to input on error
-  React.useEffect(() => {
-    const firstError = (Object.keys(errors) as Array<keyof typeof errors>).reduce<
-      keyof typeof errors | null
-    >((field, a) => {
-      const fieldKey = field as keyof typeof errors;
-      return !!errors[fieldKey] ? fieldKey : a;
-    }, null);
-
-    if (firstError) {
-      setFocus(firstError);
-    }
-  }, [errors, isSubmitting, setFocus]);
+  useRHFScrollToInputOnError({ errors, setFocus, isSubmitting });
 
   return (
     <Box

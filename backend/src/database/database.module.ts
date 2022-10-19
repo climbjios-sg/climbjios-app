@@ -1,3 +1,6 @@
+import { WallModel } from './models/wall.model';
+import { ColorModel } from './models/color.model';
+import { GymGradeModel } from './models/gymGrade.model';
 import { Global, Module } from '@nestjs/common';
 import Knex from 'knex';
 import { knexSnakeCaseMappers, Model } from 'objection';
@@ -12,6 +15,7 @@ import { TopRopeGradeModel } from './models/topRopeGrade.model';
 import { UserModel } from './models/user.model';
 import { UserProfileModel } from './models/userProfile.model';
 import { UserProfileFavouriteGymModel } from './models/userProfileFavouriteGym.model';
+import { BetaModel } from './models/beta.model';
 
 const models = [
   GymModel,
@@ -24,6 +28,10 @@ const models = [
   PronounModel,
   UserProfileModel,
   UserProfileFavouriteGymModel,
+  GymGradeModel,
+  ColorModel,
+  WallModel,
+  BetaModel,
 ];
 const modelProviders = models.map((model) => ({
   provide: model.name,

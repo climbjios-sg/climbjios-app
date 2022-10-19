@@ -22,12 +22,15 @@ interface IConstantsService {
   AWS_S3_BUCKET_NAME: string;
   AWS_REGION: string;
   CORS_ORIGIN: string;
-  PORT: number;
 }
 
 @Injectable()
 export class ConstantsService implements IConstantsService {
   constructor(private readonly configService: ConfigService) {}
+
+  private get(varname: string) {
+    return this.configService.get(varname);
+  }
 
   private getOrThrow(varname: string) {
     return this.configService.getOrThrow(varname);
@@ -45,8 +48,8 @@ export class ConstantsService implements IConstantsService {
   OAUTH_GOOGLE_SECRET = this.getOrThrow('OAUTH_GOOGLE_SECRET');
   OAUTH_GOOGLE_REDIRECT_URL = this.getOrThrow('OAUTH_GOOGLE_REDIRECT_URL');
   OAUTH_TELEGRAM_BOT_TOKEN = this.getOrThrow('OAUTH_TELEGRAM_BOT_TOKEN');
-  TELEGRAM_ALERTS_BOT_TOKEN = this.getOrThrow('TELEGRAM_ALERTS_BOT_TOKEN');
-  TELEGRAM_ALERTS_CHAT_ID = this.getOrThrow('TELEGRAM_ALERTS_CHAT_ID');
+  TELEGRAM_ALERTS_BOT_TOKEN = this.get('TELEGRAM_ALERTS_BOT_TOKEN');
+  TELEGRAM_ALERTS_CHAT_ID = this.get('TELEGRAM_ALERTS_CHAT_ID');
   ACCESS_TOKEN_SECRET = this.getOrThrow('ACCESS_TOKEN_SECRET');
   ACCESS_TOKEN_EXPIRY = this.getOrThrow('ACCESS_TOKEN_EXPIRY');
   REFRESH_TOKEN_SECRET = this.getOrThrow('REFRESH_TOKEN_SECRET');
@@ -62,4 +65,8 @@ export class ConstantsService implements IConstantsService {
   AWS_REGION = this.getOrThrow('AWS_REGION');
   CORS_ORIGIN = this.getOrThrow('CORS_ORIGIN');
   PORT = this.getOrDefaultTo('PORT', 4000);
+  CLOUDFLARE_ACCOUNT_ID = this.getOrDefaultTo('CLOUDFLARE_ACCOUNT_ID');
+  CLOUDFLARE_STREAM_API_TOKEN = this.getOrDefaultTo(
+    'CLOUDFLARE_STREAM_API_TOKEN',
+  );
 }
