@@ -30,7 +30,7 @@ export const DetailsForm = () => {
           'Leave this empty if you are unsure or do not know what reach is.'
         }
         FormHelperTextProps={{
-          error: !!errors?.reach?.message,
+          error: !!errors?.reach,
         }}
       >
         {/* Disabled Option for first option to not auto-render */}

@@ -30,7 +30,7 @@ export const FavoriteGymsForm = () => {
           }}
           helperText={errors?.favouriteGyms?.message || 'Choose a gym that you frequently visit.'}
           FormHelperTextProps={{
-            error: !!errors?.favouriteGyms?.message,
+            error: !!errors?.favouriteGyms,
           }}
         >
           {/* Disabled Option for first option to not auto-render */}

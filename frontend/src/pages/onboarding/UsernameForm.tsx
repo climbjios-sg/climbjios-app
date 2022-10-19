@@ -19,7 +19,7 @@ export const UsernameForm = () => {
           'Your name will be displayed on your profile page. You can always change this later.'
         }
         FormHelperTextProps={{
-          error: !!errors?.name?.message,
+          error: !!errors?.name,
         }}
       />
       <FormHelperText error>{errors?.telegramHandle?.message}</FormHelperText>
@@ -31,7 +31,7 @@ export const UsernameForm = () => {
           'Other climbers will communicate with you over Telegram.'
         }
         FormHelperTextProps={{
-          error: !!errors?.telegramHandle?.message,
+          error: !!errors?.telegramHandle,
         }}
         InputProps={{
           startAdornment: <InputAdornment position="start">@</InputAdornment>,
