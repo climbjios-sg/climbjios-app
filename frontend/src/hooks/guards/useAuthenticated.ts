@@ -8,7 +8,10 @@ const useAuthenticated = () => {
     const callCheckAuth = async () => {
       try {
         await checkAuth();
-      } catch (error) {}
+      } catch (error) {
+        // Silences the error since error handling
+        // is already taken care of by the guard hook
+      }
     };
 
     callCheckAuth();

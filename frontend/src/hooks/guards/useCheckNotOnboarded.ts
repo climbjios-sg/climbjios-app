@@ -31,7 +31,9 @@ const useCheckNotOnboarded = (): CheckNotOnboarded => {
             enqueueSnackbar('You have already been onboarded', { variant: 'error' });
           }
         }
-      } catch (error) {}
+      } catch (error) {
+        // Silences the error since NotOnboarded is the happy path in this case
+      }
     },
 
     [authProvider, enqueueSnackbar, navigate]

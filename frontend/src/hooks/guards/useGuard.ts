@@ -13,7 +13,10 @@ const useGuard = (guards: Function[]) => {
         for (const guard of guards) {
           guard();
         }
-      } catch (error) {}
+      } catch (error) {
+        // Silences the error since error handling
+        // is already taken care of by the guard hook
+      }
     };
 
     callCheckAuth();
