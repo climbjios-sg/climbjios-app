@@ -1,4 +1,4 @@
-import { JioSearchFormValues } from '../../pages/dashboard/jios/form/utils';
+import { JioSearchFormValues } from '../../pages/dashboard/jios/forms/utils';
 import { dispatch } from '..';
 import { createSlice } from '@reduxjs/toolkit';
 

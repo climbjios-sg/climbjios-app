@@ -1,10 +1,9 @@
 import { Suspense, lazy, ElementType } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
+import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-import AuthRedirect from '../pages/AuthRedirect';
-import AuthGuard from '../pages/guards/AuthGuard';
-import { PATH_ONBOARDING, PATH_PAGE } from './paths';
+import CommonGuard from 'src/components/guards/CommonGuard';
 
 // ----------------------------------------------------------------------
 
@@ -22,61 +21,44 @@ const Loadable = (Component: ElementType) => (props: any) => {
 };
 
 export default function Router() {
+  useAutoLogin();
+
   return useRoutes([
-    // Main Routes
-    {
-      path: '/',
-      element: (
-        <AuthRedirect />
-      ),
-    },
     {
       path: 'login',
-      element: (
-        <AuthRedirect>
-          <Login />
-        </AuthRedirect>
-      ),
+      element: <Login />,
     },
-
     // Onboarding Routes
     {
       path: 'onboarding',
-      children: [
-        {
-          path: 'newuser',
-          element: (
-            <AuthGuard>
-              <OnboardingNewUserProfile />
-            </AuthGuard>
-          ),
-        },
-        {
-          path: 'username',
-          element: (
-            <AuthGuard>
-              <OnboardingNewUserUsername />
-            </AuthGuard>
-          ),
-        },
-        { path: '*', element: <Navigate to="/newuser" replace /> },
-      ],
+      element: (
+        <CommonGuard
+          authenticated
+          // TODO: enable after debug
+          // notOnboarded
+        >
+          <Onboarding />
+        </CommonGuard>
+      ),
     },
-
     // Dashboard Routes
     {
       path: 'dashboard/*',
       element: (
-        <AuthGuard>
-          <MainApp />
-        </AuthGuard>
+        <CommonGuard
+          authenticated
+          // TODO: enable after debug
+          // onboarded
+        >
+          <Dashboard />
+        </CommonGuard>
       ),
     },
     {
       path: '404',
       element: <Page404 />,
     },
-    { path: '*', element: <Navigate to="/404" replace /> },
+    { path: '*', element: <Navigate to="/dashboard" replace /> },
   ]);
 }
 
@@ -84,15 +66,10 @@ export default function Router() {
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
 
 // ONBOARDING
-const OnboardingNewUserProfile = Loadable(lazy(() => import('../pages/onboarding/NewUserProfile')));
-// const OnboardingNotionStepOne = Loadable(lazy(() => import('../pages/onboarding/NotionStepOne')));
-// const OnboardingNotionStepTwo = Loadable(lazy(() => import('../pages/onboarding/NotionStepTwo')));
-const OnboardingNewUserUsername = Loadable(
-  lazy(() => import('../pages/onboarding/NewUserUsername'))
-);
+const Onboarding = Loadable(lazy(() => import('../pages/onboarding')));
 
 // APP
-const MainApp = Loadable(lazy(() => import('../pages/dashboard/MainApp')));
+const Dashboard = Loadable(lazy(() => import('../pages/dashboard')));
 
 // LANDING
-const Page404 = Loadable(lazy(() => import('../pages/Page404')));
+const Page404 = Loadable(lazy(() => import('../pages/error/Page404')));

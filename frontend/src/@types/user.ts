@@ -1,17 +1,38 @@
-// ----------------------------------------------------------------------
+import { Gym } from './gym';
 
-export type User = {
-  id?: string;
-  name?: string;
-  username?: string;
-  telegramHandle?: string;
-};
+interface Pronoun {
+  id: number;
+  name: string;
+}
 
-// ApiUser represents user profile schema from backend api
-export type ApiUser = {
-  id?: string;
-  name?: string;
-  username?: string;
-  telegramHandle?: string;
-};
+interface Grade {
+  id: number;
+  name: string;
+}
 
+export interface User {
+  userId: string;
+  name: string;
+  telegramHandle: string;
+  height: number;
+  reach: number;
+  pronounId: number;
+  highestBoulderingGradeId: number;
+  highestTopRopeGradeId: number;
+  highestLeadClimbingGradeId: string;
+  sncsCertificationId: string;
+  profilePictureUrl: string;
+  createdAt: string;
+  updatedAt: string;
+  highestLeadClimbingGrade: string;
+  sncsCertification: string;
+  pronoun: Pronoun;
+  highestBoulderingGrade: Grade;
+  highestTopRopeGrade: Grade;
+  favouriteGyms: Gym[];
+}
+
+export type UserRequest = Partial<User>;
+export type UserResponse = Partial<User>;
+
+export type UserIdentity = UserResponse & {};

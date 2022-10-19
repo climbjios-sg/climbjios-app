@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 // @mui
 import { Box, BoxProps } from '@mui/material';
 // hooks
-import useResponsive from '../../hooks/useResponsive';
+import useResponsive from '../../hooks/ui/useResponsive';
 //
 import { varContainer } from '.';
 

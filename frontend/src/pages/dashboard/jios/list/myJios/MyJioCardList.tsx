@@ -5,7 +5,7 @@ import { listMyJios } from 'src/store/reducers/myJios';
 import { useDispatch, useSelector } from 'src/store';
 import MyJioCard from './MyJioCard';
 import EmptyJiosContent from '../EmptyJiosContent';
-import useVersion from 'src/hooks/useVersion';
+import useVersion from 'src/hooks/ui/useVersion';
 import JioCardSkeleton from '../JioCardSkeleton';
 import { Link } from 'react-router-dom';
 import { PATH_DASHBOARD } from '../../../../../routes/paths';

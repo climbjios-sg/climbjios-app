@@ -1,5 +1,3 @@
-// ----------------------------------------------------------------------
-
 import { TabValue } from '../pages/dashboard/jios/list';
 
 function path(root: string, sublink: string) {
@@ -10,7 +8,7 @@ const ROOTS_AUTH = '/login';
 const ROOTS_ONBOARDING = '/onboarding';
 const ROOTS_DASHBOARD = '/dashboard';
 
-// ----------------------------------------------------------------------
+export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';
 
 export const PATH_AUTH = {
   root: ROOTS_AUTH,
@@ -21,8 +19,7 @@ export const PATH_PAGE = {
 };
 
 export const PATH_ONBOARDING = {
-  newuser: path(ROOTS_ONBOARDING, '/newuser'),
-  username: path(ROOTS_ONBOARDING, '/username'),
+  root: ROOTS_ONBOARDING,
 };
 
 export const PATH_DASHBOARD = {
@@ -42,5 +39,3 @@ export const PATH_DASHBOARD = {
     },
   },
 };
-
-export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';

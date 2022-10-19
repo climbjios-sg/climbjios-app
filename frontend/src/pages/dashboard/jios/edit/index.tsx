@@ -1,8 +1,8 @@
 import Iconify from 'src/components/Iconify';
 import { useNavigate, useParams } from 'react-router-dom';
-import JiosCreateEditForm from '../form/JiosCreateEditForm';
-import { JioCreateEditFormValues, jioFormValuesToRequestJio } from '../form/utils';
-import { useRequest } from 'ahooks';
+import JiosCreateEditForm from '../forms/JiosCreateEditForm';
+import { JioCreateEditFormValues, jioFormValuesToJioRequest } from '../forms/utils';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { useSnackbar } from 'notistack';
 import { getJio, updateJio } from 'src/services/jios';
 import { Jio } from 'src/@types/jio';
@@ -29,7 +29,7 @@ export default function JiosEdit() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
-  const { data, error, loading } = useRequest(() => getJio(jioId), {
+  const { data, error, loading } = useSafeRequest(() => getJio(jioId), {
     onError: () => {
       enqueueSnackbar('Failed to get Jio.', { variant: 'error' });
     },
@@ -39,7 +39,7 @@ export default function JiosEdit() {
     navigate(PATH_DASHBOARD.general.jios.userJios);
   };
 
-  const { run: submitUpdateJio } = useRequest(updateJio, {
+  const { run: submitUpdateJio } = useSafeRequest(updateJio, {
     manual: true,
     onSuccess: () => {
       enqueueSnackbar('Updated!');
@@ -55,7 +55,7 @@ export default function JiosEdit() {
       return;
     }
 
-    submitUpdateJio(jioFormValuesToRequestJio(data), jioId);
+    submitUpdateJio(jioFormValuesToJioRequest(data), jioId);
   };
 
   return !data || error || loading ? null : (
