@@ -3,11 +3,12 @@ import { FormHelperText, Stack, Typography } from '@mui/material';
 // components
 import { RHFUploadAvatar } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
-import { UserRequest } from 'src/@types/user';
 import { fData } from 'src/utils/formatNumber';
+import { MAX_UPLOAD_SIZE } from 'src/config';
+import { AvatarFormValues } from './types';
 
 export const AvatarForm = () => {
-  const { formState, setValue } = useFormContext<UserRequest>();
+  const { formState, setValue } = useFormContext<AvatarFormValues>();
   const { errors } = formState;
   const handleDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -15,11 +16,10 @@ export const AvatarForm = () => {
 
       if (file) {
         setValue(
-          'profilePictureUrl',
-          // Object.assign(file, {
-          //   preview: URL.createObjectURL(file),
-          // })
-          ''
+          'avatar',
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
         );
       }
     },
@@ -29,8 +29,8 @@ export const AvatarForm = () => {
   return (
     <Stack spacing={2}>
       <RHFUploadAvatar
-        name="profilePictureUrl"
-        maxSize={3145728}
+        name="avatar"
+        maxSize={MAX_UPLOAD_SIZE}
         onDrop={handleDrop}
         helperText={
           <Typography
@@ -44,7 +44,7 @@ export const AvatarForm = () => {
             }}
           >
             Allowed *.jpeg, *.jpg, *.png, *.gif
-            <br /> max size of {fData(3145728)}
+            <br /> max size of {fData(MAX_UPLOAD_SIZE)}
           </Typography>
         }
       />

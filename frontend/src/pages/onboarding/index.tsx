@@ -21,10 +21,13 @@ import { useProfile } from 'src/contexts/auth/ProfileContext';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { useNavigate } from 'react-router';
 import Separator from 'src/components/Separator';
+import { AvatarFormValues } from './types';
+import { updateUser } from 'src/services/users';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
+import { getUploadAvatarUrl, uploadAvatar } from 'src/services/avatar';
 
 // ----------------------------------------------------------------------
 
-const formSchema = Yup.object().shape({});
 const onboardingSteps: {
   title: string;
   subtitle: string;
@@ -76,34 +79,55 @@ export default function Onboarding() {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState<number>(1);
   const isComplete = activeStep === onboardingSteps.length;
-  const { updateUserIdentity } = useProfile();
 
-  const initialFormValues: UserRequest = useMemo(() => ({}), []);
   const methods = useForm<UserRequest>({
-    resolver: yupResolver(formSchema),
-    defaultValues: initialFormValues,
     mode: 'onSubmit',
   });
   const { handleSubmit } = methods;
-
-  const _handleSubmit = async (data: UserRequest) => {
-    try {
-      await updateUserIdentity(data);
-      enqueueSnackbar('Successfully completed onboarding!');
+  const avatarMethods = useForm<AvatarFormValues>({
+    mode: 'onSubmit',
+  });
+  const { handleSubmit: handleSubmitAvatar } = avatarMethods;
+  const { run: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
+    manual: true,
+    onError: (error) => {
+      enqueueSnackbar('Failed to upload profile picture.', { variant: 'error' });
+    },
+  });
+  const { run: submitUpdateUser } = useSafeRequest(updateUser, {
+    manual: true,
+    onSuccess: () => {
+      enqueueSnackbar('Successfully completed onboarding.', {
+        autoHideDuration: 5000,
+      });
       navigate(PATH_DASHBOARD.general.jios.root);
-    } catch (error) {
+    },
+    onError: (error) => {
+      enqueueSnackbar('Failed to submit form', { variant: 'error' });
+    },
+  });
+
+  const _handleSubmitAvatar = async (data: AvatarFormValues) => {
+    const uploadUrl = await getUploadAvatarUrl();
+
+    await submitUploadAvatar(uploadUrl.data, data.avatar);
+  };
+  const _handleSubmit = async (data: UserRequest) => {
+    await submitUpdateUser(data);
+  };
+
+  const handleClickButton = async () => {
+    try {
+      if (!isComplete) {
+        setActiveStep((currentStep) => currentStep + 1);
+      } else {
+        await handleSubmitAvatar(_handleSubmitAvatar)();
+        await handleSubmit(_handleSubmit)();
+      }
+    } catch {
       enqueueSnackbar('Failed to submit form', { variant: 'error' });
     }
   };
-
-  const handleClickButton = () => {
-    if (!isComplete) {
-      setActiveStep((currentStep) => currentStep + 1);
-    } else {
-      handleSubmit(_handleSubmit)();
-    }
-  };
-
   const handleClickBackButton = () => {
     if (activeStep <= 1) {
       return;

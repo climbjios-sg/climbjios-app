@@ -95,6 +95,7 @@ export const jwtAuthProvider: AuthProvider = {
       throw new Error();
     }
   },
+  // TODO: replace with useSafeRequest
   getIdentity: async () => {
     const response = await getUser();
     const userIdentity: UserIdentity = response.data;

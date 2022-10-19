@@ -7,6 +7,7 @@ export const BE_API = {
   },
   user: '/v1/user',
   gyms: '/v1/gyms',
+  uploadImageUrl: '/v1/uploadImageUrl',
   boulderingGrades: '/v1/boulderingGrades',
   topRopeGrades: '/v1/topRopeGrades',
   leadClimbingGrades: '/v1/leadClimbingGrades',

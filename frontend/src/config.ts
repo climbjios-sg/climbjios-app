@@ -56,11 +56,14 @@ export const REGEX_TELEGRAM =
 // Username
 export const MIN_USERNAME_LEN = 3;
 export const MAX_USERNAME_LEN = 30;
+
 /*
 Note: username can only consist of uppercase & lowercase alphabets and numbers, 
 and must be between 3 to 30 characters. Update this regex when length limitations change
 */
 export const REGEX_USERNAME = /^([A-Za-z0-9]){3,30}$/;
+
+export const MAX_UPLOAD_SIZE = 3145728;
 
 // Error messages
 export const NAME_LEN_ERROR = `Name must be between ${MIN_USERNAME_LEN} and ${MAX_USERNAME_LEN} characters long`;
