@@ -4,8 +4,6 @@ import { Stack, FormGroup, Typography } from '@mui/material';
 import { RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
 import { UserRequest } from 'src/@types/user';
-import { Gym } from 'src/@types/gym';
-import useGetGyms from 'src/hooks/services/useGetGyms';
 import { getGymList } from 'src/services/gyms';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { useSnackbar } from 'notistack';

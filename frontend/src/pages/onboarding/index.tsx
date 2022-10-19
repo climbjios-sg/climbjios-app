@@ -22,37 +22,66 @@ import { PATH_DASHBOARD } from 'src/routes/paths';
 import { useNavigate } from 'react-router';
 import Separator from 'src/components/Separator';
 
-// sections
-
 // ----------------------------------------------------------------------
 
-// TODO: remove enum
-enum Steps {
-  // Username = 'Username',
-  Details = 'Details',
-  FavoriteGyms = 'Favorite Gyms',
-  ClimbingGrades = 'Climbing Grades',
-  ClimbingCert = 'Climbing Cert',
-  Avatar = 'Avatar',
-}
-const STEPS = Object.values(Steps);
 const formSchema = Yup.object().shape({});
+const onboardingSteps: {
+  title: string;
+  subtitle: string;
+  form: JSX.Element;
+}[] = [
+  {
+    title: 'Complete your profile',
+    subtitle: 'Help other climbers know more about you',
+    form: <DetailsForm />,
+  },
+  {
+    title: 'Complete your profile',
+    subtitle: 'Fill in your details to be shown to other climbers',
+    form: <FavoriteGymsForm />,
+  },
+  {
+    title: 'Your climbing experience',
+    subtitle: 'This can help others to find the right climbing partner',
+    form: <ClimbingGradesForm />,
+  },
+  {
+    title: 'Your climbing experience',
+    subtitle: 'This can help others to find the right climbing partner',
+    form: <ClimbingCertForm />,
+  },
+  {
+    title: 'Profile Photo',
+    subtitle: 'Upload a profile photo (optional)',
+    form: <AvatarForm />,
+  },
+];
 
-// TODO: back button
-// TODO: fix css
+const renderTitle = (activeStep: number) => {
+  const { title, subtitle } = onboardingSteps[activeStep - 1];
+
+  return (
+    <>
+      <Typography variant="h4">{title}</Typography>
+      <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
+        {subtitle}
+      </Typography>
+    </>
+  );
+};
+const renderForm = (activeStep: number) => onboardingSteps[activeStep - 1].form;
 
 export default function Onboarding() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState<number>(1);
-  const isComplete = activeStep === STEPS.length;
+  const isComplete = activeStep === onboardingSteps.length;
   const { updateUserIdentity } = useProfile();
 
   const initialFormValues: UserRequest = useMemo(() => ({}), []);
   const methods = useForm<UserRequest>({
     resolver: yupResolver(formSchema),
     defaultValues: initialFormValues,
-    // Show error onChange, onBlur, onSubmit
     mode: 'onSubmit',
   });
   const { handleSubmit } = methods;
@@ -82,34 +111,16 @@ export default function Onboarding() {
     setActiveStep((currentStep) => currentStep - 1);
   };
 
-  const renderForm = () => (
-    <>
-      {activeStep === 1 && <DetailsForm />}
-      {activeStep === 2 && <FavoriteGymsForm />}
-      {activeStep === 3 && <ClimbingGradesForm />}
-      {activeStep === 4 && <ClimbingCertForm />}
-      {activeStep === 5 && <AvatarForm />}
-    </>
-  );
-
   return (
     <FormProvider methods={methods}>
       <Page title="Onboarding: Fill in your details">
         <Container maxWidth="md" sx={{ my: 3 }}>
           <Stack spacing={1.5} justifyContent="center" alignItems="center">
             <Logo />
-            <Typography variant="h4">Complete your profile</Typography>
-            <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
-              Fill in your details to be shown to other climbers
-            </Typography>
-            <Card
-              sx={{
-                width: '100%',
-                p: 3,
-              }}
-            >
+            {renderTitle(activeStep)}
+            <Card sx={{ width: '100%', p: 3 }}>
               <Stack spacing={1.5}>
-                {renderForm()}
+                {renderForm(activeStep)}
                 <Separator />
                 <Button
                   size="large"
