@@ -12,15 +12,15 @@ import {
 import { Stack, styled } from '@mui/system';
 import Select, { StylesConfig } from 'react-select';
 import { Link, useParams } from 'react-router-dom';
-import Iconify from '../../../../components/Iconify';
-import { useSelector } from '../../../../store';
-import Page404 from '../../../Page404';
+import Iconify from 'src/components/Iconify';
+import { useSelector } from 'src/store';
+import Page404 from 'src/pages/error/Page404';
 import { COLORS, GRADES, WALLS } from './testData';
-import { PATH_DASHBOARD } from '../../../../routes/paths';
+import { PATH_DASHBOARD } from 'src/routes/paths';
 import chroma from 'chroma-js';
-import BetaCard from '../../../../components/BetaCard';
-import { User } from '../../../../@types/user';
-import { BetaDemo } from '../../../../@types/beta';
+import BetaCard from 'src/components/BetaCard';
+import { User } from 'src/@types/user';
+import { BetaDemo } from 'src/@types/beta';
 import _ from 'lodash';
 import MessageBarWithStore from '../../MessageBarWithStore';
 
@@ -52,11 +52,11 @@ const dot = (color = 'transparent') => ({
 });
 
 const FAKE_BETA: {
-  author: User;
+  author: Partial<User>;
   beta: BetaDemo;
 } = {
   author: {
-    username: '@rizhaow',
+    telegramHandle: '@rizhaow',
   },
   beta: {
     imageUrl: 'https://i.ibb.co/k1yHPSz/image-27.png',

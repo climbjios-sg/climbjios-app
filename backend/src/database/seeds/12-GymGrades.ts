@@ -377,7 +377,7 @@ export async function seed(knex: Knex): Promise<void> {
     { gymId: 25, name: '8', order: 8 },
     { gymId: 25, name: '9', order: 9 },
     { gymId: 25, name: 'Wildcard', order: 10 },
-    // 26, Origin Boulder
+    // 26, Origin Boulderys
     { gymId: 26, name: '1', order: 1 },
     { gymId: 26, name: '2', order: 2 },
     { gymId: 26, name: '3', order: 3 },

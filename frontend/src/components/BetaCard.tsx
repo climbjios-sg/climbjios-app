@@ -10,7 +10,7 @@ import { BetaDemo } from '../@types/beta';
 // ----------------------------------------------------------------------
 
 type Props = {
-  author: User;
+  author: Partial<User>;
   beta: BetaDemo;
   //   video:
 };
@@ -31,7 +31,7 @@ export default function BetaCard({ author, beta }: Props) {
           }}
         />
         <Avatar
-          alt={author.username}
+          alt={author.telegramHandle}
           src={`https://minimal-assets-api-dev.vercel.app/assets/images/avatars/avatar_1.jpg`}
           sx={{
             left: 24,
