@@ -91,9 +91,7 @@ export const jwtAuthProvider: AuthProvider = {
     const response = await getUser();
     const userIdentity: UserIdentity = response.data;
 
-    // TODO: check all required fields here
-    // FIXME: currently no way to check if user has onboarded since backend auto populates the name
-    if (userIdentity.name === undefined) {
+    if (!userIdentity.name) {
       throw new Error();
     }
   },
