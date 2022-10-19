@@ -44,7 +44,7 @@ export const DetailsForm = () => {
       <RHFSelect
         label="Pronoun"
         // fullWidth
-        name="pronoun_id"
+        name="pronounId"
         SelectProps={{ native: true }}
         defaultValue=""
       >
