@@ -2,16 +2,16 @@ import * as React from 'react';
 import { useState } from 'react';
 import { Button, Card, CardHeader, Stack, Typography } from '@mui/material';
 import Iconify from 'src/components/Iconify';
-import { IconStyle } from 'src/sections/@dashboard/user/profile/common';
+import { IconStyle } from 'src/utils/common';
 import { Jio } from 'src/@types/jio';
 import palette from 'src/theme/palette';
 import { formatStartEndDate } from 'src/utils/formatTime';
 import { getPassesText } from '../utils';
 import CloseMyJioDialog from './CloseMyJioDialog';
 import { useSnackbar } from 'notistack';
-import useRefresh from 'src/hooks/useRefresh';
+import useRefresh from 'src/hooks/ui/useRefresh';
 import { closeMyJio } from 'src/services/myJios';
-import { useRequest } from 'ahooks';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { Link } from 'react-router-dom';
 
@@ -23,7 +23,7 @@ export default function MyJioCard({ data }: MyJioCardProps) {
   const { enqueueSnackbar } = useSnackbar();
   const refresh = useRefresh();
   const [isCloseDialogOpen, setIsCloseDialogOpen] = useState(false);
-  const { run: submitCloseMyJio } = useRequest(closeMyJio, {
+  const { run: submitCloseMyJio } = useSafeRequest(closeMyJio, {
     manual: true,
     onSuccess: () => {
       enqueueSnackbar('Closed!');
@@ -44,11 +44,9 @@ export default function MyJioCard({ data }: MyJioCardProps) {
     submitCloseMyJio(data.id);
   };
 
-  console.log(data, formatStartEndDate(data.startDateTime, data.endDateTime));
-
   return (
     <Card>
-      <CardHeader title={data.user.name} subheader={`@${data.user.username}`} />
+      <CardHeader title={data.creatorProfile.name} subheader={`@${data.creatorProfile.name}`} />
       <Stack spacing={1.5} sx={{ px: 3, pb: 2, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />

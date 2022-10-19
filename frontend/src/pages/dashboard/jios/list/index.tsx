@@ -4,7 +4,7 @@ import { TabContext, TabPanel } from '@mui/lab';
 import { Tab, Button, Typography, Grid, Tabs, Box, IconButton, Chip } from '@mui/material';
 import { useNavigate } from 'react-router';
 import Iconify from '../../../../components/Iconify';
-import useRefresh from '../../../../hooks/useRefresh';
+import useRefresh from '../../../../hooks/ui/useRefresh';
 import { formatPrettyDate } from '../../../../utils/formatTime';
 import JioCardList from './allJios/JioCardList';
 import MyJioCardList from './myJios/MyJioCardList';
@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from '../../../../store';
 import { customShadows } from '../../../../theme/shadows';
 import { clearJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
 import { Jio } from '../../../../@types/jio';
-import { IconStyle } from '../../../../sections/@dashboard/user/profile/common';
+import { IconStyle } from 'src/utils/common';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { useSearchParams } from 'react-router-dom';
 

@@ -4,6 +4,7 @@ import authorizedAxios from '../../utils/authorizedAxios';
 import { AxiosResponse } from 'axios';
 import { dispatch } from '..';
 import { createSlice } from '@reduxjs/toolkit';
+import { getMyJioList } from 'src/services/myJios';
 
 interface State {
   loading: boolean;
@@ -15,16 +16,6 @@ const initialState: State = {
   loading: false,
   error: null,
   data: [],
-};
-
-interface Options {
-  onSuccess?: () => void;
-  onError?: () => void;
-}
-
-const defaultOptions: Options = {
-  onSuccess: () => {},
-  onError: () => {},
 };
 
 const slice = createSlice({
@@ -65,18 +56,15 @@ const slice = createSlice({
   },
 });
 
-export function listMyJios(options = defaultOptions) {
-  const { onSuccess, onError } = options;
+export function listMyJios() {
   return async () => {
     dispatch(slice.actions.request());
     try {
-      const response: AxiosResponse = await authorizedAxios.get<Jio[]>(BE_API.posts.root);
-      const collections: Jio[] = response.data;
+      const response = await getMyJioList();
+      const collections = response.data;
       dispatch(slice.actions.list(collections));
-      onSuccess?.();
     } catch (err) {
       dispatch(slice.actions.failure(err));
-      onError?.();
     }
   };
 }

@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { AuthProvider } from './contexts/JWTContext';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
@@ -9,6 +8,8 @@ import { store } from './store';
 import { Provider } from 'react-redux';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
+import { authProviderFactory } from './authProviders';
+import { DEFAULT_AUTH_PROVIDER } from './config';
 
 // ----------------------------------------------------------------------
 
@@ -16,7 +17,7 @@ if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_DSN,
     integrations: [new BrowserTracing()],
-  
+
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -24,19 +25,22 @@ if (process.env.REACT_APP_SENTRY_DSN) {
   });
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const renderRoot = async () => {
+  const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+  const authProvider = await authProviderFactory(DEFAULT_AUTH_PROVIDER);
 
-root.render(
-  <AuthProvider>
+  root.render(
     <HelmetProvider>
       <Provider store={store}>
         <BrowserRouter>
-          <App />
+          <App authProvider={authProvider} />
         </BrowserRouter>
       </Provider>
     </HelmetProvider>
-  </AuthProvider>
-);
+  );
+};
+
+renderRoot();
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

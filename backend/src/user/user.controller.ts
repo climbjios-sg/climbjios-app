@@ -15,4 +15,9 @@ export class UserController {
   async patchUserProfile(@Req() req, @Body() body: PatchUserProfileDto) {
     return await this.userService.patchUserProfile(req.user.id, body);
   }
+
+  @Get('uploadImageUrl')
+  uploadImageUrl(@Req() req) {
+    return this.userService.getUploadImageUrl(req.user.id);
+  }
 }

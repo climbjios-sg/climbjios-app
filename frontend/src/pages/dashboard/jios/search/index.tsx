@@ -3,8 +3,8 @@ import Iconify from '../../../../components/Iconify';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { useDispatch, useSelector } from '../../../../store';
 import { clearJiosSearchForm, setJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
-import JiosSearchForm from '../form/JiosSearchForm';
-import { JioSearchFormValues } from '../form/utils';
+import JiosSearchForm from '../forms/JiosSearchForm';
+import { JioSearchFormValues } from '../forms/utils';
 
 export default function JiosSearch() {
   const dispatch = useDispatch();

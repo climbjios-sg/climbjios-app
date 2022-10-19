@@ -2,7 +2,7 @@ import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Box, BoxProps } from '@mui/material';
 // @components
-import logoImg from '../assets/logo.jpeg'
+import logoImg from '../assets/logo.jpeg';
 
 // ----------------------------------------------------------------------
 
@@ -12,8 +12,14 @@ interface Props extends BoxProps {
 
 export default function Logo({ disabledLink = false, sx }: Props) {
   const logo = (
-    <Box sx={{ width: 50, height: 50, ml: -1, mt: -1, ...sx }}>
-      <img src={logoImg} />
+    <Box
+      sx={{
+        width: 50,
+        height: 50,
+        ...sx,
+      }}
+    >
+      <img src={logoImg} alt="logo" />
       {/* <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 415 400" fill="none">
         <path style={{fill:"#ffffff", stroke:"none"}} d="M0 0L0 451L452 451L452 0L0 0z"/>
         <path style={{fill:"#aed0db", stroke:"none"}} d="M221 55L222 56L221 55z"/>

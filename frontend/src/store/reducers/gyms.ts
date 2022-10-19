@@ -39,8 +39,8 @@ export function listGyms() {
   return async () => {
     dispatch(slice.actions.request());
     try {
-      const response: AxiosResponse = await getGymList();
-      const collections: Gym[] = response.data;
+      const response = await getGymList();
+      const collections = response.data;
       dispatch(slice.actions.success(collections));
     } catch (err) {
       dispatch(slice.actions.failure(err));

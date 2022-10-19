@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Card, CardHeader, Stack, Typography } from '@mui/material';
 import Iconify from '../../../../../components/Iconify';
-import { IconStyle } from '../../../../../sections/@dashboard/user/profile/common';
+import { IconStyle } from 'src/utils/common';
 import { Jio } from '../../../../../@types/jio';
 import palette from '../../../../../theme/palette';
 import { formatStartEndDate } from '../../../../../utils/formatTime';
@@ -14,7 +14,7 @@ interface JioCardProps {
 export default function JioCard({ data }: JioCardProps) {
   return (
     <Card>
-      <CardHeader title={data.user.name} subheader={`@${data.user.username}`} />
+      <CardHeader title={data.creatorProfile.name} subheader={`@${data.creatorProfile.name}`} />
       <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
@@ -53,7 +53,7 @@ export default function JioCard({ data }: JioCardProps) {
             sx={{ mt: 1 }}
             color="secondary"
             fullWidth
-            href={`https://t.me/${data.user.telegramHandle}`}
+            href={`https://t.me/${data.creatorProfile.telegramHandle}`}
             variant="outlined"
             target="_blank"
             rel="noopener"
