@@ -133,7 +133,7 @@ export default function Onboarding() {
                   <Typography variant="button">{isComplete ? 'Submit' : 'Next'}</Typography>
                 </Button>
                 {activeStep > 1 && (
-                  <Button size="medium" fullWidth onClick={handleClickBackButton} sx={{ mt: 1.5 }}>
+                  <Button size="medium" fullWidth onClick={handleClickBackButton}>
                     Back
                   </Button>
                 )}
