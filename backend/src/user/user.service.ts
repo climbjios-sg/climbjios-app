@@ -1,4 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
+import { S3HelperService } from '../utils/s3Helper/s3Helper.service';
+import { S3UploadType } from '../utils/types';
 import { BoulderingGradesDaoService } from '../database/daos/boulderingGrades/boulderingGrades.dao.service';
 import { GymsDaoService } from '../database/daos/gyms/gyms.dao.service';
 import { LeadClimbingGradesDaoService } from '../database/daos/leadClimbingGrades/leadClimbingGrades.dao.service';
@@ -18,6 +20,7 @@ export class UserService {
     private readonly sncsCertificationsDaoService: SncsCertificationsDaoService,
     private readonly pronounsDaoService: PronounsDaoService,
     private readonly gymsDaoService: GymsDaoService,
+    private readonly s3HelperService: S3HelperService,
   ) {}
 
   getUserProfile(userId: string) {
@@ -69,5 +72,12 @@ export class UserService {
     }
 
     return this.userProfileDaoService.updateByUserId(userId, body);
+  }
+
+  getUploadImageUrl(userId: string) {
+    return this.s3HelperService.generateUploadUrl(
+      userId,
+      S3UploadType.PROFILE_PICTURE,
+    );
   }
 }

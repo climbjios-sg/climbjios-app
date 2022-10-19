@@ -6,9 +6,14 @@ import { GymModel } from './gym.model';
 import { LeadClimbingGradeModel } from './leadClimbingGrade.model';
 import { SncsCertificationModel } from './sncsCertification.model';
 import { TopRopeGradeModel } from './topRopeGrade.model';
+import * as AWS from 'aws-sdk';
+import { S3UploadType } from 'src/utils/types';
+
+AWS.config.update({ region: process.env.AWS_REGION });
 
 export class UserProfileModel extends BaseModel {
   static tableName = 'userProfiles';
+  static s3Instance = new AWS.S3();
 
   readonly userId: string;
   readonly name?: string;
@@ -20,7 +25,6 @@ export class UserProfileModel extends BaseModel {
   readonly highestTopRopeGradeId?: number;
   readonly highestLeadClimbingGradeId?: number;
   readonly sncsCertificationId?: number;
-  readonly profilePictureUrl?: string;
 
   readonly pronoun?: PronounModel;
   readonly highestBoulderingGrade?: BoulderingGradeModel;
@@ -28,6 +32,8 @@ export class UserProfileModel extends BaseModel {
   readonly highestLeadClimbingGrade?: LeadClimbingGradeModel;
   readonly sncsCertification?: SncsCertificationModel;
   readonly favouriteGyms?: GymModel[];
+
+  profilePictureUrl: string;
 
   static relationMappings = () => ({
     pronoun: {
@@ -89,4 +95,18 @@ export class UserProfileModel extends BaseModel {
       },
     },
   });
+
+  $afterFind = (context) => {
+    const result = super.$afterFind(context);
+
+    this.profilePictureUrl = UserProfileModel.s3Instance.getSignedUrl(
+      'getObject',
+      {
+        Bucket: process.env.AWS_S3_BUCKET_NAME,
+        Key: `${this.userId}/${S3UploadType.PROFILE_PICTURE}`,
+        Expires: 60, // 1 minute
+      },
+    );
+    return result;
+  };
 }
