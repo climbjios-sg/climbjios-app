@@ -1,11 +1,17 @@
+import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/utils/jwt';
 import useLogin from './useLogin';
 
+/**
+ * Tries to login using the access token and refresh token
+ * found in the URL params.
+ */
 const useAutoLogin = () => {
   const login = useLogin();
   const [searchParams] = useSearchParams();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     const callLogin = async () => {
@@ -21,11 +27,15 @@ const useAutoLogin = () => {
           accessToken,
           refreshToken,
         });
-      } catch {}
+      } catch {
+        enqueueSnackbar('Failed to login using the tokens in the url params', {
+          variant: 'warning',
+        });
+      }
     };
 
     callLogin();
-  }, [login, searchParams]);
+  }, [enqueueSnackbar, login, searchParams]);
 };
 
 export default useAutoLogin;

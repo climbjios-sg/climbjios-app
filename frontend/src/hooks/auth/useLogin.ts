@@ -15,7 +15,6 @@ const useLogin = (): Login => {
       await authProvider.login(params);
 
       navigate(redirectTo);
-      // navigate(PATH_ONBOARDING.root);
     },
     [authProvider, navigate]
   );
