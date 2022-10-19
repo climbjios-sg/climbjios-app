@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo, ReactNode, useState } from 'react';
 import { AuthProvider } from 'src/@types/auth';
 import { UserIdentity, UserRequest } from 'src/@types/user';
-import { updateUser } from 'src/services/user';
+import { updateUser } from 'src/services/users';
 
 export interface ProfileContextValue {
   authProvider: AuthProvider;
