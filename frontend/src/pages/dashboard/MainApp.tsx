@@ -16,6 +16,8 @@ import Jios from './jios';
 import { listGyms } from '../../store/reducers/gyms';
 import { useDispatch } from '../../store';
 import Beta from './beta';
+import { listColors } from '../../store/reducers/colors';
+import { listWalls } from '../../store/reducers/walls';
 
 interface BottomTab {
   path: string;
@@ -88,6 +90,8 @@ export default function MainApp() {
 
   useEffect(() => {
     dispatch(listGyms());
+    dispatch(listColors());
+    dispatch(listWalls());
   }, [dispatch]);
 
   return (

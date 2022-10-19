@@ -113,13 +113,18 @@ export default function BetaGym() {
                   sx={{ px: 1 }}
                   color="primary"
                   component={Link}
-                  to={PATH_DASHBOARD.general.beta}
+                  to={PATH_DASHBOARD.general.beta.root}
                 >
                   <Iconify icon="eva:arrow-back-fill" />
                 </IconButton>
                 <Typography variant="h4">{gym.name}</Typography>
               </Box>
-              <IconButton sx={{ px: 3 }} color="primary">
+              <IconButton
+                sx={{ px: 3 }}
+                color="primary"
+                component={Link}
+                to={PATH_DASHBOARD.general.beta.create}
+              >
                 <Iconify icon="bx:video-plus" />
               </IconButton>
             </Box>

@@ -3,3 +3,8 @@ export interface Gym {
   name: string;
   permanentlyClosed: boolean;
 }
+
+export interface GymGrades {
+  id: number;
+  name: string;
+}

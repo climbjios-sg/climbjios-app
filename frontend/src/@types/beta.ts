@@ -6,3 +6,15 @@ export type Beta = {
   gym: string;
   createdAt: Date;
 };
+
+export type BetaUploadUrlData = {
+  uploadUrl: string;
+  uid: string;
+};
+
+export type BetaCreateData = {
+  gymId: number;
+  wallId: number;
+  colorId: number;
+  videoUid: string;
+};

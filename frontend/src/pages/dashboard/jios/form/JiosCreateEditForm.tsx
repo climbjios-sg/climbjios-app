@@ -67,8 +67,6 @@ export default function JiosCreateEditForm({
     }),
   });
 
-  console.log(currentJio?.date);
-
   const initialFormValues = React.useMemo(
     () => ({
       gymId: currentJio?.gymId,
