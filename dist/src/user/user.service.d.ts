@@ -28,6 +28,7 @@ export declare class UserService {
         highestTopRopeGradeId?: number;
         highestLeadClimbingGradeId?: number;
         sncsCertificationId?: number;
+        bio?: string;
         pronoun?: import("../database/models/pronoun.model").PronounModel;
         highestBoulderingGrade?: import("../database/models/boulderingGrade.model").BoulderingGradeModel;
         highestTopRopeGrade?: import("../database/models/topRopeGrade.model").TopRopeGradeModel;

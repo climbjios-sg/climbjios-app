@@ -22,6 +22,7 @@ export declare class UserProfileDaoService {
         highestTopRopeGradeId?: number;
         highestLeadClimbingGradeId?: number;
         sncsCertificationId?: number;
+        bio?: string;
         pronoun?: import("../../models/pronoun.model").PronounModel;
         highestBoulderingGrade?: import("../../models/boulderingGrade.model").BoulderingGradeModel;
         highestTopRopeGrade?: import("../../models/topRopeGrade.model").TopRopeGradeModel;

@@ -60,6 +60,11 @@ __decorate([
 ], PatchUserProfileDto.prototype, "sncsCertificationId", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], PatchUserProfileDto.prototype, "bio", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], PatchUserProfileDto.prototype, "profilePictureUrl", void 0);

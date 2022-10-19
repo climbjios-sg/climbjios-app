@@ -7,6 +7,7 @@ export default class PatchUserProfileDto {
     highestTopRopeGradeId: number;
     highestLeadClimbingGradeId: number;
     sncsCertificationId: number;
+    bio: string;
     profilePictureUrl: string;
     favouriteGymIds: number[];
 }
