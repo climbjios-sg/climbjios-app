@@ -11,9 +11,11 @@ declare const knexConfig: {
     };
     migrations: {
         directory: string;
+        loadExtensions: string[];
     };
     seeds: {
         directory: string;
+        loadExtensions: string[];
     };
 };
 export default knexConfig;

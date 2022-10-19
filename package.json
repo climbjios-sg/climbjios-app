@@ -30,6 +30,7 @@
     "knex": "knex --knexfile knexfile.ts",
     "knex:js": "knex --knexfile knexfile.js",
     "migrate": "node ./scripts/createDatabase.js; yarn knex migrate:latest",
+    "migrate:js": "node ./scripts/createDatabase.js; yarn knex:js migrate:latest",
     "migrate:make": "yarn knex migrate:make -x ts",
     "seed": "yarn knex seed:run",
     "seed:stg": "NODE_ENV=staging yarn knex:js seed:run",

@@ -19,7 +19,7 @@ fi
 yarn install --frozen-lockfile --production=true
 
 if [[ "$APPLICATION" == "$BACKEND" ]]; then
-    yarn migrate
+    yarn migrate:js
     # yarn seed # run this with caution to prevent wiping tables with seeds
 
     pm2 start ./src/main.js --name "climbjios-backend-${NODE_ENV}" -i $NUM_INSTANCES --wait-ready
