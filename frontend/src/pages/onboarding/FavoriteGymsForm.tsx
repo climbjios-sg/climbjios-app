@@ -7,12 +7,14 @@ import { UserRequest } from 'src/@types/user';
 import { getGymList } from 'src/services/gyms';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { useSnackbar } from 'notistack';
+import RHFMultiSelect from 'src/components/hook-form/RHFMultiSelect';
+import RHFAutoMultiSelect from 'src/components/hook-form/RHFAutoMultiSelect';
 
 export const FavoriteGymsForm = () => {
   const { formState } = useFormContext<UserRequest>();
   const { errors } = formState;
   const { enqueueSnackbar } = useSnackbar();
-  const { data: gyms } = useSafeRequest(getGymList, {
+  const { data: gyms, loading: loadingGyms } = useSafeRequest(getGymList, {
     // Caches successful data
     cacheKey: 'gyms',
     onError: () => {
@@ -26,21 +28,18 @@ export const FavoriteGymsForm = () => {
         <Typography variant="subtitle1" gutterBottom>
           Favourite Gyms
         </Typography>
-        <RHFSelect
+        <RHFAutoMultiSelect
           name="favouriteGyms"
-          label="Select Gym(s)"
-          helperText={errors?.favouriteGyms?.message || 'Choose a gym that you frequently visit.'}
+          label="Select Gym"
+          options={gyms?.data.map((option) => ({
+            value: option.id,
+            label: option.name,
+          }))}
+          helperText={errors?.favouriteGyms?.message || 'Choose the gyms that you frequent.'}
           FormHelperTextProps={{
             error: !!errors?.favouriteGyms,
           }}
-        >
-          <option value="" />
-          {gyms?.data.map((option) => (
-            <option key={option.id} value={option.name}>
-              {option.name}
-            </option>
-          ))}
-        </RHFSelect>
+        />
       </FormGroup>
     </Stack>
   );
