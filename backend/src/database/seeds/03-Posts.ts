@@ -13,8 +13,6 @@ export async function seed(knex: Knex): Promise<void> {
 
   const [alison, bob] = await knex.select<UserModel[]>().from('users');
 
-  console.log(alison, bob);
-
   // Inserts seed entries
   await knex('posts').insert([
     // Today (buying)
