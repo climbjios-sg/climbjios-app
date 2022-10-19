@@ -8,6 +8,7 @@ export class UserModel extends BaseModel {
 
   readonly authProvider: AuthProvider;
   readonly authProviderId: string;
+  readonly oauthName: string;
   readonly refreshToken?: string;
   readonly email?: string;
 
