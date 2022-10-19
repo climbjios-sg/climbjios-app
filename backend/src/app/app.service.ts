@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { PostsDaoService } from './database/daos/posts/posts.dao.service';
-import { UserDaoService } from './database/daos/users/user.dao.service';
-import { TelegramAlertsService } from './utils/telegramAlerts/telegramAlerts.service';
+import { PostsDaoService } from '../database/daos/posts/posts.dao.service';
+import { UserDaoService } from '../database/daos/users/user.dao.service';
+import { TelegramAlertsService } from '../utils/telegramAlerts/telegramAlerts.service';
 
 @Injectable()
 export class AppService {
