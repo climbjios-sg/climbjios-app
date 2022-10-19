@@ -8,7 +8,7 @@ import { useEffect } from 'react';
  */
 const useGuard = (guards: Function[]) => {
   useEffect(() => {
-    const callCheckAuth = async () => {
+    const callGuards = async () => {
       try {
         for (const guard of guards) {
           guard();
@@ -19,7 +19,7 @@ const useGuard = (guards: Function[]) => {
       }
     };
 
-    callCheckAuth();
+    callGuards();
   }, [guards]);
 };
 
