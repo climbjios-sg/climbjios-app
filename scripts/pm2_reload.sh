@@ -11,7 +11,6 @@ if [[ "$APPLICATION" != "$BACKEND" ]] && [[ "$APPLICATION" != "$CRONJOB" ]]; the
 fi
 
 yarn install --frozen-lockfile --production=true
-yarn add -D typescript ts-node
 
 if [[ "$APPLICATION" == "$BACKEND" ]]; then
     # Note: this is not a good way to do a rolling deployment, as db is updated first before
