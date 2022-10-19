@@ -9,7 +9,7 @@ import { TopRopeGradeModel } from './topRopeGrade.model';
 import * as AWS from 'aws-sdk';
 import { S3UploadType } from 'src/utils/types';
 
-AWS.config.update({ region: 'ap-southeast-1' });
+AWS.config.update({ region: process.env.AWS_REGION });
 
 export class UserProfileModel extends BaseModel {
   static tableName = 'userProfiles';

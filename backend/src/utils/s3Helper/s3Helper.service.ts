@@ -3,7 +3,7 @@ import * as AWS from 'aws-sdk';
 import { ConstantsService } from '../constants/constants.service';
 import { S3UploadType } from '../types';
 
-AWS.config.update({ region: 'ap-southeast-1' });
+AWS.config.update({ region: process.env.AWS_REGION });
 
 @Injectable()
 export class S3HelperService {

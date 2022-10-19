@@ -20,6 +20,7 @@ interface IConstantsService {
   AWS_ACCESS_KEY_ID: string;
   AWS_SECRET_ACCESS_KEY: string;
   AWS_S3_BUCKET_NAME: string;
+  AWS_REGION: string;
   CORS_ORIGIN: string;
   PORT: number;
 }
@@ -58,6 +59,7 @@ export class ConstantsService implements IConstantsService {
   AWS_ACCESS_KEY_ID = this.getOrThrow('AWS_ACCESS_KEY_ID');
   AWS_SECRET_ACCESS_KEY = this.getOrThrow('AWS_SECRET_ACCESS_KEY');
   AWS_S3_BUCKET_NAME = this.getOrThrow('AWS_S3_BUCKET_NAME');
+  AWS_REGION = this.getOrThrow('AWS_REGION');
   CORS_ORIGIN = this.getOrThrow('CORS_ORIGIN');
   PORT = this.getOrDefaultTo('PORT', 4000);
 }
