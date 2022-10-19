@@ -6,19 +6,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserModule = void 0;
+exports.S3HelperModule = void 0;
 const common_1 = require("@nestjs/common");
-const user_service_1 = require("./user.service");
-const user_controller_1 = require("./user.controller");
-const s3Helper_module_1 = require("../utils/s3Helper/s3Helper.module");
-let UserModule = class UserModule {
+const s3Helper_service_1 = require("./s3Helper.service");
+let S3HelperModule = class S3HelperModule {
 };
-UserModule = __decorate([
+S3HelperModule = __decorate([
     (0, common_1.Module)({
-        imports: [s3Helper_module_1.S3HelperModule],
-        providers: [user_service_1.UserService],
-        controllers: [user_controller_1.UserController],
+        providers: [s3Helper_service_1.S3HelperService],
+        exports: [s3Helper_service_1.S3HelperService],
     })
-], UserModule);
-exports.UserModule = UserModule;
-//# sourceMappingURL=user.module.js.map
+], S3HelperModule);
+exports.S3HelperModule = S3HelperModule;
+//# sourceMappingURL=s3Helper.module.js.map

@@ -30,6 +30,10 @@ let ConstantsService = class ConstantsService {
         this.DATABASE_USER = this.getOrThrow('DATABASE_USER');
         this.DATABASE_PASSWORD = this.getOrThrow('DATABASE_PASSWORD');
         this.DATABASE_NAME = this.getOrThrow('DATABASE_NAME');
+        this.AWS_ACCESS_KEY_ID = this.getOrThrow('AWS_ACCESS_KEY_ID');
+        this.AWS_SECRET_ACCESS_KEY = this.getOrThrow('AWS_SECRET_ACCESS_KEY');
+        this.AWS_S3_BUCKET_NAME = this.getOrThrow('AWS_S3_BUCKET_NAME');
+        this.AWS_REGION = this.getOrThrow('AWS_REGION');
         this.CORS_ORIGIN = this.getOrThrow('CORS_ORIGIN');
         this.PORT = this.getOrDefaultTo('PORT', 4000);
     }

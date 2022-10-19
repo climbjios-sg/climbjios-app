@@ -1,3 +1,4 @@
+import { S3HelperService } from '../utils/s3Helper/s3Helper.service';
 import { BoulderingGradesDaoService } from '../database/daos/boulderingGrades/boulderingGrades.dao.service';
 import { GymsDaoService } from '../database/daos/gyms/gyms.dao.service';
 import { LeadClimbingGradesDaoService } from '../database/daos/leadClimbingGrades/leadClimbingGrades.dao.service';
@@ -14,7 +15,8 @@ export declare class UserService {
     private readonly sncsCertificationsDaoService;
     private readonly pronounsDaoService;
     private readonly gymsDaoService;
-    constructor(userProfileDaoService: UserProfileDaoService, boulderingGradesDaoService: BoulderingGradesDaoService, topRopeGradesDaoService: TopRopeGradesDaoService, leadClimbingGradesDaoService: LeadClimbingGradesDaoService, sncsCertificationsDaoService: SncsCertificationsDaoService, pronounsDaoService: PronounsDaoService, gymsDaoService: GymsDaoService);
+    private readonly s3HelperService;
+    constructor(userProfileDaoService: UserProfileDaoService, boulderingGradesDaoService: BoulderingGradesDaoService, topRopeGradesDaoService: TopRopeGradesDaoService, leadClimbingGradesDaoService: LeadClimbingGradesDaoService, sncsCertificationsDaoService: SncsCertificationsDaoService, pronounsDaoService: PronounsDaoService, gymsDaoService: GymsDaoService, s3HelperService: S3HelperService);
     getUserProfile(userId: string): Promise<{
         userId: string;
         name?: string;
@@ -26,13 +28,14 @@ export declare class UserService {
         highestTopRopeGradeId?: number;
         highestLeadClimbingGradeId?: number;
         sncsCertificationId?: number;
-        profilePictureUrl?: string;
         pronoun?: import("../database/models/pronoun.model").PronounModel;
         highestBoulderingGrade?: import("../database/models/boulderingGrade.model").BoulderingGradeModel;
         highestTopRopeGrade?: import("../database/models/topRopeGrade.model").TopRopeGradeModel;
         highestLeadClimbingGrade?: import("../database/models/leadClimbingGrade.model").LeadClimbingGradeModel;
         sncsCertification?: import("../database/models/sncsCertification.model").SncsCertificationModel;
         favouriteGyms?: import("../database/models/gym.model").GymModel[];
+        profilePictureUrl: string;
+        $afterFind: (context: any) => void | Promise<any>;
         id: string;
         createdAt: Date;
         updatedAt: Date;
@@ -40,4 +43,5 @@ export declare class UserService {
         QueryBuilderType: import("objection").QueryBuilder<import("../database/models/userProfile.model").UserProfileModel, import("../database/models/userProfile.model").UserProfileModel[]>;
     }>;
     patchUserProfile(userId: string, body: PatchUserProfileDto): Promise<import("../database/models/userProfile.model").UserProfileModel>;
+    getUploadImageUrl(userId: string): string;
 }

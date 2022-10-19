@@ -17,7 +17,7 @@ export async function seed(knex: Knex): Promise<void> {
   await knex('posts').insert([
     // Today (buying)
     {
-      userId: alison.id,
+      creatorId: alison.id,
       type: PostType.BUYER,
       numPasses: 5,
       price: 15.5,
@@ -38,7 +38,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     // Today (selling)
     {
-      userId: bob.id,
+      creatorId: bob.id,
       type: PostType.SELLER,
       numPasses: 8,
       price: 18,
@@ -59,7 +59,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     // Today (other)
     {
-      userId: bob.id,
+      creatorId: bob.id,
       type: PostType.OTHER,
       numPasses: 0,
       price: 0,
@@ -80,7 +80,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     // Yesterday (buying)
     {
-      userId: alison.id,
+      creatorId: alison.id,
       type: PostType.BUYER,
       numPasses: 5,
       price: 15.5,
@@ -103,7 +103,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     // Yesterday (selling)
     {
-      userId: bob.id,
+      creatorId: bob.id,
       type: PostType.SELLER,
       numPasses: 5,
       price: 12.5,
@@ -126,7 +126,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     // Yesterday (other)
     {
-      userId: bob.id,
+      creatorId: bob.id,
       type: PostType.OTHER,
       numPasses: 0,
       price: 0,
@@ -149,7 +149,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     // Next week (buying)
     {
-      userId: alison.id,
+      creatorId: alison.id,
       type: PostType.BUYER,
       numPasses: 5,
       price: 20,
@@ -172,7 +172,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     // Next week (selling)
     {
-      userId: bob.id,
+      creatorId: bob.id,
       type: PostType.SELLER,
       numPasses: 8,
       price: 21,
@@ -195,7 +195,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     // Next week (other)
     {
-      userId: bob.id,
+      creatorId: bob.id,
       type: PostType.OTHER,
       numPasses: 0,
       price: 0,

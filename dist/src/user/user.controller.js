@@ -26,6 +26,9 @@ let UserController = class UserController {
     async patchUserProfile(req, body) {
         return await this.userService.patchUserProfile(req.user.id, body);
     }
+    uploadImageUrl(req) {
+        return this.userService.getUploadImageUrl(req.user.id);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -42,6 +45,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, patchUserProfile_dto_1.default]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "patchUserProfile", null);
+__decorate([
+    (0, common_1.Get)('uploadImageUrl'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "uploadImageUrl", null);
 UserController = __decorate([
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])

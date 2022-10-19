@@ -9,10 +9,26 @@ const gym_model_1 = require("./gym.model");
 const leadClimbingGrade_model_1 = require("./leadClimbingGrade.model");
 const sncsCertification_model_1 = require("./sncsCertification.model");
 const topRopeGrade_model_1 = require("./topRopeGrade.model");
+const AWS = require("aws-sdk");
+const types_1 = require("../../utils/types");
+AWS.config.update({ region: process.env.AWS_REGION });
 class UserProfileModel extends base_model_1.BaseModel {
+    constructor() {
+        super(...arguments);
+        this.$afterFind = (context) => {
+            const result = super.$afterFind(context);
+            this.profilePictureUrl = UserProfileModel.s3Instance.getSignedUrl('getObject', {
+                Bucket: process.env.AWS_S3_BUCKET_NAME,
+                Key: `${this.userId}/${types_1.S3UploadType.PROFILE_PICTURE}`,
+                Expires: 60,
+            });
+            return result;
+        };
+    }
 }
 exports.UserProfileModel = UserProfileModel;
 UserProfileModel.tableName = 'userProfiles';
+UserProfileModel.s3Instance = new AWS.S3();
 UserProfileModel.relationMappings = () => ({
     pronoun: {
         relation: objection_1.Model.BelongsToOneRelation,

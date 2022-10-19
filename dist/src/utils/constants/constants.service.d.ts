@@ -15,6 +15,10 @@ interface IConstantsService {
     DATABASE_USER: string;
     DATABASE_PASSWORD: string;
     DATABASE_NAME: string;
+    AWS_ACCESS_KEY_ID: string;
+    AWS_SECRET_ACCESS_KEY: string;
+    AWS_S3_BUCKET_NAME: string;
+    AWS_REGION: string;
     CORS_ORIGIN: string;
     PORT: number;
 }
@@ -39,6 +43,10 @@ export declare class ConstantsService implements IConstantsService {
     DATABASE_USER: any;
     DATABASE_PASSWORD: any;
     DATABASE_NAME: any;
+    AWS_ACCESS_KEY_ID: any;
+    AWS_SECRET_ACCESS_KEY: any;
+    AWS_S3_BUCKET_NAME: any;
+    AWS_REGION: any;
     CORS_ORIGIN: any;
     PORT: any;
 }

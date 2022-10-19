@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
+const s3Helper_service_1 = require("../utils/s3Helper/s3Helper.service");
+const types_1 = require("../utils/types");
 const boulderingGrades_dao_service_1 = require("../database/daos/boulderingGrades/boulderingGrades.dao.service");
 const gyms_dao_service_1 = require("../database/daos/gyms/gyms.dao.service");
 const leadClimbingGrades_dao_service_1 = require("../database/daos/leadClimbingGrades/leadClimbingGrades.dao.service");
@@ -19,7 +21,7 @@ const sncsCertifications_dao_service_1 = require("../database/daos/sncsCertifica
 const topRopeGrades_dao_service_1 = require("../database/daos/topRopeGrades/topRopeGrades.dao.service");
 const userProfile_dao_service_1 = require("../database/daos/userProfiles/userProfile.dao.service");
 let UserService = class UserService {
-    constructor(userProfileDaoService, boulderingGradesDaoService, topRopeGradesDaoService, leadClimbingGradesDaoService, sncsCertificationsDaoService, pronounsDaoService, gymsDaoService) {
+    constructor(userProfileDaoService, boulderingGradesDaoService, topRopeGradesDaoService, leadClimbingGradesDaoService, sncsCertificationsDaoService, pronounsDaoService, gymsDaoService, s3HelperService) {
         this.userProfileDaoService = userProfileDaoService;
         this.boulderingGradesDaoService = boulderingGradesDaoService;
         this.topRopeGradesDaoService = topRopeGradesDaoService;
@@ -27,6 +29,7 @@ let UserService = class UserService {
         this.sncsCertificationsDaoService = sncsCertificationsDaoService;
         this.pronounsDaoService = pronounsDaoService;
         this.gymsDaoService = gymsDaoService;
+        this.s3HelperService = s3HelperService;
     }
     getUserProfile(userId) {
         return this.userProfileDaoService.findByUserId({
@@ -70,6 +73,9 @@ let UserService = class UserService {
         }
         return this.userProfileDaoService.updateByUserId(userId, body);
     }
+    getUploadImageUrl(userId) {
+        return this.s3HelperService.generateUploadUrl(userId, types_1.S3UploadType.PROFILE_PICTURE);
+    }
 };
 UserService = __decorate([
     (0, common_1.Injectable)(),
@@ -79,7 +85,8 @@ UserService = __decorate([
         leadClimbingGrades_dao_service_1.LeadClimbingGradesDaoService,
         sncsCertifications_dao_service_1.SncsCertificationsDaoService,
         pronouns_dao_service_1.PronounsDaoService,
-        gyms_dao_service_1.GymsDaoService])
+        gyms_dao_service_1.GymsDaoService,
+        s3Helper_service_1.S3HelperService])
 ], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

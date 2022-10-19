@@ -11,7 +11,7 @@ async function seed(knex) {
     const [alison, bob] = await knex.select().from('users');
     await knex('posts').insert([
         {
-            userId: alison.id,
+            creatorId: alison.id,
             type: types_1.PostType.BUYER,
             numPasses: 5,
             price: 15.5,
@@ -31,7 +31,7 @@ async function seed(knex) {
             isClosed: false,
         },
         {
-            userId: bob.id,
+            creatorId: bob.id,
             type: types_1.PostType.SELLER,
             numPasses: 8,
             price: 18,
@@ -51,7 +51,7 @@ async function seed(knex) {
             isClosed: false,
         },
         {
-            userId: bob.id,
+            creatorId: bob.id,
             type: types_1.PostType.OTHER,
             numPasses: 0,
             price: 0,
@@ -71,7 +71,7 @@ async function seed(knex) {
             isClosed: false,
         },
         {
-            userId: alison.id,
+            creatorId: alison.id,
             type: types_1.PostType.BUYER,
             numPasses: 5,
             price: 15.5,
@@ -93,7 +93,7 @@ async function seed(knex) {
             isClosed: false,
         },
         {
-            userId: bob.id,
+            creatorId: bob.id,
             type: types_1.PostType.SELLER,
             numPasses: 5,
             price: 12.5,
@@ -115,7 +115,7 @@ async function seed(knex) {
             isClosed: false,
         },
         {
-            userId: bob.id,
+            creatorId: bob.id,
             type: types_1.PostType.OTHER,
             numPasses: 0,
             price: 0,
@@ -137,7 +137,7 @@ async function seed(knex) {
             isClosed: false,
         },
         {
-            userId: alison.id,
+            creatorId: alison.id,
             type: types_1.PostType.BUYER,
             numPasses: 5,
             price: 20,
@@ -159,7 +159,7 @@ async function seed(knex) {
             isClosed: false,
         },
         {
-            userId: bob.id,
+            creatorId: bob.id,
             type: types_1.PostType.SELLER,
             numPasses: 8,
             price: 21,
@@ -181,7 +181,7 @@ async function seed(knex) {
             isClosed: false,
         },
         {
-            userId: bob.id,
+            creatorId: bob.id,
             type: types_1.PostType.OTHER,
             numPasses: 0,
             price: 0,

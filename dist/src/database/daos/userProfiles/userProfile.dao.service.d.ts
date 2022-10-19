@@ -22,13 +22,14 @@ export declare class UserProfileDaoService {
         highestTopRopeGradeId?: number;
         highestLeadClimbingGradeId?: number;
         sncsCertificationId?: number;
-        profilePictureUrl?: string;
         pronoun?: import("../../models/pronoun.model").PronounModel;
         highestBoulderingGrade?: import("../../models/boulderingGrade.model").BoulderingGradeModel;
         highestTopRopeGrade?: import("../../models/topRopeGrade.model").TopRopeGradeModel;
         highestLeadClimbingGrade?: import("../../models/leadClimbingGrade.model").LeadClimbingGradeModel;
         sncsCertification?: import("../../models/sncsCertification.model").SncsCertificationModel;
         favouriteGyms?: import("../../models/gym.model").GymModel[];
+        profilePictureUrl: string;
+        $afterFind: (context: any) => void | Promise<any>;
         id: string;
         createdAt: Date;
         updatedAt: Date;

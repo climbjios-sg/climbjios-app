@@ -14,13 +14,14 @@ export declare class UserController {
         highestTopRopeGradeId?: number;
         highestLeadClimbingGradeId?: number;
         sncsCertificationId?: number;
-        profilePictureUrl?: string;
         pronoun?: import("../database/models/pronoun.model").PronounModel;
         highestBoulderingGrade?: import("../database/models/boulderingGrade.model").BoulderingGradeModel;
         highestTopRopeGrade?: import("../database/models/topRopeGrade.model").TopRopeGradeModel;
         highestLeadClimbingGrade?: import("../database/models/leadClimbingGrade.model").LeadClimbingGradeModel;
         sncsCertification?: import("../database/models/sncsCertification.model").SncsCertificationModel;
         favouriteGyms?: import("../database/models/gym.model").GymModel[];
+        profilePictureUrl: string;
+        $afterFind: (context: any) => void | Promise<any>;
         id: string;
         createdAt: Date;
         updatedAt: Date;
@@ -28,4 +29,5 @@ export declare class UserController {
         QueryBuilderType: import("objection").QueryBuilder<import("../database/models/userProfile.model").UserProfileModel, import("../database/models/userProfile.model").UserProfileModel[]>;
     }>;
     patchUserProfile(req: any, body: PatchUserProfileDto): Promise<import("../database/models/userProfile.model").UserProfileModel>;
+    uploadImageUrl(req: any): string;
 }

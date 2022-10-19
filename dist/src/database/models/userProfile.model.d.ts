@@ -5,8 +5,10 @@ import { GymModel } from './gym.model';
 import { LeadClimbingGradeModel } from './leadClimbingGrade.model';
 import { SncsCertificationModel } from './sncsCertification.model';
 import { TopRopeGradeModel } from './topRopeGrade.model';
+import * as AWS from 'aws-sdk';
 export declare class UserProfileModel extends BaseModel {
     static tableName: string;
+    static s3Instance: AWS.S3;
     readonly userId: string;
     readonly name?: string;
     readonly telegramHandle?: string;
@@ -17,13 +19,13 @@ export declare class UserProfileModel extends BaseModel {
     readonly highestTopRopeGradeId?: number;
     readonly highestLeadClimbingGradeId?: number;
     readonly sncsCertificationId?: number;
-    readonly profilePictureUrl?: string;
     readonly pronoun?: PronounModel;
     readonly highestBoulderingGrade?: BoulderingGradeModel;
     readonly highestTopRopeGrade?: TopRopeGradeModel;
     readonly highestLeadClimbingGrade?: LeadClimbingGradeModel;
     readonly sncsCertification?: SncsCertificationModel;
     readonly favouriteGyms?: GymModel[];
+    profilePictureUrl: string;
     static relationMappings: () => {
         pronoun: {
             relation: import("objection").RelationType;
@@ -84,4 +86,5 @@ export declare class UserProfileModel extends BaseModel {
             };
         };
     };
+    $afterFind: (context: any) => void | Promise<any>;
 }
