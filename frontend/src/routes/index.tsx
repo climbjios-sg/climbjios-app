@@ -45,7 +45,11 @@ export default function Router() {
     {
       path: 'dashboard/*',
       element: (
-        <CommonGuard authenticated onboarded>
+        <CommonGuard
+          authenticated
+          // TODO: enable after debug
+          // onboarded
+        >
           <Dashboard />
         </CommonGuard>
       ),
