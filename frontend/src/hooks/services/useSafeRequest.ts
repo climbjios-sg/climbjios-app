@@ -5,6 +5,12 @@ import { useEffect } from 'react';
 import useAuthProvider from '../auth/useAuthProvider';
 import useLogout from '../auth/useLogout';
 
+/**
+ * In the event that the response status indicates Unauthorized or Forbidden,
+ * this useRequest wrapper
+ * - tries to re-login the user and resend the request
+ * - logs the user out if the above has failed
+ */
 const useSafeRequest = <TData, TParams extends any[]>(
   service: (...args: TParams) => Promise<AxiosResponse<TData, any>>,
   options?: Options<AxiosResponse<TData>, TParams>,
