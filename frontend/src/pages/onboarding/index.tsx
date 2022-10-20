@@ -25,6 +25,7 @@ import { UsernameForm } from './UsernameForm';
 import * as Yup from 'yup';
 import { StringSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { UserRequest } from 'src/@types/user';
 
 // ----------------------------------------------------------------------
 
@@ -116,17 +117,8 @@ export default function Onboarding() {
   const { runAsync: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
     manual: true,
   });
-  const { run: submitUpdateUser } = useSafeRequest(updateUser, {
+  const { runAsync: submitUpdateUser } = useSafeRequest(updateUser, {
     manual: true,
-    onSuccess: () => {
-      enqueueSnackbar('Successfully completed onboarding.', {
-        autoHideDuration: 5000,
-      });
-      navigate(PATH_DASHBOARD.general.jios.root);
-    },
-    onError: (error) => {
-      enqueueSnackbar('Failed to update user', { variant: 'error' });
-    },
   });
 
   const _handleSubmitAvatar = async (avatar?: AvatarData) => {
@@ -136,32 +128,42 @@ export default function Onboarding() {
 
     try {
       const { data: uploadUrl } = await getUploadAvatarUrl();
-      let data = new FormData();
-      data.append('file', avatar, avatar.name);
-      await submitUploadAvatar(uploadUrl, data);
+      await submitUploadAvatar(uploadUrl, avatar);
     } catch (error) {
+      console.log('error', error);
       enqueueSnackbar('Failed to upload profile picture', { variant: 'error' });
       throw error;
     }
   };
+  const _handleSubmitUpdateUser = (data: UserRequest) => {
+    try {
+      submitUpdateUser(data);
+      enqueueSnackbar('Successfully completed onboarding.', {
+        autoHideDuration: 5000,
+      });
+      navigate(PATH_DASHBOARD.general.jios.root);
+    } catch {
+      enqueueSnackbar('Failed to update user', { variant: 'error' });
+    }
+  };
   const _handleSubmit = async ({ avatar, ...rest }: OnboardingFormValues) => {
-    await _handleSubmitAvatar(avatar);
-    submitUpdateUser(rest);
+    try {
+      await _handleSubmitAvatar(avatar);
+      await _handleSubmitUpdateUser(rest);
+    } catch {
+      // Silences the error since error has been each submit function
+    }
   };
 
   const handleClickDoneButton = async () => {
-    try {
-      if (!isComplete) {
-        const isValid = await trigger(getValidateFields(activeStep));
-        if (!isValid) {
-          return;
-        }
-        setActiveStep((currentStep) => currentStep + 1);
-      } else {
-        await handleSubmit(_handleSubmit)();
+    if (!isComplete) {
+      const isValid = await trigger(getValidateFields(activeStep));
+      if (!isValid) {
+        return;
       }
-    } catch {
-      enqueueSnackbar('Failed to submit form', { variant: 'error' });
+      setActiveStep((currentStep) => currentStep + 1);
+    } else {
+      await handleSubmit(_handleSubmit)();
     }
   };
   const handleClickBackButton = () => {
