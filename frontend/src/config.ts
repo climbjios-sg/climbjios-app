@@ -85,4 +85,4 @@ export enum CacheKey {
   BoulderingGrades = 'BoulderingGrades',
   SncsCertifications = 'SncsCertifications',
 }
-export const USEREQUEST_OPTIONS_STALE_TIME = 60000;
+export const USEREQUEST_OPTIONS_STALE_TIME = -1;
