@@ -9,4 +9,4 @@ export type AuthProvider = {
   getIdentity: () => Promise<User>;
 };
 
-export type AuthProviderType = 'default' | 'jwt';
+export type AuthProviderType = 'jwt';
