@@ -25,6 +25,7 @@ export const AvatarForm = () => {
     [setValue]
   );
 
+  // TODO: button to clear upload
   return (
     <Stack spacing={2}>
       <RHFUploadAvatar
