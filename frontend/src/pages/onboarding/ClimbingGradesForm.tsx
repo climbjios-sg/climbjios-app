@@ -3,15 +3,15 @@ import { Stack, FormHelperText, FormGroup, FormLabel, Typography } from '@mui/ma
 // components
 import { RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
-import { UserRequest } from 'src/@types/user';
-import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { useSnackbar } from 'notistack';
 import { getBoulderingGradeList } from 'src/services/boulderingGrades';
 import { getTopRopeGradeList } from 'src/services/topRopeGrades';
 import { getLeadClimbingGradeList } from 'src/services/leadClimbingGrades';
+import { OnboardingFormValues } from './types';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
 
 export const ClimbingGradesForm = () => {
-  const { formState } = useFormContext<UserRequest>();
+  const { formState } = useFormContext<OnboardingFormValues>();
   const { errors } = formState;
   const { enqueueSnackbar } = useSnackbar();
 

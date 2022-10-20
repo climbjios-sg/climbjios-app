@@ -3,13 +3,13 @@ import { Stack, InputAdornment, FormHelperText } from '@mui/material';
 // components
 import { RHFTextField, RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
-import { UserRequest } from 'src/@types/user';
+import { OnboardingFormValues } from './types';
 import { getPronounList } from 'src/services/pronouns';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { useSnackbar } from 'notistack';
 
 export const DetailsForm = () => {
-  const { formState } = useFormContext<UserRequest>();
+  const { formState } = useFormContext<OnboardingFormValues>();
   const { errors } = formState;
   const { enqueueSnackbar } = useSnackbar();
   const { data: pronouns } = useSafeRequest(getPronounList, {

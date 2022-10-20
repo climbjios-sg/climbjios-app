@@ -2,17 +2,18 @@ import React from 'react';
 import { Stack, FormGroup, Typography } from '@mui/material';
 // components
 import { useFormContext } from 'react-hook-form';
-import { UserRequest } from 'src/@types/user';
+import { OnboardingFormValues } from './types';
+
 import { getGymList } from 'src/services/gyms';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { useSnackbar } from 'notistack';
 import RHFAutoMultiSelect from 'src/components/hook-form/RHFAutoMultiSelect';
 
 export const FavoriteGymsForm = () => {
-  const { formState } = useFormContext<UserRequest>();
+  const { formState } = useFormContext<OnboardingFormValues>();
   const { errors } = formState;
   const { enqueueSnackbar } = useSnackbar();
-  const { data: gyms, loading: loadingGyms } = useSafeRequest(getGymList, {
+  const { data: gyms } = useSafeRequest(getGymList, {
     // Caches successful data
     cacheKey: 'gyms',
     onError: () => {

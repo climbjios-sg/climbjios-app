@@ -5,10 +5,10 @@ import { RHFUploadAvatar } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
 import { fData } from 'src/utils/formatNumber';
 import { MAX_UPLOAD_SIZE } from 'src/config';
-import { AvatarFormValues } from './types';
+import { OnboardingFormValues } from './types';
 
 export const AvatarForm = () => {
-  const { setValue } = useFormContext<AvatarFormValues>();
+  const { setValue } = useFormContext<OnboardingFormValues>();
   const handleDrop = useCallback(
     (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];

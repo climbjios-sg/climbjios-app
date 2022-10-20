@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { ReactElement, useMemo, useState } from 'react';
 
 // @mui
 import { Container, Typography, Button, Card, Stack } from '@mui/material';
@@ -12,13 +12,12 @@ import { ClimbingGradesForm } from './ClimbingGradesForm';
 import { ClimbingCertForm } from './ClimbingCertForm';
 import { AvatarForm } from './AvatarForm';
 import { useForm } from 'react-hook-form';
-import { UserRequest } from 'src/@types/user';
 import { useSnackbar } from 'notistack';
 import { FormProvider } from 'src/components/hook-form';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { useNavigate } from 'react-router';
 import Separator from 'src/components/Separator';
-import { AvatarFormValues } from './types';
+import { AvatarData, OnboardingFormValues } from './types';
 import { updateUser } from 'src/services/users';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { getUploadAvatarUrl, uploadAvatar } from 'src/services/avatar';
@@ -28,7 +27,7 @@ import { getUploadAvatarUrl, uploadAvatar } from 'src/services/avatar';
 const onboardingSteps: {
   title: string;
   subtitle: string;
-  form: JSX.Element;
+  form: ReactElement;
 }[] = [
   {
     title: 'Complete your profile',
@@ -77,14 +76,10 @@ export default function Onboarding() {
   const [activeStep, setActiveStep] = useState<number>(1);
   const isComplete = activeStep === onboardingSteps.length;
 
-  const methods = useForm<UserRequest>({
+  const methods = useForm<OnboardingFormValues>({
     mode: 'onSubmit',
   });
   const { handleSubmit } = methods;
-  const avatarMethods = useForm<AvatarFormValues>({
-    mode: 'onSubmit',
-  });
-  const { handleSubmit: handleSubmitAvatar } = avatarMethods;
 
   const { run: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
     manual: true,
@@ -101,17 +96,22 @@ export default function Onboarding() {
       navigate(PATH_DASHBOARD.general.jios.root);
     },
     onError: (error) => {
-      enqueueSnackbar('Failed to submit form', { variant: 'error' });
+      enqueueSnackbar('Failed to update user', { variant: 'error' });
     },
   });
 
-  const _handleSubmitAvatar = async (data: AvatarFormValues) => {
-    const uploadUrl = await getUploadAvatarUrl();
+  const _handleSubmitAvatar = async (avatar?: AvatarData) => {
+    if (avatar === undefined) {
+      return;
+    }
 
-    await submitUploadAvatar(uploadUrl.data, data.avatar);
+    const { data: uploadUrl } = await getUploadAvatarUrl();
+    submitUploadAvatar(uploadUrl, avatar);
   };
-  const _handleSubmit = async (data: UserRequest) => {
-    await submitUpdateUser(data);
+  const _handleSubmit = async ({ avatar, ...rest }: OnboardingFormValues) => {
+    await _handleSubmitAvatar(avatar);
+
+    submitUpdateUser(rest);
   };
 
   const handleClickButton = async () => {
@@ -119,7 +119,6 @@ export default function Onboarding() {
       if (!isComplete) {
         setActiveStep((currentStep) => currentStep + 1);
       } else {
-        await handleSubmitAvatar(_handleSubmitAvatar)();
         await handleSubmit(_handleSubmit)();
       }
     } catch {

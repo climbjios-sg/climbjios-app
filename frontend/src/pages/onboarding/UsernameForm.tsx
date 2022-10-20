@@ -3,10 +3,10 @@ import { Stack, InputAdornment, FormHelperText } from '@mui/material';
 // components
 import { RHFTextField } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
-import { UserRequest } from 'src/@types/user';
+import { OnboardingFormValues } from './types';
 
 export const UsernameForm = () => {
-  const { formState } = useFormContext<UserRequest>();
+  const { formState } = useFormContext<OnboardingFormValues>();
   const { errors } = formState;
 
   return (
