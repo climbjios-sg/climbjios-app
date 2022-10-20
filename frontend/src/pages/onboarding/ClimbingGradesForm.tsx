@@ -9,7 +9,7 @@ import { getTopRopeGradeList } from 'src/services/topRopeGrades';
 import { getLeadClimbingGradeList } from 'src/services/leadClimbingGrades';
 import { OnboardingFormValues } from './types';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
-import { CacheKey, USEREQUEST_OPTIONS_CACHE_TIME, USEREQUEST_OPTIONS_STALE_TIME } from 'src/config';
+import { CacheKey, OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from 'src/config';
 
 export const ClimbingGradesForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();
@@ -18,8 +18,8 @@ export const ClimbingGradesForm = () => {
 
   const { data: boulderingGrades } = useSafeRequest(getBoulderingGradeList, {
     // Caches successful data
-    cacheTime: USEREQUEST_OPTIONS_CACHE_TIME,
-    staleTime: USEREQUEST_OPTIONS_STALE_TIME,
+    cacheTime: OPTIONS_CACHE_TIME,
+    staleTime: OPTIONS_STALE_TIME,
     cacheKey: CacheKey.BoulderingGrades,
     onError: () => {
       enqueueSnackbar('Failed to get boulderingGrades.', { variant: 'error' });
@@ -27,8 +27,8 @@ export const ClimbingGradesForm = () => {
   });
   const { data: topRopeGrades } = useSafeRequest(getTopRopeGradeList, {
     // Caches successful data
-    cacheTime: USEREQUEST_OPTIONS_CACHE_TIME,
-    staleTime: USEREQUEST_OPTIONS_STALE_TIME,
+    cacheTime: OPTIONS_CACHE_TIME,
+    staleTime: OPTIONS_STALE_TIME,
     cacheKey: CacheKey.TopRopeGrades,
     onError: () => {
       enqueueSnackbar('Failed to get topRopeGrades.', { variant: 'error' });
@@ -36,8 +36,8 @@ export const ClimbingGradesForm = () => {
   });
   const { data: leadClimbingGrades } = useSafeRequest(getLeadClimbingGradeList, {
     // Caches successful data
-    cacheTime: USEREQUEST_OPTIONS_CACHE_TIME,
-    staleTime: USEREQUEST_OPTIONS_STALE_TIME,
+    cacheTime: OPTIONS_CACHE_TIME,
+    staleTime: OPTIONS_STALE_TIME,
     cacheKey: CacheKey.LeadClimbingGrades,
     onError: () => {
       enqueueSnackbar('Failed to get leadClimbingGrades.', { variant: 'error' });
@@ -51,7 +51,7 @@ export const ClimbingGradesForm = () => {
           Highest bouldering grade achieved
         </Typography>
         <RHFSelect name="highestBoulderingGradeId" label="Grade">
-          <option value="" />
+          <option value={undefined} />
           {boulderingGrades?.data.map((option) => (
             <option key={option.id} value={option.name}>
               {option.name}
@@ -65,7 +65,7 @@ export const ClimbingGradesForm = () => {
         </Typography>
         <FormHelperText error>{errors?.highestTopRopeGradeId?.message}</FormHelperText>
         <RHFSelect name="highestTopRopeGradeId" label="Grade">
-          <option value="" />
+          <option value={undefined} />
           {topRopeGrades?.data.map((option) => (
             <option key={option.id} value={option.name}>
               {option.name}
@@ -78,7 +78,7 @@ export const ClimbingGradesForm = () => {
           Highest Lead Climbing grade achieved
         </Typography>
         <RHFSelect name="highestLeadClimbingGradeId" label="Grade">
-          <option value="" />
+          <option value={undefined} />
           {leadClimbingGrades?.data.map((option) => (
             <option key={option.id} value={option.name}>
               {option.name}
