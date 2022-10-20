@@ -1,4 +1,4 @@
-import { JioRequest, Jio, JioResponse, GetJioListRequest } from '../@types/jio';
+import { JioRequest, JioResponse, GetJioListRequest } from '../@types/jio';
 import authorizedAxios from 'src/utils/authorizedAxios';
 import { BE_API } from 'src/utils/api';
 

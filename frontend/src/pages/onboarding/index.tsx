@@ -84,7 +84,7 @@ export default function Onboarding() {
   const { run: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
     manual: true,
     onError: (error) => {
-      enqueueSnackbar('Failed to upload profile picture.', { variant: 'error' });
+      enqueueSnackbar('Failed to upload profile picture', { variant: 'error' });
     },
   });
   const { run: submitUpdateUser } = useSafeRequest(updateUser, {
@@ -105,12 +105,16 @@ export default function Onboarding() {
       return;
     }
 
-    const { data: uploadUrl } = await getUploadAvatarUrl();
-    submitUploadAvatar(uploadUrl, avatar);
+    try {
+      const { data: uploadUrl } = await getUploadAvatarUrl();
+      submitUploadAvatar(uploadUrl, avatar);
+    } catch (error) {
+      enqueueSnackbar('Failed to get upload URL', { variant: 'error' });
+      throw error;
+    }
   };
   const _handleSubmit = async ({ avatar, ...rest }: OnboardingFormValues) => {
     await _handleSubmitAvatar(avatar);
-
     submitUpdateUser(rest);
   };
 
