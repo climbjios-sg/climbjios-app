@@ -120,12 +120,14 @@ const renderTitle = (activeStep: number) => {
   const { title, subtitle } = onboardingSteps[activeStep - 1];
 
   return (
-    <>
-      <Typography variant="h4">{title}</Typography>
-      <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
+    <Stack spacing={1.5} sx={{ px: 3 }}>
+      <Typography variant="h4" align="center">
+        {title}
+      </Typography>
+      <Typography variant="subtitle1" sx={{ color: 'text.secondary' }} align="center">
         {subtitle}
       </Typography>
-    </>
+    </Stack>
   );
 };
 const renderForm = (activeStep: number) => onboardingSteps[activeStep - 1].form;
