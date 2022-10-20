@@ -28,6 +28,7 @@ import {
 import { addDays } from 'date-fns';
 import FloatingBottomCard from '../../../../components/FloatingBottomCard';
 import useRHFScrollToInputOnError from '../../../../hooks/useRHFScrollToInputOnError';
+import useWatchForm from 'src/hooks/dev/useWatchForm';
 
 type Props = {
   onSubmit: (data: JioCreateEditFormValues) => Promise<void>;
@@ -95,6 +96,8 @@ export default function JiosCreateEditForm({
     setFocus,
   } = methods;
   const formData = watch();
+
+  useWatchForm(watch);
 
   const submitForm = async (data: JioCreateEditFormValues) => {
     try {
