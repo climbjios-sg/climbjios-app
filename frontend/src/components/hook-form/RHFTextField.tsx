@@ -20,6 +20,7 @@ export default function RHFTextField({ name, ...other }: Props) {
       control={control}
       render={({ field: { ref, ...field }, fieldState: { error } }) => (
         // Note: Have to take out the ref for ref to passed succesfully
+        // TODO: check if this field is required and automatically toggle `required` prop
         <TextField
           {...field}
           inputRef={ref}

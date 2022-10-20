@@ -21,6 +21,7 @@ export const UsernameForm = () => {
         FormHelperTextProps={{
           error: !!errors?.name,
         }}
+        required
       />
     </Stack>
   );
