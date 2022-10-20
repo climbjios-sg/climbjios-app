@@ -4,6 +4,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { ConstantsService } from '../utils/constants/constants.service';
 import CreateBetaDto from './dtos/createBeta.dto';
+import getBetasDto from './dtos/getBetas.dto';
 
 @Injectable()
 export class BetasService {
@@ -21,6 +22,41 @@ export class BetasService {
       });
     } catch (err) {
       console.error('Create beta failed', err);
+      throw new HttpException('Failed', 500);
+    }
+  }
+
+  async getBetas(query: getBetasDto) {
+    try {
+      console.log(query.page);
+      console.log(query.pageSize);
+      console.log(query.limit);
+      // If page is not defined it will be set to zero
+      if (query.page === undefined) {
+        query.page = 0;
+      }
+
+      // If page size is not defined it will be set to 20
+      if (query.pageSize) {
+        query.pageSize = 20;
+      }
+
+      const data = await this.betaDaoService.getAll(query);
+      const count = await this.betaDaoService.getCount(query);
+      const currentPage = query.page;
+      const totalPages = Math.ceil(count / query.pageSize);
+      return {
+        data,
+        metadata: {
+          totalCount: count,
+          currentPage,
+          pageSize: query.pageSize,
+          totalPages,
+          isLastPage: totalPages === currentPage,
+        },
+      };
+    } catch (err) {
+      console.error('Get beta failed', err);
       throw new HttpException('Failed', 500);
     }
   }

@@ -1,7 +1,12 @@
+import { ListBetasResponse , ListBetasRequest, BetaUploadUrlResponse, CreateBetaRequest } from "../@types/beta";
 import axios from 'axios';
 import { BE_API } from 'src/utils/api';
-import { BetaUploadUrlResponse, CreateBetaRequest } from '../@types/beta';
 import authorizedAxios from '../utils/authorizedAxios';
+
+export const getBetas = (params: ListBetasRequest) =>
+  authorizedAxios.get<ListBetasResponse>(BE_API.betas.root, {
+    params,
+  });
 
 export const getBetaUploadUrl = () =>
   authorizedAxios.get<BetaUploadUrlResponse>(BE_API.betas.uploadVideoUrl);
