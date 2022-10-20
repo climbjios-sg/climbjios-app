@@ -54,14 +54,7 @@ export default function RHFAutoMultiSelect({ name, options = [], ...other }: Pro
             </li>
           )}
           renderInput={(params) => (
-            <TextField
-              {...field}
-              {...params}
-              inputRef={ref}
-              error={!!error}
-              helperText={error?.message}
-              {...other}
-            />
+            <TextField {...params} error={!!error} helperText={error?.message} {...other} />
           )}
         />
       )}
