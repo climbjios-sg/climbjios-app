@@ -6,6 +6,6 @@ export const authProviderFactory = (type: AuthProviderType): Promise<AuthProvide
     case 'jwt':
       return import('./jwt').then((provider) => provider.jwtAuthProvider);
     default:
-      return import('./jwt').then((provider) => provider.defaultAuthProvider);
+      return import('./jwt').then((provider) => provider.jwtAuthProvider);
   }
 };
