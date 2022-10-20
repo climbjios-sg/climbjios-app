@@ -130,7 +130,6 @@ export default function Onboarding() {
       const { data: uploadUrl } = await getUploadAvatarUrl();
       await submitUploadAvatar(uploadUrl, avatar);
     } catch (error) {
-      console.log('error', error);
       enqueueSnackbar('Failed to upload profile picture', { variant: 'error' });
       throw error;
     }
