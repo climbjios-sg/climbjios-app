@@ -73,3 +73,13 @@ export const USERNAME_LEN_ERROR = `Username must be between ${MIN_USERNAME_LEN} 
 export const USERNAME_REGEX_ERROR = `Username can only contain alphabets and numbers. It cannot contain blank spaces`;
 
 export const DEFAULT_AUTH_PROVIDER: AuthProviderType = 'jwt';
+
+export enum CacheKey {
+  User = 'User',
+  Gyms = 'Gyms',
+  Pronouns = 'Pronouns',
+  LeadClimbingGrades = 'LeadClimbingGrades',
+  TopRopeGrades = 'TopRopeGrades',
+  BoulderingGrades = 'BoulderingGrades',
+  SncsCertifications = 'SncsCertifications',
+}

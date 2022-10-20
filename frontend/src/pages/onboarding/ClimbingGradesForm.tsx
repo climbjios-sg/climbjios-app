@@ -9,6 +9,7 @@ import { getTopRopeGradeList } from 'src/services/topRopeGrades';
 import { getLeadClimbingGradeList } from 'src/services/leadClimbingGrades';
 import { OnboardingFormValues } from './types';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
+import { CacheKey } from 'src/config';
 
 export const ClimbingGradesForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();
@@ -17,21 +18,21 @@ export const ClimbingGradesForm = () => {
 
   const { data: boulderingGrades } = useSafeRequest(getBoulderingGradeList, {
     // Caches successful data
-    cacheKey: 'boulderingGrades',
+    cacheKey: CacheKey.BoulderingGrades,
     onError: () => {
       enqueueSnackbar('Failed to get boulderingGrades.', { variant: 'error' });
     },
   });
   const { data: topRopeGrades } = useSafeRequest(getTopRopeGradeList, {
     // Caches successful data
-    cacheKey: 'topRopeGrades',
+    cacheKey: CacheKey.TopRopeGrades,
     onError: () => {
       enqueueSnackbar('Failed to get topRopeGrades.', { variant: 'error' });
     },
   });
   const { data: leadClimbingGrades } = useSafeRequest(getLeadClimbingGradeList, {
     // Caches successful data
-    cacheKey: 'leadClimbingGrades',
+    cacheKey: CacheKey.LeadClimbingGrades,
     onError: () => {
       enqueueSnackbar('Failed to get leadClimbingGrades.', { variant: 'error' });
     },
