@@ -45,6 +45,9 @@ export const DetailsForm = () => {
         FormHelperTextProps={{
           error: !!errors?.reach,
         }}
+        InputProps={{
+          endAdornment: <InputAdornment position="end">cm</InputAdornment>,
+        }}
       />
       <RHFSelect name="pronounId" label="Pronoun">
         <option value="" />

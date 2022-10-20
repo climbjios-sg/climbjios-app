@@ -63,6 +63,10 @@ export const MAX_USERNAME_LEN = 30;
 export const MIN_HEIGHT = 100;
 export const MAX_HEIGHT = 300;
 
+// Reach
+export const MIN_REACH = -20;
+export const MAX_REACH = 20;
+
 /*
 Note: username can only consist of uppercase & lowercase alphabets and numbers, 
 and must be between 3 to 30 characters. Update this regex when length limitations change

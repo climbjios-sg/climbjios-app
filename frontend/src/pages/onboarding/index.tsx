@@ -30,6 +30,8 @@ import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
 import {
   MIN_HEIGHT,
   MAX_HEIGHT,
+  MIN_REACH,
+  MAX_REACH,
   MAX_NAME_LEN,
   MIN_NAME_LEN,
   NAME_LEN_ERROR,
@@ -74,7 +76,7 @@ const onboardingSteps: OnboardingStep[] = [
     buttonText: 'Skip',
     validate: {
       height: Yup.number().positive().integer().min(MIN_HEIGHT).max(MAX_HEIGHT).optional(),
-      reach: Yup.number().positive().integer().optional(),
+      reach: Yup.number().positive().integer().min(MIN_REACH).max(MAX_REACH).optional(),
     },
   },
   {
