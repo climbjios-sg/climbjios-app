@@ -2,7 +2,7 @@ import { Knex } from 'knex';
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
-  await knex.raw('TRUNCATE TABLE gymGrades RESTART IDENTITY CASCADE');
+  await knex.raw('TRUNCATE TABLE gym_grades RESTART IDENTITY CASCADE');
 
   // Inserts seed entries
 
@@ -329,8 +329,8 @@ export async function seed(knex: Knex): Promise<void> {
     { gymId: 22, name: '6 Bar', order: 7 },
     { gymId: 22, name: '7 Bar', order: 8 },
     { gymId: 22, name: '8 Bar', order: 9 },
-    { gymId: 21, name: 'Supercharged', order: 10 },
-    { gymId: 21, name: 'Wildcard', order: 11 },
+    { gymId: 22, name: 'Supercharged', order: 10 },
+    { gymId: 22, name: 'Wildcard', order: 11 },
     // 23, Ground Up Climbing
     { gymId: 23, name: 'V0', order: 1 },
     { gymId: 23, name: 'V1', order: 2 },
