@@ -27,7 +27,14 @@ import { BaseSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRequest } from 'src/@types/user';
 import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
-import { MAX_HEIGHT, MAX_NAME_LEN, MIN_NAME_LEN, NAME_REGEX_ERROR, REGEX_NAME } from 'src/config';
+import {
+  MAX_HEIGHT,
+  MAX_NAME_LEN,
+  MIN_NAME_LEN,
+  NAME_LEN_ERROR,
+  NAME_REGEX_ERROR,
+  REGEX_NAME,
+} from 'src/config';
 
 // ----------------------------------------------------------------------
 
