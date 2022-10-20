@@ -5,12 +5,13 @@ import { RHFSelect } from '../../components/hook-form';
 import { getSncsCertificationList } from 'src/services/sncsCertifications';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { useSnackbar } from 'notistack';
-import { CacheKey } from 'src/config';
+import { CacheKey, USEREQUEST_OPTIONS_STALE_TIME } from 'src/config';
 
 export const ClimbingCertForm = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { data: sncsCertifications } = useSafeRequest(getSncsCertificationList, {
     // Caches successful data
+    staleTime: USEREQUEST_OPTIONS_STALE_TIME,
     cacheKey: CacheKey.SncsCertifications,
     onError: () => {
       enqueueSnackbar('Failed to get sncsCertifications.', { variant: 'error' });
