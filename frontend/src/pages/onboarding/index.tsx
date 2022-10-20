@@ -150,7 +150,7 @@ export default function Onboarding() {
       await handleSubmitAvatar(avatar);
       await handleSubmitUpdateUser(rest);
     } catch {
-      // Silences the error since error has been each submit function
+      // Silences the error since error has been handled by each submit function
     }
   };
 
