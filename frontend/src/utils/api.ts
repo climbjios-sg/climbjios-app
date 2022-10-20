@@ -5,8 +5,10 @@ export const BE_API = {
     refresh: '/v1/auth/refresh',
     telegramRedirect: '/v1/auth/telegram/redirect',
   },
-  user: '/v1/user',
-  uploadImageUrl: '/v1/uploadImageUrl',
+  user: {
+    root: '/v1/user',
+    uploadImageUrl: '/v1/user/uploadImageUrl',
+  },
   boulderingGrades: '/v1/boulderingGrades',
   topRopeGrades: '/v1/topRopeGrades',
   leadClimbingGrades: '/v1/leadClimbingGrades',

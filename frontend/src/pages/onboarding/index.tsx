@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 // @mui
 import { Container, Typography, Button, Card, Stack } from '@mui/material';
@@ -113,11 +113,8 @@ export default function Onboarding() {
   });
   const { handleSubmit, trigger } = methods;
 
-  const { run: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
+  const { runAsync: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
     manual: true,
-    onError: (error) => {
-      enqueueSnackbar('Failed to upload profile picture', { variant: 'error' });
-    },
   });
   const { run: submitUpdateUser } = useSafeRequest(updateUser, {
     manual: true,
@@ -139,9 +136,11 @@ export default function Onboarding() {
 
     try {
       const { data: uploadUrl } = await getUploadAvatarUrl();
-      submitUploadAvatar(uploadUrl, avatar);
+      let data = new FormData();
+      data.append('file', avatar, avatar.name);
+      await submitUploadAvatar(uploadUrl, data);
     } catch (error) {
-      enqueueSnackbar('Failed to get upload URL', { variant: 'error' });
+      enqueueSnackbar('Failed to upload profile picture', { variant: 'error' });
       throw error;
     }
   };
