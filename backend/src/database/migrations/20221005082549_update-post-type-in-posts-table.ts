@@ -1,5 +1,4 @@
 import { Knex } from 'knex';
-import { PostType } from '../../utils/types';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema
@@ -11,14 +10,8 @@ export async function up(knex: Knex): Promise<void> {
       Promise.all(
         posts.map((p) =>
           p.isBuy
-            ? knex
-                .update({ type: PostType.BUYER })
-                .from('posts')
-                .where('id', p.id)
-            : knex
-                .update({ type: PostType.SELLER })
-                .from('posts')
-                .where('id', p.id),
+            ? knex.update({ type: 'buyer' }).from('posts').where('id', p.id)
+            : knex.update({ type: 'seller' }).from('posts').where('id', p.id),
         ),
       ),
     )

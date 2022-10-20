@@ -111,4 +111,11 @@ export class PostsDaoService {
       .first()
       .then((r: any) => r.count);
   }
+
+  closePostsWithEndDateBefore(date: Date) {
+    return this.postModel
+      .query()
+      .update({ isClosed: true })
+      .where('endDateTime', '<', date);
+  }
 }
