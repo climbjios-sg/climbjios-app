@@ -121,7 +121,7 @@ export default function Onboarding() {
     manual: true,
   });
 
-  const _handleSubmitAvatar = async (avatar?: AvatarData) => {
+  const handleSubmitAvatar = async (avatar?: AvatarData) => {
     if (avatar === undefined) {
       return;
     }
@@ -134,7 +134,7 @@ export default function Onboarding() {
       throw error;
     }
   };
-  const _handleSubmitUpdateUser = (data: UserRequest) => {
+  const handleSubmitUpdateUser = (data: UserRequest) => {
     try {
       submitUpdateUser(data);
       enqueueSnackbar('Successfully completed onboarding.', {
@@ -147,8 +147,8 @@ export default function Onboarding() {
   };
   const _handleSubmit = async ({ avatar, ...rest }: OnboardingFormValues) => {
     try {
-      await _handleSubmitAvatar(avatar);
-      await _handleSubmitUpdateUser(rest);
+      await handleSubmitAvatar(avatar);
+      await handleSubmitUpdateUser(rest);
     } catch {
       // Silences the error since error has been each submit function
     }
