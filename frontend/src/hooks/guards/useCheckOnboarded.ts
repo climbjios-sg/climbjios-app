@@ -31,6 +31,8 @@ const useCheckOnboarded = (): CheckOnboarded => {
             enqueueSnackbar('Please complete onboarding to continue', { variant: 'warning' });
           }
         }
+
+        throw error;
       }
     },
 
