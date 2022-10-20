@@ -43,10 +43,13 @@ type FormSchema = {
   [Property in keyof OnboardingFormValues]: BaseSchema;
 };
 
+type ButtonText = 'Skip' | 'Next' | 'Submit';
+
 interface OnboardingStep {
   title: string;
   subtitle: string;
   form: ReactElement;
+  buttonText: ButtonText;
   validate: FormSchema;
 }
 
@@ -55,6 +58,7 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Fill in your profile',
     subtitle: 'Other climbers will use this to identify you',
     form: <UsernameForm />,
+    buttonText: 'Next',
     validate: {
       name: Yup.string()
         .min(MIN_NAME_LEN, NAME_LEN_ERROR)
@@ -67,6 +71,7 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Complete your profile',
     subtitle: 'Help other climbers know more about you',
     form: <DetailsForm />,
+    buttonText: 'Skip',
     validate: {
       height: Yup.number().positive().integer().min(MIN_HEIGHT).max(MAX_HEIGHT).optional(),
       reach: Yup.number().positive().integer().optional(),
@@ -76,24 +81,28 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Complete your profile',
     subtitle: 'Fill in your details to be shown to other climbers',
     form: <FavoriteGymsForm />,
+    buttonText: 'Skip',
     validate: {},
   },
   {
     title: 'Your climbing experience',
     subtitle: 'This can help others to find the right climbing partner',
     form: <ClimbingGradesForm />,
+    buttonText: 'Skip',
     validate: {},
   },
   {
     title: 'Your climbing experience',
     subtitle: 'This can help others to find the right climbing partner',
     form: <ClimbingCertForm />,
+    buttonText: 'Skip',
     validate: {},
   },
   {
     title: 'Profile Photo',
     subtitle: 'Upload a profile photo (optional)',
     form: <AvatarForm />,
+    buttonText: 'Submit',
     validate: {},
   },
 ];
@@ -101,6 +110,7 @@ const getFormSchema = (onboardingSteps: OnboardingStep[]): FormSchema =>
   onboardingSteps.reduce((acc, curr) => ({ ...acc, ...curr.validate }), {});
 const getValidateFields = (activeStep: number): (keyof OnboardingFormValues)[] =>
   Object.keys(onboardingSteps[activeStep - 1].validate) as (keyof OnboardingFormValues)[];
+const getButtonText = (activeStep: number) => onboardingSteps[activeStep - 1].buttonText;
 
 const formSchema = Yup.object().shape(getFormSchema(onboardingSteps));
 
@@ -211,7 +221,7 @@ export default function Onboarding() {
                   disableElevation
                   onClick={handleClickDoneButton}
                 >
-                  <Typography variant="button">{isComplete ? 'Submit' : 'Next'}</Typography>
+                  <Typography variant="button">{getButtonText(activeStep)}</Typography>
                 </Button>
                 {activeStep > 1 && (
                   <Button size="medium" fullWidth onClick={handleClickBackButton}>
