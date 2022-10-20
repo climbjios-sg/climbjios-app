@@ -18,7 +18,7 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function RHFAutoMultiSelect({ name, options = [], ...other }: Props) {
-  const { control } = useFormContext();
+  const { control, setValue } = useFormContext();
 
   return (
     <Controller
@@ -30,6 +30,13 @@ export default function RHFAutoMultiSelect({ name, options = [], ...other }: Pro
           options={options}
           disableCloseOnSelect
           getOptionLabel={(option) => option.label}
+          onChange={(event, value) => {
+            setValue(
+              name,
+              value.map((option) => option.value)
+            );
+          }}
+          isOptionEqualToValue={(option, value) => option.value === value.value}
           renderOption={(props, option, { selected }) => (
             <li {...props}>
               <Checkbox
@@ -45,6 +52,7 @@ export default function RHFAutoMultiSelect({ name, options = [], ...other }: Pro
             <TextField
               {...field}
               {...params}
+              inputRef={ref}
               error={!!error}
               helperText={error?.message}
               {...other}
