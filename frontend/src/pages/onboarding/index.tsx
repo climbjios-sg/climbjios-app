@@ -21,6 +21,7 @@ import { AvatarData, OnboardingFormValues } from './types';
 import { updateUser } from 'src/services/users';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { getUploadAvatarUrl, uploadAvatar } from 'src/services/avatar';
+import { UsernameForm } from './UsernameForm';
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +30,11 @@ const onboardingSteps: {
   subtitle: string;
   form: ReactElement;
 }[] = [
+  {
+    title: 'Fill in your profile',
+    subtitle: 'Other climbers will use this to identify you',
+    form: <UsernameForm />,
+  },
   {
     title: 'Complete your profile',
     subtitle: 'Help other climbers know more about you',
