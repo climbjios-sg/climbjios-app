@@ -29,12 +29,7 @@ const useSafeRequest = <TData, TParams extends any[]>(
       try {
         await authProvider.checkError(data.status);
       } catch {
-        try {
-          await authProvider.login();
-          refreshAsync();
-        } catch {
-          logout();
-        }
+        logout();
       }
     };
     callCheckError();
