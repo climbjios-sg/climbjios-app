@@ -23,14 +23,14 @@ import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { getUploadAvatarUrl, uploadAvatar } from 'src/services/avatar';
 import { UsernameForm } from './UsernameForm';
 import * as Yup from 'yup';
-import { StringSchema } from 'yup';
+import { BaseSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRequest } from 'src/@types/user';
 
 // ----------------------------------------------------------------------
 
 type FormSchema = {
-  [Property in keyof OnboardingFormValues]: StringSchema;
+  [Property in keyof OnboardingFormValues]: BaseSchema;
 };
 
 interface OnboardingStep {
@@ -53,7 +53,10 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Complete your profile',
     subtitle: 'Help other climbers know more about you',
     form: <DetailsForm />,
-    validate: {},
+    validate: {
+      height: Yup.number().positive().integer().optional(),
+      reach: Yup.number().positive().integer().optional(),
+    },
   },
   {
     title: 'Complete your profile',
