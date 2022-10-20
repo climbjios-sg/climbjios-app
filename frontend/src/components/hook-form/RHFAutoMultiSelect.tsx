@@ -4,6 +4,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { TextField, Autocomplete, TextFieldProps, Checkbox } from '@mui/material';
 import { Option } from 'src/@types';
 import Iconify from '../Iconify';
+import { useMemo } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -17,7 +18,11 @@ const icon = <Iconify icon={'carbon:checkbox'} />;
 const checkedIcon = <Iconify icon={'carbon:checkbox-checked-filled'} />;
 
 export default function RHFAutoMultiSelect({ name, options = [], ...other }: Props) {
-  const { control, setValue } = useFormContext();
+  const { control, setValue, getValues } = useFormContext();
+  const selectedOptions = useMemo(() => {
+    const selectedValues = new Set(getValues(name));
+    return options.filter((option) => selectedValues.has(option.value));
+  }, [getValues, name, options]);
 
   return (
     <Controller
@@ -35,6 +40,7 @@ export default function RHFAutoMultiSelect({ name, options = [], ...other }: Pro
               value.map((option) => option.value)
             );
           }}
+          value={selectedOptions}
           isOptionEqualToValue={(option, value) => option.value === value.value}
           renderOption={(props, option, { selected }) => (
             <li {...props}>

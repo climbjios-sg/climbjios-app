@@ -1,4 +1,4 @@
-import { UserIdentity } from './user';
+import { User } from './user';
 
 export type AuthProvider = {
   login: (params?: unknown) => Promise<void>;
@@ -6,7 +6,7 @@ export type AuthProvider = {
   checkAuth: () => Promise<void>;
   checkOnboarded: () => Promise<void>;
   checkError: (status: number) => Promise<void>;
-  getIdentity: () => Promise<UserIdentity>;
+  getIdentity: () => Promise<User>;
 };
 
-export type AuthProviderType = 'default' | 'jwt';
+export type AuthProviderType = 'jwt';
