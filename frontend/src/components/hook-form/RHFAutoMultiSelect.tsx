@@ -3,8 +3,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import { TextField, Autocomplete, TextFieldProps, Checkbox } from '@mui/material';
 import { Option } from 'src/@types';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import Iconify from '../Iconify';
 
 // ----------------------------------------------------------------------
 
@@ -14,8 +13,8 @@ type IProps = {
 };
 type Props = IProps & TextFieldProps;
 
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
+const icon = <Iconify icon={'carbon:checkbox'} />;
+const checkedIcon = <Iconify icon={'carbon:checkbox-checked-filled'} />;
 
 export default function RHFAutoMultiSelect({ name, options = [], ...other }: Props) {
   const { control, setValue } = useFormContext();

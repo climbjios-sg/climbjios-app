@@ -4,7 +4,7 @@ import { Stack, Typography } from '@mui/material';
 import { RHFUploadAvatar } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
 import { fData } from 'src/utils/formatNumber';
-import { MAX_UPLOAD_SIZE } from 'src/config';
+import { MAX_AVATAR_UPLOAD_SIZE_IN_BYTES } from 'src/config';
 import { OnboardingFormValues } from './types';
 
 export const AvatarForm = () => {
@@ -30,7 +30,7 @@ export const AvatarForm = () => {
     <Stack spacing={2}>
       <RHFUploadAvatar
         name="avatar"
-        maxSize={MAX_UPLOAD_SIZE}
+        maxSize={MAX_AVATAR_UPLOAD_SIZE_IN_BYTES}
         onDrop={handleDrop}
         helperText={
           <Typography
@@ -44,7 +44,7 @@ export const AvatarForm = () => {
             }}
           >
             Allowed *.jpeg, *.jpg, *.png, *.gif
-            <br /> max size of {fData(MAX_UPLOAD_SIZE)}
+            <br /> max size of {fData(MAX_AVATAR_UPLOAD_SIZE_IN_BYTES)}
           </Typography>
         }
       />
