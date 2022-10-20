@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 
 // @mui
 import { Container, Typography, Button, Card, Stack } from '@mui/material';
@@ -26,6 +26,7 @@ import * as Yup from 'yup';
 import { BaseSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRequest } from 'src/@types/user';
+import useWatchForm from 'src/hooks/dev/useWatchForm';
 
 // ----------------------------------------------------------------------
 
@@ -115,7 +116,10 @@ export default function Onboarding() {
     resolver: yupResolver(formSchema),
     mode: 'onSubmit',
   });
-  const { handleSubmit, trigger } = methods;
+  const { handleSubmit, trigger, watch } = methods;
+
+  // for debugging
+  useWatchForm(watch);
 
   const { runAsync: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
     manual: true,
