@@ -1,6 +1,5 @@
 import jwtDecode from 'jwt-decode';
 import { AuthProvider } from 'src/@types/auth';
-import { User } from 'src/@types/user';
 import { PATH_AUTH } from 'src/routes/paths';
 import { refreshAccessToken } from 'src/services/token';
 import { getUser } from 'src/services/users';
