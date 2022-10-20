@@ -1,18 +1,26 @@
 import React from 'react';
 import { Stack, FormGroup, Typography } from '@mui/material';
 // components
-import { RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
-import { UserRequest } from 'src/@types/user';
-import { Gym } from 'src/@types/gym';
-import useGetGyms from 'src/hooks/services/useGetGyms';
+import { OnboardingFormValues } from './types';
 
-// TODO: multi select
+import { getGymList } from 'src/services/gyms';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
+import { useSnackbar } from 'notistack';
+import RHFAutoMultiSelect from 'src/components/hook-form/RHFAutoMultiSelect';
+import { CacheKey } from 'src/config';
+
 export const FavoriteGymsForm = () => {
-  const { formState } = useFormContext<UserRequest>();
+  const { formState } = useFormContext<OnboardingFormValues>();
   const { errors } = formState;
-  const { data } = useGetGyms();
-  // const [personName, setPersonName] = React.useState<string[]>([]);
+  const { enqueueSnackbar } = useSnackbar();
+  const { data: gyms } = useSafeRequest(getGymList, {
+    // Caches successful data
+    cacheKey: CacheKey.Gyms,
+    onError: () => {
+      enqueueSnackbar('Failed to get gyms.', { variant: 'error' });
+    },
+  });
 
   return (
     <Stack spacing={2}>
@@ -20,27 +28,18 @@ export const FavoriteGymsForm = () => {
         <Typography variant="subtitle1" gutterBottom>
           Favourite Gyms
         </Typography>
-        <RHFSelect
-          label="Select Gym(s)"
-          name="favouriteGyms"
-          // value={[]}
-          SelectProps={{
-            native: true,
-            // multiple: true,
-          }}
-          helperText={errors?.favouriteGyms?.message || 'Choose a gym that you frequently visit.'}
+        <RHFAutoMultiSelect
+          name="favouriteGymIds"
+          label="Select Gym"
+          options={gyms?.data.map((option) => ({
+            value: option.id,
+            label: option.name,
+          }))}
+          helperText={errors?.favouriteGymIds?.message || 'Choose the gyms that you frequent.'}
           FormHelperTextProps={{
-            error: !!errors?.favouriteGyms?.message,
+            error: !!errors?.favouriteGymIds,
           }}
-        >
-          {/* Disabled Option for first option to not auto-render */}
-          {/* <option value={''} disabled /> */}
-          {data?.map((gym: Gym) => (
-            <option key={gym.id} value={gym.id}>
-              {gym.name}
-            </option>
-          ))}
-        </RHFSelect>
+        />
       </FormGroup>
     </Stack>
   );

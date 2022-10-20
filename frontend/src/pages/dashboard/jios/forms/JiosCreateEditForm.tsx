@@ -13,7 +13,7 @@ import {
   RHFDatePicker,
 } from '../../../../components/hook-form';
 // form
-import { FieldValues, useForm, UseFormSetValue } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 // @types
 import { Gym } from '../../../../@types/gym';
 // dayjs

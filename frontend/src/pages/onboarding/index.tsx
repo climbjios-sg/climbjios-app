@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 // @mui
 import { Container, Typography, Button, Card, Stack } from '@mui/material';
@@ -12,69 +12,159 @@ import { ClimbingGradesForm } from './ClimbingGradesForm';
 import { ClimbingCertForm } from './ClimbingCertForm';
 import { AvatarForm } from './AvatarForm';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
-import { UserRequest } from 'src/@types/user';
 import { useSnackbar } from 'notistack';
 import { FormProvider } from 'src/components/hook-form';
-import { useProfile } from 'src/contexts/auth/ProfileContext';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { useNavigate } from 'react-router';
 import Separator from 'src/components/Separator';
-
-// sections
+import { AvatarData, OnboardingFormValues } from './types';
+import { updateUser } from 'src/services/users';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
+import { getUploadAvatarUrl, uploadAvatar } from 'src/services/avatar';
+import { UsernameForm } from './UsernameForm';
+import * as Yup from 'yup';
+import { StringSchema } from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { UserRequest } from 'src/@types/user';
 
 // ----------------------------------------------------------------------
 
-// TODO: remove enum
-enum Steps {
-  // Username = 'Username',
-  Details = 'Details',
-  FavoriteGyms = 'Favorite Gyms',
-  ClimbingGrades = 'Climbing Grades',
-  ClimbingCert = 'Climbing Cert',
-  Avatar = 'Avatar',
-}
-const STEPS = Object.values(Steps);
-const formSchema = Yup.object().shape({});
+type FormSchema = {
+  [Property in keyof OnboardingFormValues]: StringSchema;
+};
 
-// TODO: back button
-// TODO: fix css
+interface OnboardingStep {
+  title: string;
+  subtitle: string;
+  form: ReactElement;
+  validate: FormSchema;
+}
+
+const onboardingSteps: OnboardingStep[] = [
+  {
+    title: 'Fill in your profile',
+    subtitle: 'Other climbers will use this to identify you',
+    form: <UsernameForm />,
+    validate: {
+      name: Yup.string().required('Name is required.'),
+    },
+  },
+  {
+    title: 'Complete your profile',
+    subtitle: 'Help other climbers know more about you',
+    form: <DetailsForm />,
+    validate: {},
+  },
+  {
+    title: 'Complete your profile',
+    subtitle: 'Fill in your details to be shown to other climbers',
+    form: <FavoriteGymsForm />,
+    validate: {},
+  },
+  {
+    title: 'Your climbing experience',
+    subtitle: 'This can help others to find the right climbing partner',
+    form: <ClimbingGradesForm />,
+    validate: {},
+  },
+  {
+    title: 'Your climbing experience',
+    subtitle: 'This can help others to find the right climbing partner',
+    form: <ClimbingCertForm />,
+    validate: {},
+  },
+  {
+    title: 'Profile Photo',
+    subtitle: 'Upload a profile photo (optional)',
+    form: <AvatarForm />,
+    validate: {},
+  },
+];
+const getFormSchema = (onboardingSteps: OnboardingStep[]): FormSchema =>
+  onboardingSteps.reduce((acc, curr) => ({ ...acc, ...curr.validate }), {});
+const getValidateFields = (activeStep: number): (keyof OnboardingFormValues)[] =>
+  Object.keys(onboardingSteps[activeStep - 1].validate) as (keyof OnboardingFormValues)[];
+
+const formSchema = Yup.object().shape(getFormSchema(onboardingSteps));
+
+const renderTitle = (activeStep: number) => {
+  const { title, subtitle } = onboardingSteps[activeStep - 1];
+
+  return (
+    <>
+      <Typography variant="h4">{title}</Typography>
+      <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
+        {subtitle}
+      </Typography>
+    </>
+  );
+};
+const renderForm = (activeStep: number) => onboardingSteps[activeStep - 1].form;
 
 export default function Onboarding() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
+  // Ranges from 1-N, where N is the number of steps
   const [activeStep, setActiveStep] = useState<number>(1);
-  const isComplete = activeStep === STEPS.length;
-  const { updateUserIdentity } = useProfile();
+  const isComplete = activeStep === onboardingSteps.length;
 
-  const initialFormValues: UserRequest = useMemo(() => ({}), []);
-  const methods = useForm<UserRequest>({
+  const methods = useForm<OnboardingFormValues>({
     resolver: yupResolver(formSchema),
-    defaultValues: initialFormValues,
-    // Show error onChange, onBlur, onSubmit
     mode: 'onSubmit',
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, trigger } = methods;
 
-  const _handleSubmit = async (data: UserRequest) => {
+  const { runAsync: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
+    manual: true,
+  });
+  const { runAsync: submitUpdateUser } = useSafeRequest(updateUser, {
+    manual: true,
+  });
+
+  const handleSubmitAvatar = async (avatar?: AvatarData) => {
+    if (avatar === undefined) {
+      return;
+    }
+
     try {
-      await updateUserIdentity(data);
-      enqueueSnackbar('Successfully completed onboarding!');
-      navigate(PATH_DASHBOARD.general.jios.root);
+      const { data: uploadUrl } = await getUploadAvatarUrl();
+      await submitUploadAvatar(uploadUrl, avatar);
     } catch (error) {
-      enqueueSnackbar('Failed to submit form', { variant: 'error' });
+      enqueueSnackbar('Failed to upload profile picture', { variant: 'error' });
+      throw error;
+    }
+  };
+  const handleSubmitUpdateUser = (data: UserRequest) => {
+    try {
+      submitUpdateUser(data);
+      enqueueSnackbar('Successfully completed onboarding.', {
+        autoHideDuration: 5000,
+      });
+      navigate(PATH_DASHBOARD.general.jios.root);
+    } catch {
+      enqueueSnackbar('Failed to update user', { variant: 'error' });
+    }
+  };
+  const _handleSubmit = async ({ avatar, ...rest }: OnboardingFormValues) => {
+    try {
+      await handleSubmitAvatar(avatar);
+      await handleSubmitUpdateUser(rest);
+    } catch {
+      // Silences the error since error has been handled by each submit function
     }
   };
 
-  const handleClickButton = () => {
+  const handleClickDoneButton = async () => {
     if (!isComplete) {
+      const isValid = await trigger(getValidateFields(activeStep));
+      if (!isValid) {
+        return;
+      }
       setActiveStep((currentStep) => currentStep + 1);
     } else {
-      handleSubmit(_handleSubmit)();
+      await handleSubmit(_handleSubmit)();
     }
   };
-
   const handleClickBackButton = () => {
     if (activeStep <= 1) {
       return;
@@ -82,34 +172,16 @@ export default function Onboarding() {
     setActiveStep((currentStep) => currentStep - 1);
   };
 
-  const renderForm = () => (
-    <>
-      {activeStep === 1 && <DetailsForm />}
-      {activeStep === 2 && <FavoriteGymsForm />}
-      {activeStep === 3 && <ClimbingGradesForm />}
-      {activeStep === 4 && <ClimbingCertForm />}
-      {activeStep === 5 && <AvatarForm />}
-    </>
-  );
-
   return (
     <FormProvider methods={methods}>
       <Page title="Onboarding: Fill in your details">
         <Container maxWidth="md" sx={{ my: 3 }}>
           <Stack spacing={1.5} justifyContent="center" alignItems="center">
             <Logo />
-            <Typography variant="h4">Complete your profile</Typography>
-            <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
-              Fill in your details to be shown to other climbers
-            </Typography>
-            <Card
-              sx={{
-                width: '100%',
-                p: 3,
-              }}
-            >
+            {renderTitle(activeStep)}
+            <Card sx={{ width: '100%', p: 3 }}>
               <Stack spacing={1.5}>
-                {renderForm()}
+                {renderForm(activeStep)}
                 <Separator />
                 <Button
                   size="large"
@@ -117,12 +189,12 @@ export default function Onboarding() {
                   color="primary"
                   fullWidth
                   disableElevation
-                  onClick={handleClickButton}
+                  onClick={handleClickDoneButton}
                 >
                   <Typography variant="button">{isComplete ? 'Submit' : 'Next'}</Typography>
                 </Button>
                 {activeStep > 1 && (
-                  <Button size="medium" fullWidth onClick={handleClickBackButton} sx={{ mt: 1.5 }}>
+                  <Button size="medium" fullWidth onClick={handleClickBackButton}>
                     Back
                   </Button>
                 )}

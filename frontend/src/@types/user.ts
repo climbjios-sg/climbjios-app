@@ -32,7 +32,9 @@ export interface User {
   favouriteGyms: Gym[];
 }
 
-export type UserRequest = Partial<User>;
+export type UserRequest = Partial<User> & {
+  favouriteGymIds?: Gym['id'][];
+};
 export type UserResponse = Partial<User>;
 
 export type UserIdentity = UserResponse & {};

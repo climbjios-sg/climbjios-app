@@ -8,15 +8,18 @@ import { useEffect } from 'react';
  */
 const useGuard = (guards: Function[]) => {
   useEffect(() => {
-    const callCheckAuth = async () => {
+    const callGuards = async () => {
       try {
         for (const guard of guards) {
           guard();
         }
-      } catch (error) {}
+      } catch (error) {
+        // Silences the error since error handling
+        // is already taken care of by the guard hook
+      }
     };
 
-    callCheckAuth();
+    callGuards();
   }, [guards]);
 };
 

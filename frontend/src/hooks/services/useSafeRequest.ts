@@ -6,10 +6,8 @@ import useAuthProvider from '../auth/useAuthProvider';
 import useLogout from '../auth/useLogout';
 
 /**
- * In the event that the response status indicates Unauthorized or Forbidden,
- * this useRequest wrapper
- * - tries to re-login the user and resend the request
- * - logs the user out if the above has failed
+ * This useRequest wrapper logs the user out
+ * in the event that the response status indicates Unauthorized or Forbidden
  */
 const useSafeRequest = <TData, TParams extends any[]>(
   service: (...args: TParams) => Promise<AxiosResponse<TData, any>>,
@@ -29,12 +27,7 @@ const useSafeRequest = <TData, TParams extends any[]>(
       try {
         await authProvider.checkError(data.status);
       } catch {
-        try {
-          await authProvider.login();
-          refreshAsync();
-        } catch {
-          logout();
-        }
+        logout();
       }
     };
     callCheckError();
