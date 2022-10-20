@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.seed = void 0;
 async function seed(knex) {
-    await knex.raw('TRUNCATE TABLE gymGrades RESTART IDENTITY CASCADE');
+    await knex.raw('TRUNCATE TABLE gym_grades RESTART IDENTITY CASCADE');
     await knex('gymGrades').insert([
         { gymId: 1, name: '1', order: 1 },
         { gymId: 1, name: '2', order: 2 },
@@ -304,8 +304,8 @@ async function seed(knex) {
         { gymId: 22, name: '6 Bar', order: 7 },
         { gymId: 22, name: '7 Bar', order: 8 },
         { gymId: 22, name: '8 Bar', order: 9 },
-        { gymId: 21, name: 'Supercharged', order: 10 },
-        { gymId: 21, name: 'Wildcard', order: 11 },
+        { gymId: 22, name: 'Supercharged', order: 10 },
+        { gymId: 22, name: 'Wildcard', order: 11 },
         { gymId: 23, name: 'V0', order: 1 },
         { gymId: 23, name: 'V1', order: 2 },
         { gymId: 23, name: 'V2', order: 3 },
