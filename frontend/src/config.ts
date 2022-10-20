@@ -7,6 +7,8 @@ export const HOST_API = process.env.REACT_APP_HOST_API_KEY || '';
 
 export const MAPBOX_API = process.env.REACT_APP_MAPBOX_API;
 
+export const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
 // LAYOUT
 
 export const HEADER = {
