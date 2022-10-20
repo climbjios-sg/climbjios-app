@@ -60,6 +60,7 @@ export const MIN_USERNAME_LEN = 3;
 export const MAX_USERNAME_LEN = 30;
 
 // Height
+export const MIN_HEIGHT = 100;
 export const MAX_HEIGHT = 300;
 
 /*

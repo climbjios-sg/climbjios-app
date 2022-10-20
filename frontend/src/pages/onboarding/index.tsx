@@ -28,6 +28,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRequest } from 'src/@types/user';
 import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
 import {
+  MIN_HEIGHT,
   MAX_HEIGHT,
   MAX_NAME_LEN,
   MIN_NAME_LEN,
@@ -67,7 +68,7 @@ const onboardingSteps: OnboardingStep[] = [
     subtitle: 'Help other climbers know more about you',
     form: <DetailsForm />,
     validate: {
-      height: Yup.number().positive().integer().max(MAX_HEIGHT).optional(),
+      height: Yup.number().positive().integer().min(MIN_HEIGHT).max(MAX_HEIGHT).optional(),
       reach: Yup.number().positive().integer().optional(),
     },
   },
