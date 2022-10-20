@@ -26,7 +26,7 @@ import * as Yup from 'yup';
 import { BaseSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRequest } from 'src/@types/user';
-import useWatchForm from 'src/hooks/dev/useWatchForm';
+import useWatchForm from 'src/hooks/dev/useDevWatchForm';
 
 // ----------------------------------------------------------------------
 
