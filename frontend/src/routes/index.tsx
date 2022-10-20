@@ -4,6 +4,7 @@ import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 import CommonGuard from 'src/components/guards/CommonGuard';
+import { isDevelopment } from 'src/config';
 
 // ----------------------------------------------------------------------
 
@@ -32,11 +33,7 @@ export default function Router() {
     {
       path: 'onboarding',
       element: (
-        <CommonGuard
-          authenticated
-          // TODO: enable after debug
-          // notOnboarded
-        >
+        <CommonGuard authenticated notOnboarded={!isDevelopment}>
           <Onboarding />
         </CommonGuard>
       ),
@@ -45,11 +42,7 @@ export default function Router() {
     {
       path: 'dashboard/*',
       element: (
-        <CommonGuard
-          authenticated
-          // TODO: enable after debug
-          // onboarded
-        >
+        <CommonGuard authenticated onboarded={!isDevelopment}>
           <Dashboard />
         </CommonGuard>
       ),

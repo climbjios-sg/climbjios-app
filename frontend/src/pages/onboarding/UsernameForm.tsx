@@ -1,12 +1,12 @@
 import React from 'react';
-import { Stack, InputAdornment, FormHelperText } from '@mui/material';
+import { Stack } from '@mui/material';
 // components
 import { RHFTextField } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
-import { UserRequest } from 'src/@types/user';
+import { OnboardingFormValues } from './types';
 
 export const UsernameForm = () => {
-  const { formState } = useFormContext<UserRequest>();
+  const { formState } = useFormContext<OnboardingFormValues>();
   const { errors } = formState;
 
   return (
@@ -19,23 +19,9 @@ export const UsernameForm = () => {
           'Your name will be displayed on your profile page. You can always change this later.'
         }
         FormHelperTextProps={{
-          error: !!errors?.name?.message,
+          error: !!errors?.name,
         }}
-      />
-      <FormHelperText error>{errors?.telegramHandle?.message}</FormHelperText>
-      <RHFTextField
-        name="telegramHandle"
-        label="Telegram Username"
-        helperText={
-          errors?.telegramHandle?.message ||
-          'Other climbers will communicate with you over Telegram.'
-        }
-        FormHelperTextProps={{
-          error: !!errors?.telegramHandle?.message,
-        }}
-        InputProps={{
-          startAdornment: <InputAdornment position="start">@</InputAdornment>,
-        }}
+        required
       />
     </Stack>
   );

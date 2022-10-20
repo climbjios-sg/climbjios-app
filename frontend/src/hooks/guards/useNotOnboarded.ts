@@ -8,7 +8,10 @@ const useNotOnboarded = () => {
     const callCheckNotOnboarded = async () => {
       try {
         await checkNotOnboarded();
-      } catch (error) {}
+      } catch (error) {
+        // Silences the error since error handling
+        // is already taken care of by the guard hook
+      }
     };
 
     callCheckNotOnboarded();

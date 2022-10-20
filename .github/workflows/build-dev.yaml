@@ -1,18 +1,18 @@
-name: Build backend
+name: Build dev backend
 on:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   deploy:
-    name: Build backend and commit to 'dist' branch
+    name: Build dev backend and commit to 'dist/dev' branch
     runs-on: ubuntu-latest
     steps:
-    - name: git checkout main
+    - name: git checkout dev
       uses: actions/checkout@v3
       with:
-        ref: main
+        ref: dev
     - name: Use Node.js
       uses: actions/setup-node@v2-beta
       with:
@@ -29,7 +29,7 @@ jobs:
       uses: s0/git-publish-subdir-action@develop
       env:
         REPO: self
-        BRANCH: dist # The branch name where you want to push the assets
+        BRANCH: dist-dev # The branch name where you want to push the assets
         FOLDER: backend/dist # The directory where your assets are generated
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
         MESSAGE: "Build: ({sha}) {msg}" # The commit message

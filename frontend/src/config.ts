@@ -7,6 +7,8 @@ export const HOST_API = process.env.REACT_APP_HOST_API_KEY || '';
 
 export const MAPBOX_API = process.env.REACT_APP_MAPBOX_API;
 
+export const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
 // LAYOUT
 
 export const HEADER = {
@@ -56,11 +58,14 @@ export const REGEX_TELEGRAM =
 // Username
 export const MIN_USERNAME_LEN = 3;
 export const MAX_USERNAME_LEN = 30;
+
 /*
 Note: username can only consist of uppercase & lowercase alphabets and numbers, 
 and must be between 3 to 30 characters. Update this regex when length limitations change
 */
 export const REGEX_USERNAME = /^([A-Za-z0-9]){3,30}$/;
+
+export const MAX_AVATAR_UPLOAD_SIZE_IN_BYTES = 3145728;
 
 // Error messages
 export const NAME_LEN_ERROR = `Name must be between ${MIN_USERNAME_LEN} and ${MAX_USERNAME_LEN} characters long`;
@@ -70,3 +75,13 @@ export const USERNAME_LEN_ERROR = `Username must be between ${MIN_USERNAME_LEN} 
 export const USERNAME_REGEX_ERROR = `Username can only contain alphabets and numbers. It cannot contain blank spaces`;
 
 export const DEFAULT_AUTH_PROVIDER: AuthProviderType = 'jwt';
+
+export enum CacheKey {
+  User = 'User',
+  Gyms = 'Gyms',
+  Pronouns = 'Pronouns',
+  LeadClimbingGrades = 'LeadClimbingGrades',
+  TopRopeGrades = 'TopRopeGrades',
+  BoulderingGrades = 'BoulderingGrades',
+  SncsCertifications = 'SncsCertifications',
+}

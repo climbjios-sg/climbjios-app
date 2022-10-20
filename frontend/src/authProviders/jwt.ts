@@ -3,7 +3,7 @@ import { AuthProvider } from 'src/@types/auth';
 import { UserIdentity } from 'src/@types/user';
 import { PATH_AUTH } from 'src/routes/paths';
 import { refreshAccessToken } from 'src/services/token';
-import { getUser } from 'src/services/user';
+import { getUser } from 'src/services/users';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/utils/jwt';
 
 interface Session {
@@ -60,7 +60,7 @@ export const jwtAuthProvider: AuthProvider = {
         throw new Error();
       }
       const { refreshToken: sessionRefreshToken } = session;
-      const response = await refreshAccessToken({ refreshToken: sessionRefreshToken });
+      const response = await refreshAccessToken(sessionRefreshToken);
 
       if (response.status === 404) {
         throw new Error();
