@@ -46,7 +46,7 @@ export default function MyJioCard({ data }: MyJioCardProps) {
 
   return (
     <Card>
-      <CardHeader title={data.creatorProfile.name} subheader={`@${data.creatorProfile.name}`} />
+      <CardHeader title={data.creatorProfile.name} subheader={`@${data.creatorProfile.telegramHandle}`} />
       <Stack spacing={1.5} sx={{ px: 3, pb: 2, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
