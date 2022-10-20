@@ -27,7 +27,7 @@ import { BaseSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRequest } from 'src/@types/user';
 import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
-import { MAX_HEIGHT, MAX_NAME_LEN, MIN_NAME_LEN, REGEX_NAME } from 'src/config';
+import { MAX_HEIGHT, MAX_NAME_LEN, MIN_NAME_LEN, NAME_REGEX_ERROR, REGEX_NAME } from 'src/config';
 
 // ----------------------------------------------------------------------
 
@@ -49,9 +49,9 @@ const onboardingSteps: OnboardingStep[] = [
     form: <UsernameForm />,
     validate: {
       name: Yup.string()
-        .min(MIN_NAME_LEN)
-        .max(MAX_NAME_LEN)
-        .matches(REGEX_NAME)
+        .min(MIN_NAME_LEN, NAME_LEN_ERROR)
+        .max(MAX_NAME_LEN, NAME_LEN_ERROR)
+        .matches(REGEX_NAME, NAME_REGEX_ERROR)
         .required('Name is required.'),
     },
   },
