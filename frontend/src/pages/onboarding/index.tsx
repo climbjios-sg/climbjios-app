@@ -22,6 +22,8 @@ import { updateUser } from 'src/services/users';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { getUploadAvatarUrl, uploadAvatar } from 'src/services/avatar';
 import { UsernameForm } from './UsernameForm';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 // ----------------------------------------------------------------------
 
@@ -61,6 +63,9 @@ const onboardingSteps: {
     form: <AvatarForm />,
   },
 ];
+const formSchema = Yup.object().shape({
+  type: Yup.string().required('Name is required.'),
+});
 
 const renderTitle = (activeStep: number) => {
   const { title, subtitle } = onboardingSteps[activeStep - 1];
@@ -83,6 +88,7 @@ export default function Onboarding() {
   const isComplete = activeStep === onboardingSteps.length;
 
   const methods = useForm<OnboardingFormValues>({
+    resolver: yupResolver(formSchema),
     mode: 'onSubmit',
   });
   const { handleSubmit } = methods;
