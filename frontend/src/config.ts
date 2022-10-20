@@ -59,6 +59,9 @@ export const REGEX_TELEGRAM =
 export const MIN_USERNAME_LEN = 3;
 export const MAX_USERNAME_LEN = 30;
 
+// Height
+export const MAX_HEIGHT = 300;
+
 /*
 Note: username can only consist of uppercase & lowercase alphabets and numbers, 
 and must be between 3 to 30 characters. Update this regex when length limitations change

@@ -27,6 +27,7 @@ import { BaseSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRequest } from 'src/@types/user';
 import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
+import { MAX_HEIGHT, MAX_NAME_LEN, MIN_NAME_LEN, REGEX_NAME } from 'src/config';
 
 // ----------------------------------------------------------------------
 
@@ -47,7 +48,11 @@ const onboardingSteps: OnboardingStep[] = [
     subtitle: 'Other climbers will use this to identify you',
     form: <UsernameForm />,
     validate: {
-      name: Yup.string().required('Name is required.'),
+      name: Yup.string()
+        .min(MIN_NAME_LEN)
+        .max(MAX_NAME_LEN)
+        .matches(REGEX_NAME)
+        .required('Name is required.'),
     },
   },
   {
@@ -55,7 +60,7 @@ const onboardingSteps: OnboardingStep[] = [
     subtitle: 'Help other climbers know more about you',
     form: <DetailsForm />,
     validate: {
-      height: Yup.number().positive().integer().max(300).optional(),
+      height: Yup.number().positive().integer().max(MAX_HEIGHT).optional(),
       reach: Yup.number().positive().integer().optional(),
     },
   },
