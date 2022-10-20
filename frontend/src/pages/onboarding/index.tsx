@@ -134,9 +134,9 @@ export default function Onboarding() {
       throw error;
     }
   };
-  const handleSubmitUpdateUser = (data: UserRequest) => {
+  const handleSubmitUpdateUser = async (data: UserRequest) => {
     try {
-      submitUpdateUser(data);
+      await submitUpdateUser(data);
       enqueueSnackbar('Successfully completed onboarding.', {
         autoHideDuration: 5000,
       });
