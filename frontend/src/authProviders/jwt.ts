@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import { AuthProvider } from 'src/@types/auth';
-import { UserIdentity } from 'src/@types/user';
+import { User } from 'src/@types/user';
 import { PATH_AUTH } from 'src/routes/paths';
 import { refreshAccessToken } from 'src/services/token';
 import { getUser } from 'src/services/users';
@@ -89,7 +89,7 @@ export const jwtAuthProvider: AuthProvider = {
   },
   checkOnboarded: async () => {
     const response = await getUser();
-    const userIdentity: UserIdentity = response.data;
+    const userIdentity = response.data;
 
     if (!userIdentity.name) {
       throw new Error();
@@ -97,7 +97,7 @@ export const jwtAuthProvider: AuthProvider = {
   },
   getIdentity: async () => {
     const response = await getUser();
-    const userIdentity: UserIdentity = response.data;
+    const userIdentity = response.data;
     return userIdentity;
   },
 };
