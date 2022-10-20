@@ -54,7 +54,7 @@ const onboardingSteps: OnboardingStep[] = [
     subtitle: 'Help other climbers know more about you',
     form: <DetailsForm />,
     validate: {
-      height: Yup.number().positive().integer().optional(),
+      height: Yup.number().positive().integer().max(300).optional(),
       reach: Yup.number().positive().integer().optional(),
     },
   },
