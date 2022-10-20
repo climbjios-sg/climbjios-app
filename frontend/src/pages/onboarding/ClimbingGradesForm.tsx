@@ -9,7 +9,7 @@ import { getTopRopeGradeList } from 'src/services/topRopeGrades';
 import { getLeadClimbingGradeList } from 'src/services/leadClimbingGrades';
 import { OnboardingFormValues } from './types';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
-import { CacheKey, USEREQUEST_OPTIONS_STALE_TIME } from 'src/config';
+import { CacheKey, USEREQUEST_OPTIONS_CACHE_TIME, USEREQUEST_OPTIONS_STALE_TIME } from 'src/config';
 
 export const ClimbingGradesForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();
@@ -18,6 +18,7 @@ export const ClimbingGradesForm = () => {
 
   const { data: boulderingGrades } = useSafeRequest(getBoulderingGradeList, {
     // Caches successful data
+    cacheTime: USEREQUEST_OPTIONS_CACHE_TIME,
     staleTime: USEREQUEST_OPTIONS_STALE_TIME,
     cacheKey: CacheKey.BoulderingGrades,
     onError: () => {
@@ -26,6 +27,7 @@ export const ClimbingGradesForm = () => {
   });
   const { data: topRopeGrades } = useSafeRequest(getTopRopeGradeList, {
     // Caches successful data
+    cacheTime: USEREQUEST_OPTIONS_CACHE_TIME,
     staleTime: USEREQUEST_OPTIONS_STALE_TIME,
     cacheKey: CacheKey.TopRopeGrades,
     onError: () => {
@@ -34,6 +36,7 @@ export const ClimbingGradesForm = () => {
   });
   const { data: leadClimbingGrades } = useSafeRequest(getLeadClimbingGradeList, {
     // Caches successful data
+    cacheTime: USEREQUEST_OPTIONS_CACHE_TIME,
     staleTime: USEREQUEST_OPTIONS_STALE_TIME,
     cacheKey: CacheKey.LeadClimbingGrades,
     onError: () => {
