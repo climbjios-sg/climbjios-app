@@ -26,7 +26,7 @@ import * as Yup from 'yup';
 import { BaseSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRequest } from 'src/@types/user';
-import useWatchForm from 'src/hooks/dev/useDevWatchForm';
+import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
 
 // ----------------------------------------------------------------------
 
@@ -119,7 +119,7 @@ export default function Onboarding() {
   const { handleSubmit, trigger, watch } = methods;
 
   // for debugging
-  useWatchForm(watch);
+  useDevWatchForm(watch);
 
   const { runAsync: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
     manual: true,
