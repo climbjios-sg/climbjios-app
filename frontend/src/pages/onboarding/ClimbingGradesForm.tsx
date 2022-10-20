@@ -50,7 +50,7 @@ export const ClimbingGradesForm = () => {
         <Typography variant="subtitle1" gutterBottom>
           Highest bouldering grade achieved
         </Typography>
-        <RHFSelect name="highestBoulderingGradeId" label="Grade">
+        <RHFSelect name="highestBoulderingGradeId" label="Grade (Optional)">
           <option value={undefined} />
           {boulderingGrades?.data.map((option) => (
             <option key={option.id} value={option.name}>
@@ -64,7 +64,7 @@ export const ClimbingGradesForm = () => {
           Highest Top Rope grade achieved
         </Typography>
         <FormHelperText error>{errors?.highestTopRopeGradeId?.message}</FormHelperText>
-        <RHFSelect name="highestTopRopeGradeId" label="Grade">
+        <RHFSelect name="highestTopRopeGradeId" label="Grade (Optional)">
           <option value={undefined} />
           {topRopeGrades?.data.map((option) => (
             <option key={option.id} value={option.name}>
@@ -77,7 +77,7 @@ export const ClimbingGradesForm = () => {
         <Typography variant="subtitle1" gutterBottom>
           Highest Lead Climbing grade achieved
         </Typography>
-        <RHFSelect name="highestLeadClimbingGradeId" label="Grade">
+        <RHFSelect name="highestLeadClimbingGradeId" label="Grade (Optional)">
           <option value={undefined} />
           {leadClimbingGrades?.data.map((option) => (
             <option key={option.id} value={option.name}>

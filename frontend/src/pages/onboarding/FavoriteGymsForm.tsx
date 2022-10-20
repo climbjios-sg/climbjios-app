@@ -32,7 +32,7 @@ export const FavoriteGymsForm = () => {
         </Typography>
         <RHFAutoMultiSelect
           name="favouriteGymIds"
-          label="Select Gym"
+          label="Select Gym (Optional)"
           options={gyms?.data.map((option) => ({
             value: option.id,
             label: option.name,

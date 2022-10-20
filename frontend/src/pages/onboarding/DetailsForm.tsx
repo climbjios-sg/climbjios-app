@@ -28,7 +28,7 @@ export const DetailsForm = () => {
       <RHFTextField
         type="number"
         name="height"
-        label="Height"
+        label="Height (Optional)"
         placeholder="173"
         InputProps={{
           endAdornment: <InputAdornment position="end">cm</InputAdornment>,
@@ -37,7 +37,7 @@ export const DetailsForm = () => {
       <RHFTextField
         type="number"
         name="reach"
-        label="Reach"
+        label="Reach (Optional)"
         helperText={
           errors?.reach?.message ||
           'Leave this empty if you are unsure or do not know what reach is.'
@@ -49,7 +49,7 @@ export const DetailsForm = () => {
           endAdornment: <InputAdornment position="end">cm</InputAdornment>,
         }}
       />
-      <RHFSelect name="pronounId" label="Pronoun">
+      <RHFSelect name="pronounId" label="Pronoun (Optional)">
         <option value={undefined} />
         {pronouns?.data.map((option) => (
           <option key={option.id} value={option.name}>
