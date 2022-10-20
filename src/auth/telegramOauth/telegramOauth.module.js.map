@@ -1,0 +1,1 @@
+{"version":3,"file":"telegramOauth.module.js","sourceRoot":"","sources":["../../../../src/auth/telegramOauth/telegramOauth.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,qEAAiE;AAK1D,IAAM,mBAAmB,GAAzB,MAAM,mBAAmB;CAAG,CAAA;AAAtB,mBAAmB;IAH/B,IAAA,eAAM,EAAC;QACN,SAAS,EAAE,CAAC,8CAAqB,CAAC;KACnC,CAAC;GACW,mBAAmB,CAAG;AAAtB,kDAAmB"}
