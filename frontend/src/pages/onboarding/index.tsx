@@ -182,7 +182,7 @@ export default function Onboarding() {
   // for debugging
   useDevWatchForm(watch);
 
-  const { runAsync: submitUploadAvatar, loading: lodingUploadAvatar } = useSafeRequest(
+  const { runAsync: submitUploadAvatar, loading: loadingUploadAvatar } = useSafeRequest(
     uploadAvatar,
     {
       manual: true,
@@ -191,7 +191,7 @@ export default function Onboarding() {
   const { runAsync: submitUpdateUser, loading: loadingUpdateUser } = useSafeRequest(updateUser, {
     manual: true,
   });
-  const loadingSubmit = lodingUploadAvatar || loadingUpdateUser;
+  const loadingSubmit = loadingUploadAvatar || loadingUpdateUser;
 
   const handleSubmitAvatar = async (avatar?: AvatarData) => {
     if (avatar === undefined) {
