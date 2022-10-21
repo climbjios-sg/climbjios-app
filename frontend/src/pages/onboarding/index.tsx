@@ -182,12 +182,16 @@ export default function Onboarding() {
   // for debugging
   useDevWatchForm(watch);
 
-  const { runAsync: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
+  const { runAsync: submitUploadAvatar, loading: lodingUploadAvatar } = useSafeRequest(
+    uploadAvatar,
+    {
+      manual: true,
+    }
+  );
+  const { runAsync: submitUpdateUser, loading: loadingUpdateUser } = useSafeRequest(updateUser, {
     manual: true,
   });
-  const { runAsync: submitUpdateUser } = useSafeRequest(updateUser, {
-    manual: true,
-  });
+  const loadingSubmit = lodingUploadAvatar || loadingUpdateUser;
 
   const handleSubmitAvatar = async (avatar?: AvatarData) => {
     if (avatar === undefined) {
@@ -258,6 +262,7 @@ export default function Onboarding() {
                   fullWidth
                   disableElevation
                   onClick={handleClickDoneButton}
+                  disabled={loadingSubmit}
                 >
                   <Typography variant="button">
                     {getButtonText(activeStep, activeValues)}
