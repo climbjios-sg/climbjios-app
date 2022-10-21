@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, InputAdornment, FormHelperText } from '@mui/material';
+import { Stack, InputAdornment } from '@mui/material';
 // components
 import { RHFTextField, RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
@@ -8,6 +8,7 @@ import { getPronounList } from 'src/services/pronouns';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { CacheKey, OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from 'src/config';
 import { useSnackbar } from 'notistack';
+import { OPTIONAL_TRANSFORM } from 'src/utils/form';
 
 export const DetailsForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();
@@ -33,6 +34,7 @@ export const DetailsForm = () => {
         InputProps={{
           endAdornment: <InputAdornment position="end">cm</InputAdornment>,
         }}
+        transform={OPTIONAL_TRANSFORM}
       />
       <RHFTextField
         type="number"
@@ -48,8 +50,9 @@ export const DetailsForm = () => {
         InputProps={{
           endAdornment: <InputAdornment position="end">cm</InputAdornment>,
         }}
+        transform={OPTIONAL_TRANSFORM}
       />
-      <RHFSelect name="pronounId" label="Pronoun (Optional)">
+      <RHFSelect name="pronounId" label="Pronoun (Optional)" transform={OPTIONAL_TRANSFORM}>
         <option value={undefined} />
         {pronouns?.data.map((option) => (
           <option key={option.id} value={option.name}>

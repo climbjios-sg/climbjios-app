@@ -2,17 +2,19 @@
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import { TextField, TextFieldProps } from '@mui/material';
+import { DEFAULT_TRANSFORM, Transform } from 'src/utils/form';
 
 // ----------------------------------------------------------------------
 
 type IProps = {
   name: string;
+  transform?: Transform;
 };
 
 type Props = IProps & TextFieldProps;
 
-export default function RHFTextField({ name, ...other }: Props) {
-  const { control } = useFormContext();
+export default function RHFTextField({ name, transform = DEFAULT_TRANSFORM, ...other }: Props) {
+  const { control, getValues } = useFormContext();
 
   return (
     <Controller
@@ -25,7 +27,9 @@ export default function RHFTextField({ name, ...other }: Props) {
           {...field}
           inputRef={ref}
           fullWidth
-          value={typeof field.value === 'number' && field.value === 0 ? '' : field.value}
+          onChange={(e) => field.onChange(transform.output(e))}
+          // value={transform.input(field.value)}
+          value={transform.input(getValues(name))}
           error={!!error}
           helperText={error?.message}
           {...other}
