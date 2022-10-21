@@ -1,4 +1,5 @@
-import { ChangeEvent } from 'react';
+
+
 
 export interface Transform {
   /**
@@ -8,22 +9,20 @@ export interface Transform {
   /**
    * input to form data
    */
-  output: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => unknown;
+  output: (value: unknown) => unknown;
 }
 
 export const DEFAULT_TRANSFORM: Transform = {
   input: (value) => value,
-  output: (e) => e.target.value,
+  output: (value) => value,
 };
 
 export const SANITIZE_EMPTY_VALUE: Transform = {
-  input: (value: unknown) => value,
+  input: (value) => value,
   /**
    * Transforms empty string into undefined
    */
-  output: (e) => {
-    const { value } = e.target;
-
+  output: (value) => {
     const isEmptyString = typeof value === 'string' && value === '';
     if (isEmptyString) {
       return undefined;
