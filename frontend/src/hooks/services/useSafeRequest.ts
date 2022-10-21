@@ -14,7 +14,7 @@ const useSafeRequest = <TData, TParams extends any[]>(
   options?: Options<AxiosResponse<TData>, TParams>,
   plugins?: Plugin<AxiosResponse<TData>, TParams>[]
 ) => {
-  const { data, refreshAsync, ...rest } = useRequest(service, options, plugins);
+  const { data, ...rest } = useRequest(service, options, plugins);
   const logout = useLogout();
   const authProvider = useAuthProvider();
 
@@ -31,9 +31,9 @@ const useSafeRequest = <TData, TParams extends any[]>(
       }
     };
     callCheckError();
-  }, [authProvider, data?.status, logout, refreshAsync]);
+  }, [authProvider, data?.status, logout]);
 
-  return { data, refreshAsync, ...rest };
+  return { data, ...rest };
 };
 
 export default useSafeRequest;

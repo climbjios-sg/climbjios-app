@@ -21,18 +21,14 @@ const useCheckNotOnboarded = (): CheckNotOnboarded => {
       disableNotification = false,
       redirectTo = PATH_DASHBOARD.root
     ) => {
-      try {
-        await authProvider.checkOnboarded();
+      await authProvider.checkOnboarded();
 
-        if (redirectOnError) {
-          navigate(redirectTo);
+      if (redirectOnError) {
+        navigate(redirectTo);
 
-          if (!disableNotification) {
-            enqueueSnackbar('You have already been onboarded', { variant: 'error' });
-          }
+        if (!disableNotification) {
+          enqueueSnackbar('You have already been onboarded', { variant: 'error' });
         }
-      } catch (error) {
-        // Silences the error since NotOnboarded is the happy path in this case
       }
     },
 

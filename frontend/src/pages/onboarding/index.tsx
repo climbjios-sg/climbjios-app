@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 
 // @mui
 import { Container, Typography, Button, Card, Stack } from '@mui/material';
@@ -23,14 +23,15 @@ import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { getUploadAvatarUrl, uploadAvatar } from 'src/services/avatar';
 import { UsernameForm } from './UsernameForm';
 import * as Yup from 'yup';
-import { StringSchema } from 'yup';
+import { BaseSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRequest } from 'src/@types/user';
+import useWatchForm from 'src/hooks/dev/useDevWatchForm';
 
 // ----------------------------------------------------------------------
 
 type FormSchema = {
-  [Property in keyof OnboardingFormValues]: StringSchema;
+  [Property in keyof OnboardingFormValues]: BaseSchema;
 };
 
 interface OnboardingStep {
@@ -53,7 +54,10 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Complete your profile',
     subtitle: 'Help other climbers know more about you',
     form: <DetailsForm />,
-    validate: {},
+    validate: {
+      height: Yup.number().positive().integer().max(300).optional(),
+      reach: Yup.number().positive().integer().optional(),
+    },
   },
   {
     title: 'Complete your profile',
@@ -112,7 +116,10 @@ export default function Onboarding() {
     resolver: yupResolver(formSchema),
     mode: 'onSubmit',
   });
-  const { handleSubmit, trigger } = methods;
+  const { handleSubmit, trigger, watch } = methods;
+
+  // for debugging
+  useWatchForm(watch);
 
   const { runAsync: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
     manual: true,
@@ -134,9 +141,9 @@ export default function Onboarding() {
       throw error;
     }
   };
-  const handleSubmitUpdateUser = (data: UserRequest) => {
+  const handleSubmitUpdateUser = async (data: UserRequest) => {
     try {
-      submitUpdateUser(data);
+      await submitUpdateUser(data);
       enqueueSnackbar('Successfully completed onboarding.', {
         autoHideDuration: 5000,
       });

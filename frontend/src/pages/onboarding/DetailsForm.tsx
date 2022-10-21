@@ -6,7 +6,7 @@ import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from './types';
 import { getPronounList } from 'src/services/pronouns';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
-import { CacheKey } from 'src/config';
+import { CacheKey, USEREQUEST_OPTIONS_CACHE_TIME, USEREQUEST_OPTIONS_STALE_TIME } from 'src/config';
 import { useSnackbar } from 'notistack';
 
 export const DetailsForm = () => {
@@ -15,6 +15,8 @@ export const DetailsForm = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { data: pronouns } = useSafeRequest(getPronounList, {
     // Caches successful data
+    cacheTime: USEREQUEST_OPTIONS_CACHE_TIME,
+    staleTime: USEREQUEST_OPTIONS_STALE_TIME,
     cacheKey: CacheKey.Pronouns,
     onError: () => {
       enqueueSnackbar('Failed to get pronouns.', { variant: 'error' });
