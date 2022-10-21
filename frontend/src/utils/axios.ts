@@ -6,8 +6,6 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from './jwt';
 
 // ----------------------------------------------------------------------
 
-export const baseAxios = axios.create();
-
 const authorizedAxios = axios.create({
   baseURL: HOST_API,
 });

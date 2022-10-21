@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useState, useMemo } from 'react';
 
 // @mui
 import { Container, Typography, Button, Card, Stack } from '@mui/material';
@@ -26,7 +26,19 @@ import * as Yup from 'yup';
 import { BaseSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRequest } from 'src/@types/user';
-import useWatchForm from 'src/hooks/dev/useDevWatchForm';
+import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
+import { isNumberArray } from 'src/utils/typeGuards';
+import {
+  MIN_HEIGHT,
+  MAX_HEIGHT,
+  MIN_REACH,
+  MAX_REACH,
+  MAX_NAME_LEN,
+  MIN_NAME_LEN,
+  NAME_LEN_ERROR,
+  NAME_REGEX_ERROR,
+  REGEX_NAME,
+} from 'src/config';
 
 // ----------------------------------------------------------------------
 
@@ -34,11 +46,15 @@ type FormSchema = {
   [Property in keyof OnboardingFormValues]: BaseSchema;
 };
 
+type ButtonText = 'Skip' | 'Next' | 'Submit';
+
 interface OnboardingStep {
   title: string;
   subtitle: string;
   form: ReactElement;
-  validate: FormSchema;
+  pristineButtonText: ButtonText;
+  dirtyButtonText: ButtonText;
+  schema: FormSchema;
 }
 
 const onboardingSteps: OnboardingStep[] = [
@@ -46,48 +62,89 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Fill in your profile',
     subtitle: 'Other climbers will use this to identify you',
     form: <UsernameForm />,
-    validate: {
-      name: Yup.string().required('Name is required.'),
+    pristineButtonText: 'Next',
+    dirtyButtonText: 'Next',
+    schema: {
+      name: Yup.string()
+        .min(MIN_NAME_LEN, NAME_LEN_ERROR)
+        .max(MAX_NAME_LEN, NAME_LEN_ERROR)
+        .matches(REGEX_NAME, NAME_REGEX_ERROR)
+        .required('Name is required.'),
     },
   },
   {
     title: 'Complete your profile',
     subtitle: 'Help other climbers know more about you',
     form: <DetailsForm />,
-    validate: {
-      height: Yup.number().positive().integer().max(300).optional(),
-      reach: Yup.number().positive().integer().optional(),
+    pristineButtonText: 'Skip',
+    dirtyButtonText: 'Next',
+    schema: {
+      height: Yup.number().positive().integer().min(MIN_HEIGHT).max(MAX_HEIGHT).optional(),
+      reach: Yup.number().positive().integer().min(MIN_REACH).max(MAX_REACH).optional(),
+      pronounId: Yup.number().optional(),
     },
   },
   {
     title: 'Complete your profile',
     subtitle: 'Fill in your details to be shown to other climbers',
     form: <FavoriteGymsForm />,
-    validate: {},
+    pristineButtonText: 'Skip',
+    dirtyButtonText: 'Next',
+    schema: {
+      favouriteGymIds: Yup.array().of(Yup.number()).optional(),
+    },
   },
   {
     title: 'Your climbing experience',
     subtitle: 'This can help others to find the right climbing partner',
     form: <ClimbingGradesForm />,
-    validate: {},
+    pristineButtonText: 'Skip',
+    dirtyButtonText: 'Next',
+    schema: {
+      highestBoulderingGradeId: Yup.number().optional(),
+      highestTopRopeGradeId: Yup.number().optional(),
+      highestLeadClimbingGradeId: Yup.number().optional(),
+    },
   },
   {
     title: 'Your climbing experience',
     subtitle: 'This can help others to find the right climbing partner',
     form: <ClimbingCertForm />,
-    validate: {},
+    pristineButtonText: 'Skip',
+    dirtyButtonText: 'Next',
+    schema: {
+      sncsCertificationId: Yup.number().optional(),
+    },
   },
   {
     title: 'Profile Photo',
     subtitle: 'Upload a profile photo (optional)',
     form: <AvatarForm />,
-    validate: {},
+    pristineButtonText: 'Submit',
+    dirtyButtonText: 'Submit',
+    schema: {},
   },
 ];
 const getFormSchema = (onboardingSteps: OnboardingStep[]): FormSchema =>
-  onboardingSteps.reduce((acc, curr) => ({ ...acc, ...curr.validate }), {});
-const getValidateFields = (activeStep: number): (keyof OnboardingFormValues)[] =>
-  Object.keys(onboardingSteps[activeStep - 1].validate) as (keyof OnboardingFormValues)[];
+  onboardingSteps.reduce((acc, curr) => ({ ...acc, ...curr.schema }), {});
+const getActiveSchema = (activeStep: number): (keyof OnboardingFormValues)[] =>
+  Object.keys(onboardingSteps[activeStep - 1].schema) as (keyof OnboardingFormValues)[];
+const isPristineValue = (value: OnboardingFormValues[keyof OnboardingFormValues]): boolean => {
+  if (isNumberArray(value)) {
+    return value.length === 0;
+  }
+  return value === undefined || value === '';
+};
+const getButtonText = (
+  activeStep: number,
+  values: OnboardingFormValues[keyof OnboardingFormValues][]
+) => {
+  const isPristine = values.every((value) => isPristineValue(value));
+
+  return isPristine
+    ? onboardingSteps[activeStep - 1].pristineButtonText
+    : onboardingSteps[activeStep - 1].dirtyButtonText;
+};
 
 const formSchema = Yup.object().shape(getFormSchema(onboardingSteps));
 
@@ -95,12 +152,14 @@ const renderTitle = (activeStep: number) => {
   const { title, subtitle } = onboardingSteps[activeStep - 1];
 
   return (
-    <>
-      <Typography variant="h4">{title}</Typography>
-      <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
+    <Stack spacing={1.5} sx={{ px: 3 }}>
+      <Typography variant="h4" align="center">
+        {title}
+      </Typography>
+      <Typography variant="subtitle1" sx={{ color: 'text.secondary' }} align="center">
         {subtitle}
       </Typography>
-    </>
+    </Stack>
   );
 };
 const renderForm = (activeStep: number) => onboardingSteps[activeStep - 1].form;
@@ -116,17 +175,23 @@ export default function Onboarding() {
     resolver: yupResolver(formSchema),
     mode: 'onSubmit',
   });
-  const { handleSubmit, trigger, watch } = methods;
+  const { handleSubmit, trigger, watch, getValues } = methods;
+  const activeSchema = useMemo(() => getActiveSchema(activeStep), [activeStep]);
+  const activeValues = getValues(activeSchema);
 
   // for debugging
-  useWatchForm(watch);
+  useDevWatchForm(watch);
 
-  const { runAsync: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
+  const { runAsync: submitUploadAvatar, loading: loadingUploadAvatar } = useSafeRequest(
+    uploadAvatar,
+    {
+      manual: true,
+    }
+  );
+  const { runAsync: submitUpdateUser, loading: loadingUpdateUser } = useSafeRequest(updateUser, {
     manual: true,
   });
-  const { runAsync: submitUpdateUser } = useSafeRequest(updateUser, {
-    manual: true,
-  });
+  const loadingSubmit = loadingUploadAvatar || loadingUpdateUser;
 
   const handleSubmitAvatar = async (avatar?: AvatarData) => {
     if (avatar === undefined) {
@@ -162,11 +227,11 @@ export default function Onboarding() {
   };
 
   const handleClickDoneButton = async () => {
+    const isValid = await trigger(activeSchema);
+    if (!isValid) {
+      return;
+    }
     if (!isComplete) {
-      const isValid = await trigger(getValidateFields(activeStep));
-      if (!isValid) {
-        return;
-      }
       setActiveStep((currentStep) => currentStep + 1);
     } else {
       await handleSubmit(_handleSubmit)();
@@ -197,8 +262,11 @@ export default function Onboarding() {
                   fullWidth
                   disableElevation
                   onClick={handleClickDoneButton}
+                  disabled={loadingSubmit}
                 >
-                  <Typography variant="button">{isComplete ? 'Submit' : 'Next'}</Typography>
+                  <Typography variant="button">
+                    {getButtonText(activeStep, activeValues)}
+                  </Typography>
                 </Button>
                 {activeStep > 1 && (
                   <Button size="medium" fullWidth onClick={handleClickBackButton}>
