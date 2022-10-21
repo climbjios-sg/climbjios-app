@@ -51,8 +51,9 @@ interface OnboardingStep {
   title: string;
   subtitle: string;
   form: ReactElement;
+  emptyButtonText: ButtonText;
   buttonText: ButtonText;
-  validate: FormSchema;
+  schema: FormSchema;
 }
 
 const onboardingSteps: OnboardingStep[] = [
@@ -60,8 +61,9 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Fill in your profile',
     subtitle: 'Other climbers will use this to identify you',
     form: <UsernameForm />,
+    emptyButtonText: 'Next',
     buttonText: 'Next',
-    validate: {
+    schema: {
       name: Yup.string()
         .min(MIN_NAME_LEN, NAME_LEN_ERROR)
         .max(MAX_NAME_LEN, NAME_LEN_ERROR)
@@ -73,39 +75,53 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Complete your profile',
     subtitle: 'Help other climbers know more about you',
     form: <DetailsForm />,
-    buttonText: 'Skip',
-    validate: {
+    emptyButtonText: 'Skip',
+    buttonText: 'Next',
+    schema: {
       height: Yup.number().positive().integer().min(MIN_HEIGHT).max(MAX_HEIGHT).optional(),
       reach: Yup.number().positive().integer().min(MIN_REACH).max(MAX_REACH).optional(),
+      pronounId: Yup.string().optional(),
     },
   },
   {
     title: 'Complete your profile',
     subtitle: 'Fill in your details to be shown to other climbers',
     form: <FavoriteGymsForm />,
-    buttonText: 'Skip',
-    validate: {},
+    emptyButtonText: 'Skip',
+    buttonText: 'Next',
+    schema: {
+      favouriteGymIds: Yup.array().of(Yup.number()).optional(),
+    },
   },
   {
     title: 'Your climbing experience',
     subtitle: 'This can help others to find the right climbing partner',
     form: <ClimbingGradesForm />,
-    buttonText: 'Skip',
-    validate: {},
+    emptyButtonText: 'Skip',
+    buttonText: 'Next',
+    schema: {
+      highestBoulderingGradeId: Yup.number().optional(),
+      highestTopRopeGradeId: Yup.number().optional(),
+      highestLeadClimbingGradeId: Yup.string().optional(),
+    },
   },
   {
     title: 'Your climbing experience',
     subtitle: 'This can help others to find the right climbing partner',
     form: <ClimbingCertForm />,
-    buttonText: 'Skip',
-    validate: {},
+    emptyButtonText: 'Skip',
+    buttonText: 'Next',
+    schema: {
+      sncsCertificationId: Yup.string().optional(),
+    },
   },
   {
     title: 'Profile Photo',
     subtitle: 'Upload a profile photo (optional)',
     form: <AvatarForm />,
+    emptyButtonText: 'Submit',
     buttonText: 'Submit',
-    validate: {},
+    schema: {},
   },
 ];
 const getFormSchema = (onboardingSteps: OnboardingStep[]): FormSchema =>
@@ -189,11 +205,11 @@ export default function Onboarding() {
   };
 
   const handleClickDoneButton = async () => {
+    const isValid = await trigger(getValidateFields(activeStep));
+    if (!isValid) {
+      return;
+    }
     if (!isComplete) {
-      const isValid = await trigger(getValidateFields(activeStep));
-      if (!isValid) {
-        return;
-      }
       setActiveStep((currentStep) => currentStep + 1);
     } else {
       await handleSubmit(_handleSubmit)();
