@@ -101,8 +101,8 @@ const onboardingSteps: OnboardingStep[] = [
     pristineButtonText: 'Skip',
     dirtyButtonText: 'Next',
     schema: {
-      highestBoulderingGradeId: Yup.number().optional(),
-      highestTopRopeGradeId: Yup.number().optional(),
+      highestBoulderingGradeId: Yup.string().optional(),
+      highestTopRopeGradeId: Yup.string().optional(),
       highestLeadClimbingGradeId: Yup.string().optional(),
     },
   },
