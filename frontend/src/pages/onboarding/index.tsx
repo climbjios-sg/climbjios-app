@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useState, useMemo } from 'react';
 
 // @mui
 import { Container, Typography, Button, Card, Stack } from '@mui/material';
@@ -126,9 +126,15 @@ const onboardingSteps: OnboardingStep[] = [
 ];
 const getFormSchema = (onboardingSteps: OnboardingStep[]): FormSchema =>
   onboardingSteps.reduce((acc, curr) => ({ ...acc, ...curr.schema }), {});
-const getValidateFields = (activeStep: number): (keyof OnboardingFormValues)[] =>
+const getActiveSchema = (activeStep: number): (keyof OnboardingFormValues)[] =>
   Object.keys(onboardingSteps[activeStep - 1].schema) as (keyof OnboardingFormValues)[];
-const getButtonText = (activeStep: number) => onboardingSteps[activeStep - 1].dirtyButtonText;
+const getButtonText = (activeStep: number, values: unknown[]) => {
+  const isPristine = values.every((value) => value === undefined || value === null || value === '');
+
+  return isPristine
+    ? onboardingSteps[activeStep - 1].pristineButtonText
+    : onboardingSteps[activeStep - 1].dirtyButtonText;
+};
 
 const formSchema = Yup.object().shape(getFormSchema(onboardingSteps));
 
@@ -159,7 +165,9 @@ export default function Onboarding() {
     resolver: yupResolver(formSchema),
     mode: 'onSubmit',
   });
-  const { handleSubmit, trigger, watch } = methods;
+  const { handleSubmit, trigger, watch, getValues } = methods;
+  const activeSchema = useMemo(() => getActiveSchema(activeStep), [activeStep]);
+  const activeValues = getValues(activeSchema);
 
   // for debugging
   useDevWatchForm(watch);
@@ -205,7 +213,7 @@ export default function Onboarding() {
   };
 
   const handleClickDoneButton = async () => {
-    const isValid = await trigger(getValidateFields(activeStep));
+    const isValid = await trigger(activeSchema);
     if (!isValid) {
       return;
     }
@@ -241,7 +249,9 @@ export default function Onboarding() {
                   disableElevation
                   onClick={handleClickDoneButton}
                 >
-                  <Typography variant="button">{getButtonText(activeStep)}</Typography>
+                  <Typography variant="button">
+                    {getButtonText(activeStep, activeValues)}
+                  </Typography>
                 </Button>
                 {activeStep > 1 && (
                   <Button size="medium" fullWidth onClick={handleClickBackButton}>
