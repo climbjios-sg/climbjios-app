@@ -51,8 +51,8 @@ interface OnboardingStep {
   title: string;
   subtitle: string;
   form: ReactElement;
-  emptyButtonText: ButtonText;
-  buttonText: ButtonText;
+  pristineButtonText: ButtonText;
+  dirtyButtonText: ButtonText;
   schema: FormSchema;
 }
 
@@ -61,8 +61,8 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Fill in your profile',
     subtitle: 'Other climbers will use this to identify you',
     form: <UsernameForm />,
-    emptyButtonText: 'Next',
-    buttonText: 'Next',
+    pristineButtonText: 'Next',
+    dirtyButtonText: 'Next',
     schema: {
       name: Yup.string()
         .min(MIN_NAME_LEN, NAME_LEN_ERROR)
@@ -75,8 +75,8 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Complete your profile',
     subtitle: 'Help other climbers know more about you',
     form: <DetailsForm />,
-    emptyButtonText: 'Skip',
-    buttonText: 'Next',
+    pristineButtonText: 'Skip',
+    dirtyButtonText: 'Next',
     schema: {
       height: Yup.number().positive().integer().min(MIN_HEIGHT).max(MAX_HEIGHT).optional(),
       reach: Yup.number().positive().integer().min(MIN_REACH).max(MAX_REACH).optional(),
@@ -87,8 +87,8 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Complete your profile',
     subtitle: 'Fill in your details to be shown to other climbers',
     form: <FavoriteGymsForm />,
-    emptyButtonText: 'Skip',
-    buttonText: 'Next',
+    pristineButtonText: 'Skip',
+    dirtyButtonText: 'Next',
     schema: {
       favouriteGymIds: Yup.array().of(Yup.number()).optional(),
     },
@@ -97,8 +97,8 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Your climbing experience',
     subtitle: 'This can help others to find the right climbing partner',
     form: <ClimbingGradesForm />,
-    emptyButtonText: 'Skip',
-    buttonText: 'Next',
+    pristineButtonText: 'Skip',
+    dirtyButtonText: 'Next',
     schema: {
       highestBoulderingGradeId: Yup.number().optional(),
       highestTopRopeGradeId: Yup.number().optional(),
@@ -109,8 +109,8 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Your climbing experience',
     subtitle: 'This can help others to find the right climbing partner',
     form: <ClimbingCertForm />,
-    emptyButtonText: 'Skip',
-    buttonText: 'Next',
+    pristineButtonText: 'Skip',
+    dirtyButtonText: 'Next',
     schema: {
       sncsCertificationId: Yup.string().optional(),
     },
@@ -119,8 +119,8 @@ const onboardingSteps: OnboardingStep[] = [
     title: 'Profile Photo',
     subtitle: 'Upload a profile photo (optional)',
     form: <AvatarForm />,
-    emptyButtonText: 'Submit',
-    buttonText: 'Submit',
+    pristineButtonText: 'Submit',
+    dirtyButtonText: 'Submit',
     schema: {},
   },
 ];
@@ -128,7 +128,7 @@ const getFormSchema = (onboardingSteps: OnboardingStep[]): FormSchema =>
   onboardingSteps.reduce((acc, curr) => ({ ...acc, ...curr.schema }), {});
 const getValidateFields = (activeStep: number): (keyof OnboardingFormValues)[] =>
   Object.keys(onboardingSteps[activeStep - 1].schema) as (keyof OnboardingFormValues)[];
-const getButtonText = (activeStep: number) => onboardingSteps[activeStep - 1].buttonText;
+const getButtonText = (activeStep: number) => onboardingSteps[activeStep - 1].dirtyButtonText;
 
 const formSchema = Yup.object().shape(getFormSchema(onboardingSteps));
 
