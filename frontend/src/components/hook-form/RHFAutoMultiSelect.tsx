@@ -28,7 +28,7 @@ export default function RHFAutoMultiSelect({ name, options = [], ...other }: Pro
     <Controller
       name={name}
       control={control}
-      render={({ field: { ref, ...field }, fieldState: { error } }) => (
+      render={({ fieldState: { error } }) => (
         <Autocomplete
           multiple
           options={options}

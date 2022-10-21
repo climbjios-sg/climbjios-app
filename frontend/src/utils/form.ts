@@ -1,18 +1,26 @@
 import { ChangeEvent } from 'react';
 
 export interface Transform {
+  /**
+   * form data to input
+   */
   input: (value: unknown) => unknown;
+  /**
+   * input to form data
+   */
   output: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => unknown;
 }
 
 export const DEFAULT_TRANSFORM: Transform = {
-  // input: (value) => (typeof value === 'number' && value === 0 ? '' : value),
   input: (value) => value,
   output: (e) => e.target.value,
 };
 
 export const OPTIONAL_TRANSFORM: Transform = {
   input: (value: unknown) => value,
+  /**
+   * Transforms empty string into undefined
+   */
   output: (e) => {
     const { value } = e.target;
 

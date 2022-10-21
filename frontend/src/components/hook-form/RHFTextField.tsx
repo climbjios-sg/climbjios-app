@@ -21,14 +21,13 @@ export default function RHFTextField({ name, transform = DEFAULT_TRANSFORM, ...o
       name={name}
       control={control}
       render={({ field: { ref, ...field }, fieldState: { error } }) => (
-        // Note: Have to take out the ref for ref to passed succesfully
+        // Note: Have to take out the ref for ref to passed successfully
         // TODO: check if this field is required and automatically toggle `required` prop
         <TextField
           {...field}
           inputRef={ref}
           fullWidth
           onChange={(e) => field.onChange(transform.output(e))}
-          // value={transform.input(field.value)}
           value={transform.input(getValues(name))}
           error={!!error}
           helperText={error?.message}
