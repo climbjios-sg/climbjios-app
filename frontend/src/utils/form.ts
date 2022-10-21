@@ -1,6 +1,3 @@
-
-
-
 export interface Transform {
   /**
    * form data to input
