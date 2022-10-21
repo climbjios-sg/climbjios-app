@@ -27,6 +27,7 @@ import { BaseSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRequest } from 'src/@types/user';
 import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
+import { isNumberArray } from 'src/utils/typeGuards';
 import {
   MIN_HEIGHT,
   MAX_HEIGHT,
@@ -128,8 +129,17 @@ const getFormSchema = (onboardingSteps: OnboardingStep[]): FormSchema =>
   onboardingSteps.reduce((acc, curr) => ({ ...acc, ...curr.schema }), {});
 const getActiveSchema = (activeStep: number): (keyof OnboardingFormValues)[] =>
   Object.keys(onboardingSteps[activeStep - 1].schema) as (keyof OnboardingFormValues)[];
-const getButtonText = (activeStep: number, values: unknown[]) => {
-  const isPristine = values.every((value) => value === undefined || value === null || value === '');
+const isPristineValue = (value: OnboardingFormValues[keyof OnboardingFormValues]): boolean => {
+  if (isNumberArray(value)) {
+    return value.length === 0;
+  }
+  return value === undefined || value === '';
+};
+const getButtonText = (
+  activeStep: number,
+  values: OnboardingFormValues[keyof OnboardingFormValues][]
+) => {
+  const isPristine = values.every((value) => isPristineValue(value));
 
   return isPristine
     ? onboardingSteps[activeStep - 1].pristineButtonText
