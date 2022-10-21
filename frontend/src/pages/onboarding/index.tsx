@@ -125,9 +125,9 @@ const onboardingSteps: OnboardingStep[] = [
   },
 ];
 const getFormSchema = (onboardingSteps: OnboardingStep[]): FormSchema =>
-  onboardingSteps.reduce((acc, curr) => ({ ...acc, ...curr.validate }), {});
+  onboardingSteps.reduce((acc, curr) => ({ ...acc, ...curr.schema }), {});
 const getValidateFields = (activeStep: number): (keyof OnboardingFormValues)[] =>
-  Object.keys(onboardingSteps[activeStep - 1].validate) as (keyof OnboardingFormValues)[];
+  Object.keys(onboardingSteps[activeStep - 1].schema) as (keyof OnboardingFormValues)[];
 const getButtonText = (activeStep: number) => onboardingSteps[activeStep - 1].buttonText;
 
 const formSchema = Yup.object().shape(getFormSchema(onboardingSteps));
