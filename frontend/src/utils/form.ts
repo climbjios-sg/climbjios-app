@@ -16,7 +16,7 @@ export const DEFAULT_TRANSFORM: Transform = {
   output: (e) => e.target.value,
 };
 
-export const OPTIONAL_TRANSFORM: Transform = {
+export const SANITIZE_EMPTY_VALUE: Transform = {
   input: (value: unknown) => value,
   /**
    * Transforms empty string into undefined
