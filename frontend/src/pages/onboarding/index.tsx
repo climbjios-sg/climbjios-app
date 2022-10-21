@@ -81,7 +81,7 @@ const onboardingSteps: OnboardingStep[] = [
     schema: {
       height: Yup.number().positive().integer().min(MIN_HEIGHT).max(MAX_HEIGHT).optional(),
       reach: Yup.number().positive().integer().min(MIN_REACH).max(MAX_REACH).optional(),
-      pronounId: Yup.string().optional(),
+      pronounId: Yup.number().optional(),
     },
   },
   {
@@ -101,9 +101,9 @@ const onboardingSteps: OnboardingStep[] = [
     pristineButtonText: 'Skip',
     dirtyButtonText: 'Next',
     schema: {
-      highestBoulderingGradeId: Yup.string().optional(),
-      highestTopRopeGradeId: Yup.string().optional(),
-      highestLeadClimbingGradeId: Yup.string().optional(),
+      highestBoulderingGradeId: Yup.number().optional(),
+      highestTopRopeGradeId: Yup.number().optional(),
+      highestLeadClimbingGradeId: Yup.number().optional(),
     },
   },
   {
@@ -113,7 +113,7 @@ const onboardingSteps: OnboardingStep[] = [
     pristineButtonText: 'Skip',
     dirtyButtonText: 'Next',
     schema: {
-      sncsCertificationId: Yup.string().optional(),
+      sncsCertificationId: Yup.number().optional(),
     },
   },
   {

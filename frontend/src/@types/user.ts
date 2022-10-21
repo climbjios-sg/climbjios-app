@@ -17,10 +17,10 @@ export interface User {
   height: number;
   reach: number;
   pronounId: number;
-  highestBoulderingGradeId: string;
-  highestTopRopeGradeId: string;
-  highestLeadClimbingGradeId: string;
-  sncsCertificationId: string;
+  highestBoulderingGradeId: number;
+  highestTopRopeGradeId: number;
+  highestLeadClimbingGradeId: number;
+  sncsCertificationId: number;
   profilePictureUrl: string;
   createdAt: string;
   updatedAt: string;

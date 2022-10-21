@@ -58,7 +58,7 @@ export const ClimbingGradesForm = () => {
         >
           <option value={undefined} />
           {boulderingGrades?.data.map((option) => (
-            <option key={option.id} value={option.name}>
+            <option key={option.id} value={option.id}>
               {option.name}
             </option>
           ))}
@@ -72,7 +72,7 @@ export const ClimbingGradesForm = () => {
         <RHFSelect name="highestTopRopeGradeId" label="Grade (Optional)" shouldSanitizeEmptyValue>
           <option value={undefined} />
           {topRopeGrades?.data.map((option) => (
-            <option key={option.id} value={option.name}>
+            <option key={option.id} value={option.id}>
               {option.name}
             </option>
           ))}
@@ -89,7 +89,7 @@ export const ClimbingGradesForm = () => {
         >
           <option value={undefined} />
           {leadClimbingGrades?.data.map((option) => (
-            <option key={option.id} value={option.name}>
+            <option key={option.id} value={option.id}>
               {option.name}
             </option>
           ))}
