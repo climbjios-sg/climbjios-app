@@ -9,7 +9,7 @@ import { getTopRopeGradeList } from 'src/services/topRopeGrades';
 import { getLeadClimbingGradeList } from 'src/services/leadClimbingGrades';
 import { OnboardingFormValues } from './types';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
-import { SANITIZE_EMPTY_VALUE } from 'src/utils/form';
+
 import { CacheKey, OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from 'src/config';
 
 export const ClimbingGradesForm = () => {
@@ -54,7 +54,7 @@ export const ClimbingGradesForm = () => {
         <RHFSelect
           name="highestBoulderingGradeId"
           label="Grade (Optional)"
-          transform={SANITIZE_EMPTY_VALUE}
+          shouldSanitizeEmptyValue
         >
           <option value={undefined} />
           {boulderingGrades?.data.map((option) => (
@@ -69,11 +69,7 @@ export const ClimbingGradesForm = () => {
           Highest Top Rope grade achieved
         </Typography>
         <FormHelperText error>{errors?.highestTopRopeGradeId?.message}</FormHelperText>
-        <RHFSelect
-          name="highestTopRopeGradeId"
-          label="Grade (Optional)"
-          transform={SANITIZE_EMPTY_VALUE}
-        >
+        <RHFSelect name="highestTopRopeGradeId" label="Grade (Optional)" shouldSanitizeEmptyValue>
           <option value={undefined} />
           {topRopeGrades?.data.map((option) => (
             <option key={option.id} value={option.name}>
@@ -89,7 +85,7 @@ export const ClimbingGradesForm = () => {
         <RHFSelect
           name="highestLeadClimbingGradeId"
           label="Grade (Optional)"
-          transform={SANITIZE_EMPTY_VALUE}
+          shouldSanitizeEmptyValue
         >
           <option value={undefined} />
           {leadClimbingGrades?.data.map((option) => (

@@ -8,7 +8,6 @@ import { getPronounList } from 'src/services/pronouns';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { CacheKey, OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from 'src/config';
 import { useSnackbar } from 'notistack';
-import { SANITIZE_EMPTY_VALUE } from 'src/utils/form';
 
 export const DetailsForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();
@@ -34,7 +33,7 @@ export const DetailsForm = () => {
         InputProps={{
           endAdornment: <InputAdornment position="end">cm</InputAdornment>,
         }}
-        transform={SANITIZE_EMPTY_VALUE}
+        shouldSanitizeEmptyValue
       />
       <RHFTextField
         type="number"
@@ -50,9 +49,9 @@ export const DetailsForm = () => {
         InputProps={{
           endAdornment: <InputAdornment position="end">cm</InputAdornment>,
         }}
-        transform={SANITIZE_EMPTY_VALUE}
+        shouldSanitizeEmptyValue
       />
-      <RHFSelect name="pronounId" label="Pronoun (Optional)" transform={SANITIZE_EMPTY_VALUE}>
+      <RHFSelect name="pronounId" label="Pronoun (Optional)" shouldSanitizeEmptyValue>
         <option value={undefined} />
         {pronouns?.data.map((option) => (
           <option key={option.id} value={option.name}>

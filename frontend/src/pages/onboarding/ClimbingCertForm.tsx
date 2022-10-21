@@ -6,7 +6,6 @@ import { getSncsCertificationList } from 'src/services/sncsCertifications';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { useSnackbar } from 'notistack';
 import { CacheKey, OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from 'src/config';
-import { SANITIZE_EMPTY_VALUE } from 'src/utils/form';
 
 export const ClimbingCertForm = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -26,11 +25,7 @@ export const ClimbingCertForm = () => {
         <Typography variant="subtitle1" gutterBottom>
           SNCS Certification
         </Typography>
-        <RHFSelect
-          name="sncsCertificationId"
-          label="Level (Optional)"
-          transform={SANITIZE_EMPTY_VALUE}
-        >
+        <RHFSelect name="sncsCertificationId" label="Level (Optional)" shouldSanitizeEmptyValue>
           <option value={undefined} />
           {sncsCertifications?.data.map((option) => (
             <option key={option.id} value={option.name}>
