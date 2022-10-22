@@ -32,7 +32,7 @@ const ServiceWorker: React.FC = () => {
       onActivate: (registration) => {
         // Custom notistack countdown logic before force refreshing the page upon successful SW activation
         const id = new Date().getTime().toString();
-        let countdownSeconds = 5;
+        let countdownSeconds = 3;
         const getSnackbarText = (seconds: number) => `Update installed successfully! Serving the new version in ${seconds}`;
 
         enqueueSnackbar(
