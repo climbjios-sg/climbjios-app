@@ -12,6 +12,7 @@ import MotionLazyContainer from './components/animate/MotionLazyContainer';
 // context
 import { ProfileProvider } from './contexts/auth/ProfileContext';
 import { AuthProvider } from './@types/auth';
+import ServiceWorker from './serviceWorker/ServiceWorker';
 
 interface Props {
   authProvider: AuthProvider;
@@ -39,6 +40,7 @@ export default function App({ authProvider }: Props) {
             <ProgressBarStyle />
             <ScrollToTop />
             <Router />
+            <ServiceWorker />
           </NotistackProvider>
         </ThemeProvider>
       </MotionLazyContainer>

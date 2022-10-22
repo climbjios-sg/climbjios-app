@@ -21,6 +21,7 @@ const isLocalhost = Boolean(
 type Config = {
   onSuccess?: (registration: ServiceWorkerRegistration) => void;
   onUpdate?: (registration: ServiceWorkerRegistration) => void;
+  onActivate?: (registration: ServiceWorkerRegistration) => void;
 };
 
 export function register(config?: Config) {
@@ -91,6 +92,11 @@ function registerValidSW(swUrl: string, config?: Config) {
               if (config && config.onSuccess) {
                 config.onSuccess(registration);
               }
+            }
+          } else if (installingWorker.state === "activated") {
+            console.log('New service worker activated');
+            if (config && config.onActivate) {
+              config.onActivate(registration);
             }
           }
         };
