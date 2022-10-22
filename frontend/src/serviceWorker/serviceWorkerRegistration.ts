@@ -58,7 +58,9 @@ export function register(config?: Config) {
   }
 }
 
-function registerValidSW(swUrl: string, config?: Config) {
+async function registerValidSW(swUrl: string, config?: Config) {
+  const isFirstInstall = !await navigator.serviceWorker.getRegistration();
+
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
@@ -95,7 +97,7 @@ function registerValidSW(swUrl: string, config?: Config) {
             }
           } else if (installingWorker.state === "activated") {
             console.log('New service worker activated');
-            if (config && config.onActivate) {
+            if (!isFirstInstall && config && config.onActivate) {
               config.onActivate(registration);
             }
           }
