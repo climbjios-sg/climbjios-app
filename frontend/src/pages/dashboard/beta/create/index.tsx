@@ -3,16 +3,18 @@ import { Stack } from '@mui/system';
 import { useNavigate } from 'react-router';
 import { BetaCreateEditFormValues } from 'src/@types/beta';
 import Iconify from 'src/components/Iconify';
+import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { postCreateBeta, uploadBetaVideoToCloudfare } from '../../../../services/betas';
 import { useDispatch } from '../../../../store';
 import { openMessageBar } from '../../../../store/reducers/messageBar';
+import { refreshView } from '../../../../store/reducers/ui';
 import BetaCreateEditForm from '../form/BetaCreateEditForm';
 
 export default function BetaCreate() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = async (beta: BetaCreateEditFormValues) => {
-    navigate(-1);
+    navigate(PATH_DASHBOARD.general.beta.gym(beta.gymId.toString()));
     dispatch(
       openMessageBar({
         icon: 'game-icons:mountain-climbing',
@@ -37,6 +39,8 @@ export default function BetaCreate() {
           enableCloseButton: true,
         })
       );
+      // Refresh betas after fetch is done
+      dispatch(refreshView());
     } catch (err) {
       dispatch(
         openMessageBar({

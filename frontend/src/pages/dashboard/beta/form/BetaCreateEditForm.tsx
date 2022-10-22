@@ -13,6 +13,7 @@ import useRHFScrollToInputOnError from '../../../../hooks/useRHFScrollToInputOnE
 import { LoadingButton } from '@mui/lab';
 import { BetaCreateEditFormValues } from '../../../../@types/beta';
 import useGetGymGrades from '../../../../hooks/services/useGetGymGrades';
+import { useSearchParams } from 'react-router-dom';
 
 type BetaCreateEditFormProps = {
   onSubmit: (data: BetaCreateEditFormValues) => Promise<void>;
@@ -29,7 +30,15 @@ const formSchema = Yup.object().shape({
   ),
 });
 
-export default function BetaCreateEditForm({ onSubmit, defaultValues }: BetaCreateEditFormProps) {
+export default function BetaCreateEditForm({
+  onSubmit,
+  defaultValues = {},
+}: BetaCreateEditFormProps) {
+  // Populate gymId default value with search param data
+  const [searchParams] = useSearchParams();
+  const searchParamsGymId = searchParams.get('gymId');
+  defaultValues.gymId = searchParamsGymId ? parseInt(searchParamsGymId, 10) : defaultValues.gymId;
+
   const gyms = useSelector((state) => state.gyms.data);
   const colors = useSelector((state) => state.colors.data);
   const walls = useSelector((state) => state.walls.data);

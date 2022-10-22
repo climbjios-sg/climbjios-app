@@ -20,8 +20,7 @@ export class BetaModel extends BaseModel {
     creatorProfile: {
       relation: Model.HasOneRelation,
       modelClass: UserProfileModel,
-      filter: (query) =>
-        query.select(['userId', 'name', 'telegramHandle', 'profilePictureUrl']),
+      filter: (query) => query.select(['userId', 'name', 'telegramHandle']),
       join: {
         from: 'betas.creatorId',
         to: 'userProfiles.userId',

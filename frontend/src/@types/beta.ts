@@ -28,6 +28,8 @@ export type Beta = {
   wall: Wall;
   gymGrade: GymGrade;
   creatorProfile: BetaCreatorProfile;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ListBetasRequest = {
