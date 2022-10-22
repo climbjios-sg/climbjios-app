@@ -36,6 +36,7 @@ export const PATH_DASHBOARD = {
     beta: {
       root: path(ROOTS_DASHBOARD, '/beta'),
       create: path(ROOTS_DASHBOARD, '/beta/create'),
+      gym: (gymId: string) => path(ROOTS_DASHBOARD, `/beta/${gymId}`),
     },
   },
 };

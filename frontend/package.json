@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.22.1",
+    "@cloudflare/stream-react": "^1.8.0",
     "@emoji-mart/data": "^1.0.2",
     "@emotion/cache": "^11.9.3",
     "@emotion/react": "^11.10.4",
@@ -61,6 +62,7 @@
     "@sentry/tracing": "^7.14.1",
     "@turf/bbox": "^6.5.0",
     "@types/chroma-js": "^2.1.4",
+    "@types/video.js": "^7.3.49",
     "ahooks": "^3.7.1",
     "amazon-cognito-identity-js": "^5.2.9",
     "apexcharts": "^3.35.3",
@@ -131,6 +133,7 @@
     "typesafe-actions": "^5.1.0",
     "util": "^0.12.4",
     "vcard-creator": "^0.5.0",
+    "video.js": "^7.20.3",
     "web-vitals": "^2.1.4",
     "worker-loader": "^3.0.8",
     "xregexp": "^5.1.1",

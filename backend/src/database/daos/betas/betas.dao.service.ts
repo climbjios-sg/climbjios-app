@@ -6,7 +6,7 @@ import getBetasDto from '../../../betas/dtos/getBetas.dto';
 
 @Injectable()
 export class BetasDaoService {
-  static allGraphs = '[gym,color,wall,creatorProfile]';
+  static allGraphs = '[gym,color,wall,gymGrade,creatorProfile]';
 
   constructor(@Inject('BetaModel') private betaModel: ModelClass<BetaModel>) {}
 

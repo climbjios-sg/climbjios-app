@@ -22,6 +22,8 @@ interface IConstantsService {
   AWS_S3_BUCKET_NAME: string;
   AWS_REGION: string;
   CORS_ORIGIN: string;
+  CLOUDFLARE_ACCOUNT_ID: string;
+  CLOUDFLARE_STREAM_API_TOKEN: string;
 }
 
 @Injectable()

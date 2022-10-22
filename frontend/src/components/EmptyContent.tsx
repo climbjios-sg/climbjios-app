@@ -1,9 +1,6 @@
 // @mui
 import { styled } from '@mui/material/styles';
 import { Typography, Box, BoxProps } from '@mui/material';
-//
-import Image from './Image';
-import Logo from './Logo';
 
 // ----------------------------------------------------------------------
 
@@ -14,18 +11,18 @@ const RootStyle = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   flexDirection: 'column',
   justifyContent: 'center',
-  padding: theme.spacing(8, 2),
+  padding: theme.spacing(3, 3),
 }));
 
 // ----------------------------------------------------------------------
 
 interface Props extends BoxProps {
   title: string;
-  img?: string;
   description?: string;
+  children?: React.ReactNode;
 }
 
-export default function EmptyContent({ title, description, img, ...other }: Props) {
+export default function EmptyContent({ title, description, children, ...other }: Props) {
   return (
     <RootStyle {...other}>
       <Typography variant="h5" gutterBottom>
@@ -33,10 +30,12 @@ export default function EmptyContent({ title, description, img, ...other }: Prop
       </Typography>
 
       {description && (
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+        <Typography variant="body2" sx={{ color: 'text.secondary', pb: 3 }}>
           {description}
         </Typography>
       )}
+
+      {children}
     </RootStyle>
   );
 }

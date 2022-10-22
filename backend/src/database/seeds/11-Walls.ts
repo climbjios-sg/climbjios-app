@@ -6,8 +6,8 @@ export async function seed(knex: Knex): Promise<void> {
 
   // Inserts seed entries
   await knex('walls').insert([
-    { name: 'vertical' },
-    { name: 'overhang' },
-    { name: 'slab' },
+    { name: 'Vertical' },
+    { name: 'Overhang' },
+    { name: 'Slab' },
   ]);
 }

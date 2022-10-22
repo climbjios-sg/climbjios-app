@@ -28,17 +28,14 @@ export class BetasService {
 
   async getBetas(query: getBetasDto) {
     try {
-      console.log(query.page);
-      console.log(query.pageSize);
-      console.log(query.limit);
       // If page is not defined it will be set to zero
       if (query.page === undefined) {
         query.page = 0;
       }
 
-      // If page size is not defined it will be set to 20
-      if (query.pageSize) {
-        query.pageSize = 20;
+      // If page size is not defined it will be set to 10
+      if (!query.pageSize) {
+        query.pageSize = 10;
       }
 
       const data = await this.betaDaoService.getAll(query);
