@@ -10,7 +10,8 @@ import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { authProviderFactory } from './authProviders';
 import { DEFAULT_AUTH_PROVIDER } from './config';
-
+import snackbarUtil from './utils/snackbarUtil';
+import { Button } from '@mui/material';
 // ----------------------------------------------------------------------
 
 if (process.env.REACT_APP_SENTRY_DSN) {
@@ -45,7 +46,28 @@ renderRoot();
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.unregister();
+// serviceWorkerRegistration.unregister();
+serviceWorkerRegistration.register({
+  onUpdate: registration => {
+  setTimeout(() => snackbarUtil.warning(
+    'A new version of ClimbJios is available! Reload the page to update now?',
+    {
+      persist: true,
+      action: snackbarId => (
+        <>
+          <Button onClick={() => {
+            if (registration && registration.waiting) {
+              registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            }
+            snackbarUtil.closeSnackbar(snackbarId)
+            window.location.reload();
+          }}>Yes</Button>
+          <Button onClick={() => snackbarUtil.closeSnackbar(snackbarId)}>No</Button>
+        </>
+      )
+    }), 1000);
+  }
+})
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

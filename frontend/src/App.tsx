@@ -9,6 +9,7 @@ import ScrollToTop from './components/ScrollToTop';
 import { ProgressBarStyle } from './components/ProgressBar';
 import NotistackProvider from './components/NotistackProvider';
 import MotionLazyContainer from './components/animate/MotionLazyContainer';
+import { SnackbarUtilsConfigurator } from './utils/snackbarUtil';
 // context
 import { ProfileProvider } from './contexts/auth/ProfileContext';
 import { AuthProvider } from './@types/auth';
@@ -36,6 +37,7 @@ export default function App({ authProvider }: Props) {
       <MotionLazyContainer>
         <ThemeProvider>
           <NotistackProvider>
+            <SnackbarUtilsConfigurator />
             <ProgressBarStyle />
             <ScrollToTop />
             <Router />
