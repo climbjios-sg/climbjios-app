@@ -14,6 +14,7 @@ import { LoadingButton } from '@mui/lab';
 import { BetaCreateEditFormValues } from '../../../../@types/beta';
 import useGetGymGrades from '../../../../hooks/services/useGetGymGrades';
 import { useSearchParams } from 'react-router-dom';
+import { MAX_VIDEO_UPLOAD_SIZE_IN_BYTES } from '../../../../config';
 
 type BetaCreateEditFormProps = {
   onSubmit: (data: BetaCreateEditFormValues) => Promise<void>;
@@ -80,7 +81,11 @@ export default function BetaCreateEditForm({
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack direction="column" alignItems="center" spacing={3}>
-        <RHFUploadSingleFileVideo name="video" onDrop={handleDrop} />
+        <RHFUploadSingleFileVideo
+          name="video"
+          onDrop={handleDrop}
+          maxSize={MAX_VIDEO_UPLOAD_SIZE_IN_BYTES}
+        />
         <RHFSelect
           label="Select Gym"
           fullWidth

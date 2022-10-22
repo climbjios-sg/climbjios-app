@@ -96,7 +96,7 @@ const addAllOption = (list: { value: number; label: string }[]) => [
 
 export default function BetaGym() {
   // Number of Betas to fetch per page
-  const pageSize = 2;
+  const PAGE_SIZE = 10;
   const [selectedGymGrade, setSelectedGymGrade] = useState<GymGrade['id'] | undefined>(undefined);
   const [selectedWall, setSelectedWall] = useState<Wall['id'] | undefined>(undefined);
   const [selectedColor, setSelectedColor] = useState<Color['id'] | undefined>(undefined);
@@ -135,7 +135,7 @@ export default function BetaGym() {
         wallId: selectedWall,
         colorId: selectedColor,
         page,
-        pageSize,
+        pageSize: PAGE_SIZE,
       }),
     [gymId, selectedColor, selectedGymGrade, selectedWall]
   );

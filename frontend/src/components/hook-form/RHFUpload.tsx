@@ -10,7 +10,7 @@ import {
   UploadProps,
   UploadMultiFileProps,
 } from '../upload';
-import { UploadSingleFileVideo } from '../upload/UploadSingleFile';
+import { UploadSingleFileVideo } from "../upload/UploadSingleFileVideo";
 
 // ----------------------------------------------------------------------
 
