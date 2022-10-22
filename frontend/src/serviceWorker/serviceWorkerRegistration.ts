@@ -21,6 +21,7 @@ const isLocalhost = Boolean(
 type Config = {
   onSuccess?: (registration: ServiceWorkerRegistration) => void;
   onUpdate?: (registration: ServiceWorkerRegistration) => void;
+  onActivate?: (registration: ServiceWorkerRegistration) => void;
 };
 
 export function register(config?: Config) {
@@ -34,30 +35,33 @@ export function register(config?: Config) {
       return;
     }
 
-    window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+    // In this app, service worker registration is called after the React app is mounted.
+    // Thus, we do not have to wrap the SW registration in the default window 'load' event listener by CRA.
+    // Infact, the 'load' event would already have passed.
+    const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
-      if (isLocalhost) {
-        // This is running on localhost. Let's check if a service worker still exists or not.
-        checkValidServiceWorker(swUrl, config);
+    if (isLocalhost) {
+      // This is running on localhost. Let's check if a service worker still exists or not.
+      checkValidServiceWorker(swUrl, config);
 
-        // Add some additional logging to localhost, pointing developers to the
-        // service worker/PWA documentation.
-        navigator.serviceWorker.ready.then(() => {
-          console.log(
-            'This web app is being served cache-first by a service ' +
-              'worker. To learn more, visit https://cra.link/PWA'
-          );
-        });
-      } else {
-        // Is not localhost. Just register service worker
-        registerValidSW(swUrl, config);
-      }
-    });
+      // Add some additional logging to localhost, pointing developers to the
+      // service worker/PWA documentation.
+      navigator.serviceWorker.ready.then(() => {
+        console.log(
+          'This web app is being served cache-first by a service ' +
+            'worker. To learn more, visit https://cra.link/PWA'
+        );
+      });
+    } else {
+      // Is not localhost. Just register service worker
+      registerValidSW(swUrl, config);
+    }
   }
 }
 
-function registerValidSW(swUrl: string, config?: Config) {
+async function registerValidSW(swUrl: string, config?: Config) {
+  const isFirstInstall = !await navigator.serviceWorker.getRegistration();
+
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
@@ -91,6 +95,11 @@ function registerValidSW(swUrl: string, config?: Config) {
               if (config && config.onSuccess) {
                 config.onSuccess(registration);
               }
+            }
+          } else if (installingWorker.state === "activated") {
+            console.log('New service worker activated');
+            if (!isFirstInstall && config && config.onActivate) {
+              config.onActivate(registration);
             }
           }
         };
