@@ -19,8 +19,8 @@ export interface User {
   pronounId: number;
   highestBoulderingGradeId: number;
   highestTopRopeGradeId: number;
-  highestLeadClimbingGradeId: string;
-  sncsCertificationId: string;
+  highestLeadClimbingGradeId: number;
+  sncsCertificationId: number;
   profilePictureUrl: string;
   createdAt: string;
   updatedAt: string;

@@ -8,7 +8,7 @@ import { getGymList } from 'src/services/gyms';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { useSnackbar } from 'notistack';
 import RHFAutoMultiSelect from 'src/components/hook-form/RHFAutoMultiSelect';
-import { CacheKey, USEREQUEST_OPTIONS_CACHE_TIME, USEREQUEST_OPTIONS_STALE_TIME } from 'src/config';
+import { CacheKey, OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from 'src/config';
 
 export const FavoriteGymsForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();
@@ -16,8 +16,8 @@ export const FavoriteGymsForm = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { data: gyms } = useSafeRequest(getGymList, {
     // Caches successful data
-    cacheTime: USEREQUEST_OPTIONS_CACHE_TIME,
-    staleTime: USEREQUEST_OPTIONS_STALE_TIME,
+    cacheTime: OPTIONS_CACHE_TIME,
+    staleTime: OPTIONS_STALE_TIME,
     cacheKey: CacheKey.Gyms,
     onError: () => {
       enqueueSnackbar('Failed to get gyms.', { variant: 'error' });
@@ -32,7 +32,7 @@ export const FavoriteGymsForm = () => {
         </Typography>
         <RHFAutoMultiSelect
           name="favouriteGymIds"
-          label="Select Gym"
+          label="Select Gym (Optional)"
           options={gyms?.data.map((option) => ({
             value: option.id,
             label: option.name,

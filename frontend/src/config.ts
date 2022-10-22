@@ -59,6 +59,14 @@ export const REGEX_TELEGRAM =
 export const MIN_USERNAME_LEN = 3;
 export const MAX_USERNAME_LEN = 30;
 
+// Height
+export const MIN_HEIGHT = 100;
+export const MAX_HEIGHT = 300;
+
+// Reach
+export const MIN_REACH = -20;
+export const MAX_REACH = 20;
+
 /*
 Note: username can only consist of uppercase & lowercase alphabets and numbers, 
 and must be between 3 to 30 characters. Update this regex when length limitations change
@@ -85,5 +93,5 @@ export enum CacheKey {
   BoulderingGrades = 'BoulderingGrades',
   SncsCertifications = 'SncsCertifications',
 }
-export const USEREQUEST_OPTIONS_CACHE_TIME = -1;
-export const USEREQUEST_OPTIONS_STALE_TIME = -1;
+export const OPTIONS_CACHE_TIME = -1;
+export const OPTIONS_STALE_TIME = -1;

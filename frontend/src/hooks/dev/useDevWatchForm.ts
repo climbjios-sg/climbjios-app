@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { UseFormWatch, FieldValues } from 'react-hook-form';
 import { isDevelopment } from 'src/config';
 
-const useWatchForm = <TFieldValues extends FieldValues>(watch: UseFormWatch<TFieldValues>) => {
+const useDevWatchForm = <TFieldValues extends FieldValues>(watch: UseFormWatch<TFieldValues>) => {
   const formData = watch();
   useEffect(() => {
     if (!isDevelopment) {
@@ -13,4 +13,4 @@ const useWatchForm = <TFieldValues extends FieldValues>(watch: UseFormWatch<TFie
   }, [formData]);
 };
 
-export default useWatchForm;
+export default useDevWatchForm;

@@ -1,12 +1,12 @@
 import React from 'react';
-import { Stack, InputAdornment, FormHelperText } from '@mui/material';
+import { Stack, InputAdornment } from '@mui/material';
 // components
 import { RHFTextField, RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from './types';
 import { getPronounList } from 'src/services/pronouns';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
-import { CacheKey, USEREQUEST_OPTIONS_CACHE_TIME, USEREQUEST_OPTIONS_STALE_TIME } from 'src/config';
+import { CacheKey, OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from 'src/config';
 import { useSnackbar } from 'notistack';
 
 export const DetailsForm = () => {
@@ -15,8 +15,8 @@ export const DetailsForm = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { data: pronouns } = useSafeRequest(getPronounList, {
     // Caches successful data
-    cacheTime: USEREQUEST_OPTIONS_CACHE_TIME,
-    staleTime: USEREQUEST_OPTIONS_STALE_TIME,
+    cacheTime: OPTIONS_CACHE_TIME,
+    staleTime: OPTIONS_STALE_TIME,
     cacheKey: CacheKey.Pronouns,
     onError: () => {
       enqueueSnackbar('Failed to get pronouns.', { variant: 'error' });
@@ -28,16 +28,17 @@ export const DetailsForm = () => {
       <RHFTextField
         type="number"
         name="height"
-        label="Height"
+        label="Height (Optional)"
         placeholder="173"
         InputProps={{
           endAdornment: <InputAdornment position="end">cm</InputAdornment>,
         }}
+        shouldSanitizeEmptyValue
       />
       <RHFTextField
         type="number"
         name="reach"
-        label="Reach"
+        label="Reach (Optional)"
         helperText={
           errors?.reach?.message ||
           'Leave this empty if you are unsure or do not know what reach is.'
@@ -45,11 +46,15 @@ export const DetailsForm = () => {
         FormHelperTextProps={{
           error: !!errors?.reach,
         }}
+        InputProps={{
+          endAdornment: <InputAdornment position="end">cm</InputAdornment>,
+        }}
+        shouldSanitizeEmptyValue
       />
-      <RHFSelect name="pronounId" label="Pronoun">
-        <option value="" />
+      <RHFSelect name="pronounId" label="Pronoun (Optional)" shouldSanitizeEmptyValue>
+        <option value={undefined} />
         {pronouns?.data.map((option) => (
-          <option key={option.id} value={option.name}>
+          <option key={option.id} value={option.id}>
             {option.name}
           </option>
         ))}
