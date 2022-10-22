@@ -47,6 +47,13 @@ export default function Router() {
         </CommonGuard>
       ),
     },
+    // Public Profile Routes
+    {
+      path: 'user/:userId',
+      element: (
+        <UserPublicProfile />
+      ),
+    },
     {
       path: '404',
       element: <Page404 />,
@@ -63,6 +70,9 @@ const Onboarding = Loadable(lazy(() => import('../pages/onboarding')));
 
 // APP
 const Dashboard = Loadable(lazy(() => import('../pages/dashboard')));
+
+// USER PUBLIC PROFILE
+const UserPublicProfile = Loadable(lazy(() => import('../pages/profile/UserPublicProfile')));
 
 // LANDING
 const Page404 = Loadable(lazy(() => import('../pages/error/Page404')));

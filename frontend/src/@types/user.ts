@@ -12,6 +12,7 @@ interface Grade {
 
 export interface User {
   userId: string;
+  bio: string;
   name: string;
   telegramHandle: string;
   height: number;
