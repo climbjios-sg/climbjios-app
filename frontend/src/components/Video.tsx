@@ -2,7 +2,6 @@
 import { Theme } from '@mui/material/styles';
 import { Box, IconButton, Modal, SxProps } from '@mui/material';
 import * as React from 'react';
-import 'video.js/dist/video-js.css';
 import { Stream } from '@cloudflare/stream-react';
 import Iconify from './Iconify';
 
