@@ -1,22 +1,14 @@
 import { useDropzone } from 'react-dropzone';
-// @mui
-import { Box } from '@mui/material';
-// type
+import { Box, Container } from '@mui/material';
 import { UploadProps } from './type';
-//
-import Image from '../Image';
 import RejectionFiles from './RejectionFiles';
-import BlockContent from './BlockContent';
-import DropZoneStyle from './DropZoneStyle';
+import VideoBlockContent from './VideoBlockContent';
+import DropZoneStyle from "./DropZoneStyle";
 
 // ----------------------------------------------------------------------
 
-export default function UploadSingleFile({
-  error = false,
-  file,
-  helperText,
-  sx,
-  ...other
+export function UploadSingleFileVideo({
+  error = false, file, helperText, sx, ...other
 }: UploadProps) {
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple: false,
@@ -41,21 +33,29 @@ export default function UploadSingleFile({
       >
         <input {...getInputProps()} />
 
-        <BlockContent />
-
-        {file && (
-          <Image
-            alt="file preview"
-            src={typeof file === 'string' ? file : file.preview}
+        {file ? (
+          <Container
             sx={{
-              top: 8,
-              left: 8,
-              borderRadius: 1,
-              position: 'absolute',
-              width: 'calc(100% - 16px)',
-              height: 'calc(100% - 16px)',
+              width: '80vw',
+              height: 300,
             }}
-          />
+          >
+            <video
+              autoPlay
+              muted
+              loop
+              src={typeof file === 'string' ? file : file.preview}
+              style={{
+                top: 8,
+                left: 8,
+                borderRadius: 1,
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+              }} />
+          </Container>
+        ) : (
+          <VideoBlockContent />
         )}
       </DropZoneStyle>
 
@@ -65,5 +65,3 @@ export default function UploadSingleFile({
     </Box>
   );
 }
-
-
