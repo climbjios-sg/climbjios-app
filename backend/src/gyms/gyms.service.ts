@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { GymsDaoService } from 'src/database/daos/gyms/gyms.dao.service';
-import { GymGradesDaoService } from 'src/database/daos/gymGrades/gymGrades.dao.service';
+import { GymsDaoService } from '../database/daos/gyms/gyms.dao.service';
+import { GymGradesDaoService } from '../database/daos/gymGrades/gymGrades.dao.service';
 
 @Injectable()
 export class GymsService {
