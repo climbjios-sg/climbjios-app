@@ -9,3 +9,7 @@ export function formatHighestBoulderingGrade(highestBoulderingGrade: string) {
 export function formatHighestLeadAndTopRopeGrade(highestLeadClimbingGrade: string, highestTopRopeGrade: string) {
   return `Lead ${highestLeadClimbingGrade} | Top Rope ${highestTopRopeGrade}`;
 }
+
+export function formatSncsCertification(sncsCertification: string) {
+  return `SNCS ${sncsCertification}`;
+}

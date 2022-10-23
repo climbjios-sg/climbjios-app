@@ -5,7 +5,7 @@ import Iconify from 'src/components/Iconify';
 // types
 import { User } from 'src/@types/user';
 //
-import { formatHeightReach, formatHighestBoulderingGrade, formatHighestLeadAndTopRopeGrade } from 'src/utils/formatString';
+import { formatHeightReach, formatHighestBoulderingGrade, formatHighestLeadAndTopRopeGrade, formatSncsCertification } from 'src/utils/formatString';
 
 interface BioProps {
   data: User;
@@ -13,7 +13,13 @@ interface BioProps {
 
 export default function BioCard({ data }: BioProps ) {
   function isEmptyBio() {
-    return !(data.height || data.reach || data.sncsCertification || (data.highestBoulderingGrade && data.highestBoulderingGrade.name) || data.highestLeadClimbingGrade || (data.highestTopRopeGrade && data.highestTopRopeGrade.name) || (data.favouriteGyms && data.favouriteGyms.length > 0));
+    return !(data.height
+      || data.reach
+      || (data.sncsCertification && data.sncsCertification)
+      || (data.highestBoulderingGrade && data.highestBoulderingGrade.name)
+      || (data.highestLeadClimbingGrade && data.highestLeadClimbingGrade.name)
+      || (data.highestTopRopeGrade && data.highestTopRopeGrade.name)
+      || (data.favouriteGyms && data.favouriteGyms.length > 0));
   }
 
   return isEmptyBio()
@@ -48,7 +54,7 @@ export default function BioCard({ data }: BioProps ) {
           </Grid>
           <Grid item xs={11}>
             <Typography variant="body1">
-              {data.sncsCertification}
+              {formatSncsCertification(data.sncsCertification.name)}
             </Typography>
           </Grid>
         </>}
@@ -72,7 +78,7 @@ export default function BioCard({ data }: BioProps ) {
           </Grid>
           <Grid item xs={11}>
             <Typography variant="body1">
-                {formatHighestLeadAndTopRopeGrade(data.highestLeadClimbingGrade, data.highestTopRopeGrade.name)}
+                {formatHighestLeadAndTopRopeGrade(data.highestLeadClimbingGrade.name, data.highestTopRopeGrade.name)}
             </Typography>
           </Grid>
         </>}
