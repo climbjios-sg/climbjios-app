@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ModelClass } from 'objection';
-import { UserModel } from 'src/database/models/user.model';
-import { AuthProvider } from 'src/utils/types';
+import { UserModel } from '../../models/user.model';
+import { AuthProvider } from '../../../utils/types';
 
 @Injectable()
 export class UserDaoService {
