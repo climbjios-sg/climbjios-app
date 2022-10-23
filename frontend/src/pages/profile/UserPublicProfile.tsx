@@ -29,7 +29,6 @@ export default function UserProfile() {
   const navigate = useNavigate();
   const location = useLocation();
   const { data } = location.state;
-  console.log(data);
   const { currentTab, onChangeTab } = useTabs('about');
   const PROFILE_TABS = [
     {
