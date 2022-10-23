@@ -10,6 +10,11 @@ interface Grade {
   name: string;
 }
 
+interface Certification {
+  id: number;
+  name: string;
+}
+
 export interface User {
   userId: string;
   bio: string;
@@ -25,11 +30,11 @@ export interface User {
   profilePictureUrl: string;
   createdAt: string;
   updatedAt: string;
-  highestLeadClimbingGrade: string;
-  sncsCertification: string;
+  sncsCertification: Certification;
   pronoun: Pronoun;
   highestBoulderingGrade: Grade;
   highestTopRopeGrade: Grade;
+  highestLeadClimbingGrade: Grade;
   favouriteGyms: Gym[];
 }
 
