@@ -71,7 +71,7 @@ export default function MyJioCard({ data }: MyJioCardProps) {
         {data.openToClimbTogether && (
           <Stack direction="row">
             <IconStyle icon={'fluent:hand-wave-16-regular'} color={palette.light.grey[700]} />
-            <Typography variant="body2">{'Open jio to climb together.'}</Typography>
+            <Typography variant="body2">{'Open to climb together.'}</Typography>
           </Stack>
         )}
         {data.optionalNote && (

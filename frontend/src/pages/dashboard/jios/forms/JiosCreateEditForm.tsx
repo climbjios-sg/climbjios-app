@@ -183,7 +183,7 @@ export default function JiosCreateEditForm({
                 name="numPasses"
                 step={1}
                 min={1}
-                max={8}
+                max={10}
                 valueLabelDisplay="on"
                 color="primary"
                 sx={{ alignSelf: 'center', width: `calc(100% - 20px)` }}
