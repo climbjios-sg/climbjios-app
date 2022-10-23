@@ -1,6 +1,5 @@
 import { capitalCase } from 'change-case';
 // @mui
-import { styled } from '@mui/material/styles';
 import {
   Box,
   Stack,
@@ -14,32 +13,28 @@ import {
 import Iconify from '../../components/Iconify';
 // hooks
 import useTabs from 'src/hooks/ui/useTabs';
-import useSafeRequest from 'src/hooks/services/useSafeRequest';
-import { useNavigate } from 'react-router';
-import { useSnackbar } from 'notistack';
+import { useNavigate, useLocation } from 'react-router';
 // components
 import FloatingBottomCard from 'src/components/FloatingBottomCard';
 import BioCard from '../dashboard/profile/BioCard';
 import Sends from '../dashboard/profile/Sends';
 // types
 import { User } from 'src/@types/user';
-// services
-import { getUser } from 'src/services/users';
+
+interface UserProfileProps {
+  data: User;
+}
 
 export default function UserProfile() {
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
-  const { data } = useSafeRequest(() => getUser(), {
-    onError: () => {
-      enqueueSnackbar('Failed to get user data.', { variant: 'error' });
-    },
-  });
+  const location = useLocation();
+  const { data } = location.state;
   console.log(data);
   const { currentTab, onChangeTab } = useTabs('about');
   const PROFILE_TABS = [
     {
       value: 'about',
-      component: !data ? <></> : <BioCard data={data.data} />,
+      component: !data ? <></> : <BioCard data={data} />,
     },
     // Uncomment when sends feature is ready
     // {
@@ -50,7 +45,7 @@ export default function UserProfile() {
 
   const handleClickBackButton = () => navigate(-1);
 
-  return data && data.data ? (
+  return data ? (
     <Box sx={{
       pt: 5,
       pb: 25,
@@ -63,7 +58,7 @@ export default function UserProfile() {
           <Stack spacing={2} textAlign="center" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 4 }}>
             <Avatar
               alt={'Profile picture'}
-              src={data.data.profilePictureUrl}
+              src={data.profilePictureUrl}
               sx={{
                 width: 96,
                 height: 96,
@@ -74,11 +69,11 @@ export default function UserProfile() {
 
             <Stack spacing={1} textAlign="center" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Typography variant="subtitle1">
-                {data.data.name ? data.data.name : 'Something went wrong! Couldn\'t retrieve user\'s name :('}
+                {data.name || 'Something went wrong! Couldn\'t retrieve user\'s name :('}
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {`@${data.data.telegramHandle}` || 'Something went wrong! Couldn\'t retrieve user\'s Telegram handle :('}
+                {`@${data.telegramHandle}` || 'Something went wrong! Couldn\'t retrieve user\'s Telegram handle :('}
               </Typography>
             </Stack>
 

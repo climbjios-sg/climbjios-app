@@ -15,7 +15,7 @@ export default function BioCard({ data }: BioProps ) {
   function isEmptyBio() {
     return !(data.height
       || data.reach
-      || (data.sncsCertification && data.sncsCertification)
+      || (data.sncsCertification && data.sncsCertification.name)
       || (data.highestBoulderingGrade && data.highestBoulderingGrade.name)
       || (data.highestLeadClimbingGrade && data.highestLeadClimbingGrade.name)
       || (data.highestTopRopeGrade && data.highestTopRopeGrade.name)
@@ -47,7 +47,7 @@ export default function BioCard({ data }: BioProps ) {
           </Grid>
         </>}
 
-        {data.sncsCertification &&
+        {data.sncsCertification && data.sncsCertification?.name &&
         <>
           <Grid item xs={1}>
             <Iconify icon='icon-park:certificate' height={15} width={15} />
@@ -59,7 +59,7 @@ export default function BioCard({ data }: BioProps ) {
           </Grid>
         </>}
 
-        {data.highestBoulderingGrade && data.highestBoulderingGrade.name &&
+        {data.highestBoulderingGrade && data.highestBoulderingGrade?.name &&
         <>
           <Grid item xs={1}>
             <Iconify icon='fluent-emoji-flat:rock' height={15} width={15} />
@@ -71,7 +71,7 @@ export default function BioCard({ data }: BioProps ) {
           </Grid>
         </>}
 
-        {data.highestLeadClimbingGrade && data.highestTopRopeGrade.name &&
+        {data.highestLeadClimbingGrade && data.highestLeadClimbingGrade?.name && data.highestTopRopeGrade && data.highestTopRopeGrade?.name &&
         <>
           <Grid item xs={1}>
             <Iconify icon='fluent-emoji:man-climbing-medium-light' height={15} width={15} />

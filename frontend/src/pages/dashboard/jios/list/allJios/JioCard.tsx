@@ -80,6 +80,7 @@ export default function JioCard({ data }: JioCardProps) {
             fullWidth
             component={Link}
             to={`${PATH_USER.root}/${data.creatorProfile.userId}`}
+            state={{data: data.creatorProfile}}
             variant="outlined"
           >
             <span>Request Pass</span>
