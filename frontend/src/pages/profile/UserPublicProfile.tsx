@@ -15,7 +15,7 @@ import Iconify from '../../components/Iconify';
 // hooks
 import useTabs from 'src/hooks/ui/useTabs';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
 // components
 import FloatingBottomCard from 'src/components/FloatingBottomCard';
@@ -26,35 +26,15 @@ import { User } from 'src/@types/user';
 // services
 import { getUser } from 'src/services/users';
 
-// ----------------------------------------------------------------------
-
-// interface UserProfileProps {
-//   data: User;
-// }
-
-const TabsWrapperStyle = styled('div')(({ theme }) => ({
-  zIndex: 9,
-  bottom: 0,
-  width: '100%',
-  display: 'flex',
-  backgroundColor: theme.palette.background.paper,
-  [theme.breakpoints.up('sm')]: {
-    justifyContent: 'center',
-  }
-}));
-
-// ----------------------------------------------------------------------
-
 export default function UserProfile() {
   const navigate = useNavigate();
-  const { userId } = useParams();
   const { enqueueSnackbar } = useSnackbar();
   const { data } = useSafeRequest(() => getUser(), {
     onError: () => {
       enqueueSnackbar('Failed to get user data.', { variant: 'error' });
     },
   });
-  // console.log(data);
+  console.log(data);
   const { currentTab, onChangeTab } = useTabs('about');
   const PROFILE_TABS = [
     {
@@ -64,7 +44,7 @@ export default function UserProfile() {
     // Uncomment when sends feature is ready
     // {
     //   value: 'sends',
-    //   // component: <Sends sends={data.sends} />,
+    //   // component: <Sends sends={data.data, data.sends} />,
     // },
   ];
 
@@ -83,9 +63,7 @@ export default function UserProfile() {
           <Stack spacing={2} textAlign="center" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 4 }}>
             <Avatar
               alt={'Profile picture'}
-              src={data.data.profilePictureUrl ||
-                'https://minimal-assets-api-dev.vercel.app/assets/images/avatars/avatar_default.jpg'
-              }
+              src={data.data.profilePictureUrl}
               sx={{
                 width: 96,
                 height: 96,
@@ -96,11 +74,11 @@ export default function UserProfile() {
 
             <Stack spacing={1} textAlign="center" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Typography variant="subtitle1">
-                {data.data.name ? data.data.name : 'Lewis Simmons'}
+                {data.data.name ? data.data.name : 'Something went wrong! Couldn\'t retrieve user\'s name :('}
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {`@${data.data.telegramHandle}` || '@mrlewis'}
+                {`@${data.data.telegramHandle}` || 'Something went wrong! Couldn\'t retrieve user\'s Telegram handle :('}
               </Typography>
             </Stack>
 

@@ -1,18 +1,20 @@
 // @mui
 import { Card, Grid, List, ListItem, Typography } from '@mui/material';
 // types
+import { User } from 'src/@types/user';
 import { Send } from 'src/@types/send';
 
 type Props = {
+  user: User,
   sends: Array<Send>,
 }
 
-export default function Sends({ sends }: Props) {
+export default function Sends({ user, sends }: Props) {
   if (!sends) {
     return (
       <Card sx={{ textAlign: 'left', px: 3, pb: 3 }}>
         <Typography>
-          {'Lewis Simmons hasn\'t posted any sends yet.'}
+          {`${user.name} hasn\'t posted any sends yet.`}
         </Typography>
       </Card>
     )

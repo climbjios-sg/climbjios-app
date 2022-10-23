@@ -1,12 +1,10 @@
-import * as React from 'react';
 import { Avatar, Button, Card, CardHeader, Grid, Stack, Typography } from '@mui/material';
-import Iconify from '../../../../../components/Iconify';
 import { IconStyle } from 'src/utils/common';
-import { Jio } from '../../../../../@types/jio';
-import palette from '../../../../../theme/palette';
-import { formatStartEndDate } from '../../../../../utils/formatTime';
+import { Jio } from 'src/@types/jio';
+import palette from 'src/theme/palette';
+import { formatStartEndDate } from 'src/utils/formatTime';
 import { getPassesText } from '../utils';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { PATH_USER } from 'src/routes/paths';
 
 interface JioCardProps {
@@ -14,7 +12,6 @@ interface JioCardProps {
 }
 
 export default function JioCard({ data }: JioCardProps) {
-  const navigate = useNavigate();
 
   return (
     <Card>
