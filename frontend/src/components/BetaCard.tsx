@@ -12,7 +12,7 @@ type Props = {
   beta: Beta;
 };
 
-// Memoizing content since it will be rendered in a inifinite list
+// Memoizing content since it will be rendered in a infinite list
 const BetaCard = React.memo(({ beta }: Props) => (
   <Card sx={{ background: 'black', height: '100%' }}>
     <Box sx={{ position: 'relative', height: '100%' }}>

@@ -37,6 +37,7 @@ import NoContentGif from 'src/assets/no-content.gif';
 import EmptyContent from '../../../../components/EmptyContent';
 import BetaLoader from './BetaLoader';
 import cloneDeep from 'lodash/cloneDeep';
+import useGetGyms from '../../../../hooks/services/useGetGyms';
 
 const FloatingContainer = styled('div')({
   position: 'fixed',
@@ -86,20 +87,24 @@ const InfiniteScrollHelper = styled((props: TypographyProps) => (
   justifySelf: 'center',
 });
 
-const ALL_VALUE = undefined;
+// Undefined stands for selecting all values
+const ALL_VALUES = undefined;
+type ALL_VALUES_TYPE = undefined;
 
 const addAllOption = (list: { value: number; label: string }[]) => [
   // By default, if the value is undefined, we will fetch all data
-  { value: ALL_VALUE, label: 'All' },
+  { value: ALL_VALUES, label: 'All' },
   ...list,
 ];
 
 export default function BetaGym() {
   // Number of Betas to fetch per page
   const PAGE_SIZE = 10;
-  const [selectedGymGrade, setSelectedGymGrade] = useState<GymGrade['id'] | undefined>(undefined);
-  const [selectedWall, setSelectedWall] = useState<Wall['id'] | undefined>(undefined);
-  const [selectedColor, setSelectedColor] = useState<Color['id'] | undefined>(undefined);
+  const [selectedGymGrade, setSelectedGymGrade] = useState<GymGrade['id'] | ALL_VALUES_TYPE>(
+    ALL_VALUES
+  );
+  const [selectedWall, setSelectedWall] = useState<Wall['id'] | ALL_VALUES_TYPE>(ALL_VALUES);
+  const [selectedColor, setSelectedColor] = useState<Color['id'] | ALL_VALUES_TYPE>(ALL_VALUES);
   const errorSnackbar = useErrorSnackbar();
   // True iff user is scrolling
   const trigger = useScrollTrigger({
@@ -108,7 +113,7 @@ export default function BetaGym() {
   const theme = useTheme();
   const params = useParams();
   const gymId = Number(params.gymId);
-  const gym = useSelector((state) => state.gyms.data.find((gym) => gym.id === gymId));
+  const gym = useGetGyms()?.find(gym => gym.id === gymId);
   const colors = useSelector((state) => state.colors.data);
   const walls = useSelector((state) => state.walls.data);
   const viewVersion = useSelector((state) => state.ui.viewVersion);

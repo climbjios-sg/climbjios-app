@@ -1,16 +1,20 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'src/store';
-import { listGyms } from 'src/store/reducers/gyms';
+import { OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME, CacheKey } from '../../config';
+import { getGymList } from '../../services/gyms';
+import useErrorSnackbar from '../useErrorSnackbar';
+import useSafeRequest from './useSafeRequest';
 
 const useGetGyms = () => {
-  const state = useSelector((state) => state.gyms);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(listGyms());
-  }, [dispatch]);
-
-  return state;
+  const snackbar = useErrorSnackbar();
+  const { data } = useSafeRequest(getGymList, {
+    // Caches successful data
+    cacheTime: OPTIONS_CACHE_TIME,
+    staleTime: OPTIONS_STALE_TIME,
+    cacheKey: CacheKey.Gyms,
+    onError: () => {
+      snackbar.enqueueWithSupport('Failed to get gyms.');
+    },
+  });
+  return data?.data;
 };
 
 export default useGetGyms;
