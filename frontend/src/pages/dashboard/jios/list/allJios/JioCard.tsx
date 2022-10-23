@@ -12,20 +12,20 @@ interface JioCardProps {
 }
 
 export default function JioCard({ data }: JioCardProps) {
-
   return (
     <Card>
       <CardHeader
         avatar={
           <Avatar
             alt={'Profile picture'}
-            src={data.creatorProfile && data.creatorProfile.profilePictureUrl
-                  ? data.creatorProfile.profilePictureUrl
-                  : 'https://minimal-assets-api-dev.vercel.app/assets/images/avatars/avatar_default.jpg'
+            src={
+              data.creatorProfile && data.creatorProfile.profilePictureUrl
+                ? data.creatorProfile.profilePictureUrl
+                : 'https://minimal-assets-api-dev.vercel.app/assets/images/avatars/avatar_default.jpg'
             }
             sx={{
-              width: 64,
-              height: 64,
+              width: 40,
+              height: 40,
               zIndex: 11,
               mx: 'auto',
             }}
@@ -34,12 +34,12 @@ export default function JioCard({ data }: JioCardProps) {
         title={
           <Grid container spacing={2}>
             <Grid item xs={6} md={8}>
-              <Typography variant='h6'>{`@${data.creatorProfile.telegramHandle}`}</Typography>
+              <Typography variant="h6">{`@${data.creatorProfile.telegramHandle}`}</Typography>
             </Grid>
             <Grid item xs={6} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Stack spacing={1} direction="row">
+              <Stack spacing={1} direction="row" alignItems="center">
                 <Typography>{getPassesText(data)}</Typography>
-                {(data.type === 'buyer' || data.type === 'seller') && <IconStyle icon={'gis:layer-stack'} color={palette.light.grey[700]} />}
+                <IconStyle icon={'mingcute:coupon-fill'} color="#b281e3" />
               </Stack>
             </Grid>
           </Grid>
@@ -47,24 +47,30 @@ export default function JioCard({ data }: JioCardProps) {
       />
       <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
-          <IconStyle icon={'eva:pin-fill'} color={palette.light.grey[700]} />
+          <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
           <Typography variant="body2">{data.gym.name}</Typography>
         </Stack>
         <Stack direction="row">
-          <IconStyle icon={'eva:calendar-fill'} color={palette.light.grey[700]} />
+          <IconStyle icon={'eva:calendar-outline'} color={palette.light.grey[700]} />
           <Typography variant="body2">
             {formatStartEndDate(data.startDateTime, data.endDateTime)}
           </Typography>
         </Stack>
+        {Boolean(data.price) && (
+          <Stack direction="row">
+            <IconStyle icon={'eva:pricetags-outline'} color={palette.light.grey[700]} />
+            <Typography variant="body2">{`$${data.price}/pass`}</Typography>
+          </Stack>
+        )}
         {data.openToClimbTogether && (
           <Stack direction="row">
-            <IconStyle icon={'bxs:like'} color={palette.light.grey[700]} />
+            <IconStyle icon={'fluent:hand-wave-16-regular'} color={palette.light.grey[700]} />
             <Typography variant="body2">Open to climb together</Typography>
           </Stack>
         )}
         {data.optionalNote && (
           <Stack direction="row">
-            <IconStyle icon={'eva:menu-2-fill'} color={palette.light.grey[700]} />
+            <IconStyle icon={'eva:menu-2-outline'} color={palette.light.grey[700]} />
             <Typography variant="body2">{data.optionalNote}</Typography>
           </Stack>
         )}
