@@ -4,7 +4,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { ConstantsService } from '../utils/constants/constants.service';
 import CreateBetaDto from './dtos/createBeta.dto';
-import getBetasDto from './dtos/getBetas.dto';
+import GetBetasDto, { GetBetasQuery } from './dtos/getBetas.dto';
 
 @Injectable()
 export class BetasService {
@@ -26,7 +26,7 @@ export class BetasService {
     }
   }
 
-  async getBetas(query: getBetasDto) {
+  private async getBetasHelper(query: GetBetasQuery) {
     try {
       // If page is not defined it will be set to zero
       if (query.page === undefined) {
@@ -56,6 +56,23 @@ export class BetasService {
       console.error('Get beta failed', err);
       throw new HttpException('Failed', 500);
     }
+  }
+
+  async getCreatorBetas(creatorId: string, query: GetBetasDto) {
+    return this.getBetasHelper({ ...query, creatorId });
+  }
+
+  async getBetas(query: GetBetasDto) {
+    return this.getBetasHelper(query);
+  }
+
+  async deleteBeta(creatorId: string, betaId: string) {
+    const beta = await this.betaDaoService.getById(betaId);
+    if (beta.creatorId !== creatorId) {
+      throw new HttpException('Forbidden', 403);
+    }
+
+    return this.betaDaoService.deleteById(betaId);
   }
 
   async getVideoUploadUrl() {

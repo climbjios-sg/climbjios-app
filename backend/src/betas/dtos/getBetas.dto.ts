@@ -1,6 +1,8 @@
 import { Transform } from 'class-transformer';
 import { IsInt, IsOptional, Min } from 'class-validator';
 
+export type GetBetasQuery = GetBetasDto & { creatorId?: string };
+
 export default class GetBetasDto {
   @Transform((val) => parseInt(val.value))
   @IsInt()

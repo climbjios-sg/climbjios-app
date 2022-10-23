@@ -24,7 +24,8 @@ export const BE_API = {
   },
   betas: {
     root: '/v1/betas',
-    user: (userId: string) => `/v1/betas/${userId}`,
+    beta: (id: string) => `/v1/betas/${id}`,
+    creator: (creatorId: string) => `/v1/betas/creator/${creatorId}`,
     uploadVideoUrl: '/v1/betas/videoUploadUrl',
   },
   colors: '/v1/colors',
