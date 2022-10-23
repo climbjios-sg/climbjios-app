@@ -1,4 +1,4 @@
-import { PaginationResponseMetadata, PaginationRequestData } from './pagination';
+import { PaginationRequestData, PaginationResponse } from './pagination';
 import { CustomFile } from '../components/upload';
 import { Color } from './color';
 import { Gym, GymGrade } from './gym';
@@ -39,13 +39,7 @@ export type ListBetasRequest = {
   colorId?: number;
 } & PaginationRequestData;
 
-export type ListBetasResponse = {
-  data: {
-    results: Beta[];
-    total: number;
-  };
-  metadata: PaginationResponseMetadata;
-};
+export type ListBetasResponse = PaginationResponse<Beta>
 
 export type BetaUploadUrlResponse = Pick<Beta, 'cloudflareVideoUid'> & {
   cloudflareUploadUrl: string;

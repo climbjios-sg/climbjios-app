@@ -1,4 +1,13 @@
-export type PaginationResponseMetadata = {
+export type PaginationRequestData = {
+  // Hard limit to the number of objects fetched back
+  limit?: number;
+  // Page number, starts from 0
+  page: number;
+  // Size of each page
+  pageSize: number;
+};
+
+type PaginationResponseMetadata = {
   isLastPage: boolean;
   // Page size for each page
   // Note: Page size is the ceiling of the number of items in each request
@@ -10,12 +19,10 @@ export type PaginationResponseMetadata = {
   // Total number of pages in the database
   totalPages: number;
 };
-
-export type PaginationRequestData = {
-  // Hard limit to the number of objects fetched back
-  limit?: number;
-  // Page number, starts from 0
-  page: number;
-  // Size of each page
-  pageSize: number;
-};
+export interface PaginationResponse<Record> {
+  data: {
+    results: Record[];
+    total: number;
+  };
+  metadata: PaginationResponseMetadata;
+}

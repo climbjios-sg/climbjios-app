@@ -72,7 +72,14 @@ export class BetasService {
       throw new HttpException('Forbidden', 403);
     }
 
-    return this.betaDaoService.deleteById(betaId);
+    const res = await this.betaDaoService.deleteById(betaId);
+
+    // Delete Beta video asynchronously
+    this.httpService.delete(
+      `https://api.cloudflare.com/client/v4/accounts/${this.constantsService.CLOUDFLARE_ACCOUNT_ID}/stream/${res.cloudflareVideoUid}`,
+    );
+
+    return res;
   }
 
   async getVideoUploadUrl() {
