@@ -56,7 +56,7 @@ export const ClimbingGradesForm = () => {
           label="Grade (Optional)"
           shouldSanitizeEmptyValue
         >
-          <option value={undefined} />
+          <option value={''} />
           {boulderingGrades?.data.map((option) => (
             <option key={option.id} value={option.id}>
               {option.name}
@@ -70,7 +70,7 @@ export const ClimbingGradesForm = () => {
         </Typography>
         <FormHelperText error>{errors?.highestTopRopeGradeId?.message}</FormHelperText>
         <RHFSelect name="highestTopRopeGradeId" label="Grade (Optional)" shouldSanitizeEmptyValue>
-          <option value={undefined} />
+          <option value={''} />
           {topRopeGrades?.data.map((option) => (
             <option key={option.id} value={option.id}>
               {option.name}
@@ -87,7 +87,7 @@ export const ClimbingGradesForm = () => {
           label="Grade (Optional)"
           shouldSanitizeEmptyValue
         >
-          <option value={undefined} />
+          <option value={''} />
           {leadClimbingGrades?.data.map((option) => (
             <option key={option.id} value={option.id}>
               {option.name}

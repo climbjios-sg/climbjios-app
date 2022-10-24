@@ -52,7 +52,7 @@ export const DetailsForm = () => {
         shouldSanitizeEmptyValue
       />
       <RHFSelect name="pronounId" label="Pronoun (Optional)" shouldSanitizeEmptyValue>
-        <option value={undefined} />
+        <option value={''} />
         {pronouns?.data.map((option) => (
           <option key={option.id} value={option.id}>
             {option.name}

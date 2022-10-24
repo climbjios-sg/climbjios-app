@@ -1,23 +1,19 @@
 import * as Yup from 'yup';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 // form
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Button, Card, Grid, Stack, Typography, Container } from '@mui/material';
-// utils
-import { fData } from '../../../utils/formatNumber';
+import { Button, Card, Stack, Container } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // @types
 import { AvatarData, EditProfileFormValues, UserRequest, User } from 'src/@types/user';
 // components
-import Label from 'src/components/Label';
-import { CustomFile } from 'src/components/upload';
-import { FormProvider, RHFSelect, RHFTextField, RHFUploadAvatar } from 'src/components/hook-form';
+import { FormProvider } from 'src/components/hook-form';
 import {
   MIN_HEIGHT,
   MAX_HEIGHT,
@@ -42,6 +38,7 @@ import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { getUploadAvatarUrl, uploadAvatar } from 'src/services/avatar';
 import { updateUser } from 'src/services/users';
+import LoadingScreen from 'src/components/LoadingScreen';
 
 // ----------------------------------------------------------------------
 
@@ -50,7 +47,7 @@ export default function EditProfileForm() {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { identity: currentUser } = useGetIdentity();
+  const { identity: currentUser, loading, error } = useGetIdentity();
 
   const UserSchema = Yup.object().shape({
     name: Yup.string()
@@ -68,8 +65,14 @@ export default function EditProfileForm() {
     sncsCertificationId: Yup.number().optional(),
   });
 
+  const emptyFile = {} as File;
+
   const defaultValues = {
     ...currentUser,
+    avatar: {
+      ...emptyFile,
+      preview: currentUser?.profilePictureUrl,
+    },
     favouriteGymIds: currentUser?.favouriteGyms.map((gym) => gym.id),
   };
 
@@ -115,9 +118,9 @@ export default function EditProfileForm() {
       enqueueSnackbar('Successfully updated profile', {
         autoHideDuration: 5000,
       });
-      navigate(PATH_DASHBOARD.general.jios.root);
+      navigateToProfile();
     } catch {
-      enqueueSnackbar('Failed to update user', { variant: 'error' });
+      enqueueSnackbar('Failed to update profile', { variant: 'error' });
     }
   };
 
@@ -131,48 +134,56 @@ export default function EditProfileForm() {
   };
 
   const handleClickCancelButton = () => {
+    navigateToProfile();
+  };
+
+  const navigateToProfile = () => {
     navigate(PATH_DASHBOARD.general.profile);
   };
 
-  // Return back to profile page if no user found.
   useEffect(() => {
-    if (!currentUser) {
-      navigate(PATH_DASHBOARD.general.profile);
+    if (currentUser) {
+      reset(defaultValues);
     }
-  }, [currentUser]);
-
-  // useEffect(() => {
-  //   reset(defaultValues);
-  // }, [currentUser]);
+    if (error) {
+      navigateToProfile();
+    }
+  }, [currentUser, error]);
 
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(_handleSubmit)}>
-      <Page title="Edit Profile">
-        <Container maxWidth="md" sx={{ my: 3 }}>
-          <Stack spacing={1.5} justifyContent="center" alignItems="center">
-            <Card sx={{ width: '100%', p: 3 }}>
-              <AvatarForm />
-            </Card>
-            <Card sx={{ width: '100%', p: 3 }}>
-              <Stack spacing={1.5}>
-                <UsernameForm />
-                <DetailsForm />
-                <FavoriteGymsForm />
-                <ClimbingGradesForm />
-                <ClimbingCertForm />
+    <>
+      {!loading ? (
+        <FormProvider methods={methods} onSubmit={handleSubmit(_handleSubmit)}>
+          <Page title="Edit Profile">
+            <Container maxWidth="md" sx={{ my: 3 }}>
+              <Stack spacing={1.5} justifyContent="center" alignItems="center">
+                <Card sx={{ width: '100%', p: 3 }}>
+                  <AvatarForm />
+                </Card>
+                <Card sx={{ width: '100%', p: 3 }}>
+                  <Stack spacing={1.5}>
+                    <UsernameForm />
+                    <DetailsForm />
+                    <FavoriteGymsForm />
+                    <ClimbingGradesForm />
+                    <ClimbingCertForm />
+                  </Stack>
+                </Card>
               </Stack>
-            </Card>
-          </Stack>
-        </Container>
-        <FloatingBottomCard>
-          <LoadingButton type="submit" variant="contained" fullWidth loading={isSubmitting}>
-            Save Changes
-          </LoadingButton>
-          <Button size="medium" fullWidth onClick={handleClickCancelButton}>
-            Cancel
-          </Button>
-        </FloatingBottomCard>
-      </Page>
-    </FormProvider>
+            </Container>
+            <FloatingBottomCard>
+              <LoadingButton type="submit" variant="contained" fullWidth loading={isSubmitting}>
+                Save Changes
+              </LoadingButton>
+              <Button size="medium" color="error" fullWidth onClick={handleClickCancelButton}>
+                Cancel
+              </Button>
+            </FloatingBottomCard>
+          </Page>
+        </FormProvider>
+      ) : (
+        <LoadingScreen />
+      )}
+    </>
   );
 }

@@ -17,7 +17,9 @@ export const DEFAULT_TRANSFORM: Transform = {
 export const SANITIZE_EMPTY_VALUE: Transform = {
   input: (value) => value,
   /**
-   * Transforms empty string into undefined
+   * Transforms empty string into undefined.
+   * This is so that when a request is sent to the backend, the empty field is not included in the request
+   * (otherwise an empty string will be sent over)
    */
   output: (value) => {
     const isEmptyString = typeof value === 'string' && value === '';

@@ -26,7 +26,7 @@ export const ClimbingCertForm = () => {
           SNCS Certification
         </Typography>
         <RHFSelect name="sncsCertificationId" label="Level (Optional)" shouldSanitizeEmptyValue>
-          <option value={undefined} />
+          <option value={''} />
           {sncsCertifications?.data.map((option) => (
             <option key={option.id} value={option.id}>
               {option.name}

@@ -7,7 +7,7 @@ function path(root: string, sublink: string) {
 const ROOTS_AUTH = '/login';
 const ROOTS_ONBOARDING = '/onboarding';
 const ROOTS_DASHBOARD = '/dashboard';
-const ROOTS_USER = '/user'
+const ROOTS_USER = '/user';
 
 export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';
 
@@ -17,6 +17,7 @@ export const PATH_AUTH = {
 
 export const PATH_PAGE = {
   page404: '/404',
+  updateTelegramUsername: '/updateTelegramUsername',
 };
 
 export const PATH_ONBOARDING = {
@@ -43,5 +44,5 @@ export const PATH_DASHBOARD = {
 };
 
 export const PATH_USER = {
-  root: ROOTS_USER
-}
+  root: ROOTS_USER,
+};
