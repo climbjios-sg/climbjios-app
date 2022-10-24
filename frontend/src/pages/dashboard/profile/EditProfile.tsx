@@ -71,9 +71,9 @@ export default function EditProfileForm() {
     ...currentUser,
     avatar: {
       ...emptyFile,
-      preview: currentUser?.profilePictureUrl,
+      preview: currentUser?.profilePictureUrl || '',
     },
-    favouriteGymIds: currentUser?.favouriteGyms.map((gym) => gym.id),
+    favouriteGymIds: currentUser?.favouriteGyms?.map((gym) => gym.id),
   };
 
   const methods = useForm<EditProfileFormValues>({
@@ -88,9 +88,6 @@ export default function EditProfileForm() {
     reset,
     formState: { isSubmitting },
   } = methods;
-
-  // Debug purposes
-  useDevWatchForm(watch);
 
   const { runAsync: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
     manual: true,
@@ -138,7 +135,7 @@ export default function EditProfileForm() {
   };
 
   const navigateToProfile = () => {
-    navigate(PATH_DASHBOARD.general.profile);
+    navigate(PATH_DASHBOARD.general.profile.root);
   };
 
   useEffect(() => {

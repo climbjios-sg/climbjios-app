@@ -1,7 +1,7 @@
 import { CacheKey } from 'src/config';
 import { getUser } from 'src/services/users';
 import useSafeRequest from '../services/useSafeRequest';
-import { User } from 'src/@types/user';
+import { User, PronounName } from 'src/@types/user';
 
 const defaultUser: User = {
   userId: '',
@@ -19,7 +19,7 @@ const defaultUser: User = {
   createdAt: '',
   updatedAt: '',
   sncsCertification: { id: 0, name: '' },
-  pronoun: { id: 0, name: '' },
+  pronoun: { id: 0, name: PronounName.PreferNotToSay },
   highestBoulderingGrade: { id: 0, name: '' },
   highestTopRopeGrade: { id: 0, name: '' },
   highestLeadClimbingGrade: { id: 0, name: '' },
