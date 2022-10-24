@@ -1,8 +1,5 @@
 // @mui
-import { Stack, Button, Typography, Box } from '@mui/material';
-// components
-import Iconify from '../../components/Iconify';
-//
+import { Stack, Box } from '@mui/material';
 import { BE_API } from 'src/utils/api';
 // @ts-ignore (react-telegram-login is missing a @types file)
 import TelegramLoginButton from 'react-telegram-login';

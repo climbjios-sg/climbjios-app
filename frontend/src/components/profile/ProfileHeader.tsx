@@ -1,5 +1,5 @@
 import { Stack, Avatar, Typography } from '@mui/material';
-import { User } from 'src/@types/user';
+import { PronounName, User } from 'src/@types/user';
 
 type ProfileHeaderProps = {
   user: User;
@@ -22,7 +22,7 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
       <Stack direction="column">
         <Stack direction="row" alignItems="center" spacing={1}>
           <Typography variant="subtitle1">{user.name}</Typography>
-          {user.pronoun && (
+          {user.pronoun && user.pronoun.name !== PronounName.PreferNotToSay && (
             <Typography
               sx={{ color: 'text.secondary' }}
               variant="body2"
