@@ -13,6 +13,7 @@ import {
 import Iconify from '../../../components/Iconify';
 import useGetIdentity from 'src/hooks/auth/useGetIdentity';
 import useLogout from 'src/hooks/auth/useLogout';
+import EditProfile from 'src/pages/dashboard/profile/EditProfile';
 
 export default function Profile() {
   const { identity } = useGetIdentity();
@@ -29,7 +30,7 @@ export default function Profile() {
         path="edit"
         element={
           <Box sx={{ pt: 5, minHeight: '100vh', pb: 20, maxWidth: 600, margin: '0 auto' }}>
-            {null}
+            <EditProfile />
           </Box>
         }
       />
