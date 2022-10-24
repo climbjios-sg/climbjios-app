@@ -64,10 +64,10 @@ function Header() {
               </li>
               <li>
                 <a
-                  href={externalUrls.github}
+                  href={externalUrls.climbJiosTelegramUrl}
                   className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 px-5 py-2 flex items-center transition duration-150 ease-in-out"
                 >
-                  GitHub
+                  Telegram
                 </a>
               </li>
             </ul>
@@ -139,10 +139,10 @@ function Header() {
                   </li>
                   <li>
                     <a
-                      href={externalUrls.github}
+                      href={externalUrls.climbJiosTelegramUrl}
                       className="flex text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 py-3"
                     >
-                      GitHub
+                      Telegram
                     </a>
                   </li>
                 </ul>

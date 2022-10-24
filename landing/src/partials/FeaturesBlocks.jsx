@@ -51,7 +51,7 @@ function FeaturesBlocks() {
             >
               <Icon className="w-8 h-8 mb-3" icon="akar-icons:video" />
               <div className="font-red-hat-display text-xl font-extrabold tracking-tighter mb-1">
-                Share Beta (Coming soon)
+                Share Beta
               </div>
               <div className="grow opacity-80 mb-4">
                 Watch and share Beta videos for climbing routes in each gym.

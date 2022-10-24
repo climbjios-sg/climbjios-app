@@ -3,7 +3,7 @@ import Header from '../partials/Header';
 import PageIllustration from '../partials/PageIllustration';
 import HeroHome from '../partials/HeroHome';
 import FeaturesBlocks from '../partials/FeaturesBlocks';
-import FeaturesSplit from '../partials/FeaturesSplit';
+import PublicBeta from '../partials/PublicBeta';
 import Cta from '../partials/Cta';
 import Footer from '../partials/Footer';
 
@@ -23,7 +23,7 @@ function Home() {
         {/*  Page sections */}
         <HeroHome />
         <FeaturesBlocks />        
-        <FeaturesSplit />
+        <PublicBeta />
         <Cta title="Let's build our community together." />
       </main>
     </div>
