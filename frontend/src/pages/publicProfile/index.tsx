@@ -11,6 +11,7 @@ import { User } from 'src/@types/user';
 import { PATH_USER } from '../../routes/paths';
 import ProfileBetas from '../../components/profile/ProfileBetas';
 import ProfileHeaderAndTabs from '../../components/profile/ProfileHeaderAndTabs';
+import { outgoingLinkProps } from '../../utils/common';
 
 export type UserProfileLocationState = {
   user: User;
@@ -72,6 +73,7 @@ export default function PublicProfile() {
             fullWidth
             disableElevation
             href={`https://t.me/${user.telegramHandle}`}
+            {...outgoingLinkProps}
           >
             <Typography variant="button">Message on Telegram</Typography>
           </Button>
