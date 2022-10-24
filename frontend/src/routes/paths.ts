@@ -38,7 +38,6 @@ export const PATH_DASHBOARD = {
       root: path(ROOTS_DASHBOARD, '/betas'),
       create: (gymId?: number | string) =>
         path(ROOTS_DASHBOARD, `/betas/create${gymId ? `?gymId=${gymId}` : ''}`),
-      gym: (gymId: string) => path(ROOTS_DASHBOARD, `/betas/${gymId}`),
     },
   },
 };
