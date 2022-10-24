@@ -5,27 +5,32 @@ import { Box, Card, Avatar, Typography, CardContent, Stack, Divider } from '@mui
 import { formatDate } from '../utils/formatTime';
 import { Beta } from '../@types/beta';
 import Video from './Video';
+import { Link } from 'react-router-dom';
+import { makeUserProfileLinkProps } from '../pages/publicProfile';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  beta: Beta;
+  data: Beta;
 };
 
 // Memoizing content since it will be rendered in a infinite list
-const BetaCard = React.memo(({ beta }: Props) => (
+const BetaCard = React.memo(({ data }: Props) => (
   <Card sx={{ background: 'black', height: '100%' }}>
     <Box sx={{ position: 'relative', height: '100%' }}>
-      {/* TODO: Should link to user public profile on click */}
       <Stack
+        component={Link}
         sx={{
+          textDecoration: 'none',
+          color: 'inherit',
           left: 8,
-          zIndex: 9,
+          zIndex: 1001,
           top: 6,
           position: 'absolute',
         }}
-        direction={'row'}
+        direction="row"
         alignItems="center"
+        {...makeUserProfileLinkProps({ user: data.creatorProfile })}
       >
         <Avatar
           sx={{
@@ -33,15 +38,15 @@ const BetaCard = React.memo(({ beta }: Props) => (
             height: 32,
             mr: 1,
           }}
-          alt={beta.creatorProfile.telegramHandle}
-          src={beta.creatorProfile.profilePictureUrl}
+          alt={data.creatorProfile.telegramHandle}
+          src={data.creatorProfile.profilePictureUrl}
         />
         <Typography
           color="white"
           variant="subtitle2"
-        >{`@${beta.creatorProfile.telegramHandle}`}</Typography>
+        >{`@${data.creatorProfile.telegramHandle}`}</Typography>
       </Stack>
-      <Video src={beta.cloudflareVideoUid} />
+      <Video videoSrc={data.cloudflareVideoUid} thumbnailSrc={data.thumbnailUrl} />
       <Stack
         sx={{
           position: 'absolute',
@@ -58,7 +63,7 @@ const BetaCard = React.memo(({ beta }: Props) => (
         spacing={1}
         divider={<Divider color="white" orientation="vertical" flexItem />}
       >
-        {[beta.gym.name, beta.gymGrade.name].map((text) => (
+        {[data.gym.name, data.gymGrade.name].map((text) => (
           <Typography variant="caption" key={text}>
             {text}
           </Typography>

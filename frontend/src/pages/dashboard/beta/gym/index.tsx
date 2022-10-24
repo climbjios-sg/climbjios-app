@@ -19,9 +19,6 @@ import Page404 from 'src/pages/error/Page404';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import chroma from 'chroma-js';
 import BetaCard from 'src/components/BetaCard';
-import { User } from 'src/@types/user';
-import { Beta, BetaDemo } from 'src/@types/beta';
-import _ from 'lodash';
 import MessageBarWithStore from '../../MessageBarWithStore';
 import useGetGymGrades from 'src/hooks/services/useGetGymGrades';
 import { useCallback, useMemo, useState } from 'react';
@@ -36,7 +33,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import NoContentGif from 'src/assets/no-content.gif';
 import EmptyContent from '../../../../components/EmptyContent';
 import BetaLoader from './BetaLoader';
-import cloneDeep from 'lodash/cloneDeep';
 import useGetGyms from '../../../../hooks/services/useGetGyms';
 
 const FloatingContainer = styled('div')({
@@ -145,7 +141,7 @@ export default function BetaGym() {
     [gymId, selectedColor, selectedGymGrade, selectedWall]
   );
 
-  const res = useRequest(() => getTargetBetas(0), {
+  const res = useSafeRequest(() => getTargetBetas(0), {
     onError: () => {
       errorSnackbar.enqueueWithSupport('Failed to get Betas.');
     },
@@ -183,7 +179,7 @@ export default function BetaGym() {
         }
       >
         {betas.data.results.map((beta) => (
-          <BetaCard key={beta.id} beta={beta} />
+          <BetaCard key={beta.id} data={beta} />
         ))}
       </StyledInfiniteScroll>
     ) : (

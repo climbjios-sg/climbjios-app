@@ -63,7 +63,7 @@ export default function BetaCreate() {
         }}
         position="static"
       >
-        <Toolbar sx={{ pl: { xs: 1, md: 1 } }}>
+        <Toolbar sx={{ pl: 1 }}>
           <IconButton
             sx={{ mr: 1 }}
             color="primary"

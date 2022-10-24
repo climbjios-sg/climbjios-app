@@ -17,25 +17,25 @@ interface Certification {
 
 export interface User {
   userId: string;
-  bio: string;
-  name: string;
   telegramHandle: string;
-  height: number;
-  reach: number;
-  pronounId: number;
-  highestBoulderingGradeId: number;
-  highestTopRopeGradeId: number;
-  highestLeadClimbingGradeId: number;
-  sncsCertificationId: number;
-  profilePictureUrl: string;
   createdAt: string;
   updatedAt: string;
-  sncsCertification: Certification;
-  pronoun: Pronoun;
-  highestBoulderingGrade: Grade;
-  highestTopRopeGrade: Grade;
-  highestLeadClimbingGrade: Grade;
-  favouriteGyms: Gym[];
+  name?: string;
+  profilePictureUrl?: string;
+  bio?: string;
+  height?: number;
+  reach?: number;
+  sncsCertification?: Certification;
+  pronoun?: Pronoun;
+  highestBoulderingGrade?: Grade;
+  highestTopRopeGrade?: Grade;
+  highestLeadClimbingGrade?: Grade;
+  favouriteGyms?: Gym[];
+  pronounId?: number;
+  highestBoulderingGradeId?: number;
+  highestTopRopeGradeId?: number;
+  highestLeadClimbingGradeId?: number;
+  sncsCertificationId?: number;
 }
 
 export type UserRequest = Partial<User> & {

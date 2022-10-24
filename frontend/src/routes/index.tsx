@@ -72,7 +72,7 @@ const Onboarding = Loadable(lazy(() => import('../pages/onboarding')));
 const Dashboard = Loadable(lazy(() => import('../pages/dashboard')));
 
 // USER PUBLIC PROFILE
-const UserPublicProfile = Loadable(lazy(() => import('../pages/profile/UserPublicProfile')));
+const UserPublicProfile = Loadable(lazy(() => import('../pages/publicProfile')));
 
 // LANDING
 const Page404 = Loadable(lazy(() => import('../pages/error/Page404')));
