@@ -7,7 +7,7 @@ import { LeadClimbingGradeModel } from './leadClimbingGrade.model';
 import { SncsCertificationModel } from './sncsCertification.model';
 import { TopRopeGradeModel } from './topRopeGrade.model';
 import * as AWS from 'aws-sdk';
-import { S3UploadType } from 'src/utils/types';
+import { S3UploadType } from '../../utils/types';
 
 AWS.config.update({ region: process.env.AWS_REGION });
 
