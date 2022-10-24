@@ -1,8 +1,15 @@
 import { Gym } from './gym';
 
+export enum PronounName {
+  HeHim = 'He/Him',
+  SheHer = 'She/Her',
+  TheyThem = 'They/Them',
+  PreferNotToSay = 'Prefer not to say',
+}
+
 interface Pronoun {
   id: number;
-  name: string;
+  name: PronounName;
 }
 
 interface Grade {

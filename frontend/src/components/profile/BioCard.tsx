@@ -19,8 +19,9 @@ interface BioProps {
 }
 
 export default function BioCard({ data, action }: BioProps) {
-  function isEmptyBio() {
+  function isEmpty() {
     return !(
+      data.bio ||
       data.height ||
       data.reach ||
       (data.sncsCertification && data.sncsCertification.name) ||
@@ -31,11 +32,7 @@ export default function BioCard({ data, action }: BioProps) {
     );
   }
 
-  return isEmptyBio() ? (
-    <Typography variant="body1" sx={{ mt: 5 }}>
-      This climber has not filled in any information about themself yet.
-    </Typography>
-  ) : (
+  return (
     <Card sx={{ textAlign: 'left', px: 3, py: 3, width: '100%' }}>
       <Stack sx={{ mb: 2.5 }} direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h5">{'Bio'}</Typography>
@@ -43,7 +40,7 @@ export default function BioCard({ data, action }: BioProps) {
       </Stack>
 
       <Typography variant="body1" sx={{ my: 2 }}>
-        {data.bio || ''}
+        {isEmpty() ? 'No information yet.' : data.bio}
       </Typography>
 
       <Grid container spacing={2}>
