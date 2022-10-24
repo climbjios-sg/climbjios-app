@@ -350,6 +350,7 @@ describe('Backend (e2e)', () => {
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
           .expect(200);
 
+        console.log(body[2]);
         expect(body.length).toEqual(9);
         expect(body[2]).toEqual(
           expect.objectContaining({
@@ -369,6 +370,7 @@ describe('Backend (e2e)', () => {
               telegramHandle: 'alison123',
               height: 156,
               reach: -18,
+              bio: null,
               pronoun: {
                 id: 2,
                 name: 'She/Her',
@@ -386,7 +388,12 @@ describe('Backend (e2e)', () => {
               favouriteGyms: [],
               profilePictureUrl: expect.anything(),
             },
-            gym: { id: 1, name: 'Arête (By Upwall)', permanentlyClosed: false },
+            gym: {
+              id: 1,
+              name: 'Arête (By Upwall)',
+              shortName: 'Arête',
+              permanentlyClosed: false,
+            },
           }),
         );
       });
@@ -414,6 +421,7 @@ describe('Backend (e2e)', () => {
               telegramHandle: 'bob_da_best',
               height: null,
               reach: null,
+              bio: null,
               pronoun: null,
               highestBoulderingGrade: null,
               highestTopRopeGrade: null,
@@ -428,7 +436,12 @@ describe('Backend (e2e)', () => {
               favouriteGyms: [],
               profilePictureUrl: expect.anything(),
             },
-            gym: { id: 1, name: 'Arête (By Upwall)', permanentlyClosed: false },
+            gym: {
+              id: 1,
+              name: 'Arête (By Upwall)',
+              shortName: 'Arête',
+              permanentlyClosed: false,
+            },
           }),
         );
       });
@@ -461,6 +474,7 @@ describe('Backend (e2e)', () => {
               telegramHandle: 'alison123',
               height: 156,
               reach: -18,
+              bio: null,
               highestLeadClimbingGrade: null,
               sncsCertification: null,
               pronoun: { id: 2, name: 'She/Her' },
@@ -469,7 +483,12 @@ describe('Backend (e2e)', () => {
               favouriteGyms: [],
               profilePictureUrl: expect.anything(),
             },
-            gym: { id: 1, name: 'Arête (By Upwall)', permanentlyClosed: false },
+            gym: {
+              id: 1,
+              name: 'Arête (By Upwall)',
+              shortName: 'Arête',
+              permanentlyClosed: false,
+            },
           }),
         );
       });
@@ -522,6 +541,7 @@ describe('Backend (e2e)', () => {
               telegramHandle: 'alison123',
               height: 156,
               reach: -18,
+              bio: null,
               highestLeadClimbingGrade: null,
               sncsCertification: null,
               pronoun: { id: 2, name: 'She/Her' },
@@ -530,7 +550,12 @@ describe('Backend (e2e)', () => {
               favouriteGyms: [],
               profilePictureUrl: expect.anything(),
             },
-            gym: { id: 3, name: 'b8A', permanentlyClosed: false },
+            gym: {
+              id: 3,
+              name: 'b8A',
+              shortName: 'b8A',
+              permanentlyClosed: false,
+            },
           }),
         );
       });
@@ -675,11 +700,13 @@ describe('Backend (e2e)', () => {
               {
                 id: 4,
                 name: 'BFF Climb (Bukit Timah)',
+                shortName: 'BFF (Bkt Timah)',
                 permanentlyClosed: false,
               },
               {
                 id: 5,
                 name: 'BFF Climb (Bendemeer)',
+                shortName: 'BFF (Bendemeer)',
                 permanentlyClosed: false,
               },
             ],
