@@ -31,9 +31,8 @@ export default function AddToHomeScreen() {
           (<div>
             <Typography>Install the ClimbJios app on your device for easy access anytime.</Typography>
             <br />
-            <Typography>1. Tap on the <InlineIcon icon="uil:upload-alt" />icon</Typography>
-            <br />
-            <Typography>2. Tap on Add To Home Screen</Typography>
+            <Typography>1. Tap on <InlineIcon icon="uil:upload-alt" /></Typography>
+            <Typography>2. Select Add to Home Screen</Typography>
           </div>),
           {
             variant: 'info',
