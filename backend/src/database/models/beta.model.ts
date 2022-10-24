@@ -31,7 +31,7 @@ export class BetaModel extends BaseModel {
     gym: {
       relation: Model.BelongsToOneRelation,
       modelClass: GymModel,
-      filter: (query) => query.select('id', 'name'),
+      filter: (query) => query.select('id', 'name', 'shortName'),
       join: {
         from: 'betas.gymId',
         to: 'gyms.id',

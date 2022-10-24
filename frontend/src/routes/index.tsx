@@ -4,7 +4,6 @@ import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 import CommonGuard from 'src/components/guards/CommonGuard';
-import { isDevelopment } from 'src/config';
 
 // ----------------------------------------------------------------------
 
@@ -50,14 +49,13 @@ export default function Router() {
     // Public Profile Routes
     {
       path: 'climber/:userId',
-      element: (
-        <UserPublicProfile />
-      ),
+      element: <UserPublicProfile />,
     },
     {
       path: '404',
       element: <Page404 />,
     },
+    { path: '/', element: <Navigate to="/dashboard?disableNotification=true" replace /> },
     { path: '*', element: <Navigate to="/dashboard" replace /> },
   ]);
 }
