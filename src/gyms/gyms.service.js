@@ -21,14 +21,12 @@ let GymsService = class GymsService {
     getAll() {
         return this.gymsDaoService.getAll();
     }
-    getGrades(id) {
-        try {
-            return this.gymGradesDaoService.findByGymId(id);
+    async getGrades(gymId) {
+        const gym = await this.gymsDaoService.findById(gymId);
+        if (!gym) {
+            throw new common_1.HttpException('Invalid gym id!', 400);
         }
-        catch (err) {
-            console.error(`Failed to get gym grades for gym ${id}`, err);
-            throw new common_1.HttpException('Failed', 500);
-        }
+        return this.gymGradesDaoService.findByGymId(gymId);
     }
 };
 GymsService = __decorate([

@@ -32,7 +32,7 @@ let PostService = class PostService {
     }
     async getPost(userId, postId) {
         const post = await this.postsDaoService.getById(postId);
-        if (post.creatorId !== userId) {
+        if ((post === null || post === void 0 ? void 0 : post.creatorId) !== userId) {
             throw new common_1.HttpException('Forbidden', 403);
         }
         return post;
@@ -40,7 +40,7 @@ let PostService = class PostService {
     async patchPost(userId, postId, body) {
         var _a, _b, _c, _d;
         const post = await this.postsDaoService.getById(postId);
-        if (post.creatorId !== userId) {
+        if ((post === null || post === void 0 ? void 0 : post.creatorId) !== userId) {
             throw new common_1.HttpException('Forbidden', 403);
         }
         const postType = (_a = body.type) !== null && _a !== void 0 ? _a : post.type;

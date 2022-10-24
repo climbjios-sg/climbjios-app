@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ConstantsService } from 'src/utils/constants/constants.service';
+import { ConstantsService } from '../utils/constants/constants.service';
 import RefreshDto from './dtos/refresh.dto';
 import { JwtAuthService } from './jwtAuth/jwtAuth.service';
 export declare class AuthController {

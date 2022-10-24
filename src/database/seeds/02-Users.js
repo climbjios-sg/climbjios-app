@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.seed = void 0;
+exports.seed = exports.MOCK_USER_1_UUID = void 0;
+exports.MOCK_USER_1_UUID = '4394cce2-7f04-41f2-8ade-8b21cad1cb20';
 async function seed(knex) {
     if (['staging', 'production'].includes(process.env.NODE_ENV)) {
         console.log('skipping user seeds');
@@ -9,6 +10,7 @@ async function seed(knex) {
     await knex.raw('TRUNCATE TABLE users RESTART IDENTITY CASCADE');
     await knex('users').insert([
         {
+            id: exports.MOCK_USER_1_UUID,
             email: 'alison@test.com',
             oauthName: 'Alison Lim',
             authProvider: 'google',
