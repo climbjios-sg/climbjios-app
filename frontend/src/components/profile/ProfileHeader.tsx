@@ -22,7 +22,7 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
       <Stack direction="column">
         <Stack direction="row" alignItems="center" spacing={1}>
           <Typography variant="subtitle1">{user.name}</Typography>
-          {user.pronoun && (
+          {user.pronoun && user.pronoun.name !== "Prefer not to say" && (
             <Typography
               sx={{ color: 'text.secondary' }}
               variant="body2"

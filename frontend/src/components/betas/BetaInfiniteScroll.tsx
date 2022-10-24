@@ -1,5 +1,5 @@
 import { styled } from '@mui/system';
-import { TypographyProps, Typography } from '@mui/material';
+import { TypographyProps, Typography, CircularProgress } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ListBetasResponse } from '../../@types/beta';
 import { AxiosResponse } from 'axios';
@@ -56,14 +56,14 @@ export default function BetasInfiniteScroll({
 
   return betas && betas.data.total > 0 ? (
     <StyledInfiniteScroll
-      style={{ paddingBottom: 20, ...style}}
+      style={{ paddingBottom: 20, ...style }}
       dataLength={betas.metadata.pageSize * betas.metadata.currentPage + betas.data.total}
       next={async () => {
         const newResponse = await fetchPage(betas.metadata.currentPage + 1);
         onFetchPage(newResponse);
       }}
       hasMore={!betas.metadata.isLastPage}
-      loader={<></>}
+      loader={<CircularProgress />}
       endMessage={<InfiniteScrollHelper>That's all!</InfiniteScrollHelper>}
       refreshFunction={() => fetchPage(0)}
       pullDownToRefresh
