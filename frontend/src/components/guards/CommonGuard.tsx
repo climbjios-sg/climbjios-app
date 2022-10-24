@@ -18,7 +18,7 @@ interface Props {
 /**
  * Applies guards enabled in this order:
  * 1. Checks authenticated
- * 2. Checks authenticated
+ * 2. Checks not authenticated
  * 3. Checks onboarded
  * 4. Checks not onboarded
  */
