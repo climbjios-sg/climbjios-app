@@ -35,7 +35,6 @@ import {
   yupStartEndDateTimingObject,
 } from './utils';
 import { addDays } from 'date-fns';
-import FloatingBottomCard from '../../../../components/FloatingBottomCard';
 import useRHFScrollToInputOnError from '../../../../hooks/useRHFScrollToInputOnError';
 import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
 import Iconify from '../../../../components/Iconify';
