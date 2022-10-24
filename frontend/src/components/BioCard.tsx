@@ -31,7 +31,7 @@ export default function BioCard({ data }: BioProps) {
 
   return isEmptyBio() ? (
     <Typography variant="body1" sx={{ mt: 5 }}>
-      This climber has not filled in information about themself yet.
+      This climber has not filled in any information about themself yet.
     </Typography>
   ) : (
     <Card sx={{ textAlign: 'left', px: 3, pb: 3, width: '100%' }}>

@@ -12,7 +12,7 @@ export default function EmptyJiosContent({ title, description }: EmptyJiosConten
   return (
     <Grid sx={{ width: '100%', mt: 2 }} item>
       <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-        <EmptyContent sx={{ py: 3 }} title={title} description={description} />
+        <EmptyContent sx={{ py: 3, pb: 0 }} title={title} description={description} />
         <CreateJioButton />
       </div>
     </Grid>

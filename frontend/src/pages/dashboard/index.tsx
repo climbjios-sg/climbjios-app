@@ -15,7 +15,7 @@ import Profile from './profile';
 import Jios from './jios';
 import { listGyms } from '../../store/reducers/gyms';
 import { useDispatch } from '../../store';
-import Beta from './beta';
+import Betas from './betas';
 import { listColors } from '../../store/reducers/colors';
 import { listWalls } from '../../store/reducers/walls';
 import MessageBarWithStore from './MessageBarWithStore';
@@ -62,11 +62,11 @@ const DASHBOARD_TABS = [
     element: <Jios />,
   },
   {
-    path: 'beta/*',
-    to: 'beta',
-    label: 'Beta',
+    path: 'betas/*',
+    to: 'betas',
+    label: 'Betas',
     icon: <Iconify icon={'akar-icons:video'} width={20} height={20} />,
-    element: <Beta />,
+    element: <Betas />,
   },
   {
     path: 'profile/*',

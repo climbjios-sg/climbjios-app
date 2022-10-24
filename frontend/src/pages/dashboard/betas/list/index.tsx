@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Grid,
   IconButton,
   Paper,
   Slide,
@@ -12,22 +11,20 @@ import {
 } from '@mui/material';
 import { Stack, styled } from '@mui/system';
 import Select, { StylesConfig } from 'react-select';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Iconify from 'src/components/Iconify';
 import { useSelector } from 'src/store';
-import Page404 from 'src/pages/error/Page404';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import chroma from 'chroma-js';
 import BetaCard from 'src/components/BetaCard';
 import MessageBarWithStore from '../../MessageBarWithStore';
 import useGetGymGrades from 'src/hooks/services/useGetGymGrades';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { getBetas } from 'src/services/betas';
-import { GymGrade } from 'src/@types/gym';
+import { Gym, GymGrade } from 'src/@types/gym';
 import { Wall } from 'src/@types/wall';
 import { Color } from 'src/@types/color';
-import { useRequest } from 'ahooks';
 import useErrorSnackbar from '../../../../hooks/useErrorSnackbar';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import NoContentGif from 'src/assets/no-content.gif';
@@ -86,16 +83,18 @@ const InfiniteScrollHelper = styled((props: TypographyProps) => (
 // Undefined stands for selecting all values
 const ALL_VALUES = undefined;
 type ALL_VALUES_TYPE = undefined;
+const getAllOption = () => ({ value: ALL_VALUES, label: 'All' });
 
 const addAllOption = (list: { value: number; label: string }[]) => [
   // By default, if the value is undefined, we will fetch all data
-  { value: ALL_VALUES, label: 'All' },
+  getAllOption(),
   ...list,
 ];
 
-export default function BetaGym() {
+export default function BetasList() {
   // Number of Betas to fetch per page
   const PAGE_SIZE = 10;
+  const [selectedGym, setSelectedGym] = useState<Gym['id'] | ALL_VALUES_TYPE>(ALL_VALUES);
   const [selectedGymGrade, setSelectedGymGrade] = useState<GymGrade['id'] | ALL_VALUES_TYPE>(
     ALL_VALUES
   );
@@ -107,14 +106,17 @@ export default function BetaGym() {
     target: window,
   });
   const theme = useTheme();
-  const params = useParams();
-  const gymId = Number(params.gymId);
-  const gym = useGetGyms()?.find(gym => gym.id === gymId);
+  const gyms = useGetGyms();
   const colors = useSelector((state) => state.colors.data);
   const walls = useSelector((state) => state.walls.data);
   const viewVersion = useSelector((state) => state.ui.viewVersion);
-  const gymGrades = useGetGymGrades(Number(gymId));
-
+  const gymGrades = useGetGymGrades(
+    selectedGym || 1 // Hack: Get gym grades of gym 1, if All gyms are selected. This gymGrades won't be render in that case. Doing this because of rule of hooks don't allow conditional hooks.
+  );
+  const gymOptions = useMemo(
+    () => addAllOption(gyms.map((gym) => ({ value: gym.id, label: gym.name }))),
+    [gyms]
+  );
   const colorOptions = useMemo(
     () => addAllOption(colors.map((color) => ({ value: color.id, label: color.name }))),
     [colors]
@@ -128,28 +130,36 @@ export default function BetaGym() {
     [walls]
   );
 
+// Reset selectedGymGrade to ALL_VALUES when selected gym is ALL_VALUES
+  useEffect(() => {
+    if (selectedGym === ALL_VALUES) {
+      setSelectedGymGrade(ALL_VALUES);
+    }
+  }, [selectedGym])
+
   const getTargetBetas = useCallback(
     (page: number) =>
       getBetas({
-        gymId,
+        gymId: selectedGym,
         gymGradeId: selectedGymGrade,
         wallId: selectedWall,
         colorId: selectedColor,
         page,
         pageSize: PAGE_SIZE,
       }),
-    [gymId, selectedColor, selectedGymGrade, selectedWall]
+    [selectedColor, selectedGym, selectedGymGrade, selectedWall]
   );
 
   const res = useSafeRequest(() => getTargetBetas(0), {
     onError: () => {
       errorSnackbar.enqueueWithSupport('Failed to get Betas.');
     },
-    refreshDeps: [viewVersion, selectedGymGrade, selectedWall, selectedColor],
+    refreshDeps: [viewVersion, selectedGymGrade, selectedWall, selectedColor, selectedGym],
   });
   const { loading } = res;
   const betas = res.data?.data;
 
+  const createBetaLink = PATH_DASHBOARD.general.betas.create(selectedGym);
   const renderBetas = () =>
     betas && betas.data.total > 0 ? (
       <StyledInfiniteScroll
@@ -191,18 +201,13 @@ export default function BetaGym() {
             startIcon={<Iconify color="white" icon="bx:video-plus" />}
             variant="contained"
             component={Link}
-            to={PATH_DASHBOARD.general.beta.create}
+            to={createBetaLink}
           >
             Upload a Beta
           </Button>
         </EmptyContent>
       </Box>
     );
-
-  // If wrong gym id, return Not Found
-  if (!gymId) {
-    return <Page404 />;
-  }
 
   return (
     <>
@@ -228,22 +233,39 @@ export default function BetaGym() {
                 width: '100%',
               }}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <IconButton
-                  sx={{ px: 1 }}
-                  color="primary"
-                  component={Link}
-                  to={PATH_DASHBOARD.general.beta.root}
-                >
-                  <Iconify icon="eva:arrow-back-fill" />
-                </IconButton>
-                <Typography variant="h4">{gym?.name}</Typography>
-              </Box>
+              <Stack
+                direction="row"
+                alignItems="center"
+                sx={{
+                  
+                  border: 'solid 1px hsl(0, 0%, 80%)',
+                  borderRadius: 10,
+                  paddingLeft: 1,
+                  py: '1px',
+                  ml: 1,
+                  '& .gym__control': {
+                    border: 'none !important',
+                    boxShadow: 'none !important',
+                    background: 'none',
+                    minWidth: 240,
+                  },
+                }}
+              >
+                <Iconify icon="eva:pin-outline" height={24} width={24} />
+                <Select
+                  classNamePrefix="gym"
+                  options={gymOptions}
+                  defaultInputValue="All"
+                  onChange={(option) => {
+                    setSelectedGym(option?.value);
+                  }}
+                />
+              </Stack>
               <IconButton
                 sx={{ px: 3 }}
                 color="primary"
                 component={Link}
-                to={`${PATH_DASHBOARD.general.beta.create}?gymId=${gymId}`}
+                to={PATH_DASHBOARD.general.betas.create(selectedGym)}
               >
                 <Iconify icon="bx:video-plus" />
               </IconButton>
@@ -259,19 +281,22 @@ export default function BetaGym() {
               styles={colorStyles}
             />
             <Select
-              placeholder="Grade"
-              options={gymGradeOptions}
-              onChange={(option) => {
-                setSelectedGymGrade(option?.value);
-              }}
-            />
-            <Select
               placeholder="Wall"
               options={wallOptions}
               onChange={(option) => {
                 setSelectedWall(option?.value);
               }}
             />
+            {/* Don't render grades when selected gym is all */}
+            {selectedGym !== ALL_VALUES && (
+              <Select
+                placeholder="Grade"
+                options={gymGradeOptions}
+                onChange={(option) => {
+                  setSelectedGymGrade(option?.value);
+                }}
+              />
+            )}
           </Stack>
         </Paper>
       </FloatingContainer>

@@ -9,7 +9,7 @@ import useGetGyms from '../../hooks/services/useGetGyms';
 export const FavoriteGymsForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();
   const { errors } = formState;
-  const gyms = useGetGyms() || [];
+  const gyms = useGetGyms();
 
   return (
     <Stack spacing={2}>
