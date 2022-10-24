@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import useCheckAuth from 'src/hooks/guards/useCheckAuth';
+import useCheckNotAuth from 'src/hooks/guards/useCheckNotAuth';
 import useCheckNotOnboarded from 'src/hooks/guards/useCheckNotOnboarded';
 import useCheckOnboarded from 'src/hooks/guards/useCheckOnboarded';
 import useGuard from 'src/hooks/guards/useGuard';
@@ -7,6 +8,7 @@ import useGuard from 'src/hooks/guards/useGuard';
 interface Props {
   children?: ReactNode;
   authenticated?: boolean;
+  notAuthenticated?: boolean;
   onboarded?: boolean;
   notOnboarded?: boolean;
 }
@@ -16,23 +18,27 @@ interface Props {
 /**
  * Applies guards enabled in this order:
  * 1. Checks authenticated
- * 2. Checks onboarded
- * 3. Checks not onboarded
+ * 2. Checks authenticated
+ * 3. Checks onboarded
+ * 4. Checks not onboarded
  */
 export default function CommonGuard({
   children,
   authenticated = false,
+  notAuthenticated = false,
   onboarded = false,
   notOnboarded = false,
 }: Props) {
   const checkAuth = useCheckAuth();
+  const checkNotAuth = useCheckNotAuth();
   const checkOnboarded = useCheckOnboarded();
   const checkNotOnboarded = useCheckNotOnboarded();
 
   const guards = [];
   authenticated && guards.push(checkAuth);
+  notAuthenticated && guards.push(checkNotAuth);
   onboarded && guards.push(checkOnboarded);
-  notOnboarded && guards.push(checkNotOnboarded);
+  notOnboarded && guards.push(() => checkNotOnboarded(true, true));
 
   useGuard(guards);
 
