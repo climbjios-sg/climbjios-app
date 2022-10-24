@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSnackbar } from 'notistack';
 import { Button, Typography } from "@mui/material";
 import { InlineIcon } from '@iconify/react';
-import { isiOS } from 'src/utils/device';
+import { isiOS, isPWA } from 'src/utils/device';
 
 // Note that BeforeInstallPromptEvent is still a non-standard experimental feature, and may not work for every user.
 interface IBeforeInstallPromptEvent extends Event {
@@ -21,12 +21,15 @@ export default function AddToHomeScreen() {
     let deferredPrompt: IBeforeInstallPromptEvent | null;
 
     const promptUserToInstall = (e: IBeforeInstallPromptEvent) => {
+      console.log('beforeinstallprompt fired')
+      console.log("isiOS: ", isiOS());
+      console.log("isPWA", isPWA());
       // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
       // Stash the event so it can be triggered later.
       deferredPrompt = e;
       // Update UI to notify the user they can install the PWA
-      if (isiOS()) {
+      if (isiOS() && !isPWA()) {
         enqueueSnackbar(
           (<div>
             <Typography>Install the ClimbJios app on your device for easy access anytime.</Typography>
