@@ -7,8 +7,8 @@ export async function seed(knex: Knex): Promise<void> {
   // Inserts seed entries
   await knex('gyms').insert([
     { name: 'Arête (By Upwall)', shortName: 'Arête', permanentlyClosed: false },
-    { name: 'b8A', shortName: 'b8A', permanentlyClosed: false },
     { name: 'Ark Bloc', shortName: 'Ark Bloc', permanentlyClosed: false },
+    { name: 'b8A', shortName: 'b8A', permanentlyClosed: false },
     {
       name: 'BFF Climb (Bukit Timah)',
       shortName: 'BFF (Bkt Timah)',

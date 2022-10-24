@@ -25,7 +25,15 @@ export class PostModel extends BaseModel {
     creatorProfile: {
       relation: Model.HasOneRelation,
       modelClass: UserProfileModel,
-      filter: (query) => query.select('*'),
+      filter: (query) =>
+        query.select([
+          'userId',
+          'name',
+          'telegramHandle',
+          'bio',
+          'height',
+          'reach',
+        ]),
       join: {
         from: 'posts.creatorId',
         to: 'userProfiles.userId',
