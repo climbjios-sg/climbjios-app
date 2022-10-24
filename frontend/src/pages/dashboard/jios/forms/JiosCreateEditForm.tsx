@@ -2,7 +2,16 @@ import * as React from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Box, Typography, Stack, InputAdornment, Button } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Stack,
+  InputAdornment,
+  Button,
+  AppBar,
+  IconButton,
+  Toolbar,
+} from '@mui/material';
 // components
 import {
   FormProvider,
@@ -29,11 +38,14 @@ import { addDays } from 'date-fns';
 import FloatingBottomCard from '../../../../components/FloatingBottomCard';
 import useRHFScrollToInputOnError from '../../../../hooks/useRHFScrollToInputOnError';
 import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
+import Iconify from '../../../../components/Iconify';
+import { useNavigate } from 'react-router';
 
 type Props = {
   onSubmit: (data: JioCreateEditFormValues) => Promise<void>;
   submitIcon: React.ReactElement;
   submitLabel: string;
+  title: string;
   onCancel: () => void;
   defaultValues?: Partial<JioCreateEditFormValues>;
 };
@@ -44,24 +56,25 @@ export default function JiosCreateEditForm({
   defaultValues: currentJio,
   submitIcon,
   submitLabel,
+  title,
 }: Props) {
   const { enqueueSnackbar } = useSnackbar();
   const gyms = useSelector((state) => state.gyms.data);
+  const navigate = useNavigate();
 
   const formSchema = Yup.object().shape({
     gymId: Yup.number().positive().integer().required('Gym is required.'),
     ...yupStartEndDateTimingObject,
     type: Yup.string().required('Looking to buy or sell passes is required.'),
-    price: Yup.number()
-      .positive('Price must be a positive number.')
-      .when('type', {
-        is: (jioType: JioCreateEditFormValues['type']) => jioType === 'other',
-        then: (schema) => schema.optional(),
-        otherwise: (schema) =>
-          schema
-            .typeError('Price is required.') // Triggered when price is an empty string. Overwrites default unfriendly error message.
-            .required('Price is required.'),
-      }),
+    price: Yup.number().when('type', {
+      is: (jioType: JioCreateEditFormValues['type']) => jioType === 'other',
+      then: (schema) => schema.optional(),
+      otherwise: (schema) =>
+        schema
+          .positive('Price must be a positive number.')
+          .typeError('Price is required.') // Triggered when price is an empty string. Overwrites default unfriendly error message.
+          .required('Price is required.'),
+    }),
     openToClimbTogether: Yup.boolean().when('type', {
       is: (jioType: JioCreateEditFormValues['type']) => jioType === 'other',
       then: (schema) => schema.optional(),
@@ -113,15 +126,40 @@ export default function JiosCreateEditForm({
   return (
     <Box
       sx={{
-        pt: 5,
         pb: 25,
-        px: '15px',
         maxWidth: 600,
         margin: '0 auto',
       }}
     >
+      <AppBar
+        sx={{
+          width: '100vw',
+          maxWidth: 600,
+          mx: 'auto',
+          left: 0,
+          right: 0,
+          background: 'white',
+          color: 'text.primary',
+        }}
+        position="absolute"
+      >
+        <Toolbar sx={{ pl: 1 }}>
+          <IconButton
+            sx={{ mr: 1 }}
+            color="primary"
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            <Iconify icon="eva:arrow-back-fill" color="primary" />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            {title}
+          </Typography>
+        </Toolbar>
+      </AppBar>
       <FormProvider methods={methods} onSubmit={handleSubmit(submitForm)}>
-        <Stack spacing={3}>
+        <Stack spacing={3} sx={{ px: '15px', mt: 11 }}>
           <Typography variant="subtitle1">Where are you climbing at?</Typography>
           <RHFSelect
             label="Select Gym"
@@ -229,23 +267,19 @@ export default function JiosCreateEditForm({
             placeholder=""
             fullWidth
           />
-        </Stack>
-        <FloatingBottomCard>
           <Button
             type="submit"
             size="large"
             variant="contained"
             color="primary"
             startIcon={submitIcon}
+            sx={{ mt: '35px !important' }}
             fullWidth
             disableElevation
           >
             <Typography variant="button">{submitLabel}</Typography>
           </Button>
-          <Button size="medium" fullWidth sx={{ mt: 1.5 }} onClick={onCancel}>
-            Cancel
-          </Button>
-        </FloatingBottomCard>
+        </Stack>
       </FormProvider>
     </Box>
   );

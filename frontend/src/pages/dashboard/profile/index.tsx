@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import { Route, Routes } from 'react-router-dom';
-import EditProfile from 'src/pages/dashboard/profile/EditProfile';
 import MyProfile from './MyProfile';
+import EditProfile from 'src/pages/dashboard/profile/EditProfile';
 
 export default function Profile() {
   return (
