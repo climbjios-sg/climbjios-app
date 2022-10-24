@@ -19,6 +19,7 @@ import Betas from './betas';
 import { listColors } from '../../store/reducers/colors';
 import { listWalls } from '../../store/reducers/walls';
 import MessageBarWithStore from './MessageBarWithStore';
+import AddToHomeScreen from 'src/components/a2hs/AddToHomeScreen';
 
 interface BottomTab {
   path: string;
@@ -98,6 +99,7 @@ export default function Dashboard() {
 
   return (
     <Page title="ClimbJios - The social network for climbers.">
+      <AddToHomeScreen />
       <MessageBarWithStore />
       <Container>
         <DashboardRouter />
