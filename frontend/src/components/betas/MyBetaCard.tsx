@@ -12,6 +12,7 @@ import { useSnackbar } from 'notistack';
 import { deleteBeta } from '../../services/betas';
 import useSafeRequest from '../../hooks/services/useSafeRequest';
 import DeleteMyBetaDialog from './CloseMyBetaDialog';
+import { movingTextAnimation } from '../../utils/animations';
 
 // ----------------------------------------------------------------------
 
@@ -89,6 +90,8 @@ const MyBetaCard = React.memo(({ data }: Props) => {
               paddingTop: 1,
               paddingLeft: 2,
               width: '100%',
+              whiteSpace: 'nowrap',
+              ...movingTextAnimation
             }}
             direction="row"
             spacing={1}
