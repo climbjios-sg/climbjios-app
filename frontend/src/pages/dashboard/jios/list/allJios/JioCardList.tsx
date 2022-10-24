@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { PATH_DASHBOARD } from '../../../../../routes/paths';
 import { addMinutes } from 'date-fns';
 import { GetJioListRequest } from 'src/@types/jio';
+import CreateJioButton from '../../../../../components/CreateJioButton';
 
 export default function JioCardList() {
   const dispatch = useDispatch();
@@ -64,7 +65,7 @@ export default function JioCardList() {
           </Grid>
         ))}
         <Grid sx={{ width: '100%', mt: 4 }} item>
-          <Divider textAlign="center">Can't find the right ClimbJio? 🤔</Divider>
+          <Divider textAlign="center">Can't find the right Jio? 🤔</Divider>
           <div
             style={{
               display: 'flex',
@@ -73,15 +74,7 @@ export default function JioCardList() {
               marginTop: 25,
             }}
           >
-            <Button
-              component={Link}
-              to={PATH_DASHBOARD.general.jios.create}
-              variant="contained"
-              fullWidth
-              size="large"
-            >
-              Create ClimbJio
-            </Button>
+            <CreateJioButton />
           </div>
         </Grid>
       </>

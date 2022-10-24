@@ -43,5 +43,8 @@ export const PATH_DASHBOARD = {
 };
 
 export const PATH_USER = {
-  root: ROOTS_USER
+  root: ROOTS_USER,
+  general: {
+    user: (userId: string) => path(ROOTS_USER, `/${userId}`)
+  }
 }
