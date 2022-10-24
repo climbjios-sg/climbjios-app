@@ -1,12 +1,11 @@
 import React from 'react';
 // @mui
-import { Box, Card, Avatar, Typography, CardContent, Stack, Divider } from '@mui/material';
+import { Box, Card, Avatar, Typography, Stack, Divider } from '@mui/material';
 // components
-import { formatDate } from '../utils/formatTime';
-import { Beta } from '../@types/beta';
-import Video from './Video';
+import { Beta } from '../../@types/beta';
+import Video from '../Video';
 import { Link } from 'react-router-dom';
-import { makeUserProfileLinkProps } from '../pages/publicProfile';
+import { makeUserProfileLinkProps } from '../../pages/publicProfile';
 
 // ----------------------------------------------------------------------
 
@@ -80,44 +79,3 @@ const BetaCard = React.memo(({ data }: Props) => (
 ));
 
 export default BetaCard;
-
-// ----------------------------------------------------------------------
-
-type PostContentProps = {
-  color: string;
-  grade: string;
-  wall: string;
-  gym: string;
-  createdAt: Date;
-};
-
-export function PostContent({ color, grade, wall, gym, createdAt }: PostContentProps) {
-  return (
-    <CardContent>
-      <Stack
-        direction="row"
-        spacing={1}
-        divider={<Divider orientation="vertical" flexItem />}
-        sx={{
-          color: 'text.disabled',
-        }}
-      >
-        {[color, grade, wall].map((text) => (
-          <Typography variant="caption" key={text}>
-            {text}
-          </Typography>
-        ))}
-      </Stack>
-      <Typography
-        gutterBottom
-        variant="caption"
-        component="div"
-        sx={{
-          color: 'text.disabled',
-        }}
-      >
-        {formatDate(createdAt)}
-      </Typography>
-    </CardContent>
-  );
-}

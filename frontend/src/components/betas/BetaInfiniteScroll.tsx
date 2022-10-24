@@ -1,10 +1,11 @@
 import { styled } from '@mui/system';
 import { TypographyProps, Typography } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { ListBetasResponse } from '../@types/beta';
+import { ListBetasResponse } from '../../@types/beta';
 import { AxiosResponse } from 'axios';
 import BetaCard from './BetaCard';
-import BetaLoader from '../pages/dashboard/betas/list/BetaLoader';
+import BetaLoader from './BetaLoader';
+import MyBetaCard from './MyBetaCard';
 
 const StyledInfiniteScroll = styled(InfiniteScroll)({
   maxWidth: 600,
@@ -33,6 +34,7 @@ interface BetasInfiniteScrollProps {
   onFetchPage: (newResponse: AxiosResponse<ListBetasResponse, any>) => void;
   emptyContent: React.ReactElement;
   loading: boolean;
+  isMine?: boolean; // True iff beta are mine
   style?: React.CSSProperties;
 }
 
@@ -43,8 +45,10 @@ export default function BetasInfiniteScroll({
   emptyContent,
   loading,
   style,
+  isMine,
 }: BetasInfiniteScrollProps) {
   const betas = data?.data;
+  const BetaCardComponent = isMine ? MyBetaCard : BetaCard;
 
   if (loading) {
     return <BetaLoader />;
@@ -52,7 +56,7 @@ export default function BetasInfiniteScroll({
 
   return betas && betas.data.total > 0 ? (
     <StyledInfiniteScroll
-        style={style}
+      style={{ paddingBottom: 20, ...style}}
       dataLength={betas.metadata.pageSize * betas.metadata.currentPage + betas.data.total}
       next={async () => {
         const newResponse = await fetchPage(betas.metadata.currentPage + 1);
@@ -72,7 +76,7 @@ export default function BetasInfiniteScroll({
       }
     >
       {betas.data.results.map((beta) => (
-        <BetaCard key={beta.id} data={beta} />
+        <BetaCardComponent key={beta.id} data={beta} />
       ))}
     </StyledInfiniteScroll>
   ) : (

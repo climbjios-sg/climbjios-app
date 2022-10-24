@@ -3,7 +3,6 @@ import { capitalCase } from 'change-case';
 import {
   Box,
   Stack,
-  Avatar,
   Typography,
   Tabs,
   Tab,
@@ -18,11 +17,12 @@ import useTabs from 'src/hooks/ui/useTabs';
 import { useNavigate, useLocation } from 'react-router';
 // components
 import FloatingBottomCard from 'src/components/FloatingBottomCard';
-import BioCard from '../../components/BioCard';
+import BioCard from '../../components/profile/BioCard';
 // types
 import { User } from 'src/@types/user';
 import { PATH_USER } from '../../routes/paths';
-import ProfileBetas from './ProfileBetas';
+import ProfileBetas from '../../components/profile/ProfileBetas';
+import ProfileHeaderAndTabs from '../../components/profile/ProfileHeaderAndTabs';
 
 export type UserProfileLocationState = {
   user: User;
@@ -40,18 +40,6 @@ export default function PublicProfile() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, isShowFloatingButton = false } = location.state as UserProfileLocationState;
-  const { currentTab, onChangeTab } = useTabs('about');
-  const PROFILE_TABS = [
-    {
-      value: 'about',
-      component: user ? <BioCard data={user} /> : null,
-    },
-    {
-      value: 'betas',
-      component: <ProfileBetas creatorId={user.userId} />,
-    },
-  ];
-
   return user ? (
     <Box
       sx={{
@@ -80,46 +68,11 @@ export default function PublicProfile() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Stack spacing={2} direction="column" sx={{ pt: 4, px: 2 }}>
-        <Stack direction="row" alignItems="center">
-          <Avatar
-            alt={user.telegramHandle}
-            src={user.profilePictureUrl}
-            sx={{
-              width: 60,
-              height: 60,
-              zIndex: 11,
-              mr: 2,
-              ml: 1,
-            }}
-          />
-          <Stack direction="column">
-            <Stack direction="row" alignItems="center">
-              <Typography variant="subtitle1">{user.name}</Typography>
-              {user.pronoun && <Typography variant="body2">{user.pronoun.name}</Typography>}
-            </Stack>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              {`@${user.telegramHandle}`}
-            </Typography>
-          </Stack>
-        </Stack>
-
-        <Tabs
-          allowScrollButtonsMobile
-          variant="scrollable"
-          scrollButtons="auto"
-          value={currentTab}
-          onChange={onChangeTab}
-        >
-          {PROFILE_TABS.map((tab) => (
-            <Tab disableRipple key={tab.value} value={tab.value} label={capitalCase(tab.value)} />
-          ))}
-        </Tabs>
-        {PROFILE_TABS.map((tab) => {
-          const isMatched = tab.value === currentTab;
-          return isMatched && tab.component;
-        })}
-      </Stack>
+      <ProfileHeaderAndTabs
+        user={user}
+        aboutTab={<BioCard data={user} />}
+        betasTab={<ProfileBetas creatorId={user.userId} />}
+      />
       {isShowFloatingButton && (
         <FloatingBottomCard>
           <Button
@@ -132,7 +85,7 @@ export default function PublicProfile() {
             disableElevation
             href={`https://t.me/${user.telegramHandle}`}
           >
-            <Typography variant="button">{'Message on Telegram'}</Typography>
+            <Typography variant="button">Message on Telegram</Typography>
           </Button>
         </FloatingBottomCard>
       )}
