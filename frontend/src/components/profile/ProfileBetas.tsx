@@ -2,16 +2,20 @@ import useSafeRequest from '../../hooks/services/useSafeRequest';
 import { getCreatorBetas } from '../../services/betas';
 import { BETAS_PAGE_SIZE } from 'src/config';
 import useErrorSnackbar from '../../hooks/useErrorSnackbar';
-import BetasInfiniteScroll from '../../components/BetaInfiniteScroll';
-import EmptyContent from '../../components/EmptyContent';
+import BetasInfiniteScroll from '../betas/BetaInfiniteScroll';
+import EmptyContent from '../EmptyContent';
 import NoContentGif from 'src/assets/no-content.gif';
+import { useSelector } from '../../store';
 
 interface ProfileBetasProps {
+  style?: React.CSSProperties;
+  isMine?: boolean; // True iff is my profile
   creatorId: string;
 }
 
-export default function ProfileBetas({ creatorId }: ProfileBetasProps) {
+export default function ProfileBetas({ style, creatorId, isMine }: ProfileBetasProps) {
   const errorSnackbar = useErrorSnackbar();
+  const viewVersion = useSelector((state) => state.ui.viewVersion);
   const getTargetBetas = (page: number) =>
     getCreatorBetas(creatorId, {
       page,
@@ -22,11 +26,16 @@ export default function ProfileBetas({ creatorId }: ProfileBetasProps) {
     onError: () => {
       errorSnackbar.enqueueWithSupport('Failed to get Betas.');
     },
+    refreshDeps: [viewVersion],
   });
 
   return (
     <BetasInfiniteScroll
-      style={{ width: '95vw' }}
+      isMine={isMine}
+      style={{
+        width: '95vw',
+        ...style,
+      }}
       loading={loading}
       data={data}
       onFetchPage={(newResponse) => {

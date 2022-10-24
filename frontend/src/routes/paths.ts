@@ -34,7 +34,10 @@ export const PATH_DASHBOARD = {
       create: path(ROOTS_DASHBOARD, '/jios/create'),
       edit: path(ROOTS_DASHBOARD, '/jios/edit'),
     },
-    profile: path(ROOTS_DASHBOARD, '/profile'),
+    profile: {
+      root: path(ROOTS_DASHBOARD, '/profile'),
+      edit: path(ROOTS_DASHBOARD, '/profile/edit'),
+    },
     betas: {
       root: path(ROOTS_DASHBOARD, '/betas'),
       create: (gymId?: number | string) =>

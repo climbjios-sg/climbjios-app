@@ -33,7 +33,7 @@ export default function Router() {
     {
       path: 'onboarding',
       element: (
-        <CommonGuard authenticated notOnboarded={!isDevelopment}>
+        <CommonGuard authenticated notOnboarded>
           <Onboarding />
         </CommonGuard>
       ),
@@ -42,7 +42,7 @@ export default function Router() {
     {
       path: 'dashboard/*',
       element: (
-        <CommonGuard authenticated onboarded={!isDevelopment}>
+        <CommonGuard authenticated onboarded>
           <Dashboard />
         </CommonGuard>
       ),

@@ -18,7 +18,7 @@ import useErrorSnackbar from '../../../../hooks/useErrorSnackbar';
 import NoContentGif from 'src/assets/no-content.gif';
 import EmptyContent from '../../../../components/EmptyContent';
 import useGetGyms from '../../../../hooks/services/useGetGyms';
-import BetasInfiniteScroll from '../../../../components/BetaInfiniteScroll';
+import BetasInfiniteScroll from '../../../../components/betas/BetaInfiniteScroll';
 import { BETAS_PAGE_SIZE } from 'src/config';
 
 const FloatingContainer = styled('div')({

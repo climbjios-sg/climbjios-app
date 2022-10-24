@@ -11,12 +11,14 @@ import {
   formatHighestLeadAndTopRopeGrade,
   formatSncsCertification,
 } from 'src/utils/formatString';
+import { Stack } from '@mui/system';
 
 interface BioProps {
   data: User;
+  action?: React.ReactElement;
 }
 
-export default function BioCard({ data }: BioProps) {
+export default function BioCard({ data, action }: BioProps) {
   function isEmptyBio() {
     return !(
       data.height ||
@@ -34,10 +36,11 @@ export default function BioCard({ data }: BioProps) {
       This climber has not filled in any information about themself yet.
     </Typography>
   ) : (
-    <Card sx={{ textAlign: 'left', px: 3, pb: 3, width: '100%' }}>
-      <Typography variant="h5" sx={{ mt: 3 }}>
-        {'Bio'}
-      </Typography>
+    <Card sx={{ textAlign: 'left', px: 3, py: 3, width: '100%' }}>
+      <Stack sx={{ mb: 2.5 }} direction="row" justifyContent="space-between" alignItems="center">
+        <Typography variant="h5">{'Bio'}</Typography>
+        {action}
+      </Stack>
 
       <Typography variant="body1" sx={{ my: 2 }}>
         {data.bio || ''}
