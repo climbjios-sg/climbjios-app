@@ -7,7 +7,7 @@ function path(root: string, sublink: string) {
 const ROOTS_AUTH = '/login';
 const ROOTS_ONBOARDING = '/onboarding';
 const ROOTS_DASHBOARD = '/dashboard';
-const ROOTS_USER = '/user';
+const ROOTS_CLIMBER = '/climber';
 
 export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';
 
@@ -35,17 +35,18 @@ export const PATH_DASHBOARD = {
       edit: path(ROOTS_DASHBOARD, '/jios/edit'),
     },
     profile: path(ROOTS_DASHBOARD, '/profile'),
-    beta: {
-      root: path(ROOTS_DASHBOARD, '/beta'),
-      create: path(ROOTS_DASHBOARD, '/beta/create'),
-      gym: (gymId: string) => path(ROOTS_DASHBOARD, `/beta/${gymId}`),
+    betas: {
+      root: path(ROOTS_DASHBOARD, '/betas'),
+      create: (gymId?: number | string) =>
+        path(ROOTS_DASHBOARD, `/betas/create${gymId ? `?gymId=${gymId}` : ''}`),
+      gym: (gymId: string) => path(ROOTS_DASHBOARD, `/betas/${gymId}`),
     },
   },
 };
 
 export const PATH_USER = {
-  root: ROOTS_USER,
+  root: ROOTS_CLIMBER,
   general: {
-    user: (userId: string) => path(ROOTS_USER, `/${userId}`),
+    user: (userId: string) => path(ROOTS_CLIMBER, `/${userId}`),
   },
 };

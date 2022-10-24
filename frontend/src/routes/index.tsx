@@ -49,7 +49,7 @@ export default function Router() {
     },
     // Public Profile Routes
     {
-      path: 'user/:userId',
+      path: 'climber/:userId',
       element: (
         <UserPublicProfile />
       ),
