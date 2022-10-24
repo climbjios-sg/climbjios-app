@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { GymsDaoService } from 'src/database/daos/gyms/gyms.dao.service';
-import { GymGradesDaoService } from 'src/database/daos/gymGrades/gymGrades.dao.service';
+import { GymsDaoService } from '../database/daos/gyms/gyms.dao.service';
+import { GymGradesDaoService } from '../database/daos/gymGrades/gymGrades.dao.service';
 
 @Injectable()
 export class GymsService {
@@ -13,12 +13,11 @@ export class GymsService {
     return this.gymsDaoService.getAll();
   }
 
-  getGrades(id: number) {
-    try {
-      return this.gymGradesDaoService.findByGymId(id);
-    } catch (err) {
-      console.error(`Failed to get gym grades for gym ${id}`, err);
-      throw new HttpException('Failed', 500);
+  async getGrades(gymId: number) {
+    const gym = await this.gymsDaoService.findById(gymId);
+    if (!gym) {
+      throw new HttpException('Invalid gym id!', 400);
     }
+    return this.gymGradesDaoService.findByGymId(gymId);
   }
 }

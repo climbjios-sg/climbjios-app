@@ -3,6 +3,7 @@ import { Stack } from '@mui/system';
 import { useNavigate } from 'react-router';
 import { BetaCreateEditFormValues } from 'src/@types/beta';
 import Iconify from 'src/components/Iconify';
+import BackBar from '../../../../components/BackBar';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { postCreateBeta, uploadBetaVideoToCloudfare } from '../../../../services/betas';
 import { useDispatch } from '../../../../store';
@@ -14,7 +15,7 @@ export default function BetaCreate() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = async (beta: BetaCreateEditFormValues) => {
-    navigate(PATH_DASHBOARD.general.beta.gym(beta.gymId.toString()));
+    navigate(PATH_DASHBOARD.general.betas.root);
     dispatch(
       openMessageBar({
         icon: 'game-icons:mountain-climbing',
@@ -54,31 +55,8 @@ export default function BetaCreate() {
   };
   return (
     <Stack direction="column" alignItems="center">
-      <AppBar
-        sx={{
-          background: 'white',
-          width: '100vw',
-          maxWidth: 600,
-          color: 'text.primary',
-        }}
-        position="static"
-      >
-        <Toolbar sx={{ pl: { xs: 1, md: 1 } }}>
-          <IconButton
-            sx={{ mr: 1 }}
-            color="primary"
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            <Iconify icon="eva:arrow-back-fill" color="primary" />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Upload a Beta
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Box sx={{ pt: 5, pb: 20, minHeight: '100vh', maxWidth: 600, margin: '0 auto' }}>
+      <BackBar title="Upload a Beta" />
+      <Box sx={{ pt: 11, pb: 20, minHeight: '100vh', maxWidth: 600, margin: '0 auto' }}>
         <BetaCreateEditForm onSubmit={handleSubmit} />
       </Box>
     </Stack>

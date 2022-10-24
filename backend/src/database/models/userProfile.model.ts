@@ -7,7 +7,7 @@ import { LeadClimbingGradeModel } from './leadClimbingGrade.model';
 import { SncsCertificationModel } from './sncsCertification.model';
 import { TopRopeGradeModel } from './topRopeGrade.model';
 import * as AWS from 'aws-sdk';
-import { S3UploadType } from 'src/utils/types';
+import { S3UploadType } from '../../utils/types';
 
 AWS.config.update({ region: process.env.AWS_REGION });
 
@@ -85,7 +85,8 @@ export class UserProfileModel extends BaseModel {
     favouriteGyms: {
       relation: Model.ManyToManyRelation,
       modelClass: GymModel,
-      filter: (query) => query.select('id', 'name', 'permanentlyClosed'),
+      filter: (query) =>
+        query.select('id', 'name', 'shortName', 'permanentlyClosed'),
       join: {
         from: 'userProfiles.id',
         through: {
