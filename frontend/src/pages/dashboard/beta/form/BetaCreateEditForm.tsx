@@ -8,13 +8,13 @@ import {
   RHFSelect,
 } from '../../../../components/hook-form';
 import { useSelector } from '../../../../store';
-import { useRequest } from 'ahooks';
-import { getGymGrades } from '../../../../services/gyms';
-import useErrorSnackbar from '../../../../hooks/useErrorSnackbar';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useRHFScrollToInputOnError from '../../../../hooks/useRHFScrollToInputOnError';
 import { LoadingButton } from '@mui/lab';
 import { BetaCreateEditFormValues } from '../../../../@types/beta';
+import useGetGymGrades from '../../../../hooks/services/useGetGymGrades';
+import { useSearchParams } from 'react-router-dom';
+import { MAX_VIDEO_UPLOAD_SIZE_IN_BYTES } from '../../../../config';
 
 type BetaCreateEditFormProps = {
   onSubmit: (data: BetaCreateEditFormValues) => Promise<void>;
@@ -26,10 +26,20 @@ const formSchema = Yup.object().shape({
   gymId: Yup.number().required('Oopsy! Gym is required for other climbers to find your Beta.'),
   colorId: Yup.number().required('Oopsy! Color is required for other climbers to find your Beta.'),
   wallId: Yup.number().required('Oopsy! Wall is required for other climbers to find your Beta.'),
-  gymGradeId: Yup.number().required('Oopsy! Grade is required for other climbers to find your Beta.'),
+  gymGradeId: Yup.number().required(
+    'Oopsy! Grade is required for other climbers to find your Beta.'
+  ),
 });
 
-export default function BetaCreateEditForm({ onSubmit, defaultValues }: BetaCreateEditFormProps) {
+export default function BetaCreateEditForm({
+  onSubmit,
+  defaultValues = {},
+}: BetaCreateEditFormProps) {
+  // Populate gymId default value with search param data
+  const [searchParams] = useSearchParams();
+  const searchParamsGymId = searchParams.get('gymId');
+  defaultValues.gymId = searchParamsGymId ? parseInt(searchParamsGymId, 10) : defaultValues.gymId;
+
   const gyms = useSelector((state) => state.gyms.data);
   const colors = useSelector((state) => state.colors.data);
   const walls = useSelector((state) => state.walls.data);
@@ -38,8 +48,6 @@ export default function BetaCreateEditForm({ onSubmit, defaultValues }: BetaCrea
     defaultValues,
     mode: 'all',
   });
-  const errorSnackbar = useErrorSnackbar();
-
   const {
     handleSubmit,
     setValue,
@@ -50,15 +58,7 @@ export default function BetaCreateEditForm({ onSubmit, defaultValues }: BetaCrea
 
   const { gymId } = watch();
 
-  const { data } = useRequest(() => getGymGrades(gymId.toString()), {
-    ready: Boolean(gymId),
-    refreshDeps: [gymId],
-    onError: () => {
-      errorSnackbar.enqueueWithSupport('Failed to get Gym Grades.');
-    },
-  });
-
-  const grades = data?.data || [];
+  const gymGrades = useGetGymGrades(gymId);
 
   const handleDrop = React.useCallback(
     (acceptedFiles: File[]) => {
@@ -81,7 +81,11 @@ export default function BetaCreateEditForm({ onSubmit, defaultValues }: BetaCrea
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack direction="column" alignItems="center" spacing={3}>
-        <RHFUploadSingleFileVideo name="video" onDrop={handleDrop} />
+        <RHFUploadSingleFileVideo
+          name="video"
+          onDrop={handleDrop}
+          maxSize={MAX_VIDEO_UPLOAD_SIZE_IN_BYTES}
+        />
         <RHFSelect
           label="Select Gym"
           fullWidth
@@ -136,13 +140,19 @@ export default function BetaCreateEditForm({ onSubmit, defaultValues }: BetaCrea
         >
           {/* Disabled Option for first option to not auto-render */}
           <option value="" disabled />
-          {grades.map((grade) => (
+          {gymGrades.map((grade) => (
             <option key={grade.id} value={grade.id}>
               {capitalize(grade.name)}
             </option>
           ))}
         </RHFSelect>
-        <LoadingButton loading={isSubmitting} variant="contained" type="submit" fullWidth size="large">
+        <LoadingButton
+          loading={isSubmitting}
+          variant="contained"
+          type="submit"
+          fullWidth
+          size="large"
+        >
           Submit
         </LoadingButton>
       </Stack>

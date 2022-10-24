@@ -1,6 +1,8 @@
+import { PaginationRequestData, PaginationResponse } from './pagination';
 import { CustomFile } from '../components/upload';
 import { Color } from './color';
 import { Gym, GymGrade } from './gym';
+import { User } from './user';
 import { Wall } from './wall';
 
 // TODO: Fix and remove
@@ -13,13 +15,31 @@ export type BetaDemo = {
   createdAt: Date;
 };
 
+export type BetaCreatorProfile = Pick<
+  User,
+  'userId' | 'name' | 'telegramHandle' | 'profilePictureUrl'
+>;
+
 export type Beta = {
+  id: string;
   cloudflareVideoUid: string;
   gym: Gym;
   color: Color;
   wall: Wall;
   gymGrade: GymGrade;
+  creatorProfile: BetaCreatorProfile;
+  createdAt: string;
+  updatedAt: string;
 };
+
+export type ListBetasRequest = {
+  gymId?: number;
+  gymGradeId?: number;
+  wallId?: number;
+  colorId?: number;
+} & PaginationRequestData;
+
+export type ListBetasResponse = PaginationResponse<Beta>
 
 export type BetaUploadUrlResponse = Pick<Beta, 'cloudflareVideoUid'> & {
   cloudflareUploadUrl: string;

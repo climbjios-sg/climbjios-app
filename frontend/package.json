@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.22.1",
+    "@cloudflare/stream-react": "^1.8.0",
     "@emoji-mart/data": "^1.0.2",
     "@emotion/cache": "^11.9.3",
     "@emotion/react": "^11.10.4",
@@ -105,6 +106,7 @@
     "react-hook-form": "^7.33.1",
     "react-i18next": "^11.17.4",
     "react-image-lightbox": "^5.1.4",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-lazy-load-image-component": "^1.5.4",
     "react-map-gl": "^7.0.16",
     "react-markdown": "^8.0.3",
