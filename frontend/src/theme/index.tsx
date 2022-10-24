@@ -7,6 +7,7 @@ import {
   ThemeProvider as MUIThemeProvider,
   StyledEngineProvider,
 } from '@mui/material/styles';
+import { ThemeProvider as EmotionThemeProvider } from '@emotion/react'
 import palette from './palette';
 import typography from './typography';
 import breakpoints from './breakpoints';
@@ -41,8 +42,10 @@ export default function ThemeProvider({ children }: Props) {
   return (
     <StyledEngineProvider injectFirst>
       <MUIThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
+        <EmotionThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </EmotionThemeProvider>
       </MUIThemeProvider>
     </StyledEngineProvider>
   );
