@@ -39,6 +39,7 @@ import useRHFScrollToInputOnError from '../../../../hooks/useRHFScrollToInputOnE
 import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
 import Iconify from '../../../../components/Iconify';
 import { useNavigate } from 'react-router';
+import BackBar from '../../../../components/BackBar';
 
 type Props = {
   onSubmit: (data: JioCreateEditFormValues) => Promise<void>;
@@ -130,33 +131,7 @@ export default function JiosCreateEditForm({
         margin: '0 auto',
       }}
     >
-      <AppBar
-        sx={{
-          width: '100vw',
-          maxWidth: 600,
-          mx: 'auto',
-          left: 0,
-          right: 0,
-          background: 'white',
-          color: 'text.primary',
-        }}
-        position="absolute"
-      >
-        <Toolbar sx={{ pl: 1 }}>
-          <IconButton
-            sx={{ mr: 1 }}
-            color="primary"
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            <Iconify icon="eva:arrow-back-fill" color="primary" />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {title}
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <BackBar title={title} />
       <FormProvider methods={methods} onSubmit={handleSubmit(submitForm)}>
         <Stack spacing={3} sx={{ px: '15px', mt: 11 }}>
           <Typography variant="subtitle1">Where are you climbing at?</Typography>
