@@ -15,6 +15,7 @@ var BetasDaoService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BetasDaoService = void 0;
 const common_1 = require("@nestjs/common");
+const userProfile_dao_service_1 = require("../userProfiles/userProfile.dao.service");
 let BetasDaoService = BetasDaoService_1 = class BetasDaoService {
     constructor(betaModel) {
         this.betaModel = betaModel;
@@ -62,7 +63,7 @@ let BetasDaoService = BetasDaoService_1 = class BetasDaoService {
         return countArr['count'];
     }
 };
-BetasDaoService.allGraphs = '[gym,color,wall,gymGrade,creatorProfile]';
+BetasDaoService.allGraphs = `[gym,color,wall,gymGrade,creatorProfile.${userProfile_dao_service_1.UserProfileDaoService.allGraphs}]`;
 BetasDaoService = BetasDaoService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)('BetaModel')),

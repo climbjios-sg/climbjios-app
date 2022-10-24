@@ -9,6 +9,14 @@ const gymGrade_model_1 = require("./gymGrade.model");
 const userProfile_model_1 = require("./userProfile.model");
 const wall_model_1 = require("./wall.model");
 class BetaModel extends base_model_1.BaseModel {
+    constructor() {
+        super(...arguments);
+        this.$afterFind = (context) => {
+            const result = super.$afterFind(context);
+            this.thumbnailUrl = `https://customer-${process.env.CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${this.cloudflareVideoUid}/thumbnails/thumbnail.jpg?time=1s&height=640&width=360`;
+            return result;
+        };
+    }
 }
 exports.BetaModel = BetaModel;
 BetaModel.tableName = 'betas';
@@ -16,7 +24,7 @@ BetaModel.relationMappings = () => ({
     creatorProfile: {
         relation: objection_1.Model.HasOneRelation,
         modelClass: userProfile_model_1.UserProfileModel,
-        filter: (query) => query.select(['userId', 'name', 'telegramHandle']),
+        filter: (query) => query.select('*'),
         join: {
             from: 'betas.creatorId',
             to: 'userProfiles.userId',
@@ -25,7 +33,7 @@ BetaModel.relationMappings = () => ({
     gym: {
         relation: objection_1.Model.BelongsToOneRelation,
         modelClass: gym_model_1.GymModel,
-        filter: (query) => query.select('id', 'name'),
+        filter: (query) => query.select('id', 'name', 'shortName'),
         join: {
             from: 'betas.gymId',
             to: 'gyms.id',

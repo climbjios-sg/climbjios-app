@@ -78,7 +78,7 @@ UserProfileModel.relationMappings = () => ({
     favouriteGyms: {
         relation: objection_1.Model.ManyToManyRelation,
         modelClass: gym_model_1.GymModel,
-        filter: (query) => query.select('id', 'name', 'permanentlyClosed'),
+        filter: (query) => query.select('id', 'name', 'shortName', 'permanentlyClosed'),
         join: {
             from: 'userProfiles.id',
             through: {

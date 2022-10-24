@@ -13,7 +13,14 @@ PostModel.relationMappings = () => ({
     creatorProfile: {
         relation: objection_1.Model.HasOneRelation,
         modelClass: userProfile_model_1.UserProfileModel,
-        filter: (query) => query.select(['userId', 'name', 'telegramHandle', 'height', 'reach']),
+        filter: (query) => query.select([
+            'userId',
+            'name',
+            'telegramHandle',
+            'bio',
+            'height',
+            'reach',
+        ]),
         join: {
             from: 'posts.creatorId',
             to: 'userProfiles.userId',
@@ -22,7 +29,7 @@ PostModel.relationMappings = () => ({
     gym: {
         relation: objection_1.Model.BelongsToOneRelation,
         modelClass: gym_model_1.GymModel,
-        filter: (query) => query.select('id', 'name', 'permanentlyClosed'),
+        filter: (query) => query.select('id', 'name', 'shortName', 'permanentlyClosed'),
         join: {
             from: 'posts.gymId',
             to: 'gyms.id',
