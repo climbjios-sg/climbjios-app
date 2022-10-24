@@ -78,6 +78,3 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
-self.addEventListener('fetch', function(event) {
-  // Placeholder to fulfil some browser PWA requirements for service workers to have a 'fetch' event handler
-});

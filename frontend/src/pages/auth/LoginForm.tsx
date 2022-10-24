@@ -1,5 +1,8 @@
 // @mui
-import { Stack, Box } from '@mui/material';
+import { Stack, Button, Typography, Box } from '@mui/material';
+// components
+import Iconify from '../../components/Iconify';
+//
 import { BE_API } from 'src/utils/api';
 // @ts-ignore (react-telegram-login is missing a @types file)
 import TelegramLoginButton from 'react-telegram-login';
@@ -17,16 +20,15 @@ export default function LoginForm() {
         spacing={1.5}
       >
         <Box sx={{ width: '100%', mb: 2 }}>
-          {/* <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 2 }}>
+          <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 2 }}>
             Recommended for smoother onboarding
-          </Typography> */}
+          </Typography>
           <TelegramLoginButton
             dataAuthUrl={`${process.env.REACT_APP_HOST_API_KEY}${BE_API.auth.telegramRedirect}`}
             botName={`${process.env.REACT_APP_TELEGRAM_OAUTH_BOT_USERNAME}`}
           />
         </Box>
-        {/* NOTE: Disable other login options for now */}
-        {/* <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '100%' }}>
           <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 2 }}>
             Other Option
           </Typography>
@@ -42,7 +44,7 @@ export default function LoginForm() {
           >
             <Typography variant="button">Continue with Google</Typography>
           </Button>
-        </Box> */}
+        </Box>
       </Stack>
     </>
   );

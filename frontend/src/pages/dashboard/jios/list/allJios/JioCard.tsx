@@ -1,12 +1,11 @@
-import { Button, Card, Stack, Typography } from '@mui/material';
+import { Avatar, Button, Card, CardHeader, Grid, Stack, Typography } from '@mui/material';
 import { IconStyle } from 'src/utils/common';
 import { Jio } from 'src/@types/jio';
 import palette from 'src/theme/palette';
 import { formatStartEndDate } from 'src/utils/formatTime';
+import { getPassesText } from '../utils';
 import { Link } from 'react-router-dom';
-import Iconify from '../../../../../components/Iconify';
-import JioCardHeader from '../JioCardHeader';
-import { makeUserProfileLinkProps } from '../../../../publicProfile';
+import { PATH_USER } from 'src/routes/paths';
 
 interface JioCardProps {
   data: Jio;
@@ -15,7 +14,37 @@ interface JioCardProps {
 export default function JioCard({ data }: JioCardProps) {
   return (
     <Card>
-      <JioCardHeader data={data} />
+      <CardHeader
+        avatar={
+          <Avatar
+            alt={'Profile picture'}
+            src={
+              data.creatorProfile && data.creatorProfile.profilePictureUrl
+                ? data.creatorProfile.profilePictureUrl
+                : 'https://minimal-assets-api-dev.vercel.app/assets/images/avatars/avatar_default.jpg'
+            }
+            sx={{
+              width: 40,
+              height: 40,
+              zIndex: 11,
+              mx: 'auto',
+            }}
+          />
+        }
+        title={
+          <Grid container spacing={2}>
+            <Grid item xs={6} md={8}>
+              <Typography variant="h6">{`@${data.creatorProfile.telegramHandle}`}</Typography>
+            </Grid>
+            <Grid item xs={6} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Stack spacing={1} direction="row" alignItems="center">
+                <Typography>{getPassesText(data)}</Typography>
+                <IconStyle icon={'mingcute:coupon-fill'} color="#b281e3" />
+              </Stack>
+            </Grid>
+          </Grid>
+        }
+      />
       <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
@@ -50,11 +79,11 @@ export default function JioCard({ data }: JioCardProps) {
             sx={{ mt: 1 }}
             fullWidth
             component={Link}
-            startIcon={<Iconify icon="eva:message-circle-outline" />}
+            to={`${PATH_USER.root}/${data.creatorProfile.userId}`}
+            state={{data: data.creatorProfile}}
             variant="outlined"
-            {...makeUserProfileLinkProps({ user: data.creatorProfile, isShowFloatingButton: true })}
           >
-            <span>Message Climber</span>
+            <span>Request Pass</span>
           </Button>
         </Stack>
       </Stack>

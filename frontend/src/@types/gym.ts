@@ -1,7 +1,6 @@
 export interface Gym {
   id: number;
   name: string;
-  shortName: string;
   permanentlyClosed: boolean;
 }
 

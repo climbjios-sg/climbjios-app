@@ -23,7 +23,7 @@ export default function FloatingBottomCard({ children }: Props) {
         borderRadiusTopLeft: '8px',
         borderRadiusTopRight: '8px',
         paddingBottom: '12px',
-        '& .MuiButton-root': {
+        '& button': {
           boxShadow: 'none',
           maxWidth: 580,
         },

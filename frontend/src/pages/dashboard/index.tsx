@@ -15,11 +15,10 @@ import Profile from './profile';
 import Jios from './jios';
 import { listGyms } from '../../store/reducers/gyms';
 import { useDispatch } from '../../store';
-import Betas from './betas';
+import Beta from './beta';
 import { listColors } from '../../store/reducers/colors';
 import { listWalls } from '../../store/reducers/walls';
 import MessageBarWithStore from './MessageBarWithStore';
-import AddToHomeScreen from 'src/components/a2hs/AddToHomeScreen';
 
 interface BottomTab {
   path: string;
@@ -63,11 +62,11 @@ const DASHBOARD_TABS = [
     element: <Jios />,
   },
   {
-    path: 'betas/*',
-    to: 'betas',
-    label: 'Betas',
+    path: 'beta/*',
+    to: 'beta',
+    label: 'Beta',
     icon: <Iconify icon={'akar-icons:video'} width={20} height={20} />,
-    element: <Betas />,
+    element: <Beta />,
   },
   {
     path: 'profile/*',
@@ -99,7 +98,6 @@ export default function Dashboard() {
 
   return (
     <Page title="ClimbJios - The social network for climbers.">
-      <AddToHomeScreen />
       <MessageBarWithStore />
       <Container>
         <DashboardRouter />

@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Button, Card, Stack, Typography } from '@mui/material';
+import { Button, Card, CardHeader, Stack, Typography } from '@mui/material';
 import Iconify from 'src/components/Iconify';
 import { IconStyle } from 'src/utils/common';
 import { Jio } from 'src/@types/jio';
 import palette from 'src/theme/palette';
 import { formatStartEndDate } from 'src/utils/formatTime';
+import { getPassesText } from '../utils';
 import CloseMyJioDialog from './CloseMyJioDialog';
 import { useSnackbar } from 'notistack';
 import useRefresh from 'src/hooks/ui/useRefresh';
@@ -13,7 +14,6 @@ import { closeMyJio } from 'src/services/myJios';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { Link } from 'react-router-dom';
-import JioCardHeader from '../JioCardHeader';
 
 interface MyJioCardProps {
   data: Jio;
@@ -46,7 +46,7 @@ export default function MyJioCard({ data }: MyJioCardProps) {
 
   return (
     <Card>
-      <JioCardHeader data={data} />
+      <CardHeader title={data.creatorProfile.name} subheader={`@${data.creatorProfile.telegramHandle}`} />
       <Stack spacing={1.5} sx={{ px: 3, pb: 2, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
@@ -58,6 +58,10 @@ export default function MyJioCard({ data }: MyJioCardProps) {
             {formatStartEndDate(data.startDateTime, data.endDateTime)}
           </Typography>
         </Stack>
+        <Stack direction="row">
+          <IconStyle icon={'mingcute:coupon-line'} color={palette.light.grey[700]} />
+          <Typography variant="body2">{getPassesText(data)}</Typography>
+        </Stack>
         {Boolean(data.price) && (
           <Stack direction="row">
             <IconStyle icon={'eva:pricetags-outline'} color={palette.light.grey[700]} />
@@ -67,7 +71,7 @@ export default function MyJioCard({ data }: MyJioCardProps) {
         {data.openToClimbTogether && (
           <Stack direction="row">
             <IconStyle icon={'fluent:hand-wave-16-regular'} color={palette.light.grey[700]} />
-            <Typography variant="body2">Open to climb together</Typography>
+            <Typography variant="body2">{'Open to climb together.'}</Typography>
           </Stack>
         )}
         {data.optionalNote && (

@@ -3,7 +3,7 @@ import { ModelClass, Transaction } from 'objection';
 import { PostModel } from '../../models/post.model';
 import CreatePostDto from '../../../posts/dtos/createPost.dto';
 import SearchPostDto from '../../../posts/dtos/searchPost.dto';
-import { PostType } from '../../../utils/types';
+import { PostType } from 'src/utils/types';
 import { UserProfileDaoService } from '../userProfiles/userProfile.dao.service';
 
 @Injectable()

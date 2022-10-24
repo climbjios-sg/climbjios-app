@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import { AuthProvider } from '../../utils/types';
+import { AuthProvider } from 'src/utils/types';
 import { BaseModel } from './base.model';
 import { UserProfileModel } from './userProfile.model';
 

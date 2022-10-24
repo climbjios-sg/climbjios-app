@@ -97,6 +97,3 @@ export enum CacheKey {
 }
 export const OPTIONS_CACHE_TIME = -1;
 export const OPTIONS_STALE_TIME = -1;
-
-// Betas
-export const BETAS_PAGE_SIZE = 10;

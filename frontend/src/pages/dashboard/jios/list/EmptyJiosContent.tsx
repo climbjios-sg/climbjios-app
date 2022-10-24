@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Button } from '@mui/material';
 import EmptyContent from 'src/components/EmptyContent';
-import CreateJioButton from '../../../../components/CreateJioButton';
+import { PATH_DASHBOARD } from 'src/routes/paths';
+import { Link } from 'react-router-dom';
 
 interface EmptyJiosContentProps {
   title: string;
@@ -12,8 +13,16 @@ export default function EmptyJiosContent({ title, description }: EmptyJiosConten
   return (
     <Grid sx={{ width: '100%', mt: 2 }} item>
       <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-        <EmptyContent sx={{ py: 3, pb: 0 }} title={title} description={description} />
-        <CreateJioButton />
+        <EmptyContent sx={{ py: 3 }} title={title} description={description} />
+        <Button
+          size="large"
+          component={Link}
+          to={PATH_DASHBOARD.general.jios.create}
+          variant="contained"
+          fullWidth
+        >
+          Create ClimbJio
+        </Button>
       </div>
     </Grid>
   );

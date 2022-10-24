@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ModelClass } from 'objection';
-import { GymModel } from '../../models/gym.model';
+import { GymModel } from 'src/database/models/gym.model';
 
 @Injectable()
 export class GymsDaoService {

@@ -43,7 +43,6 @@ export default function JiosCreate() {
 
   return (
     <JiosCreateEditForm
-      title="Create A Jio"
       onCancel={navigateOut}
       defaultValues={jioSearchValues || undefined}
       onSubmit={handleCreate}

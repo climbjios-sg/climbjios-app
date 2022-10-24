@@ -14,7 +14,7 @@ const useGetGyms = () => {
       snackbar.enqueueWithSupport('Failed to get gyms.');
     },
   });
-  return data?.data || [];
+  return data?.data;
 };
 
 export default useGetGyms;

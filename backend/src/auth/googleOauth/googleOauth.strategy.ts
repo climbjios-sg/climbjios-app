@@ -5,7 +5,7 @@ import { VerifiedCallback } from 'passport-jwt';
 import { ConstantsService } from '../../utils/constants/constants.service';
 import { UserDaoService } from '../../database/daos/users/user.dao.service';
 import { AuthProvider } from '../../utils/types';
-import { UserProfileModel } from '../../database/models/userProfile.model';
+import { UserProfileModel } from 'src/database/models/userProfile.model';
 
 @Injectable()
 export class GoogleOauthStrategy extends PassportStrategy(Strategy, 'google') {

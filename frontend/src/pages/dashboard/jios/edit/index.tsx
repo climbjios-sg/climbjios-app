@@ -8,7 +8,6 @@ import { getJio, updateJio } from 'src/services/jios';
 import { Jio } from 'src/@types/jio';
 import { dateToTimeString } from '../../../../utils/formatTime';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
-import useErrorSnackbar from '../../../../hooks/useErrorSnackbar';
 
 const jioToJioFormValues = (jio: Jio): JioCreateEditFormValues => ({
   type: jio.type,
@@ -27,13 +26,12 @@ const jioToJioFormValues = (jio: Jio): JioCreateEditFormValues => ({
 export default function JiosEdit() {
   const { id } = useParams();
   const jioId = Number(id);
-  const errorSnackbar = useErrorSnackbar();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
   const { data } = useSafeRequest(() => getJio(jioId), {
     onError: () => {
-      errorSnackbar.enqueueWithSupport('Failed to retrieve your Jio.');
+      enqueueSnackbar('Failed to get Jio.', { variant: 'error' });
     },
   });
 
@@ -44,11 +42,11 @@ export default function JiosEdit() {
   const { run: submitUpdateJio } = useSafeRequest(updateJio, {
     manual: true,
     onSuccess: () => {
-      enqueueSnackbar('Updated your Jio.');
+      enqueueSnackbar('Updated!');
       navigateOut();
     },
     onError: () => {
-      errorSnackbar.enqueueWithSupport('Failed to update your Jio.');
+      enqueueSnackbar('Failed to update Jio.', { variant: 'error' });
     },
   });
 
@@ -63,7 +61,6 @@ export default function JiosEdit() {
   // TODO: handle error and loading
   return !data ? null : (
     <JiosCreateEditForm
-      title="Edit Jio"
       onCancel={navigateOut}
       onSubmit={handleEdit}
       submitLabel="Submit"

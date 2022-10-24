@@ -4,7 +4,7 @@ import { TabContext, TabPanel } from '@mui/lab';
 import { Tab, Button, Typography, Grid, Tabs, Box, IconButton, Chip } from '@mui/material';
 import { useNavigate } from 'react-router';
 import Iconify from '../../../../components/Iconify';
-import useRefresh from 'src/hooks/ui/useRefresh';
+import useRefresh from '../../../../hooks/ui/useRefresh';
 import { formatPrettyDate } from '../../../../utils/formatTime';
 import JioCardList from './allJios/JioCardList';
 import MyJioCardList from './myJios/MyJioCardList';
@@ -79,7 +79,7 @@ export default function JiosList() {
   };
 
   // Show button with filter if is searching, else show search button
-  const renderSearchButton = () => {
+  const renderButton = () => {
     if (jioSearchValues) {
       const { date, startTiming, endTiming, gymId } = jioSearchValues;
       const dateTimeName = formatPrettyDate(date, startTiming, endTiming);
@@ -147,7 +147,7 @@ export default function JiosList() {
           onClick={onClickSearch}
         >
           <Typography sx={{ ml: 1, fontSize: 16, color: 'text.secondary' }} variant="button">
-            Search by gym & time
+            Search ClimbJios...
           </Typography>
         </Button>
       );
@@ -157,28 +157,26 @@ export default function JiosList() {
   return (
     <Box sx={{ pt: 5, pb: 20, minHeight: '100vh', maxWidth: 600, margin: '0 auto' }}>
       <TabContext value={tabValue}>
-        <Box>
-          {renderSearchButton()}
-          <Grid sx={{ pt: 1.5 }} container justifyContent="space-between" alignItems="center">
-            <Grid item>
-              <Tabs
-                value={tabValue}
-                onChange={(e, newValue) => {
-                  setTabValue(newValue);
-                }}
-              >
-                {TABS.map((tab) => (
-                  <StyledTab key={tab} label={tab} value={tab} />
-                ))}
-              </Tabs>
-            </Grid>
-            <Grid item>
-              <Button sx={{ borderRadius: 10 }} variant="outlined" onClick={handleRefresh}>
-                Refresh
-              </Button>
-            </Grid>
+        {renderButton()}
+        <Grid sx={{ pt: 1.5 }} container justifyContent="space-between" alignItems="center">
+          <Grid item>
+            <Tabs
+              value={tabValue}
+              onChange={(e, newValue) => {
+                setTabValue(newValue);
+              }}
+            >
+              {TABS.map((tab) => (
+                <StyledTab key={tab} label={tab} value={tab} />
+              ))}
+            </Tabs>
           </Grid>
-        </Box>
+          <Grid item>
+            <Button sx={{ borderRadius: 10 }} variant="outlined" onClick={handleRefresh}>
+              Refresh
+            </Button>
+          </Grid>
+        </Grid>
         {/* Open Jios Tab */}
         <TabPanel value={TabValue.AllJios}>
           <JioCardList />

@@ -1,15 +1,8 @@
 import { Gym } from './gym';
 
-export enum PronounName {
-  HeHim = 'He/Him',
-  SheHer = 'She/Her',
-  TheyThem = 'They/Them',
-  PreferNotToSay = 'Prefer not to say',
-}
-
 interface Pronoun {
   id: number;
-  name: PronounName;
+  name: string;
 }
 
 interface Grade {
@@ -24,25 +17,25 @@ interface Certification {
 
 export interface User {
   userId: string;
+  bio: string;
+  name: string;
   telegramHandle: string;
+  height: number;
+  reach: number;
+  pronounId: number;
+  highestBoulderingGradeId: number;
+  highestTopRopeGradeId: number;
+  highestLeadClimbingGradeId: number;
+  sncsCertificationId: number;
+  profilePictureUrl: string;
   createdAt: string;
   updatedAt: string;
-  name?: string;
-  profilePictureUrl?: string;
-  bio?: string;
-  height?: number;
-  reach?: number;
-  sncsCertification?: Certification;
-  pronoun?: Pronoun;
-  highestBoulderingGrade?: Grade;
-  highestTopRopeGrade?: Grade;
-  highestLeadClimbingGrade?: Grade;
-  favouriteGyms?: Gym[];
-  pronounId?: number;
-  highestBoulderingGradeId?: number;
-  highestTopRopeGradeId?: number;
-  highestLeadClimbingGradeId?: number;
-  sncsCertificationId?: number;
+  sncsCertification: Certification;
+  pronoun: Pronoun;
+  highestBoulderingGrade: Grade;
+  highestTopRopeGrade: Grade;
+  highestLeadClimbingGrade: Grade;
+  favouriteGyms: Gym[];
 }
 
 export type UserRequest = Partial<User> & {

@@ -4,15 +4,13 @@ import { Box, IconButton, Modal, SxProps } from '@mui/material';
 import * as React from 'react';
 import { Stream } from '@cloudflare/stream-react';
 import Iconify from './Iconify';
-import Image from './Image';
 
 interface Props {
-  videoSrc: string;
-  thumbnailSrc: string;
+  src: string;
   sx?: SxProps<Theme>;
 }
 
-export default function Video({ sx, videoSrc, thumbnailSrc }: Props) {
+export default function Video({ sx, src }: Props) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -49,7 +47,7 @@ export default function Video({ sx, videoSrc, thumbnailSrc }: Props) {
           setOpen(true);
         }}
       />
-      <Image ratio="9/16" src={thumbnailSrc} />
+      <Box component={Stream} sx={{ width: '100%', objectFit: 'cover' }} src={src} />
       <Modal open={open} onClose={() => setOpen(false)}>
         <>
           <IconButton
@@ -79,7 +77,7 @@ export default function Video({ sx, videoSrc, thumbnailSrc }: Props) {
               '& div': { paddingTop: '0 !important', position: 'static !important' },
             }}
           >
-            <Stream src={videoSrc} autoplay muted controls />
+            <Stream src={src} autoplay muted controls />
           </Box>
         </>
       </Modal>
