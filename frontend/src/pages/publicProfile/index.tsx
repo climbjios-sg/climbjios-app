@@ -1,19 +1,7 @@
-import { capitalCase } from 'change-case';
 // @mui
-import {
-  Box,
-  Stack,
-  Typography,
-  Tabs,
-  Tab,
-  Button,
-  AppBar,
-  IconButton,
-  Toolbar,
-} from '@mui/material';
+import { Box, Typography, Button, AppBar, IconButton, Toolbar } from '@mui/material';
 import Iconify from '../../components/Iconify';
 // hooks
-import useTabs from 'src/hooks/ui/useTabs';
 import { useNavigate, useLocation } from 'react-router';
 // components
 import FloatingBottomCard from 'src/components/FloatingBottomCard';

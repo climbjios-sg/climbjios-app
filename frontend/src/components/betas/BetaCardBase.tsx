@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 // @mui
-import { Box, Card, Avatar, Typography, Stack, Divider, IconButton } from '@mui/material';
+import { Box, Card, Avatar, Typography, Stack, Divider } from '@mui/material';
 // components
 import { Beta } from '../../@types/beta';
 import Video from '../Video';
