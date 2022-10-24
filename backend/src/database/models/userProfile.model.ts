@@ -85,7 +85,8 @@ export class UserProfileModel extends BaseModel {
     favouriteGyms: {
       relation: Model.ManyToManyRelation,
       modelClass: GymModel,
-      filter: (query) => query.select('id', 'name', 'shortName', 'permanentlyClosed'),
+      filter: (query) =>
+        query.select('id', 'name', 'shortName', 'permanentlyClosed'),
       join: {
         from: 'userProfiles.id',
         through: {

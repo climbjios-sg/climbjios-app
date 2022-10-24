@@ -34,7 +34,8 @@ export class PostModel extends BaseModel {
     gym: {
       relation: Model.BelongsToOneRelation,
       modelClass: GymModel,
-      filter: (query) => query.select('id', 'name', 'shortName', 'permanentlyClosed'),
+      filter: (query) =>
+        query.select('id', 'name', 'shortName', 'permanentlyClosed'),
       join: {
         from: 'posts.gymId',
         to: 'gyms.id',
