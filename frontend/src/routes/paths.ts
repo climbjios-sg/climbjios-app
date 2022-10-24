@@ -8,8 +8,15 @@ const ROOTS_AUTH = '/login';
 const ROOTS_ONBOARDING = '/onboarding';
 const ROOTS_DASHBOARD = '/dashboard';
 const ROOTS_CLIMBER = '/climber';
+const ROOTS_LANDING = 'https://www.climbjios.com';
 
-export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';
+export const PATH_LANDING = {
+  root: ROOTS_LANDING,
+  general: {
+    privacyPolicy: path(ROOTS_LANDING, '/privacy-policy'),
+    terms: path(ROOTS_LANDING, '/terms')
+  }
+}
 
 export const PATH_AUTH = {
   root: ROOTS_AUTH,
