@@ -10,6 +10,7 @@ import JioCardSkeleton from '../JioCardSkeleton';
 import { Link } from 'react-router-dom';
 import { PATH_DASHBOARD } from '../../../../../routes/paths';
 import ErrorContent from '../ErrorContent';
+import CreateJioButton from '../../../../../components/CreateJioButton';
 
 export default function MyJioCardList() {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ export default function MyJioCardList() {
           </Grid>
         ))}
         <Grid sx={{ width: '100%', mt: 4 }} item>
-          <Divider textAlign="center">That's all your ClimbJios 🧗</Divider>
+          <Divider textAlign="center">That's all your Jios 🧗</Divider>
           <div
             style={{
               display: 'flex',
@@ -50,15 +51,7 @@ export default function MyJioCardList() {
               marginTop: 25,
             }}
           >
-            <Button
-              component={Link}
-              to={PATH_DASHBOARD.general.jios.create}
-              variant="contained"
-              fullWidth
-              size="large"
-            >
-              Create ClimbJio
-            </Button>
+            <CreateJioButton />
           </div>
         </Grid>
       </>

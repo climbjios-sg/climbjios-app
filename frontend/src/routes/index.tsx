@@ -4,7 +4,6 @@ import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 import CommonGuard from 'src/components/guards/CommonGuard';
-import { isDevelopment } from 'src/config';
 
 // ----------------------------------------------------------------------
 
@@ -33,7 +32,7 @@ export default function Router() {
     {
       path: 'onboarding',
       element: (
-        <CommonGuard authenticated notOnboarded={!isDevelopment}>
+        <CommonGuard authenticated notOnboarded>
           <Onboarding />
         </CommonGuard>
       ),
@@ -42,22 +41,21 @@ export default function Router() {
     {
       path: 'dashboard/*',
       element: (
-        <CommonGuard authenticated onboarded={!isDevelopment}>
+        <CommonGuard authenticated onboarded>
           <Dashboard />
         </CommonGuard>
       ),
     },
     // Public Profile Routes
     {
-      path: 'user/:userId',
-      element: (
-        <UserPublicProfile />
-      ),
+      path: 'climber/:userId',
+      element: <UserPublicProfile />,
     },
     {
       path: '404',
       element: <Page404 />,
     },
+    { path: '/', element: <Navigate to="/dashboard?disableNotification=true" replace /> },
     { path: '*', element: <Navigate to="/dashboard" replace /> },
   ]);
 }
@@ -72,7 +70,7 @@ const Onboarding = Loadable(lazy(() => import('../pages/onboarding')));
 const Dashboard = Loadable(lazy(() => import('../pages/dashboard')));
 
 // USER PUBLIC PROFILE
-const UserPublicProfile = Loadable(lazy(() => import('../pages/profile/UserPublicProfile')));
+const UserPublicProfile = Loadable(lazy(() => import('../pages/publicProfile')));
 
 // LANDING
 const Page404 = Loadable(lazy(() => import('../pages/error/Page404')));

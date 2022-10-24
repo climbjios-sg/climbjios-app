@@ -14,7 +14,7 @@ export default function BetaCreate() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = async (beta: BetaCreateEditFormValues) => {
-    navigate(PATH_DASHBOARD.general.beta.gym(beta.gymId.toString()));
+    navigate(PATH_DASHBOARD.general.betas.root);
     dispatch(
       openMessageBar({
         icon: 'game-icons:mountain-climbing',
@@ -63,7 +63,7 @@ export default function BetaCreate() {
         }}
         position="static"
       >
-        <Toolbar sx={{ pl: { xs: 1, md: 1 } }}>
+        <Toolbar sx={{ pl: 1 }}>
           <IconButton
             sx={{ mr: 1 }}
             color="primary"

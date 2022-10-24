@@ -20,15 +20,16 @@ export default function LoginForm() {
         spacing={1.5}
       >
         <Box sx={{ width: '100%', mb: 2 }}>
-          <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 2 }}>
+          {/* <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 2 }}>
             Recommended for smoother onboarding
-          </Typography>
+          </Typography> */}
           <TelegramLoginButton
             dataAuthUrl={`${process.env.REACT_APP_HOST_API_KEY}${BE_API.auth.telegramRedirect}`}
             botName={`${process.env.REACT_APP_TELEGRAM_OAUTH_BOT_USERNAME}`}
           />
         </Box>
-        <Box sx={{ width: '100%' }}>
+        {/* NOTE: Disable other login options for now */}
+        {/* <Box sx={{ width: '100%' }}>
           <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 2 }}>
             Other Option
           </Typography>
@@ -44,7 +45,7 @@ export default function LoginForm() {
           >
             <Typography variant="button">Continue with Google</Typography>
           </Button>
-        </Box>
+        </Box> */}
       </Stack>
     </>
   );
