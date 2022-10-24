@@ -16,7 +16,7 @@ BetaModel.relationMappings = () => ({
     creatorProfile: {
         relation: objection_1.Model.HasOneRelation,
         modelClass: userProfile_model_1.UserProfileModel,
-        filter: (query) => query.select(['userId', 'name', 'telegramHandle', 'profilePictureUrl']),
+        filter: (query) => query.select(['userId', 'name', 'telegramHandle']),
         join: {
             from: 'betas.creatorId',
             to: 'userProfiles.userId',

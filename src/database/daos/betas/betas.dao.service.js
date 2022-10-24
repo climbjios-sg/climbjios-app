@@ -11,18 +11,59 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var BetasDaoService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BetasDaoService = void 0;
 const common_1 = require("@nestjs/common");
-let BetasDaoService = class BetasDaoService {
+let BetasDaoService = BetasDaoService_1 = class BetasDaoService {
     constructor(betaModel) {
         this.betaModel = betaModel;
     }
     create(beta) {
         return this.betaModel.query().insert(beta).returning('*');
     }
+    buildGetQuery(args) {
+        let query = this.betaModel.query();
+        if (args.gymId !== undefined) {
+            query = query.where('gymId', args.gymId);
+        }
+        if (args.colorId !== undefined) {
+            query = query.where('colorId', args.colorId);
+        }
+        if (args.gymGradeId !== undefined) {
+            query = query.where('gymGradeId', args.gymGradeId);
+        }
+        if (args.wallId !== undefined) {
+            query = query.where('wallId', args.wallId);
+        }
+        if (args.creatorId !== undefined) {
+            query = query.where('creatorId', args.creatorId);
+        }
+        return query;
+    }
+    getAll(args) {
+        let query = this.buildGetQuery(args);
+        if (args.limit !== undefined) {
+            query = query.limit(args.limit);
+        }
+        return query
+            .withGraphFetched(BetasDaoService_1.allGraphs)
+            .orderBy('createdAt', 'DESC')
+            .page(args.page, args.pageSize);
+    }
+    deleteById(betaId) {
+        return this.betaModel.query().delete().findById(betaId);
+    }
+    getById(betaId) {
+        return this.betaModel.query().findById(betaId);
+    }
+    async getCount(args) {
+        const countArr = await this.buildGetQuery(args).count({ count: '*' });
+        return countArr['count'];
+    }
 };
-BetasDaoService = __decorate([
+BetasDaoService.allGraphs = '[gym,color,wall,gymGrade,creatorProfile]';
+BetasDaoService = BetasDaoService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)('BetaModel')),
     __metadata("design:paramtypes", [Object])
