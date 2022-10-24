@@ -59,7 +59,6 @@ export default function Router() {
       path: '404',
       element: <Page404 />,
     },
-    { path: '/', element: <Navigate to="/dashboard?disableNotification=true" replace /> },
     { path: '*', element: <Navigate to="/login" replace /> },
   ]);
 }
