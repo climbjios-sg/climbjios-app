@@ -3,7 +3,6 @@ import { capitalCase } from 'change-case';
 import {
   Box,
   Stack,
-  Grid,
   Avatar,
   Typography,
   Tabs,
@@ -23,6 +22,7 @@ import BioCard from '../../components/BioCard';
 // types
 import { User } from 'src/@types/user';
 import { PATH_USER } from '../../routes/paths';
+import ProfileBetas from './ProfileBetas';
 
 export type UserProfileLocationState = {
   user: User;
@@ -48,7 +48,7 @@ export default function PublicProfile() {
     },
     {
       value: 'betas',
-      component: <></>,
+      component: <ProfileBetas creatorId={user.userId} />,
     },
   ];
 

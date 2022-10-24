@@ -1,14 +1,4 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  Paper,
-  Slide,
-  Typography,
-  TypographyProps,
-  useScrollTrigger,
-  useTheme,
-} from '@mui/material';
+import { Box, Button, IconButton, Paper, Slide, useScrollTrigger, useTheme } from '@mui/material';
 import { Stack, styled } from '@mui/system';
 import Select, { StylesConfig } from 'react-select';
 import { Link } from 'react-router-dom';
@@ -16,7 +6,6 @@ import Iconify from 'src/components/Iconify';
 import { useSelector } from 'src/store';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import chroma from 'chroma-js';
-import BetaCard from 'src/components/BetaCard';
 import MessageBarWithStore from '../../MessageBarWithStore';
 import useGetGymGrades from 'src/hooks/services/useGetGymGrades';
 import { useCallback, useMemo, useState, useEffect } from 'react';
@@ -26,11 +15,11 @@ import { Gym, GymGrade } from 'src/@types/gym';
 import { Wall } from 'src/@types/wall';
 import { Color } from 'src/@types/color';
 import useErrorSnackbar from '../../../../hooks/useErrorSnackbar';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import NoContentGif from 'src/assets/no-content.gif';
 import EmptyContent from '../../../../components/EmptyContent';
-import BetaLoader from './BetaLoader';
 import useGetGyms from '../../../../hooks/services/useGetGyms';
+import BetasInfiniteScroll from '../../../../components/BetaInfiniteScroll';
+import { BETAS_PAGE_SIZE } from 'src/config';
 
 const FloatingContainer = styled('div')({
   position: 'fixed',
@@ -59,27 +48,6 @@ const dot = (color = 'All') => ({
   },
 });
 
-const StyledInfiniteScroll = styled(InfiniteScroll)({
-  maxWidth: 600,
-  width: '100vw',
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
-  columnGap: 16,
-  rowGap: 16,
-  padding: '0 12px',
-  '& > div:first-of-type': {
-    gridColumn: 'span 2',
-  },
-});
-
-const InfiniteScrollHelper = styled((props: TypographyProps) => (
-  <Typography {...props} variant="h5" />
-))({
-  gridColumn: 'span 2',
-  textAlign: 'center',
-  justifySelf: 'center',
-});
-
 // Undefined stands for selecting all values
 const ALL_VALUES = undefined;
 type ALL_VALUES_TYPE = undefined;
@@ -93,7 +61,6 @@ const addAllOption = (list: { value: number; label: string }[]) => [
 
 export default function BetasList() {
   // Number of Betas to fetch per page
-  const PAGE_SIZE = 10;
   const [selectedGym, setSelectedGym] = useState<Gym['id'] | ALL_VALUES_TYPE>(ALL_VALUES);
   const [selectedGymGrade, setSelectedGymGrade] = useState<GymGrade['id'] | ALL_VALUES_TYPE>(
     ALL_VALUES
@@ -130,12 +97,12 @@ export default function BetasList() {
     [walls]
   );
 
-// Reset selectedGymGrade to ALL_VALUES when selected gym is ALL_VALUES
+  // Reset selectedGymGrade to ALL_VALUES when selected gym is ALL_VALUES
   useEffect(() => {
     if (selectedGym === ALL_VALUES) {
       setSelectedGymGrade(ALL_VALUES);
     }
-  }, [selectedGym])
+  }, [selectedGym]);
 
   const getTargetBetas = useCallback(
     (page: number) =>
@@ -145,69 +112,19 @@ export default function BetasList() {
         wallId: selectedWall,
         colorId: selectedColor,
         page,
-        pageSize: PAGE_SIZE,
+        pageSize: BETAS_PAGE_SIZE,
       }),
     [selectedColor, selectedGym, selectedGymGrade, selectedWall]
   );
 
-  const res = useSafeRequest(() => getTargetBetas(0), {
+  const { loading, data, mutate } = useSafeRequest(() => getTargetBetas(0), {
     onError: () => {
       errorSnackbar.enqueueWithSupport('Failed to get Betas.');
     },
     refreshDeps: [viewVersion, selectedGymGrade, selectedWall, selectedColor, selectedGym],
   });
-  const { loading } = res;
-  const betas = res.data?.data;
 
   const createBetaLink = PATH_DASHBOARD.general.betas.create(selectedGym);
-  const renderBetas = () =>
-    betas && betas.data.total > 0 ? (
-      <StyledInfiniteScroll
-        dataLength={betas.metadata.pageSize * betas.metadata.currentPage + betas.data.total}
-        next={async () => {
-          // Update data
-          const newResponse = await getTargetBetas(betas.metadata.currentPage + 1);
-          res.mutate((oldReponse) => {
-            newResponse.data.data.results = [
-              ...(oldReponse?.data.data.results || []),
-              ...newResponse.data.data.results,
-            ];
-            return newResponse;
-          });
-        }}
-        hasMore={!betas.metadata.isLastPage}
-        loader={<></>}
-        endMessage={<InfiniteScrollHelper>That's all!</InfiniteScrollHelper>}
-        refreshFunction={() => getTargetBetas(0)}
-        pullDownToRefresh
-        pullDownToRefreshThreshold={50}
-        pullDownToRefreshContent={
-          <InfiniteScrollHelper>&#8595; Pull down to refresh</InfiniteScrollHelper>
-        }
-        releaseToRefreshContent={
-          <InfiniteScrollHelper>&#8593; Release to refresh</InfiniteScrollHelper>
-        }
-      >
-        {betas.data.results.map((beta) => (
-          <BetaCard key={beta.id} data={beta} />
-        ))}
-      </StyledInfiniteScroll>
-    ) : (
-      <Box>
-        <EmptyContent title="No Betas yet" description="Why not try creating one?">
-          <img alt="No content" style={{ borderRadius: 20 }} src={NoContentGif} />
-          <Button
-            sx={{ mt: 3 }}
-            startIcon={<Iconify color="white" icon="bx:video-plus" />}
-            variant="contained"
-            component={Link}
-            to={createBetaLink}
-          >
-            Upload a Beta
-          </Button>
-        </EmptyContent>
-      </Box>
-    );
 
   return (
     <>
@@ -237,7 +154,6 @@ export default function BetasList() {
                 direction="row"
                 alignItems="center"
                 sx={{
-                  
                   border: 'solid 1px hsl(0, 0%, 80%)',
                   borderRadius: 10,
                   paddingLeft: 1,
@@ -308,7 +224,34 @@ export default function BetasList() {
           pb: 12,
         }}
       >
-        {loading ? <BetaLoader /> : renderBetas()}
+        <BetasInfiniteScroll
+          loading={loading}
+          data={data}
+          onFetchPage={(newResponse) => {
+            mutate((oldResponse) => {
+              newResponse.data.data.results = [
+                ...(oldResponse?.data.data.results || []),
+                ...newResponse.data.data.results,
+              ];
+              return newResponse;
+            });
+          }}
+          emptyContent={
+            <EmptyContent title="No Betas yet" description="Why not try creating one?">
+              <img alt="No content" style={{ borderRadius: 20 }} src={NoContentGif} />
+              <Button
+                sx={{ mt: 3 }}
+                startIcon={<Iconify color="white" icon="bx:video-plus" />}
+                variant="contained"
+                component={Link}
+                to={createBetaLink}
+              >
+                Upload a Beta
+              </Button>
+            </EmptyContent>
+          }
+          fetchPage={getTargetBetas}
+        />
       </Box>
     </>
   );
