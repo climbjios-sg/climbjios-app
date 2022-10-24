@@ -215,7 +215,7 @@ describe('Backend (e2e)', () => {
         .expect(200);
 
       expect(body.length).toEqual(11);
-      expect(body).toEqual(expect.arrayContaining([{ id: 1, name: 'red' }]));
+      expect(body).toEqual(expect.arrayContaining([{ id: 1, name: 'Red' }]));
     });
   });
 
@@ -716,7 +716,7 @@ describe('Backend (e2e)', () => {
 
       expect(body.length).toEqual(3);
       expect(body).toEqual(
-        expect.arrayContaining([{ id: 2, name: 'overhang' }]),
+        expect.arrayContaining([{ id: 2, name: 'Overhang' }]),
       );
     });
   });
