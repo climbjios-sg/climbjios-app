@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 // @mui
-import { Box, Card, Avatar, Typography, Stack, Divider, IconButton } from '@mui/material';
+import { Stack, IconButton } from '@mui/material';
 // components
 import { Beta } from '../../@types/beta';
-import Video from '../Video';
-import { Link } from 'react-router-dom';
-import { makeUserProfileLinkProps } from '../../pages/publicProfile';
 import Iconify from '../Iconify';
 import useRefresh from '../../hooks/ui/useRefresh';
 import { useSnackbar } from 'notistack';
