@@ -69,24 +69,10 @@ export default function EditProfileForm() {
     // avatarUrl: Yup.mixed().test('required', 'Avatar is required', (value) => value !== ''),
   });
 
-  const defaultValues = useMemo(
-    () => ({
-      name: currentUser?.name,
-      bio: currentUser?.bio,
-      telegramHandle: currentUser?.telegramHandle,
-      height: currentUser?.height,
-      reach: currentUser?.reach,
-      pronounId: currentUser?.pronounId,
-      highestBoulderingGradeId: currentUser?.highestBoulderingGradeId,
-      highestTopRopeGradeId: currentUser?.highestTopRopeGradeId,
-      highestLeadCLimbingGradeId: currentUser?.highestLeadClimbingGradeId,
-      sncsCertificationId: currentUser?.sncsCertificationId,
-      profilePictureUrl: currentUser?.profilePictureUrl,
-      favouriteGymsId: currentUser?.favouriteGyms,
-    }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentUser]
-  );
+  const defaultValues = {
+    ...currentUser,
+    favouriteGymIds: currentUser?.favouriteGyms.map((gym) => gym.id),
+  };
 
   const methods = useForm<EditProfileFormValues>({
     resolver: yupResolver(UserSchema),
