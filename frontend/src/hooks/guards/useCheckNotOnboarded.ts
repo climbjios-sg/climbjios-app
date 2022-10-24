@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import useAuthProvider from '../auth/useAuthProvider';
 
-type CheckNotOnboarded = (
-  redirectOnError?: boolean,
-  disableNotification?: boolean,
-  redirectTo?: string
-) => Promise<any>;
+type CheckNotOnboarded = (params: {
+  redirectOnError?: boolean;
+  disableNotification?: boolean;
+  redirectTo?: string;
+}) => Promise<any>;
 
 const useCheckNotOnboarded = (): CheckNotOnboarded => {
   const authProvider = useAuthProvider();
@@ -16,11 +16,11 @@ const useCheckNotOnboarded = (): CheckNotOnboarded => {
   const navigate = useNavigate();
 
   const checkNotOnboarded = useCallback(
-    async (
+    async ({
       redirectOnError = true,
       disableNotification = false,
-      redirectTo = PATH_DASHBOARD.root
-    ) => {
+      redirectTo = PATH_DASHBOARD.root,
+    }) => {
       await authProvider.checkOnboarded();
 
       if (redirectOnError) {

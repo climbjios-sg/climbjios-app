@@ -7,7 +7,7 @@ const useNotOnboarded = () => {
   useEffect(() => {
     const callCheckNotOnboarded = async () => {
       try {
-        await checkNotOnboarded();
+        await checkNotOnboarded({});
       } catch (error) {
         // Silences the error since error handling
         // is already taken care of by the guard hook

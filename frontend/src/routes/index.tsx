@@ -26,7 +26,11 @@ export default function Router() {
   return useRoutes([
     {
       path: 'login',
-      element: <Login />,
+      element: (
+        <CommonGuard notAuthenticated>
+          <Login />
+        </CommonGuard>
+      ),
     },
     // Onboarding Routes
     {
@@ -55,8 +59,7 @@ export default function Router() {
       path: '404',
       element: <Page404 />,
     },
-    { path: '/', element: <Navigate to="/dashboard?disableNotification=true" replace /> },
-    { path: '*', element: <Navigate to="/dashboard" replace /> },
+    { path: '*', element: <Navigate to="/login" replace /> },
   ]);
 }
 
