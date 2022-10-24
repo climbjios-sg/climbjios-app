@@ -50,7 +50,7 @@ export default function EditProfileForm() {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  let currentUser = useGetIdentity().identity;
+  const { identity: currentUser } = useGetIdentity();
 
   const UserSchema = Yup.object().shape({
     name: Yup.string()
@@ -66,7 +66,6 @@ export default function EditProfileForm() {
     highestLeadClimbingGradeId: Yup.number().optional(),
     favouriteGymIds: Yup.array().of(Yup.number()).optional(),
     sncsCertificationId: Yup.number().optional(),
-    // avatarUrl: Yup.mixed().test('required', 'Avatar is required', (value) => value !== ''),
   });
 
   const defaultValues = {
@@ -80,15 +79,14 @@ export default function EditProfileForm() {
   });
 
   const {
-    reset,
     watch,
-    control,
-    setValue,
     handleSubmit,
+    setValue,
+    reset,
     formState: { isSubmitting },
   } = methods;
 
-  //Debug purposes
+  // Debug purposes
   useDevWatchForm(watch);
 
   const { runAsync: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
@@ -137,13 +135,15 @@ export default function EditProfileForm() {
   };
 
   // Return back to profile page if no user found.
-  // Fix for the bug where if user refreshes the page or
-  // tries to access the edit profile URL directly, currentUser will be undefined
   useEffect(() => {
     if (!currentUser) {
       navigate(PATH_DASHBOARD.general.profile);
     }
   }, [currentUser]);
+
+  // useEffect(() => {
+  //   reset(defaultValues);
+  // }, [currentUser]);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(_handleSubmit)}>
