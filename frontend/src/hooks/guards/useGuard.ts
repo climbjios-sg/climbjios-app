@@ -11,7 +11,7 @@ const useGuard = (guards: Function[]) => {
     const callGuards = async () => {
       try {
         for (const guard of guards) {
-          await guard();
+          await guard({});
         }
       } catch (error) {
         // Silences the error since error handling
