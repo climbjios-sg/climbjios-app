@@ -85,18 +85,18 @@ describe('Backend (e2e)', () => {
     if (!r.rowCount) {
       await knexInstance.raw(`CREATE DATABASE ??`, TEST_DATABASE_NAME);
     }
+  });
+
+  beforeEach(async () => {
+    // Rerun migrations and seeds
+    const knexInstance = knex(knexTestDatabaseConfig);
+    await knexInstance.migrate.latest();
+    await knexInstance.seed.run();
 
     // Mock user auth details
     const jwtAuthService = app.get(JwtAuthService);
     TEST_USER_JWT = (await jwtAuthService.generateJwts(TEST_USER_JWT_PAYLOAD))
       .accessToken;
-  });
-
-  beforeEach(async () => {
-    // Run migrations and seeds
-    const knexInstance = knex(knexTestDatabaseConfig);
-    await knexInstance.migrate.latest();
-    await knexInstance.seed.run();
   });
 
   describe('AppController (e2e)', () => {

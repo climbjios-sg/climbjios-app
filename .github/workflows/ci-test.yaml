@@ -1,0 +1,40 @@
+name: ci-test
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: cd backend; yarn install --frozen-lockfile;
+      - name: Run tests
+        run: cd backend; yarn test:e2e --force-exit;
+
+    env:
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_PORT: 5432
