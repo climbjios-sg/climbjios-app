@@ -1,12 +1,4 @@
-import {
-  Stack,
-  Tabs,
-  Tab,
-  SxProps,
-  Theme,
-  useTheme,
-  Box,
-} from '@mui/material';
+import { Stack, Tabs, Tab, SxProps, Theme, useTheme, Box } from '@mui/material';
 import { User } from 'src/@types/user';
 import { capitalCase } from 'change-case';
 import ProfileHeader from './ProfileHeader';
@@ -52,9 +44,10 @@ export default function ProfileHeaderAndTabs({
           zIndex: theme.zIndex.appBar,
           top: 0,
           background: 'white',
+          width: showBack ? 'auto' : '100%',
         }}
       >
-        {showBack && <BackBar position="static" hideBarFromViewOnScroll />}
+        {showBack && <BackBar position="static" disableHideOnScroll />}
         <Stack sx={{ px: 2, pt: showBack ? 2 : 4 }} direction="column" spacing={1}>
           <ProfileHeader user={user} />
           <Tabs
