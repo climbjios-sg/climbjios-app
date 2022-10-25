@@ -20,12 +20,14 @@ export class UserProfileModel extends BaseModel {
   readonly telegramHandle?: string;
   readonly height?: number;
   readonly reach?: number;
+  readonly bio?: string;
+  readonly hasProfilePicture: boolean;
+
   readonly pronounId?: number;
   readonly highestBoulderingGradeId?: number;
   readonly highestTopRopeGradeId?: number;
   readonly highestLeadClimbingGradeId?: number;
   readonly sncsCertificationId?: number;
-  readonly bio?: string;
 
   readonly pronoun?: PronounModel;
   readonly highestBoulderingGrade?: BoulderingGradeModel;
@@ -33,9 +35,18 @@ export class UserProfileModel extends BaseModel {
   readonly highestLeadClimbingGrade?: LeadClimbingGradeModel;
   readonly sncsCertification?: SncsCertificationModel;
   readonly favouriteGyms?: GymModel[];
-  readonly hasProfilePicture: boolean;
 
   profilePictureUrl: string;
+
+  static readonly relationWhitelist = [
+    'userId',
+    'name',
+    'telegramHandle',
+    'bio',
+    'height',
+    'reach',
+    'hasProfilePicture',
+  ];
 
   static relationMappings = () => ({
     pronoun: {

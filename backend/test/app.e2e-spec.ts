@@ -386,7 +386,7 @@ describe('Backend (e2e)', () => {
               },
               sncsCertification: null,
               favouriteGyms: [],
-              profilePictureUrl: expect.anything(),
+              hasProfilePicture: false,
             },
             gym: {
               id: 1,
@@ -434,6 +434,7 @@ describe('Backend (e2e)', () => {
                 name: 'Level 2',
               },
               favouriteGyms: [],
+              hasProfilePicture: true,
               profilePictureUrl: expect.anything(),
             },
             gym: {
@@ -481,7 +482,7 @@ describe('Backend (e2e)', () => {
               highestBoulderingGrade: { id: 1, name: 'v1' },
               highestTopRopeGrade: { id: 1, name: '4' },
               favouriteGyms: [],
-              profilePictureUrl: expect.anything(),
+              hasProfilePicture: false,
             },
             gym: {
               id: 1,
@@ -548,7 +549,7 @@ describe('Backend (e2e)', () => {
               highestBoulderingGrade: { id: 1, name: 'v1' },
               highestTopRopeGrade: { id: 1, name: '4' },
               favouriteGyms: [],
-              profilePictureUrl: expect.anything(),
+              hasProfilePicture: false,
             },
             gym: {
               id: 3,
@@ -653,7 +654,7 @@ describe('Backend (e2e)', () => {
             highestBoulderingGrade: { id: 1, name: 'v1' },
             highestTopRopeGrade: { id: 1, name: '4' },
             favouriteGyms: [],
-            profilePictureUrl: expect.anything(),
+            hasProfilePicture: false,
           }),
         );
       });

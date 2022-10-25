@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-cd backend; yarn format
+cd backend; yarn format; yarn test:e2e --force-exit
