@@ -7,7 +7,7 @@ import {
 } from 'src/assets/TelegramUsernameInstructions';
 
 const imageStyle = {
-  width: '50%',
+  width: '40%',
   minWidth: 200,
 };
 

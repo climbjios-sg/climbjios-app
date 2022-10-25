@@ -4,6 +4,7 @@ import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 import CommonGuard from 'src/components/guards/CommonGuard';
+import NoTelegramUsernamePage from 'src/pages/error/NoTelegramUsernameError';
 
 // ----------------------------------------------------------------------
 
@@ -58,6 +59,10 @@ export default function Router() {
     {
       path: '404',
       element: <Page404 />,
+    },
+    {
+      path: '/updateTelegramUsername',
+      element: <NoTelegramUsernamePage />,
     },
     { path: '*', element: <Navigate to="/login" replace /> },
   ]);

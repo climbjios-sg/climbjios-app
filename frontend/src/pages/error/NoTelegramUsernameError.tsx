@@ -1,18 +1,13 @@
-import { m } from 'framer-motion';
-import { capitalCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Button, Typography, Container, Stack, Tab, Tabs, Box, Divider } from '@mui/material';
 // components
 import Page from '../../components/Page';
-import { MotionContainer, varBounce } from '../../components/animate';
 import Iconify from '../../components/Iconify';
 import HeaderStyle from 'src/components/HeaderStyle';
-import ContentStyle from 'src/components/ContentStyle';
 import TabsWrapperStyle from 'src/components/TabsWrapperStyle';
 // assets
-import { PageNotFoundIllustration } from '../../assets';
-import { PATH_DASHBOARD } from 'src/routes/paths';
+import { PATH_AUTH } from 'src/routes/paths';
 import Logo from 'src/components/Logo';
 import Separator from 'src/components/Separator';
 //sections
@@ -45,7 +40,7 @@ export default function NoTelegramUsernamePage() {
       <HeaderStyle>
         <Logo />
       </HeaderStyle>
-      <Container maxWidth="md" sx={{ px: 3, mt: 10, mb: '10vh' }}>
+      <Container maxWidth="md" sx={{ px: 3, mt: 10, pb: 15 }}>
         <Stack spacing={3} justifyContent="center">
           <Box
             sx={{
@@ -109,7 +104,7 @@ export default function NoTelegramUsernamePage() {
       <FloatingBottomCard>
         <Box width="100%" maxWidth="sm">
           <Button
-            to={PATH_DASHBOARD.root}
+            to={PATH_AUTH.root}
             size="large"
             variant="contained"
             fullWidth
