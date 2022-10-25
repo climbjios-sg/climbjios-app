@@ -33,6 +33,7 @@ export class UserProfileModel extends BaseModel {
   readonly highestLeadClimbingGrade?: LeadClimbingGradeModel;
   readonly sncsCertification?: SncsCertificationModel;
   readonly favouriteGyms?: GymModel[];
+  readonly hasProfilePicture: boolean;
 
   profilePictureUrl: string;
 
@@ -101,14 +102,17 @@ export class UserProfileModel extends BaseModel {
   $afterFind = (context) => {
     const result = super.$afterFind(context);
 
-    this.profilePictureUrl = UserProfileModel.s3Instance.getSignedUrl(
-      'getObject',
-      {
-        Bucket: process.env.AWS_S3_BUCKET_NAME,
-        Key: `${this.userId}/${S3UploadType.PROFILE_PICTURE}`,
-        Expires: 60, // 1 minute
-      },
-    );
+    if (this.hasProfilePicture) {
+      this.profilePictureUrl = UserProfileModel.s3Instance.getSignedUrl(
+        'getObject',
+        {
+          Bucket: process.env.AWS_S3_BUCKET_NAME,
+          Key: `${this.userId}/${S3UploadType.PROFILE_PICTURE}`,
+          Expires: 60, // 1 minute
+        },
+      );
+    }
+
     return result;
   };
 }
