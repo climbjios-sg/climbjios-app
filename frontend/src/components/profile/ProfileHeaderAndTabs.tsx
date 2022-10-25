@@ -5,6 +5,7 @@ import {
   SxProps,
   Theme,
   useTheme,
+  Box,
 } from '@mui/material';
 import { User } from 'src/@types/user';
 import { capitalCase } from 'change-case';
@@ -51,7 +52,6 @@ export default function ProfileHeaderAndTabs({
           zIndex: theme.zIndex.appBar,
           top: 0,
           background: 'white',
-          width: '100%',
         }}
       >
         {showBack && <BackBar position="static" hideBarFromViewOnScroll />}
@@ -74,7 +74,7 @@ export default function ProfileHeaderAndTabs({
       <Stack>
         {PROFILE_TABS.map((tab) => {
           const isMatched = tab.value === currentTab;
-          return isMatched && tab.component;
+          return isMatched && <Box key={tab.value}>{tab.component}</Box>;
         })}
       </Stack>
     </Stack>

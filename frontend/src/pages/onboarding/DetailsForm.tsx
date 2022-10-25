@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, InputAdornment } from '@mui/material';
+import { Stack, InputAdornment, Typography } from '@mui/material';
 // components
 import { RHFTextField, RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
@@ -24,41 +24,52 @@ export const DetailsForm = () => {
   });
 
   return (
-    <Stack spacing={2}>
-      <RHFTextField
-        type="number"
-        name="height"
-        label="Height (Optional)"
-        placeholder="173"
-        InputProps={{
-          endAdornment: <InputAdornment position="end">cm</InputAdornment>,
-        }}
-        shouldSanitizeEmptyValue
-      />
-      <RHFTextField
-        type="number"
-        name="reach"
-        label="Reach (Optional)"
-        helperText={
-          errors?.reach?.message ||
-          'Leave this empty if you are unsure or do not know what reach is.'
-        }
-        FormHelperTextProps={{
-          error: !!errors?.reach,
-        }}
-        InputProps={{
-          endAdornment: <InputAdornment position="end">cm</InputAdornment>,
-        }}
-        shouldSanitizeEmptyValue
-      />
-      <RHFSelect name="pronounId" label="Pronoun (Optional)" shouldSanitizeEmptyValue>
-        <option value={''} />
-        {pronouns?.data.map((option) => (
-          <option key={option.id} value={option.id}>
-            {option.name}
-          </option>
-        ))}
-      </RHFSelect>
+    <Stack spacing={3}>
+      <Stack spacing={2}>
+        <Typography variant="subtitle1">Height (Optional)</Typography>
+        <RHFTextField
+          type="number"
+          name="height"
+          placeholder="173"
+          InputProps={{
+            endAdornment: <InputAdornment position="end">cm</InputAdornment>,
+          }}
+          shouldSanitizeEmptyValue
+        />
+      </Stack>
+      <Stack spacing={1}>
+        <Typography variant="subtitle1" gutterBottom>
+          Reach (Optional)
+        </Typography>
+        <RHFTextField
+          type="number"
+          name="reach"
+          helperText={
+            errors?.reach?.message ||
+            'Leave this empty if you are unsure or do not know what reach is.'
+          }
+          FormHelperTextProps={{
+            error: !!errors?.reach,
+          }}
+          InputProps={{
+            endAdornment: <InputAdornment position="end">cm</InputAdornment>,
+          }}
+          shouldSanitizeEmptyValue
+        />
+      </Stack>
+      <Stack spacing={1}>
+        <Typography variant="subtitle1" gutterBottom>
+          Pronouns (Optional)
+        </Typography>
+        <RHFSelect name="pronounId" shouldSanitizeEmptyValue>
+          <option value={''} />
+          {pronouns?.data.map((option) => (
+            <option key={option.id} value={option.id}>
+              {option.name}
+            </option>
+          ))}
+        </RHFSelect>
+      </Stack>
     </Stack>
   );
 };

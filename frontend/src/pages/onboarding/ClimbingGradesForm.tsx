@@ -1,5 +1,4 @@
-import React from 'react';
-import { Stack, FormHelperText, FormGroup, Typography } from '@mui/material';
+import { Stack, FormHelperText, Typography } from '@mui/material';
 // components
 import { RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
@@ -47,15 +46,11 @@ export const ClimbingGradesForm = () => {
 
   return (
     <Stack spacing={2}>
-      <FormGroup>
+      <Stack spacing={1}>
         <Typography variant="subtitle1" gutterBottom>
-          Highest bouldering grade achieved
+          Highest bouldering grade (Optional)
         </Typography>
-        <RHFSelect
-          name="highestBoulderingGradeId"
-          label="Grade (Optional)"
-          shouldSanitizeEmptyValue
-        >
+        <RHFSelect name="highestBoulderingGradeId" shouldSanitizeEmptyValue>
           <option value={''} />
           {boulderingGrades?.data.map((option) => (
             <option key={option.id} value={option.id}>
@@ -63,13 +58,13 @@ export const ClimbingGradesForm = () => {
             </option>
           ))}
         </RHFSelect>
-      </FormGroup>
-      <FormGroup>
+      </Stack>
+      <Stack>
         <Typography variant="subtitle1" gutterBottom>
-          Highest Top Rope grade achieved
+          Highest top rope grade (Optional)
         </Typography>
         <FormHelperText error>{errors?.highestTopRopeGradeId?.message}</FormHelperText>
-        <RHFSelect name="highestTopRopeGradeId" label="Grade (Optional)" shouldSanitizeEmptyValue>
+        <RHFSelect name="highestTopRopeGradeId" shouldSanitizeEmptyValue>
           <option value={''} />
           {topRopeGrades?.data.map((option) => (
             <option key={option.id} value={option.id}>
@@ -77,16 +72,12 @@ export const ClimbingGradesForm = () => {
             </option>
           ))}
         </RHFSelect>
-      </FormGroup>
-      <FormGroup>
+      </Stack>
+      <Stack spacing={1}>
         <Typography variant="subtitle1" gutterBottom>
-          Highest Lead Climbing grade achieved
+          Highest lead grade (Optional)
         </Typography>
-        <RHFSelect
-          name="highestLeadClimbingGradeId"
-          label="Grade (Optional)"
-          shouldSanitizeEmptyValue
-        >
+        <RHFSelect name="highestLeadClimbingGradeId" shouldSanitizeEmptyValue>
           <option value={''} />
           {leadClimbingGrades?.data.map((option) => (
             <option key={option.id} value={option.id}>
@@ -94,7 +85,7 @@ export const ClimbingGradesForm = () => {
             </option>
           ))}
         </RHFSelect>
-      </FormGroup>
+      </Stack>
     </Stack>
   );
 };

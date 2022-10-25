@@ -67,7 +67,7 @@ export default function EditProfileForm() {
 
   const emptyFile = useMemo(() => ({} as File), []);
 
-  const defaultValues = useMemo(
+  const defaultValues: EditProfileFormValues = useMemo(
     () => ({
       name: currentUser.name ? currentUser.name : undefined,
       height: currentUser.height ? currentUser.height : undefined,
@@ -107,6 +107,7 @@ export default function EditProfileForm() {
   const {
     handleSubmit,
     formState: { isSubmitting },
+    reset,
   } = methods;
 
   useDevWatchForm(methods.watch);
@@ -160,6 +161,12 @@ export default function EditProfileForm() {
   const navigateToProfile = useCallback(() => {
     navigate(PATH_DASHBOARD.general.profile.root);
   }, [navigate]);
+
+  useEffect(() => {
+    if (defaultValues) {
+      reset(defaultValues);
+    }
+  }, [defaultValues, reset]);
 
   useEffect(() => {
     if (getIdentityError) {

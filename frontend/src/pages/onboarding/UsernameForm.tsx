@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 // components
 import { RHFTextField } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
@@ -11,9 +11,11 @@ export const UsernameForm = () => {
 
   return (
     <Stack spacing={2}>
+      <Typography variant="subtitle1">
+        Name
+      </Typography>
       <RHFTextField
         name="name"
-        label="Name"
         helperText={
           errors?.name?.message ||
           'Your name will be displayed on your profile page. You can always change this later.'
