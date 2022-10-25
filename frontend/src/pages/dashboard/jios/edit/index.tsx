@@ -8,7 +8,7 @@ import { getJio, updateJio } from 'src/services/jios';
 import { Jio } from 'src/@types/jio';
 import { dateToTimeString } from '../../../../utils/formatTime';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
-import useErrorSnackbar from '../../../../hooks/useErrorSnackbar';
+import useCustomSnackbar from '../../../../hooks/useErrorSnackbar';
 
 const jioToJioFormValues = (jio: Jio): JioCreateEditFormValues => ({
   type: jio.type,
@@ -27,13 +27,13 @@ const jioToJioFormValues = (jio: Jio): JioCreateEditFormValues => ({
 export default function JiosEdit() {
   const { id } = useParams();
   const jioId = Number(id);
-  const errorSnackbar = useErrorSnackbar();
+  const errorSnackbar = useCustomSnackbar();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
   const { data } = useSafeRequest(() => getJio(jioId), {
     onError: () => {
-      errorSnackbar.enqueueWithSupport('Failed to retrieve your Jio.');
+      errorSnackbar.enqueueError('Failed to retrieve your Jio.');
     },
   });
 
@@ -48,7 +48,7 @@ export default function JiosEdit() {
       navigateOut();
     },
     onError: () => {
-      errorSnackbar.enqueueWithSupport('Failed to update your Jio.');
+      errorSnackbar.enqueueError('Failed to update your Jio.');
     },
   });
 

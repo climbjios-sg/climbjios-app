@@ -1,7 +1,7 @@
 import useSafeRequest from '../../hooks/services/useSafeRequest';
 import { getCreatorBetas } from '../../services/betas';
 import { BETAS_PAGE_SIZE } from 'src/config';
-import useErrorSnackbar from '../../hooks/useErrorSnackbar';
+import useCustomSnackbar from '../../hooks/useErrorSnackbar';
 import BetasInfiniteScroll from '../betas/BetaInfiniteScroll';
 import EmptyContent from '../EmptyContent';
 import NoContentGif from 'src/assets/no-content.gif';
@@ -14,7 +14,7 @@ interface ProfileBetasProps {
 }
 
 export default function ProfileBetas({ style, creatorId, isMine }: ProfileBetasProps) {
-  const errorSnackbar = useErrorSnackbar();
+  const errorSnackbar = useCustomSnackbar();
   const viewVersion = useSelector((state) => state.ui.viewVersion);
   const getTargetBetas = (page: number) =>
     getCreatorBetas(creatorId, {
@@ -24,7 +24,7 @@ export default function ProfileBetas({ style, creatorId, isMine }: ProfileBetasP
 
   const { loading, data, mutate } = useSafeRequest(() => getTargetBetas(0), {
     onError: () => {
-      errorSnackbar.enqueueWithSupport('Failed to get Betas.');
+      errorSnackbar.enqueueError('Failed to get Betas.');
     },
     refreshDeps: [viewVersion],
   });
@@ -49,7 +49,7 @@ export default function ProfileBetas({ style, creatorId, isMine }: ProfileBetasP
       }}
       emptyContent={
         <EmptyContent title="No Betas yet">
-          <img alt="No content" style={{ borderRadius: 20 }} src={NoContentGif} />
+          <img alt="No content" style={{ borderRadius: 20, marginTop: 8 }} src={NoContentGif} />
         </EmptyContent>
       }
       fetchPage={getTargetBetas}
