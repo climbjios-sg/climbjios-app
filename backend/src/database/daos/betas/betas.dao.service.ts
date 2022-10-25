@@ -3,6 +3,7 @@ import { ModelClass } from 'objection';
 import { BetaModel } from '../../models/beta.model';
 import CreateBetaDto from '../../../betas/dtos/createBeta.dto';
 import { GetBetasQuery } from '../../../betas/dtos/getBetas.dto';
+import { UserProfileDaoService } from '../userProfiles/userProfile.dao.service';
 
 type CreateBetaQuery = CreateBetaDto & {
   creatorId: string;
@@ -10,7 +11,7 @@ type CreateBetaQuery = CreateBetaDto & {
 
 @Injectable()
 export class BetasDaoService {
-  static allGraphs = '[gym,color,wall,gymGrade,creatorProfile]';
+  static allGraphs = `[gym,color,wall,gymGrade,creatorProfile.${UserProfileDaoService.allGraphs}]`;
 
   constructor(@Inject('BetaModel') private betaModel: ModelClass<BetaModel>) {}
 

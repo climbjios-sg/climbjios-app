@@ -28,11 +28,11 @@ export class UserProfileDaoService {
     let query = this.userProfileModel.query().where({ userId });
 
     if (select) {
-      query.select(select);
+      query = query.select(select);
     }
 
     if (withGraphFetched) {
-      query.withGraphFetched(UserProfileDaoService.allGraphs);
+      query = query.withGraphFetched(UserProfileDaoService.allGraphs);
     }
 
     return query.first().then((profile) => {

@@ -18,7 +18,7 @@ const useAuthState = () => {
   useEffect(() => {
     const callCheckAuth = async () => {
       try {
-        await checkAuth(false);
+        await checkAuth({ logoutOnError: false });
 
         setState({ loading: false, loaded: true, authenticated: true });
       } catch (error) {

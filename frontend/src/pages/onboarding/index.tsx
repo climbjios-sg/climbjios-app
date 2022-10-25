@@ -14,7 +14,7 @@ import { AvatarForm } from './AvatarForm';
 import { useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
 import { FormProvider } from 'src/components/hook-form';
-import { PATH_DASHBOARD } from 'src/routes/paths';
+import { PATH_DASHBOARD, PATH_LANDING } from 'src/routes/paths';
 import { useNavigate } from 'react-router';
 import Separator from 'src/components/Separator';
 import { AvatarData, OnboardingFormValues } from './types';
@@ -39,6 +39,8 @@ import {
   NAME_REGEX_ERROR,
   REGEX_NAME,
 } from 'src/config';
+import { outgoingLinkProps } from '../../utils/common';
+import StyledA from '../../components/StyledA';
 
 // ----------------------------------------------------------------------
 
@@ -201,6 +203,7 @@ export default function Onboarding() {
     try {
       const { data: uploadUrl } = await getUploadAvatarUrl();
       await submitUploadAvatar(uploadUrl, avatar);
+      await submitUpdateUser({ hasProfilePicture: true });
     } catch (error) {
       enqueueSnackbar('Failed to upload profile picture', { variant: 'error' });
       throw error;
@@ -247,7 +250,7 @@ export default function Onboarding() {
   return (
     <FormProvider methods={methods}>
       <Page title="Onboarding: Fill in your details">
-        <Container maxWidth="md" sx={{ my: 3 }}>
+        <Container maxWidth="sm" sx={{ my: 3 }}>
           <Stack spacing={1.5} justifyContent="center" alignItems="center">
             <Logo />
             {renderTitle(activeStep)}
@@ -255,6 +258,19 @@ export default function Onboarding() {
               <Stack spacing={1.5}>
                 {renderForm(activeStep)}
                 <Separator />
+                {isComplete && (
+                  <Typography textAlign="center" sx={{ pb: 1 }}>
+                    By clicking submit, you agree to our{' '}
+                    <StyledA {...outgoingLinkProps} href={PATH_LANDING.general.terms}>
+                      terms
+                    </StyledA>{' '}
+                    &{' '}
+                    <StyledA {...outgoingLinkProps} href={PATH_LANDING.general.privacyPolicy}>
+                      privacy policy
+                    </StyledA>
+                    .
+                  </Typography>
+                )}
                 <Button
                   size="large"
                   variant="contained"

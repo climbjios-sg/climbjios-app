@@ -2,7 +2,7 @@ import React from 'react';
 import WorkTogetherImage from '../images/060-woman-man-phone-app.svg';
 import { externalUrls } from '../constants';
 
-function FeaturesSplit() {
+function PublicBeta() {
   return (
     <section>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -10,7 +10,7 @@ function FeaturesSplit() {
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h2 font-red-hat-display mb-4">
-              We are in private beta.
+              We are in public beta.
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
               We need your help to make this work.
@@ -29,9 +29,9 @@ function FeaturesSplit() {
                       className="text-blue-600"
                       target="_blank"
                       rel="noopener"
-                      href={externalUrls.climbJiosTelegramBetaUrl}
+                      href={externalUrls.climbJiosTelegramUrl}
                     >
-                      ClimbJios Beta Telegram Group
+                      ClimbJios Telegram Group
                     </a>
                     .
                   </strong>
@@ -50,4 +50,4 @@ function FeaturesSplit() {
   );
 }
 
-export default FeaturesSplit;
+export default PublicBeta;

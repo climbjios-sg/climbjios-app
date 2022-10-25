@@ -7,7 +7,7 @@ import { LeadClimbingGradeModel } from './leadClimbingGrade.model';
 import { SncsCertificationModel } from './sncsCertification.model';
 import { TopRopeGradeModel } from './topRopeGrade.model';
 import * as AWS from 'aws-sdk';
-import { S3UploadType } from 'src/utils/types';
+import { S3UploadType } from '../../utils/types';
 
 AWS.config.update({ region: process.env.AWS_REGION });
 
@@ -20,12 +20,14 @@ export class UserProfileModel extends BaseModel {
   readonly telegramHandle?: string;
   readonly height?: number;
   readonly reach?: number;
+  readonly bio?: string;
+  readonly hasProfilePicture: boolean;
+
   readonly pronounId?: number;
   readonly highestBoulderingGradeId?: number;
   readonly highestTopRopeGradeId?: number;
   readonly highestLeadClimbingGradeId?: number;
   readonly sncsCertificationId?: number;
-  readonly bio?: string;
 
   readonly pronoun?: PronounModel;
   readonly highestBoulderingGrade?: BoulderingGradeModel;
@@ -35,6 +37,16 @@ export class UserProfileModel extends BaseModel {
   readonly favouriteGyms?: GymModel[];
 
   profilePictureUrl: string;
+
+  static readonly relationWhitelist = [
+    'userId',
+    'name',
+    'telegramHandle',
+    'bio',
+    'height',
+    'reach',
+    'hasProfilePicture',
+  ];
 
   static relationMappings = () => ({
     pronoun: {
@@ -85,7 +97,8 @@ export class UserProfileModel extends BaseModel {
     favouriteGyms: {
       relation: Model.ManyToManyRelation,
       modelClass: GymModel,
-      filter: (query) => query.select('id', 'name', 'permanentlyClosed'),
+      filter: (query) =>
+        query.select('id', 'name', 'shortName', 'permanentlyClosed'),
       join: {
         from: 'userProfiles.id',
         through: {
@@ -100,14 +113,17 @@ export class UserProfileModel extends BaseModel {
   $afterFind = (context) => {
     const result = super.$afterFind(context);
 
-    this.profilePictureUrl = UserProfileModel.s3Instance.getSignedUrl(
-      'getObject',
-      {
-        Bucket: process.env.AWS_S3_BUCKET_NAME,
-        Key: `${this.userId}/${S3UploadType.PROFILE_PICTURE}`,
-        Expires: 60, // 1 minute
-      },
-    );
+    if (this.hasProfilePicture) {
+      this.profilePictureUrl = UserProfileModel.s3Instance.getSignedUrl(
+        'getObject',
+        {
+          Bucket: process.env.AWS_S3_BUCKET_NAME,
+          Key: `${this.userId}/${S3UploadType.PROFILE_PICTURE}`,
+          Expires: 60, // 1 minute
+        },
+      );
+    }
+
     return result;
   };
 }
