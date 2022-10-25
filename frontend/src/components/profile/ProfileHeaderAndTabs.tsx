@@ -49,7 +49,6 @@ export default function ProfileHeaderAndTabs({
         sx={{
           position: 'fixed',
           zIndex: theme.zIndex.appBar,
-          left: 0,
           top: 0,
           background: 'white',
           width: '100%',
