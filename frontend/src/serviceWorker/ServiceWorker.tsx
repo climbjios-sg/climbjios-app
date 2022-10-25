@@ -6,6 +6,28 @@ import { Button } from "@mui/material";
 const ServiceWorker: React.FC = () => {
   const { enqueueSnackbar, closeSnackbar, } = useSnackbar();
 
+  // Notify if user is offline, and update them when they are back online
+  useEffect(() => {
+    let offlineSnackbarKey: string | number | undefined = undefined;
+
+    const handleOffline= () => {
+      offlineSnackbarKey = enqueueSnackbar('You are offline! Some functionalities might not work as expected...', {
+        variant: 'error',
+        persist: true
+      });
+    }
+    const handleOnline = () => {
+      if (offlineSnackbarKey !== undefined) {
+        enqueueSnackbar('You are back online!');
+        closeSnackbar(offlineSnackbarKey);
+      }
+    }
+
+    window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', handleOnline);
+  }, []);
+
+  // Register service worker
   useEffect(() => {
     serviceWorkerRegistration.register({
       onUpdate: (registration) => {
