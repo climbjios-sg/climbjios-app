@@ -24,7 +24,6 @@ export default function BackBar({
   const navigate = useNavigate();
   const trigger = useScrollTrigger({
     target: document.getElementById('root') || undefined,
-    threshold: 200,
   });
 
   const appBarComponent = (
