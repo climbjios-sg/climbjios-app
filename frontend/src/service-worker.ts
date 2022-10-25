@@ -76,22 +76,40 @@ async function cacheKeyWillBeUsed({request, mode}: { request: any, mode: any}) {
   const url = new URL(request.url);
   return url.origin + url.pathname;
 }
-registerRoute(
-  new RegExp(`https://climbjios-(development|staging|production).s3.amazonaws.com/.*/profile_picture`),
-  new StaleWhileRevalidate({
-    cacheName: CacheName.IMAGES,
-    plugins: [
-      new ExpirationPlugin({
-        maxEntries: 50,
-        maxAgeSeconds: 60 * 60 * 24 * 30  // 30 days
-      }),
-      {cacheKeyWillBeUsed}
-    ],
-  })
-);
+
+// Images
+[
+  `https://climbjios-(development|staging|production).s3.amazonaws.com/.*/profile_picture`,
+  `https://customer-.*.cloudflarestream.com/.*/thumbnails/thumbnail.jpg`,
+].forEach(url => {
+  registerRoute(
+    new RegExp(url),
+    new StaleWhileRevalidate({
+      cacheName: CacheName.IMAGES,
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 50,
+          maxAgeSeconds: 60 * 60 * 24 * 30  // 30 days
+        }),
+        {cacheKeyWillBeUsed}
+      ],
+    })
+  );
+});
 
 // Network first cache
-['posts.*', 'user', 'gyms', 'boulderingGrades', 'topRopeGrades', 'leadClimbingGrades', 'sncsCertifications', 'pronouns'].forEach(endpoint => {
+[
+  'posts.*',
+  'user',
+  'betas',
+  'betas/creator/.*',
+  'gyms',
+  'boulderingGrades',
+  'topRopeGrades',
+  'leadClimbingGrades',
+  'sncsCertifications',
+  'pronouns'
+].forEach(endpoint => {
   registerRoute(
     new RegExp(`${process.env.REACT_APP_HOST_API_KEY}/v1/${endpoint}`),
     new NetworkFirst({
@@ -105,7 +123,7 @@ registerRoute(
       ],
     })
   );
-})
+});
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
