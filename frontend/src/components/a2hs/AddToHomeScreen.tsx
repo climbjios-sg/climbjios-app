@@ -86,6 +86,6 @@ export default function AddToHomeScreen() {
       deferredPrompt = null;
       // Optionally, send analytics event to indicate successful install
     });
-  }, []);
+  }, [closeSnackbar, enqueueSnackbar]);
   return <></>;
 }

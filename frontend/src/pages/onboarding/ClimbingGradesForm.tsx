@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, FormHelperText, FormGroup, FormLabel, Typography } from '@mui/material';
+import { Stack, FormHelperText, FormGroup, Typography } from '@mui/material';
 // components
 import { RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';

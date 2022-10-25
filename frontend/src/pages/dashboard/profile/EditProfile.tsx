@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
-import { useEffect } from 'react';
-import { useSnackbar } from 'notistack';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
@@ -11,7 +10,7 @@ import { Button, Card, Stack, Container } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // @types
-import { AvatarData, EditProfileFormValues, UserRequest, User } from 'src/@types/user';
+import { AvatarData, EditProfileFormValues, UserRequest } from 'src/@types/user';
 // components
 import { FormProvider } from 'src/components/hook-form';
 import {
@@ -34,20 +33,21 @@ import { FavoriteGymsForm } from 'src/pages/onboarding/FavoriteGymsForm';
 import { ClimbingGradesForm } from 'src/pages/onboarding/ClimbingGradesForm';
 import { ClimbingCertForm } from 'src/pages/onboarding/ClimbingCertForm';
 import { AvatarForm } from 'src/pages/onboarding/AvatarForm';
-import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { getUploadAvatarUrl, uploadAvatar } from 'src/services/avatar';
 import { updateUser } from 'src/services/users';
 import LoadingScreen from 'src/components/LoadingScreen';
+import useDevWatchForm from '../../../hooks/dev/useDevWatchForm';
+import useCustomSnackbar from '../../../hooks/useErrorSnackbar';
 
 // ----------------------------------------------------------------------
 
 export default function EditProfileForm() {
   const navigate = useNavigate();
 
-  const { enqueueSnackbar } = useSnackbar();
+  const snackbar = useCustomSnackbar();
 
-  const { identity: currentUser, loading, error } = useGetIdentity();
+  const { identity: currentUser, loading, error: getIdentityError } = useGetIdentity();
 
   const UserSchema = Yup.object().shape({
     name: Yup.string()
@@ -65,16 +65,38 @@ export default function EditProfileForm() {
     sncsCertificationId: Yup.number().optional(),
   });
 
-  const emptyFile = {} as File;
+  // const emptyFile = useMemo(() => ({} as File), []);
 
-  const defaultValues = {
-    ...currentUser,
-    avatar: {
-      ...emptyFile,
-      preview: currentUser?.profilePictureUrl || '',
-    },
-    favouriteGymIds: currentUser?.favouriteGyms?.map((gym) => gym.id),
-  };
+  const defaultValues = useMemo(
+    () => ({
+      name: currentUser.name ? currentUser.name : undefined,
+      height: currentUser.height ? currentUser.height : undefined,
+      reach: currentUser.reach ? currentUser.reach : undefined,
+      pronounId: currentUser.pronounId ? currentUser.pronounId : undefined,
+      highestBoulderingGradeId: currentUser.highestBoulderingGradeId
+        ? currentUser.highestBoulderingGradeId
+        : undefined,
+      highestTopRopeGradeId: currentUser.highestTopRopeGradeId
+        ? currentUser.highestTopRopeGradeId
+        : undefined,
+      highestLeadClimbingGradeId: currentUser.highestLeadClimbingGradeId
+        ? currentUser.highestLeadClimbingGradeId
+        : undefined,
+      favouriteGymIds: currentUser.favouriteGyms
+        ? currentUser.favouriteGyms?.map((gym) => gym.id)
+        : undefined,
+      sncsCertificationId: currentUser.sncsCertificationId
+        ? currentUser.sncsCertificationId
+        : undefined,
+      // avatar: currentUser?.profilePictureUrl
+      //   ? {
+      //       ...emptyFile,
+      //       preview: currentUser?.profilePictureUrl,
+      //     }
+      //   : undefined,
+    }),
+    [currentUser]
+  );
 
   const methods = useForm<EditProfileFormValues>({
     resolver: yupResolver(UserSchema),
@@ -82,12 +104,11 @@ export default function EditProfileForm() {
   });
 
   const {
-    watch,
     handleSubmit,
-    setValue,
-    reset,
     formState: { isSubmitting },
   } = methods;
+
+  useDevWatchForm(methods.watch);
 
   const { runAsync: submitUploadAvatar } = useSafeRequest(uploadAvatar, {
     manual: true,
@@ -105,19 +126,19 @@ export default function EditProfileForm() {
       const { data: uploadUrl } = await getUploadAvatarUrl();
       await submitUploadAvatar(uploadUrl, avatar);
     } catch (error) {
-      enqueueSnackbar('Failed to upload profile picture', { variant: 'error' });
+      snackbar.enqueueError('Failed to upload profile picture');
       throw error;
     }
   };
   const handleSubmitUpdateUser = async (data: UserRequest) => {
     try {
       await submitUpdateUser(data);
-      enqueueSnackbar('Successfully updated profile', {
+      snackbar.enqueueSnackbar('Successfully updated profile', {
         autoHideDuration: 5000,
       });
       navigateToProfile();
     } catch {
-      enqueueSnackbar('Failed to update profile', { variant: 'error' });
+      snackbar.enqueueError('Failed to update your profile');
     }
   };
 
@@ -134,31 +155,29 @@ export default function EditProfileForm() {
     navigateToProfile();
   };
 
-  const navigateToProfile = () => {
+  const navigateToProfile = useCallback(() => {
     navigate(PATH_DASHBOARD.general.profile.root);
-  };
+  }, [navigate]);
 
   useEffect(() => {
-    if (currentUser) {
-      reset(defaultValues);
-    }
-    if (error) {
+    if (getIdentityError) {
+      snackbar.enqueueError('Failed to retrieve your profile');
       navigateToProfile();
     }
-  }, [currentUser, error]);
+  }, [getIdentityError, navigateToProfile, snackbar]);
 
   return (
     <>
       {!loading ? (
         <FormProvider methods={methods} onSubmit={handleSubmit(_handleSubmit)}>
           <Page title="Edit Profile">
-            <Container maxWidth="md" sx={{ my: 3 }}>
+            <Container maxWidth="md" sx={{ my: 3, px: 0 }}>
               <Stack spacing={1.5} justifyContent="center" alignItems="center">
                 <Card sx={{ width: '100%', p: 3 }}>
                   <AvatarForm />
                 </Card>
                 <Card sx={{ width: '100%', p: 3 }}>
-                  <Stack spacing={1.5}>
+                  <Stack spacing={3}>
                     <UsernameForm />
                     <DetailsForm />
                     <FavoriteGymsForm />
@@ -169,10 +188,16 @@ export default function EditProfileForm() {
               </Stack>
             </Container>
             <FloatingBottomCard>
-              <LoadingButton type="submit" variant="contained" fullWidth loading={isSubmitting}>
+              <LoadingButton
+                type="submit"
+                size="large"
+                variant="contained"
+                fullWidth
+                loading={isSubmitting}
+              >
                 Save Changes
               </LoadingButton>
-              <Button size="medium" color="error" fullWidth onClick={handleClickCancelButton}>
+              <Button sx={{ mt: 1 }} size="large" fullWidth onClick={handleClickCancelButton}>
                 Cancel
               </Button>
             </FloatingBottomCard>
