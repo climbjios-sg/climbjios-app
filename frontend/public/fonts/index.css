@@ -16,3 +16,14 @@
   font-style: normal;
   src: local('CircularStd'), url('CircularStd-Bold.otf') format('opentype');
 }
+
+/* CSS to prevent Browser pull to refresh */
+body {
+  overflow: hidden;
+}
+
+#root {
+  height: 100vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}

@@ -6,7 +6,6 @@ import { AxiosResponse } from 'axios';
 import BetaCard from './BetaCard';
 import BetaLoader from './BetaLoader';
 import MyBetaCard from './MyBetaCard';
-import './betaInfiniteScroll.css'
 
 const StyledInfiniteScroll = styled(InfiniteScroll)({
   maxWidth: 600,
