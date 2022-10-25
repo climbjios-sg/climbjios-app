@@ -1,5 +1,6 @@
-import { Stack, Avatar, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { PronounName, User } from 'src/@types/user';
+import NameAvatar from '../NameAvatar';
 
 type ProfileHeaderProps = {
   user: User;
@@ -8,8 +9,8 @@ type ProfileHeaderProps = {
 export default function ProfileHeader({ user }: ProfileHeaderProps) {
   return (
     <Stack direction="row" alignItems="center">
-      <Avatar
-        alt={user.telegramHandle}
+      <NameAvatar
+        name={user.telegramHandle}
         src={user.profilePictureUrl}
         sx={{
           width: 60,

@@ -1,9 +1,10 @@
-import { Avatar, CardHeader, Stack, Typography } from '@mui/material';
+import { CardHeader, Stack, Typography } from '@mui/material';
 import { IconStyle } from 'src/utils/common';
 import { Jio } from 'src/@types/jio';
 import { getPassesText } from './utils';
 import { Link } from 'react-router-dom';
 import { makeUserProfileLinkProps } from '../../../publicProfile';
+import NameAvatar from '../../../../components/NameAvatar';
 
 interface JioCardHeaderProps {
   data: Jio;
@@ -24,8 +25,8 @@ export default function JioCardHeader({ data }: JioCardHeaderProps) {
           alignItems="center"
           {...makeUserProfileLinkProps({ user: data.creatorProfile })}
         >
-          <Avatar
-            alt={data.creatorProfile.telegramHandle}
+          <NameAvatar
+            name={data.creatorProfile.telegramHandle}
             src={data.creatorProfile.profilePictureUrl}
             sx={{
               width: 40,

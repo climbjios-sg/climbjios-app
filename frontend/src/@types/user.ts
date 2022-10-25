@@ -27,6 +27,7 @@ export interface User {
   telegramHandle: string;
   createdAt: string;
   updatedAt: string;
+  hasProfilePicture?: boolean;
   name?: string;
   profilePictureUrl?: string;
   bio?: string;
