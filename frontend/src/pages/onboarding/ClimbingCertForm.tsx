@@ -1,5 +1,4 @@
-import React from 'react';
-import { Stack, FormGroup, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 // components
 import { RHFSelect } from '../../components/hook-form';
 import { getSncsCertificationList } from 'src/services/sncsCertifications';
@@ -20,20 +19,18 @@ export const ClimbingCertForm = () => {
   });
 
   return (
-    <Stack spacing={2}>
-      <FormGroup>
-        <Typography variant="subtitle1" gutterBottom>
-          SNCS Certification
-        </Typography>
-        <RHFSelect name="sncsCertificationId" label="Level (Optional)" shouldSanitizeEmptyValue>
-          <option value={''} />
-          {sncsCertifications?.data.map((option) => (
-            <option key={option.id} value={option.id}>
-              {option.name}
-            </option>
-          ))}
-        </RHFSelect>
-      </FormGroup>
+    <Stack spacing={1}>
+      <Typography variant="subtitle1" gutterBottom>
+        SNCS Certification (Optional)
+      </Typography>
+      <RHFSelect name="sncsCertificationId" shouldSanitizeEmptyValue>
+        <option value={''} />
+        {sncsCertifications?.data.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.name}
+          </option>
+        ))}
+      </RHFSelect>
     </Stack>
   );
 };

@@ -15,11 +15,10 @@ export const FavoriteGymsForm = () => {
     <Stack spacing={2}>
       <FormGroup>
         <Typography variant="subtitle1" gutterBottom>
-          Favourite Gyms
+          Favourite Gyms (Optional)
         </Typography>
         <RHFAutoMultiSelect
           name="favouriteGymIds"
-          label="Select Gym (Optional)"
           options={gyms.map((option) => ({
             value: option.id,
             label: option.name,
