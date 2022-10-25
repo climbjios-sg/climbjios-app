@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useSnackbar } from 'notistack';
-import { Button, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { InlineIcon } from '@iconify/react';
 import { isiOS, isPWA } from 'src/utils/device';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 // Note that BeforeInstallPromptEvent is still a non-standard experimental feature, and may not work for every user.
 interface IBeforeInstallPromptEvent extends Event {
@@ -16,6 +17,7 @@ interface IBeforeInstallPromptEvent extends Event {
 
 export default function AddToHomeScreen() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const [dontShow, setDontShow] = useLocalStorage<boolean>('dontShowSnackbar', false);
 
   useEffect(() => {
     let deferredPrompt: IBeforeInstallPromptEvent | null;
@@ -26,12 +28,21 @@ export default function AddToHomeScreen() {
       // Stash the event so it can be triggered later.
       deferredPrompt = e;
       // Update UI to notify the user they can install the PWA
-      if (!isiOS())  {
+      if (!isiOS() && !dontShow) {
         enqueueSnackbar(`Install the ClimbJios app on your device for easy access anytime.`, {
           variant: 'info',
           persist: true,
           action: (snackbarId) => (
-            <>
+            <Stack>
+              <Button
+                onClick={() => {
+                  deferredPrompt = null;
+                  closeSnackbar(snackbarId);
+                  setDontShow(true);
+                }}
+              >
+                Cancel
+              </Button>
               <Button
                 variant="outlined"
                 onClick={() => {
@@ -44,15 +55,7 @@ export default function AddToHomeScreen() {
               >
                 Install
               </Button>
-              <Button
-                onClick={() => {
-                  deferredPrompt = null;
-                  closeSnackbar(snackbarId);
-                }}
-              >
-                Cancel
-              </Button>
-            </>
+            </Stack>
           ),
         });
       }
@@ -67,23 +70,40 @@ export default function AddToHomeScreen() {
       // Optionally, send analytics event to indicate successful install
     });
 
-    if (isiOS() && !isPWA()) {
+    if (isiOS() && !isPWA() && !dontShow) {
       enqueueSnackbar(
-        <div>
-          <Typography>
-            Install the ClimbJios app on your device for easy access anytime.
-          </Typography>
+        <Stack>
+          <Typography>Install the ClimbJios app on your device for easy access anytime.</Typography>
           <Typography>
             1. Tap on <InlineIcon icon="uil:upload-alt" />
           </Typography>
           <Typography>2. Select Add to Home Screen</Typography>
-        </div>,
+        </Stack>,
         {
+          action: (snackbarId) => (
+            <Stack direction="row" sx={{ mt: 2 }}>
+              <Button
+                onClick={() => {
+                  closeSnackbar(snackbarId);
+                  setDontShow(true);
+                }}
+              >
+                Don't show again
+              </Button>
+              <Button
+                onClick={() => {
+                  closeSnackbar(snackbarId);
+                }}
+              >
+                Ok
+              </Button>
+            </Stack>
+          ),
           variant: 'info',
           persist: true,
         }
       );
     }
-  }, [closeSnackbar, enqueueSnackbar]);
+  }, [closeSnackbar, dontShow, enqueueSnackbar, setDontShow]);
   return <></>;
 }

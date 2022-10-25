@@ -37,7 +37,7 @@ export default function CommonGuard({
   const guards = [];
   authenticated && guards.push(checkAuth);
   notAuthenticated && guards.push(checkNotAuth);
-  onboarded && guards.push(checkOnboarded);
+  onboarded && guards.push(() => checkOnboarded({ disableNotification: true }));
   notOnboarded && guards.push(() => checkNotOnboarded({ disableNotification: true }));
 
   useGuard(guards);
