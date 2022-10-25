@@ -21,32 +21,12 @@ export default function AddToHomeScreen() {
     let deferredPrompt: IBeforeInstallPromptEvent | null;
 
     const promptUserToInstall = (e: IBeforeInstallPromptEvent) => {
-      console.log('beforeinstallprompt fired')
-      console.log("isiOS: ", isiOS());
-      console.log("isPWA", isPWA());
       // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
       // Stash the event so it can be triggered later.
       deferredPrompt = e;
       // Update UI to notify the user they can install the PWA
-      if (isiOS() && !isPWA()) {
-        enqueueSnackbar(
-          <div>
-            <Typography>
-              Install the ClimbJios app on your device for easy access anytime.
-            </Typography>
-            <br />
-            <Typography>
-              1. Tap on <InlineIcon icon="uil:upload-alt" />
-            </Typography>
-            <Typography>2. Select Add to Home Screen</Typography>
-          </div>,
-          {
-            variant: 'info',
-            persist: true,
-          }
-        );
-      } else {
+      if (!isiOS())  {
         enqueueSnackbar(`Install the ClimbJios app on your device for easy access anytime.`, {
           variant: 'info',
           persist: true,
@@ -86,6 +66,24 @@ export default function AddToHomeScreen() {
       deferredPrompt = null;
       // Optionally, send analytics event to indicate successful install
     });
-  }, [closeSnackbar, enqueueSnackbar]);
+
+    if (isiOS() && !isPWA()) {
+      enqueueSnackbar(
+        <div>
+          <Typography>
+            Install the ClimbJios app on your device for easy access anytime.
+          </Typography>
+          <Typography>
+            1. Tap on <InlineIcon icon="uil:upload-alt" />
+          </Typography>
+          <Typography>2. Select Add to Home Screen</Typography>
+        </div>,
+        {
+          variant: 'info',
+          persist: true,
+        }
+      );
+    }
+  }, []);
   return <></>;
 }

@@ -6,11 +6,11 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/utils/jwt';
 import useAuthProvider from '../auth/useAuthProvider';
 import useLogout from '../auth/useLogout';
 
-type CheckAuth = (
-  logoutOnError?: boolean,
-  disableNotification?: boolean,
-  redirectTo?: string
-) => Promise<any>;
+type CheckAuth = (params: {
+  logoutOnError?: boolean;
+  disableNotification?: boolean;
+  redirectTo?: string;
+}) => Promise<any>;
 
 const useCheckAuth = (): CheckAuth => {
   const authProvider = useAuthProvider();
@@ -19,7 +19,7 @@ const useCheckAuth = (): CheckAuth => {
   const [searchParams] = useSearchParams();
 
   const checkAuth = useCallback(
-    async (logoutOnError = true, disableNotification = false, redirectTo = PATH_AUTH.root) => {
+    async ({ logoutOnError = true, disableNotification = false, redirectTo = PATH_AUTH.root }) => {
       const callLogout = () => {
         if (logoutOnError) {
           logout(redirectTo);
