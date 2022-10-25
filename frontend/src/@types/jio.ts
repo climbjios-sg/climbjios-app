@@ -6,18 +6,18 @@ type JioType = 'seller' | 'buyer' | 'other';
 export interface Jio {
   id: number;
   creatorId: string;
-  numPasses: number;
-  price: number;
   gymId: number;
-  openToClimbTogether: boolean;
-  optionalNote: string;
   createdAt: string;
   updatedAt: string;
+  openToClimbTogether: boolean;
   isClosed: boolean;
   startDateTime: string;
   endDateTime: string;
   type: JioType;
   gym: Gym;
+  numPasses: number;
+  optionalNote: string | null;
+  price: number | null;
   creatorProfile: User;
 }
 

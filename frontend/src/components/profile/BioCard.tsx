@@ -50,7 +50,7 @@ export default function BioCard({ data, action }: BioProps) {
               <Iconify icon="game-icons:body-height" height={15} width={15} color="blue" />
             </Grid>
             <Grid item xs={11}>
-              <Typography variant="body1">{formatHeightReach(data.height, data.reach)}</Typography>
+              <Typography variant="body1">{formatHeightReach(data.height || undefined, data.reach || undefined)}</Typography>
             </Grid>
           </>
         )}

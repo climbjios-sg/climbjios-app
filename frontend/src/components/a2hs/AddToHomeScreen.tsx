@@ -84,6 +84,6 @@ export default function AddToHomeScreen() {
         }
       );
     }
-  }, []);
+  }, [closeSnackbar, enqueueSnackbar]);
   return <></>;
 }

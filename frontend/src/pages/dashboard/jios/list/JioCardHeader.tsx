@@ -27,7 +27,7 @@ export default function JioCardHeader({ data }: JioCardHeaderProps) {
         >
           <NameAvatar
             name={data.creatorProfile.telegramHandle}
-            src={data.creatorProfile.profilePictureUrl}
+            src={data.creatorProfile.profilePictureUrl || undefined}
             sx={{
               width: 40,
               height: 40,
