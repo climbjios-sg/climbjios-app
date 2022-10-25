@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { Model, ModelClass } from 'objection';
 import { UserProfileFavouriteGymModel } from '../../../database/models/userProfileFavouriteGym.model';
 import PatchUserProfileDto from '../../../user/dtos/patchUserProfile.dto';
@@ -36,6 +36,9 @@ export class UserProfileDaoService {
     }
 
     return query.first().then((profile) => {
+      if (!profile) {
+        throw new HttpException('User does not exist!', 400);
+      }
       /**
        * Favouring this method of removing id instead of selecting columns
        * to prevent accidentally forgetting to update the select query when adding
