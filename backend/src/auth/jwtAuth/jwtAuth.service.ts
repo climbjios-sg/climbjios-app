@@ -27,9 +27,13 @@ export class JwtAuthService {
   }
 
   private verifyRefreshToken(refreshToken: string): JwtPayload {
-    return this.jwtService.verify(refreshToken, {
-      secret: this.constantsService.REFRESH_TOKEN_SECRET,
-    });
+    try {
+      return this.jwtService.verify(refreshToken, {
+        secret: this.constantsService.REFRESH_TOKEN_SECRET,
+      });
+    } catch (e) {
+      throw new HttpException('Invalid refresh token', 401);
+    }
   }
 
   async generateJwts(user) {

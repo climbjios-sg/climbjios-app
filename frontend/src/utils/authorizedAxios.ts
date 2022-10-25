@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { jwtAuthProvider } from 'src/authProviders/jwt';
 import { refreshAccessToken } from 'src/services/token';
 // config
 import { HOST_API } from '../config';
@@ -39,11 +40,16 @@ authorizedAxios.interceptors.response.use(
         return Promise.reject(error);
       }
 
-      const { data } = await refreshAccessToken(refreshToken);
-      localStorage.setItem(ACCESS_TOKEN, data.accessToken);
-      localStorage.setItem(REFRESH_TOKEN, data.refreshToken);
+      let res;
+      try {
+        res = await refreshAccessToken(refreshToken);
+      } catch(e) {
+        return await jwtAuthProvider.logout();
+      }
+      localStorage.setItem(ACCESS_TOKEN, res.data.accessToken);
+      localStorage.setItem(REFRESH_TOKEN, res.data.refreshToken);
 
-      return authorizedAxios(originalRequest);
+      return authorizedAxios(originalRequest);  
     }
     return Promise.reject(error);
   }
