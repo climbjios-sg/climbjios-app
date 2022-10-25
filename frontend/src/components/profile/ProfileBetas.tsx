@@ -6,6 +6,7 @@ import BetasInfiniteScroll from '../betas/BetaInfiniteScroll';
 import EmptyContent from '../EmptyContent';
 import NoContentGif from 'src/assets/no-content.gif';
 import { useSelector } from '../../store';
+import Image from '../Image';
 
 interface ProfileBetasProps {
   style?: React.CSSProperties;
@@ -49,7 +50,7 @@ export default function ProfileBetas({ style, creatorId, isMine }: ProfileBetasP
       }}
       emptyContent={
         <EmptyContent title="No Betas yet">
-          <img alt="No content" style={{ borderRadius: 20, marginTop: 8 }} src={NoContentGif} />
+          <Image alt="No content" style={{ borderRadius: 20, marginTop: 8 }} src={NoContentGif} />
         </EmptyContent>
       }
       fetchPage={getTargetBetas}

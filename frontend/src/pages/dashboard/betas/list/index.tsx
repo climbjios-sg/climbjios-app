@@ -20,6 +20,7 @@ import EmptyContent from '../../../../components/EmptyContent';
 import useGetGyms from '../../../../hooks/services/useGetGyms';
 import BetasInfiniteScroll from '../../../../components/betas/BetaInfiniteScroll';
 import { BETAS_PAGE_SIZE } from 'src/config';
+import Image from 'src/components/Image';
 
 const FloatingContainer = styled('div')({
   position: 'fixed',
@@ -238,7 +239,7 @@ export default function BetasList() {
           }}
           emptyContent={
             <EmptyContent title="No Betas yet" description="Why not try creating one?">
-              <img alt="No content" style={{ borderRadius: 20 }} src={NoContentGif} />
+              <Image alt="No content" style={{ borderRadius: 20 }} src={NoContentGif} />
               <Button
                 sx={{ mt: 3 }}
                 startIcon={<Iconify color="white" icon="bx:video-plus" />}
