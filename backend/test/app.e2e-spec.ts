@@ -350,7 +350,6 @@ describe('Backend (e2e)', () => {
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
           .expect(200);
 
-        console.log(body[2]);
         expect(body.length).toEqual(9);
         expect(body[2]).toEqual(
           expect.objectContaining({

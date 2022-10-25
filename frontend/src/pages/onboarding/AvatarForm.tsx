@@ -3,6 +3,7 @@ import { Stack, Typography } from '@mui/material';
 // components
 import { RHFUploadAvatar } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
+import Compressor from 'compressorjs';
 import { fData } from 'src/utils/formatNumber';
 import { MAX_AVATAR_UPLOAD_SIZE_IN_BYTES } from 'src/config';
 import { OnboardingFormValues } from './types';
@@ -11,15 +12,20 @@ export const AvatarForm = () => {
   const { setValue } = useFormContext<OnboardingFormValues>();
   const handleDrop = useCallback(
     (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0];
+      let file = acceptedFiles[0];
 
       if (file) {
-        setValue(
-          'avatar',
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        );
+        new Compressor(file, {      
+          quality: 0.1,
+          success: (compressedResult: File) => {
+            setValue(
+              'avatar',
+              Object.assign(compressedResult, {
+                preview: URL.createObjectURL(compressedResult),
+              })
+            );
+          },
+        });
       }
     },
     [setValue]
