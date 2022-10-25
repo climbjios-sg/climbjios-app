@@ -1,8 +1,8 @@
 // @mui
-import { Box, Typography, Button, AppBar, IconButton, Toolbar } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import Iconify from '../../components/Iconify';
 // hooks
-import { useNavigate, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 // components
 import FloatingBottomCard from 'src/components/FloatingBottomCard';
 import BioCard from '../../components/profile/BioCard';
@@ -12,6 +12,7 @@ import { PATH_USER } from '../../routes/paths';
 import ProfileBetas from '../../components/profile/ProfileBetas';
 import ProfileHeaderAndTabs from '../../components/profile/ProfileHeaderAndTabs';
 import { outgoingLinkProps } from '../../utils/common';
+import { Stack } from '@mui/system';
 
 export type UserProfileLocationState = {
   user: User;
@@ -26,7 +27,6 @@ export function makeUserProfileLinkProps(userProfileData: UserProfileLocationSta
 }
 
 export default function PublicProfile() {
-  const navigate = useNavigate();
   const location = useLocation();
   const { user, isShowFloatingButton = false } = location.state as UserProfileLocationState;
   return user ? (
@@ -38,28 +38,14 @@ export default function PublicProfile() {
         margin: '0 auto',
       }}
     >
-      <AppBar
-        sx={{
-          background: 'white',
-          color: 'text.primary',
-        }}
-        position="static"
-      >
-        <Toolbar sx={{ pl: 1 }}>
-          <IconButton
-            sx={{ mr: 1 }}
-            color="primary"
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            <Iconify icon="eva:arrow-back-fill" color="primary" />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
       <ProfileHeaderAndTabs
+        showBack
         user={user}
-        aboutTab={<BioCard data={user} />}
+        aboutTab={
+          <Stack sx={{ px: 2 }}>
+            <BioCard data={user} />
+          </Stack>
+        }
         betasTab={<ProfileBetas creatorId={user.userId} />}
       />
       {isShowFloatingButton && (
