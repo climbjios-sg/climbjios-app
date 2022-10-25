@@ -69,5 +69,10 @@ __decorate([
     (0, class_validator_1.IsNumber)(undefined, { each: true }),
     __metadata("design:type", Array)
 ], PatchUserProfileDto.prototype, "favouriteGymIds", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], PatchUserProfileDto.prototype, "hasProfilePicture", void 0);
 exports.default = PatchUserProfileDto;
 //# sourceMappingURL=patchUserProfile.dto.js.map

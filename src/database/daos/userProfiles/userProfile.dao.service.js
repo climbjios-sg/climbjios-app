@@ -24,10 +24,10 @@ let UserProfileDaoService = UserProfileDaoService_1 = class UserProfileDaoServic
     findByUserId({ userId, select, withGraphFetched, }) {
         let query = this.userProfileModel.query().where({ userId });
         if (select) {
-            query.select(select);
+            query = query.select(select);
         }
         if (withGraphFetched) {
-            query.withGraphFetched(UserProfileDaoService_1.allGraphs);
+            query = query.withGraphFetched(UserProfileDaoService_1.allGraphs);
         }
         return query.first().then((profile) => {
             const profileWithoutId = Object.assign({}, profile);

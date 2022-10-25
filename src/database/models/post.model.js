@@ -13,14 +13,7 @@ PostModel.relationMappings = () => ({
     creatorProfile: {
         relation: objection_1.Model.HasOneRelation,
         modelClass: userProfile_model_1.UserProfileModel,
-        filter: (query) => query.select([
-            'userId',
-            'name',
-            'telegramHandle',
-            'bio',
-            'height',
-            'reach',
-        ]),
+        filter: (query) => query.select(userProfile_model_1.UserProfileModel.relationWhitelist),
         join: {
             from: 'posts.creatorId',
             to: 'userProfiles.userId',

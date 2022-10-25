@@ -14,12 +14,13 @@ export declare class UserProfileModel extends BaseModel {
     readonly telegramHandle?: string;
     readonly height?: number;
     readonly reach?: number;
+    readonly bio?: string;
+    readonly hasProfilePicture: boolean;
     readonly pronounId?: number;
     readonly highestBoulderingGradeId?: number;
     readonly highestTopRopeGradeId?: number;
     readonly highestLeadClimbingGradeId?: number;
     readonly sncsCertificationId?: number;
-    readonly bio?: string;
     readonly pronoun?: PronounModel;
     readonly highestBoulderingGrade?: BoulderingGradeModel;
     readonly highestTopRopeGrade?: TopRopeGradeModel;
@@ -27,6 +28,7 @@ export declare class UserProfileModel extends BaseModel {
     readonly sncsCertification?: SncsCertificationModel;
     readonly favouriteGyms?: GymModel[];
     profilePictureUrl: string;
+    static readonly relationWhitelist: string[];
     static relationMappings: () => {
         pronoun: {
             relation: import("objection").RelationType;

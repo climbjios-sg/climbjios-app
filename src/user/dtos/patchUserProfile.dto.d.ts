@@ -9,4 +9,5 @@ export default class PatchUserProfileDto {
     sncsCertificationId: number;
     bio: string;
     favouriteGymIds: number[];
+    hasProfilePicture: boolean;
 }
