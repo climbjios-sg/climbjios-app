@@ -1,6 +1,4 @@
-import { BE_API } from '../../utils/api';
 import { Jio } from '../../@types/jio';
-import authorizedAxios from '../../utils/authorizedAxios';
 import { AxiosResponse } from 'axios';
 import { dispatch } from '..';
 import { createSlice } from '@reduxjs/toolkit';

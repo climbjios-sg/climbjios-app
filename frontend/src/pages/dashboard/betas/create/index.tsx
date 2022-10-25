@@ -1,8 +1,7 @@
-import { Box, AppBar, IconButton, Toolbar, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useNavigate } from 'react-router';
 import { BetaCreateEditFormValues } from 'src/@types/beta';
-import Iconify from 'src/components/Iconify';
 import BackBar from '../../../../components/BackBar';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { postCreateBeta, uploadBetaVideoToCloudfare } from '../../../../services/betas';

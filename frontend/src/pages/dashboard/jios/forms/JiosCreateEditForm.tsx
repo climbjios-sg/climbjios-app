@@ -8,9 +8,6 @@ import {
   Stack,
   InputAdornment,
   Button,
-  AppBar,
-  IconButton,
-  Toolbar,
 } from '@mui/material';
 // components
 import {
@@ -37,8 +34,6 @@ import {
 import { addDays } from 'date-fns';
 import useRHFScrollToInputOnError from '../../../../hooks/useRHFScrollToInputOnError';
 import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
-import Iconify from '../../../../components/Iconify';
-import { useNavigate } from 'react-router';
 import BackBar from '../../../../components/BackBar';
 
 type Props = {
@@ -60,7 +55,6 @@ export default function JiosCreateEditForm({
 }: Props) {
   const { enqueueSnackbar } = useSnackbar();
   const gyms = useSelector((state) => state.gyms.data);
-  const navigate = useNavigate();
 
   const formSchema = Yup.object().shape({
     gymId: Yup.number().positive().integer().required('Gym is required.'),
