@@ -70,7 +70,7 @@ export default function BetasList() {
   const errorSnackbar = useCustomSnackbar();
   // True iff user is scrolling
   const trigger = useScrollTrigger({
-    target: window,
+    target: document.getElementById('root') || undefined,
   });
   const theme = useTheme();
   const gyms = useGetGyms();

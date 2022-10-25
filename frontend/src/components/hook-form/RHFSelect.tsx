@@ -42,6 +42,7 @@ export default function RHFSelect({
           select
           fullWidth
           SelectProps={{ native: true }}
+          defaultValue={transform.input(getValues(name))}
           onChange={(e) => field.onChange(sanitizeEmptyValue(transform.output(e.target.value)))}
           value={transform.input(getValues(name))}
           error={!!error}

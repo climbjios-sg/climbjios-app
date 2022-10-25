@@ -15,6 +15,7 @@ import ProfileHeader from './ProfileHeader';
 import useTabs from '../../hooks/ui/useTabs';
 import Iconify from '../Iconify';
 import { useNavigate } from 'react-router';
+import BackBar from '../BackBar';
 
 interface ProfileProps {
   sx?: SxProps<Theme>;
@@ -60,28 +61,7 @@ export default function ProfileHeaderAndTabs({
           width: '100%',
         }}
       >
-        {showBack && (
-          <AppBar
-            sx={{
-              background: 'white',
-              color: 'text.primary',
-              width: '100%',
-            }}
-            position="static"
-          >
-            <Toolbar sx={{ pl: 1 }}>
-              <IconButton
-                sx={{ mr: 1 }}
-                color="primary"
-                onClick={() => {
-                  navigate(-1);
-                }}
-              >
-                <Iconify icon="eva:arrow-back-fill" color="primary" />
-              </IconButton>
-            </Toolbar>
-          </AppBar>
-        )}
+        {showBack && <BackBar position="static" hideBarFromViewOnScroll />}
         <Stack sx={{ px: 2, pt: showBack ? 2 : 4 }} direction="column" spacing={1}>
           <ProfileHeader user={user} />
           <Tabs
