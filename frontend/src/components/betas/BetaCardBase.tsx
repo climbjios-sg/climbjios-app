@@ -41,7 +41,7 @@ const BetaCaseBase = React.memo(({ data, bottom }: Props) => (
               mr: 1,
             }}
             name={data.creatorProfile.telegramHandle}
-            src={data.creatorProfile.profilePictureUrl}
+            src={data.creatorProfile.profilePictureUrl || undefined}
           />
           <Typography
             color="white"

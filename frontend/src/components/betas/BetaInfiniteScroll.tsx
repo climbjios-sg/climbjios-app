@@ -1,5 +1,5 @@
 import { styled } from '@mui/system';
-import { TypographyProps, Typography, CircularProgress } from '@mui/material';
+import { TypographyProps, Typography, CircularProgress, Stack } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ListBetasResponse } from '../../@types/beta';
 import { AxiosResponse } from 'axios';
@@ -63,7 +63,17 @@ export default function BetasInfiniteScroll({
         onFetchPage(newResponse);
       }}
       hasMore={!betas.metadata.isLastPage}
-      loader={<CircularProgress />}
+      loader={
+        <Stack
+          direction="column"
+          alignItems="center"
+          sx={{
+            gridColumn: 'span 2',
+          }}
+        >
+          <CircularProgress />
+        </Stack>
+      }
       endMessage={<InfiniteScrollHelper>That's all!</InfiniteScrollHelper>}
       refreshFunction={() => fetchPage(0)}
       pullDownToRefresh

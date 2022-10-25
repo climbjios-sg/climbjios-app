@@ -11,7 +11,7 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
     <Stack direction="row" alignItems="center">
       <NameAvatar
         name={user.telegramHandle}
-        src={user.profilePictureUrl}
+        src={user.profilePictureUrl || undefined}
         sx={{
           width: 60,
           height: 60,

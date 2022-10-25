@@ -44,13 +44,13 @@ export default function BioCard({ data, action }: BioProps) {
       </Typography>
 
       <Grid container spacing={2}>
-        {data.height && data.reach && (
+        {(data.height || data.reach) && (
           <>
             <Grid item xs={1}>
               <Iconify icon="game-icons:body-height" height={15} width={15} color="blue" />
             </Grid>
             <Grid item xs={11}>
-              <Typography variant="body1">{formatHeightReach(data.height, data.reach)}</Typography>
+              <Typography variant="body1">{formatHeightReach(data.height || undefined, data.reach || undefined)}</Typography>
             </Grid>
           </>
         )}
@@ -81,24 +81,21 @@ export default function BioCard({ data, action }: BioProps) {
           </>
         )}
 
-        {data.highestLeadClimbingGrade &&
-          data.highestLeadClimbingGrade?.name &&
-          data.highestTopRopeGrade &&
-          data.highestTopRopeGrade?.name && (
-            <>
-              <Grid item xs={1}>
-                <Iconify icon="fluent-emoji:man-climbing-medium-light" height={15} width={15} />
-              </Grid>
-              <Grid item xs={11}>
-                <Typography variant="body1">
-                  {formatHighestLeadAndTopRopeGrade(
-                    data.highestLeadClimbingGrade.name,
-                    data.highestTopRopeGrade.name
-                  )}
-                </Typography>
-              </Grid>
-            </>
-          )}
+        {(data.highestLeadClimbingGrade || data.highestTopRopeGrade) && (
+          <>
+            <Grid item xs={1}>
+              <Iconify icon="fluent-emoji:man-climbing-medium-light" height={15} width={15} />
+            </Grid>
+            <Grid item xs={11}>
+              <Typography variant="body1">
+                {formatHighestLeadAndTopRopeGrade(
+                  data.highestLeadClimbingGrade?.name,
+                  data.highestTopRopeGrade?.name
+                )}
+              </Typography>
+            </Grid>
+          </>
+        )}
 
         {data.favouriteGyms && data.favouriteGyms.length > 0 && (
           <>

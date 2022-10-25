@@ -27,23 +27,23 @@ export interface User {
   telegramHandle: string;
   createdAt: string;
   updatedAt: string;
-  hasProfilePicture?: boolean;
-  name?: string;
-  profilePictureUrl?: string;
-  bio?: string;
-  height?: number;
-  reach?: number;
-  sncsCertification?: Certification;
-  pronoun?: Pronoun;
-  highestBoulderingGrade?: Grade;
-  highestTopRopeGrade?: Grade;
-  highestLeadClimbingGrade?: Grade;
-  favouriteGyms?: Gym[];
-  pronounId?: number;
-  highestBoulderingGradeId?: number;
-  highestTopRopeGradeId?: number;
-  highestLeadClimbingGradeId?: number;
-  sncsCertificationId?: number;
+  hasProfilePicture?: boolean | null;
+  name?: string | null;
+  profilePictureUrl?: string | null;
+  bio?: string | null;
+  height?: number | null;
+  reach?: number | null;
+  sncsCertification?: Certification | null;
+  pronoun?: Pronoun | null;
+  highestBoulderingGrade?: Grade | null;
+  highestTopRopeGrade?: Grade | null;
+  highestLeadClimbingGrade?: Grade | null;
+  favouriteGyms?: Gym[] | null;
+  pronounId?: number | null;
+  highestBoulderingGradeId?: number | null;
+  highestTopRopeGradeId?: number | null;
+  highestLeadClimbingGradeId?: number | null;
+  sncsCertificationId?: number | null;
 }
 
 export type UserRequest = Partial<User> & {

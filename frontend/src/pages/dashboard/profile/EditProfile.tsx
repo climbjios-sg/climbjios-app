@@ -82,9 +82,10 @@ export default function EditProfileForm() {
       highestLeadClimbingGradeId: currentUser.highestLeadClimbingGradeId
         ? currentUser.highestLeadClimbingGradeId
         : undefined,
-      favouriteGymIds: currentUser.favouriteGyms
-        ? currentUser.favouriteGyms?.map((gym) => gym.id)
-        : undefined,
+      favouriteGymIds:
+        currentUser.favouriteGyms && currentUser.favouriteGyms.length > 0
+          ? currentUser.favouriteGyms?.map((gym) => gym.id)
+          : undefined,
       sncsCertificationId: currentUser.sncsCertificationId
         ? currentUser.sncsCertificationId
         : undefined,
