@@ -14,7 +14,7 @@ import { getBetas } from 'src/services/betas';
 import { Gym, GymGrade } from 'src/@types/gym';
 import { Wall } from 'src/@types/wall';
 import { Color } from 'src/@types/color';
-import useCustomSnackbar from '../../../../hooks/useErrorSnackbar';
+import useErrorSnackbar from '../../../../hooks/useErrorSnackbar';
 import NoContentGif from 'src/assets/no-content.gif';
 import EmptyContent from '../../../../components/EmptyContent';
 import useGetGyms from '../../../../hooks/services/useGetGyms';
@@ -67,7 +67,7 @@ export default function BetasList() {
   );
   const [selectedWall, setSelectedWall] = useState<Wall['id'] | ALL_VALUES_TYPE>(ALL_VALUES);
   const [selectedColor, setSelectedColor] = useState<Color['id'] | ALL_VALUES_TYPE>(ALL_VALUES);
-  const errorSnackbar = useCustomSnackbar();
+  const errorSnackbar = useErrorSnackbar();
   // True iff user is scrolling
   const trigger = useScrollTrigger({
     target: window,
@@ -119,7 +119,7 @@ export default function BetasList() {
 
   const { loading, data, mutate } = useSafeRequest(() => getTargetBetas(0), {
     onError: () => {
-      errorSnackbar.enqueueError('Failed to get Betas.');
+      errorSnackbar.enqueueWithSupport('Failed to get Betas.');
     },
     refreshDeps: [viewVersion, selectedGymGrade, selectedWall, selectedColor, selectedGym],
   });

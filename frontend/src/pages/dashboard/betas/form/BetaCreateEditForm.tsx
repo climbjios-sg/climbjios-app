@@ -22,7 +22,7 @@ type BetaCreateEditFormProps = {
 };
 
 const formSchema = Yup.object().shape({
-  video: Yup.mixed().required('You forgot about your Beta video.'),
+  video: Yup.mixed().required('You forgot about your climbing video.'),
   gymId: Yup.number().required('Gym is required for other climbers to find your Beta.'),
   colorId: Yup.number().required('Color is required for other climbers to find your Beta.'),
   wallId: Yup.number().required('Wall is required for other climbers to find your Beta.'),

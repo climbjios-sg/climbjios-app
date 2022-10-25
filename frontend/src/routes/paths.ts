@@ -24,7 +24,6 @@ export const PATH_AUTH = {
 
 export const PATH_PAGE = {
   page404: '/404',
-  updateTelegramUsername: '/updateTelegramUsername',
 };
 
 export const PATH_ONBOARDING = {
