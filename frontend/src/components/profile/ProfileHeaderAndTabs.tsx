@@ -5,16 +5,11 @@ import {
   SxProps,
   Theme,
   useTheme,
-  AppBar,
-  IconButton,
-  Toolbar,
 } from '@mui/material';
 import { User } from 'src/@types/user';
 import { capitalCase } from 'change-case';
 import ProfileHeader from './ProfileHeader';
 import useTabs from '../../hooks/ui/useTabs';
-import Iconify from '../Iconify';
-import { useNavigate } from 'react-router';
 import BackBar from '../BackBar';
 
 interface ProfileProps {
@@ -33,7 +28,6 @@ export default function ProfileHeaderAndTabs({
   showBack,
 }: ProfileProps) {
   const theme = useTheme();
-  const navigate = useNavigate();
   const { currentTab, onChangeTab } = useTabs('about');
 
   const PROFILE_TABS = [
