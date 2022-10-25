@@ -82,10 +82,7 @@ export default function JioCardList() {
   useEffect(() => {
     if (!jioSearchValues) {
       dispatch(
-        listJios({
-          // Starting climbs 30 min after current ime
-          startDateTime: addMinutes(new Date(), 30).toISOString(),
-        })
+        listJios({})
       );
       return;
     }

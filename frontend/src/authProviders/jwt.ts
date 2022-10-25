@@ -1,4 +1,5 @@
 import { AuthProvider } from 'src/@types/auth';
+import { CacheName } from 'src/@types/cache';
 import { PATH_AUTH } from 'src/routes/paths';
 import { refreshAccessToken } from 'src/services/token';
 import { getUser } from 'src/services/users';
@@ -33,6 +34,9 @@ const deleteSession = () => {
   localStorage.removeItem(ACCESS_TOKEN);
   localStorage.removeItem(REFRESH_TOKEN);
 };
+const deleteCache = (name: CacheName) => {
+  return caches.open(name).then(cache => cache.keys().then(requests => requests.map(req => cache.delete(req))))
+}
 
 export const jwtAuthProvider: AuthProvider = {
   login: async (params) => {
@@ -61,6 +65,7 @@ export const jwtAuthProvider: AuthProvider = {
   },
   logout: async () => {
     deleteSession();
+    await deleteCache(CacheName.API);
   },
   checkError: async (status) => {
     if (status === 401 || status === 403) {
