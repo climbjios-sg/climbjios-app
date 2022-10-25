@@ -1,4 +1,3 @@
-import jwtDecode from 'jwt-decode';
 import { AuthProvider } from 'src/@types/auth';
 import { PATH_AUTH } from 'src/routes/paths';
 import { refreshAccessToken } from 'src/services/token';
@@ -12,19 +11,11 @@ interface Session {
 
 const hasAuthenticated = () => getSession() !== null;
 const isPublicUrl = (url: string) => [PATH_AUTH.root].includes(url);
-const isValidToken = (accessToken: string) => {
-  if (!accessToken) {
-    return false;
-  }
-  const decoded = jwtDecode<{ exp: number }>(accessToken);
-  const currentTime = Date.now() / 1000;
-  return decoded.exp > currentTime;
-};
 
 const getSession = (): Session | null => {
   const accessToken = localStorage.getItem(ACCESS_TOKEN);
   const refreshToken = localStorage.getItem(REFRESH_TOKEN);
-  if (accessToken && isValidToken(accessToken) && refreshToken && isValidToken(refreshToken)) {
+  if (accessToken && refreshToken) {
     return {
       accessToken,
       refreshToken,
