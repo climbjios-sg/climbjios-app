@@ -16,7 +16,7 @@ export const AvatarForm = () => {
 
       if (file) {
         new Compressor(file, {      
-          quality: 0.4,
+          quality: 0.1,
           success: (compressedResult: File) => {
             setValue(
               'avatar',
