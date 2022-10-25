@@ -30,6 +30,9 @@ let UserProfileDaoService = UserProfileDaoService_1 = class UserProfileDaoServic
             query = query.withGraphFetched(UserProfileDaoService_1.allGraphs);
         }
         return query.first().then((profile) => {
+            if (!profile) {
+                throw new common_1.HttpException('User does not exist!', 400);
+            }
             const profileWithoutId = Object.assign({}, profile);
             delete profileWithoutId.id;
             return profileWithoutId;
