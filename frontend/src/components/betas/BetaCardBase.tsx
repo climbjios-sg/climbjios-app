@@ -1,11 +1,12 @@
 import React from 'react';
 // @mui
-import { Box, Card, Avatar, Typography, Stack, Divider } from '@mui/material';
+import { Box, Card, Typography, Stack, Divider } from '@mui/material';
 // components
 import { Beta } from '../../@types/beta';
 import Video from '../Video';
 import { Link } from 'react-router-dom';
 import { makeUserProfileLinkProps } from '../../pages/publicProfile';
+import NameAvatar from '../NameAvatar';
 
 // ----------------------------------------------------------------------
 
@@ -33,13 +34,13 @@ const BetaCaseBase = React.memo(({ data, bottom }: Props) => (
           alignItems="center"
           {...makeUserProfileLinkProps({ user: data.creatorProfile })}
         >
-          <Avatar
+          <NameAvatar
             sx={{
               width: 32,
               height: 32,
               mr: 1,
             }}
-            alt={data.creatorProfile.telegramHandle}
+            name={data.creatorProfile.telegramHandle}
             src={data.creatorProfile.profilePictureUrl}
           />
           <Typography

@@ -56,7 +56,7 @@ const ServiceWorker: React.FC = () => {
         }, 1000);
       }
     });
-  }, []);
+  }, [closeSnackbar, enqueueSnackbar]);
 
   return <></>;
 }

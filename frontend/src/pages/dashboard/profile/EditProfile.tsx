@@ -65,7 +65,7 @@ export default function EditProfileForm() {
     sncsCertificationId: Yup.number().optional(),
   });
 
-  // const emptyFile = useMemo(() => ({} as File), []);
+  const emptyFile = useMemo(() => ({} as File), []);
 
   const defaultValues = useMemo(
     () => ({
@@ -88,14 +88,14 @@ export default function EditProfileForm() {
       sncsCertificationId: currentUser.sncsCertificationId
         ? currentUser.sncsCertificationId
         : undefined,
-      // avatar: currentUser?.profilePictureUrl
-      //   ? {
-      //       ...emptyFile,
-      //       preview: currentUser?.profilePictureUrl,
-      //     }
-      //   : undefined,
+      avatar: currentUser?.profilePictureUrl
+        ? {
+            ...emptyFile,
+            preview: currentUser?.profilePictureUrl,
+          }
+        : undefined,
     }),
-    [currentUser]
+    [currentUser, emptyFile]
   );
 
   const methods = useForm<EditProfileFormValues>({
@@ -118,13 +118,14 @@ export default function EditProfileForm() {
   });
 
   const handleSubmitAvatar = async (avatar?: AvatarData) => {
-    if (avatar === undefined) {
+    if (avatar === undefined || avatar.size === undefined) {
       return;
     }
 
     try {
       const { data: uploadUrl } = await getUploadAvatarUrl();
       await submitUploadAvatar(uploadUrl, avatar);
+      await submitUpdateUser({ hasProfilePicture: true });
     } catch (error) {
       snackbar.enqueueError('Failed to upload profile picture');
       throw error;
