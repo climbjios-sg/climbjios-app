@@ -7,19 +7,19 @@ import { OnboardingFormValues } from './types';
 import { getPronounList } from 'src/services/pronouns';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { CacheKey, OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from 'src/config';
-import { useSnackbar } from 'notistack';
+import useCustomSnackbar from '../../hooks/useCustomSnackbar';
 
 export const DetailsForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();
   const { errors } = formState;
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueError } = useCustomSnackbar();
   const { data: pronouns } = useSafeRequest(getPronounList, {
     // Caches successful data
     cacheTime: OPTIONS_CACHE_TIME,
     staleTime: OPTIONS_STALE_TIME,
     cacheKey: CacheKey.Pronouns,
     onError: () => {
-      enqueueSnackbar('Failed to get pronouns.', { variant: 'error' });
+      enqueueError('Failed to get pronouns.');
     },
   });
 

@@ -2,13 +2,7 @@ import * as React from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import {
-  Box,
-  Typography,
-  Stack,
-  InputAdornment,
-  Button,
-} from '@mui/material';
+import { Box, Typography, Stack, InputAdornment, Button } from '@mui/material';
 // components
 import {
   FormProvider,
@@ -23,7 +17,6 @@ import { useForm } from 'react-hook-form';
 // @types
 import { Gym } from '../../../../@types/gym';
 // dayjs
-import { useSnackbar } from 'notistack';
 import { useSelector } from '../../../../store';
 import {
   formatJioFormValues,
@@ -35,6 +28,7 @@ import { addDays } from 'date-fns';
 import useRHFScrollToInputOnError from '../../../../hooks/useRHFScrollToInputOnError';
 import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
 import BackBar from '../../../../components/BackBar';
+import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
 
 type Props = {
   onSubmit: (data: JioCreateEditFormValues) => Promise<void>;
@@ -53,7 +47,7 @@ export default function JiosCreateEditForm({
   submitLabel,
   title,
 }: Props) {
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueError } = useCustomSnackbar();
   const gyms = useSelector((state) => state.gyms.data);
 
   const formSchema = Yup.object().shape({
@@ -110,7 +104,7 @@ export default function JiosCreateEditForm({
     try {
       await onSubmit(formatJioFormValues(data));
     } catch (error) {
-      enqueueSnackbar('Failed to submit form', { variant: 'error' });
+      enqueueError('Failed to submit form.');
     }
   };
 

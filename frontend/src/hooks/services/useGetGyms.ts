@@ -1,6 +1,6 @@
 import { OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME, CacheKey } from '../../config';
 import { getGymList } from '../../services/gyms';
-import useCustomSnackbar from '../useErrorSnackbar';
+import useCustomSnackbar from '../useCustomSnackbar';
 import useSafeRequest from './useSafeRequest';
 
 const useGetGyms = () => {

@@ -3,18 +3,18 @@ import { Stack, Typography } from '@mui/material';
 import { RHFSelect } from '../../components/hook-form';
 import { getSncsCertificationList } from 'src/services/sncsCertifications';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
-import { useSnackbar } from 'notistack';
 import { CacheKey, OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from 'src/config';
+import useCustomSnackbar from '../../hooks/useCustomSnackbar';
 
 export const ClimbingCertForm = () => {
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueError } = useCustomSnackbar();
   const { data: sncsCertifications } = useSafeRequest(getSncsCertificationList, {
     // Caches successful data
     cacheTime: OPTIONS_CACHE_TIME,
     staleTime: OPTIONS_STALE_TIME,
     cacheKey: CacheKey.SncsCertifications,
     onError: () => {
-      enqueueSnackbar('Failed to get sncsCertifications.', { variant: 'error' });
+      enqueueError('Failed to get sncsCertifications.');
     },
   });
 

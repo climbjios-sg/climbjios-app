@@ -14,7 +14,7 @@ import { getBetas } from 'src/services/betas';
 import { Gym, GymGrade } from 'src/@types/gym';
 import { Wall } from 'src/@types/wall';
 import { Color } from 'src/@types/color';
-import useCustomSnackbar from '../../../../hooks/useErrorSnackbar';
+import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
 import NoContentGif from 'src/assets/no-content.gif';
 import EmptyContent from '../../../../components/EmptyContent';
 import useGetGyms from '../../../../hooks/services/useGetGyms';

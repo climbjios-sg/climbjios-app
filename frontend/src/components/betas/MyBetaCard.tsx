@@ -5,11 +5,11 @@ import { Stack, IconButton } from '@mui/material';
 import { Beta } from '../../@types/beta';
 import Iconify from '../Iconify';
 import useRefresh from '../../hooks/ui/useRefresh';
-import { useSnackbar } from 'notistack';
 import { deleteBeta } from '../../services/betas';
 import useSafeRequest from '../../hooks/services/useSafeRequest';
 import DeleteMyBetaDialog from './CloseMyBetaDialog';
 import BetaCaseBase from './BetaCardBase';
+import useCustomSnackbar from '../../hooks/useCustomSnackbar';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ type Props = {
 
 // Memoizing content since it will be rendered in a infinite list
 const MyBetaCard = React.memo(({ data }: Props) => {
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useCustomSnackbar();
   const refresh = useRefresh();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { run: submitCloseMyBeta } = useSafeRequest(deleteBeta, {

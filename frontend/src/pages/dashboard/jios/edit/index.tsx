@@ -8,7 +8,7 @@ import { getJio, updateJio } from 'src/services/jios';
 import { Jio } from 'src/@types/jio';
 import { dateToTimeString } from '../../../../utils/formatTime';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
-import useCustomSnackbar from '../../../../hooks/useErrorSnackbar';
+import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
 
 const jioToJioFormValues = (jio: Jio): JioCreateEditFormValues => ({
   type: jio.type,

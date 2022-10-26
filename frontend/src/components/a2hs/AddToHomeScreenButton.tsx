@@ -1,11 +1,18 @@
 import { useState } from 'react';
-import { DialogAnimate } from "src/components/animate";
-import { Button, Stack, Typography } from '@mui/material';
-import Iconify from 'src/components/Iconify';
+import { DialogAnimate } from 'src/components/animate';
+import { Stack, Typography } from '@mui/material';
 import { InlineIcon } from '@iconify/react';
 import { isiOS, isPWA, isMobile } from 'src/utils/device';
 
-export default function AddToHomeScreenButton() {
+interface RenderButtonProps {
+  onClick: () => void;
+}
+
+interface AddToHomeScreenButtonProps {
+  renderButton: (props: RenderButtonProps) => React.ReactNode;
+}
+
+export default function AddToHomeScreenButton({ renderButton }: AddToHomeScreenButtonProps) {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const handleOpenModal = () => setIsOpenModal(true);
   const handleCloseModal = () => setIsOpenModal(false);
@@ -17,43 +24,41 @@ export default function AddToHomeScreenButton() {
 
   return (
     <>
-      <Button
-        startIcon={<Iconify icon="bxs:download" />}
-        variant={'outlined'}
-        onClick={handleOpenModal}
-        fullWidth
-      >
-        Add ClimbJios to your homescreen!
-      </Button>
+      {renderButton({ onClick: handleOpenModal })}
       <DialogAnimate open={isOpenModal} onClose={handleCloseModal}>
-        {
-        isiOS()
-          ? <Stack spacing={3} sx={{ p: 3 }}>
+        {isiOS() ? (
+          <Stack spacing={3} sx={{ p: 3 }}>
+            <Typography>
+              Add the ClimbJios app to your device's homescreen for easy access anytime.
+            </Typography>
+            <Stack spacing={1}>
               <Typography>
-                Add the ClimbJios app to your device's homescreen for easy access anytime.
+                1. Tap on <InlineIcon icon="uil:upload-alt" />
               </Typography>
-              <Stack spacing={1}>
-                <Typography>
-                  1. Tap on <InlineIcon icon="uil:upload-alt" />
-                </Typography>
-                <Typography>2. Select Add to Home Screen <InlineIcon icon="fluent:add-square-24-regular" /></Typography>
-              </Stack>
-            </Stack>
-          : <Stack spacing={3} sx={{ p: 3 }}>
               <Typography>
-                Add the ClimbJios app to your device's homescreen for easy access anytime.
-              </Typography>
-              <Stack spacing={1}>
-                <Typography>
-                  1. Tap on <InlineIcon icon="carbon:overflow-menu-vertical" />
-                </Typography>
-                <Typography>2. Select <InlineIcon icon="material-symbols:add-to-home-screen" /> Install or <InlineIcon icon="material-symbols:add-to-home-screen" /> Install App</Typography>
-              </Stack>
-              <Typography>
-                For older devices, tap on <InlineIcon icon="ci:home-alt-plus" /> next to the URL bar.
+                2. Select Add to Home Screen <InlineIcon icon="fluent:add-square-24-regular" />
               </Typography>
             </Stack>
-        }
+          </Stack>
+        ) : (
+          <Stack spacing={3} sx={{ p: 3 }}>
+            <Typography>
+              Add the ClimbJios app to your device's homescreen for easy access anytime.
+            </Typography>
+            <Stack spacing={1}>
+              <Typography>
+                1. Tap on <InlineIcon icon="carbon:overflow-menu-vertical" />
+              </Typography>
+              <Typography>
+                2. Select <InlineIcon icon="material-symbols:add-to-home-screen" /> Install or{' '}
+                <InlineIcon icon="material-symbols:add-to-home-screen" /> Install App
+              </Typography>
+            </Stack>
+            <Typography>
+              For older devices, tap on <InlineIcon icon="ci:home-alt-plus" /> next to the URL bar.
+            </Typography>
+          </Stack>
+        )}
       </DialogAnimate>
     </>
   );

@@ -1,7 +1,7 @@
 import useSafeRequest from '../../hooks/services/useSafeRequest';
 import { getCreatorBetas } from '../../services/betas';
 import { BETAS_PAGE_SIZE } from 'src/config';
-import useCustomSnackbar from '../../hooks/useErrorSnackbar';
+import useCustomSnackbar from '../../hooks/useCustomSnackbar';
 import BetasInfiniteScroll from '../betas/BetaInfiniteScroll';
 import EmptyContent from '../EmptyContent';
 import NoContentGif from 'src/assets/no-content.gif';

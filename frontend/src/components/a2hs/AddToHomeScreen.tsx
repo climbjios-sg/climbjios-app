@@ -24,7 +24,7 @@ export default function AddToHomeScreen() {
           variant: 'info',
           persist: true,
           action: (snackbarId) => (
-            <Stack>
+            <Stack direction="row" sx={{ mt: 2 }}>
               <Button
                 onClick={() => {
                   deferredPrompt = null;

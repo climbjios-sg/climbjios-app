@@ -1,6 +1,6 @@
 import { Gym, GymGrade } from '../../@types/gym';
 import { getGymGrades } from '../../services/gyms';
-import useCustomSnackbar from '../useErrorSnackbar';
+import useCustomSnackbar from '../useCustomSnackbar';
 import useSafeRequest from './useSafeRequest';
 
 export default function useGetGymGrades(gymId: Gym['id']): GymGrade[] {
