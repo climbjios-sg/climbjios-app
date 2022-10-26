@@ -55,7 +55,6 @@ export const jwtAuthProvider: AuthProvider = {
         throw new Error();
       }
       const { refreshToken: sessionRefreshToken } = session;
-      console.log('kw1 refresh token is', sessionRefreshToken);
 
       const response = await refreshAccessToken(sessionRefreshToken);
 
