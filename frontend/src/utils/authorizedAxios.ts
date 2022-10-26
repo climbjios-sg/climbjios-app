@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { jwtAuthProvider } from 'src/authProviders/jwt';
 import { refreshAccessToken } from 'src/services/token';
 // config
 import { HOST_API } from '../config';
@@ -29,7 +28,7 @@ authorizedAxios.interceptors.request.use(
 
 authorizedAxios.interceptors.response.use(
   (response) => response,
-  async function (error) {
+  async (error) => {
     const originalRequest = error.config;
     // If token expires, replay request
     if (error.response.status === 401 && !originalRequest._retry) {
@@ -37,21 +36,21 @@ authorizedAxios.interceptors.response.use(
 
       const refreshToken = localStorage.getItem(REFRESH_TOKEN);
       if (!refreshToken) {
-        return Promise.reject(error);
+        throw error;
       }
 
-      let res;
       try {
-        res = await refreshAccessToken(refreshToken);
-      } catch(e) {
-        return await jwtAuthProvider.logout();
+        const res = await refreshAccessToken(refreshToken);
+        localStorage.setItem(ACCESS_TOKEN, res.data.accessToken);
+        localStorage.setItem(REFRESH_TOKEN, res.data.refreshToken);
+      } catch {
+        throw error;
       }
-      localStorage.setItem(ACCESS_TOKEN, res.data.accessToken);
-      localStorage.setItem(REFRESH_TOKEN, res.data.refreshToken);
 
-      return authorizedAxios(originalRequest);  
+      return authorizedAxios(originalRequest);
     }
-    return Promise.reject(error);
+
+    throw error;
   }
 );
 
