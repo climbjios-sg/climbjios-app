@@ -22,7 +22,6 @@ const useGetOptions = <TData extends OptionResponse[], TParams extends any[]>(
       onError: () => {
         enqueueError(`Failed to ${getFormattedCamelCase(service.name)}`);
       },
-
       ...options,
     },
     plugins
