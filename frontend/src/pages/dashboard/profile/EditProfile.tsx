@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Button, Card, Stack, Container } from '@mui/material';
+import { Card, Stack, Container } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // @types
@@ -39,6 +39,7 @@ import { updateUser } from 'src/services/users';
 import LoadingScreen from 'src/components/LoadingScreen';
 import useDevWatchForm from '../../../hooks/dev/useDevWatchForm';
 import useCustomSnackbar from '../../../hooks/useCustomSnackbar';
+import BackBar from '../../../components/BackBar';
 
 // ----------------------------------------------------------------------
 
@@ -154,10 +155,6 @@ export default function EditProfileForm() {
     }
   };
 
-  const handleClickCancelButton = () => {
-    navigateToProfile();
-  };
-
   const navigateToProfile = useCallback(() => {
     navigate(PATH_DASHBOARD.general.profile.root);
   }, [navigate]);
@@ -180,7 +177,8 @@ export default function EditProfileForm() {
       {!loading ? (
         <FormProvider methods={methods} onSubmit={handleSubmit(_handleSubmit)}>
           <Page title="Edit Profile">
-            <Container maxWidth="md" sx={{ my: 3, px: 0 }}>
+            <BackBar title="Edit Profile" />
+            <Container maxWidth="md" sx={{ mt: 5, px: 0 }}>
               <Stack spacing={1.5} justifyContent="center" alignItems="center">
                 <Card sx={{ width: '100%', p: 3 }}>
                   <AvatarForm />
@@ -198,6 +196,7 @@ export default function EditProfileForm() {
             </Container>
             <FloatingBottomCard>
               <LoadingButton
+                sx={{ mb: 2 }}
                 type="submit"
                 size="large"
                 variant="contained"
@@ -206,9 +205,6 @@ export default function EditProfileForm() {
               >
                 Save Changes
               </LoadingButton>
-              <Button sx={{ mt: 1 }} size="large" fullWidth onClick={handleClickCancelButton}>
-                Cancel
-              </Button>
             </FloatingBottomCard>
           </Page>
         </FormProvider>
