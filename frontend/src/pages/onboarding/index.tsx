@@ -12,7 +12,6 @@ import { ClimbingGradesForm } from './ClimbingGradesForm';
 import { ClimbingCertForm } from './ClimbingCertForm';
 import { AvatarForm } from './AvatarForm';
 import { useForm } from 'react-hook-form';
-import { useSnackbar } from 'notistack';
 import { FormProvider } from 'src/components/hook-form';
 import { PATH_DASHBOARD, PATH_LANDING } from 'src/routes/paths';
 import { useNavigate } from 'react-router';
@@ -41,6 +40,7 @@ import {
 } from 'src/config';
 import { outgoingLinkProps } from '../../utils/common';
 import StyledA from '../../components/StyledA';
+import useCustomSnackbar from '../../hooks/useCustomSnackbar';
 
 // ----------------------------------------------------------------------
 
@@ -167,7 +167,7 @@ const renderTitle = (activeStep: number) => {
 const renderForm = (activeStep: number) => onboardingSteps[activeStep - 1].form;
 
 export default function Onboarding() {
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueError, enqueueSnackbar } = useCustomSnackbar();
   const navigate = useNavigate();
   // Ranges from 1-N, where N is the number of steps
   const [activeStep, setActiveStep] = useState<number>(1);
@@ -205,7 +205,7 @@ export default function Onboarding() {
       await submitUploadAvatar(uploadUrl, avatar);
       await submitUpdateUser({ hasProfilePicture: true });
     } catch (error) {
-      enqueueSnackbar('Failed to upload profile picture', { variant: 'error' });
+      enqueueError('Failed to upload profile picture.');
       throw error;
     }
   };
@@ -217,7 +217,7 @@ export default function Onboarding() {
       });
       navigate(PATH_DASHBOARD.general.jios.root);
     } catch {
-      enqueueSnackbar('Failed to update user', { variant: 'error' });
+      enqueueError('Failed to update user.');
     }
   };
   const _handleSubmit = async ({ avatar, ...rest }: OnboardingFormValues) => {

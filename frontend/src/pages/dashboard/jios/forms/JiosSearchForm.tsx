@@ -17,13 +17,13 @@ import { useForm } from 'react-hook-form';
 // @types
 import { Gym } from '../../../../@types/gym';
 // dayjs
-import { useSnackbar } from 'notistack';
 import { useSelector } from '../../../../store';
 import { setDateTime } from '../../../../utils/formatTime';
 import { JioSearchFormValues, JIOTYPE_OPTION, yupStartEndDateTimingObject } from './utils';
 import { addDays } from 'date-fns';
 import FloatingBottomCard from '../../../../components/FloatingBottomCard';
 import { IconStyle } from 'src/utils/common';
+import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
 
 type Props = {
   onSubmit: (data: JioSearchFormValues) => Promise<void>;
@@ -40,7 +40,7 @@ export default function JiosSearchForm({
   onClear,
   submitLabel,
 }: Props) {
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueError } = useCustomSnackbar();
   const gyms = useSelector((state) => state.gyms.data);
 
   const formSchema = Yup.object().shape({
@@ -87,7 +87,7 @@ export default function JiosSearchForm({
     try {
       await onSubmit(data);
     } catch (error) {
-      enqueueSnackbar('Failed to submit form', { variant: 'error' });
+      enqueueError('Failed to submit form.');
     }
   };
 

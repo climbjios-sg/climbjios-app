@@ -2,7 +2,6 @@ import { Stack, FormHelperText, Typography } from '@mui/material';
 // components
 import { RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
-import { useSnackbar } from 'notistack';
 import { getBoulderingGradeList } from 'src/services/boulderingGrades';
 import { getTopRopeGradeList } from 'src/services/topRopeGrades';
 import { getLeadClimbingGradeList } from 'src/services/leadClimbingGrades';
@@ -10,11 +9,12 @@ import { OnboardingFormValues } from './types';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 
 import { CacheKey, OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from 'src/config';
+import useCustomSnackbar from '../../hooks/useCustomSnackbar';
 
 export const ClimbingGradesForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();
   const { errors } = formState;
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueError } = useCustomSnackbar();
 
   const { data: boulderingGrades } = useSafeRequest(getBoulderingGradeList, {
     // Caches successful data
@@ -22,7 +22,7 @@ export const ClimbingGradesForm = () => {
     staleTime: OPTIONS_STALE_TIME,
     cacheKey: CacheKey.BoulderingGrades,
     onError: () => {
-      enqueueSnackbar('Failed to get boulderingGrades.', { variant: 'error' });
+      enqueueError('Failed to get boulderingGrades.');
     },
   });
   const { data: topRopeGrades } = useSafeRequest(getTopRopeGradeList, {
@@ -31,7 +31,7 @@ export const ClimbingGradesForm = () => {
     staleTime: OPTIONS_STALE_TIME,
     cacheKey: CacheKey.TopRopeGrades,
     onError: () => {
-      enqueueSnackbar('Failed to get topRopeGrades.', { variant: 'error' });
+      enqueueError('Failed to get topRopeGrades.');
     },
   });
   const { data: leadClimbingGrades } = useSafeRequest(getLeadClimbingGradeList, {
@@ -40,7 +40,7 @@ export const ClimbingGradesForm = () => {
     staleTime: OPTIONS_STALE_TIME,
     cacheKey: CacheKey.LeadClimbingGrades,
     onError: () => {
-      enqueueSnackbar('Failed to get leadClimbingGrades.', { variant: 'error' });
+      enqueueError('Failed to get leadClimbingGrades.');
     },
   });
 

@@ -38,7 +38,7 @@ import { getUploadAvatarUrl, uploadAvatar } from 'src/services/avatar';
 import { updateUser } from 'src/services/users';
 import LoadingScreen from 'src/components/LoadingScreen';
 import useDevWatchForm from '../../../hooks/dev/useDevWatchForm';
-import useCustomSnackbar from '../../../hooks/useErrorSnackbar';
+import useCustomSnackbar from '../../../hooks/useCustomSnackbar';
 
 // ----------------------------------------------------------------------
 

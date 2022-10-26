@@ -34,6 +34,7 @@ export const ICON = {
 
 // SUPPORT EMAIL
 export const SUPPORT_EMAIL = 'rizhaow@gmail.com';
+export const MAIL_TO_SUPPORT_EMAIL = `mailto:${SUPPORT_EMAIL}`;
 export const SUPPORT_TELEGRAM = 'https://t.me/rizhaow';
 
 // NEW USER SIGNUP
