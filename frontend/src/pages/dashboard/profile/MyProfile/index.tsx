@@ -8,6 +8,7 @@ import Iconify from '../../../../components/Iconify';
 import ProfileBetas from '../../../../components/profile/ProfileBetas';
 import useLogout from '../../../../hooks/auth/useLogout';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
+import AddToHomeScreenButton from 'src/components/a2hs/AddToHomeScreenButton';
 
 export default function MyProfile() {
   const { identity: user } = useGetIdentity();
@@ -36,6 +37,7 @@ export default function MyProfile() {
               </Button>
             }
           />
+          <AddToHomeScreenButton />
           <Button
             startIcon={<Iconify icon="material-symbols:logout-rounded" />}
             variant={'outlined'}

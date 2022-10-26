@@ -16,6 +16,7 @@ import { IconStyle } from 'src/utils/common';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { useSearchParams } from 'react-router-dom';
 import AddToHomeScreen from 'src/components/a2hs/AddToHomeScreen';
+import { isMobile } from 'src/utils/device';
 
 const StyledTab = styled(Tab)({
   '&.MuiButtonBase-root': {
@@ -157,7 +158,7 @@ export default function JiosList() {
 
   return (
     <Box sx={{ pt: 5, pb: 20, minHeight: '100vh', maxWidth: 600, margin: '0 auto' }}>
-      <AddToHomeScreen />
+      {isMobile() && <AddToHomeScreen />}
       <TabContext value={tabValue}>
         <Box>
           {renderSearchButton()}
