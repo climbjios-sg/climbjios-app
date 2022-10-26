@@ -75,7 +75,7 @@ export default function AboutTab({ user }: AboutTabProps) {
                       <ListItemIcon>
                         <Iconify icon={'bxs:download'} color={theme.palette.grey[700]} />
                       </ListItemIcon>
-                      <ListItemText primary={'Add ClimbJios to homescreen'} />
+                      <ListItemText primary={'Add ClimbJios to Home Screen'} />
                     </ListItemButton>
                   </ListItem>
                   <Divider />
