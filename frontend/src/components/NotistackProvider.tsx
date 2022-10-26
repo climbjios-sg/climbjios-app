@@ -2,7 +2,7 @@ import { ReactNode, useRef } from 'react';
 import { IconifyIcon } from '@iconify/react';
 import { SnackbarProvider, SnackbarKey } from 'notistack';
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { Box, GlobalStyles } from '@mui/material';
 // theme
 import { ColorSchema } from '../theme/palette';
@@ -117,7 +117,6 @@ function SnackbarIcon({ icon, color }: SnackbarIconProps) {
         alignItems: 'center',
         justifyContent: 'center',
         color: `${color}.main`,
-        bgcolor: (theme) => alpha(theme.palette[color].main, 0.16),
       }}
     >
       <Iconify icon={icon} width={24} height={24} />

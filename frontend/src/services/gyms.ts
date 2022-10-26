@@ -1,5 +1,7 @@
 import authorizedAxios from 'src/utils/authorizedAxios';
 import { BE_API } from 'src/utils/api';
-import { Gym } from 'src/@types/gym';
+import { GymGrade, GymResponse } from 'src/@types/gym';
 
-export const getGymList = () => authorizedAxios.get<Gym[]>(BE_API.gyms);
+export const getGymGrades = (id: string) => authorizedAxios.get<GymGrade[]>(BE_API.gyms.grades(id));
+
+export const getGymList = () => authorizedAxios.get<GymResponse[]>(BE_API.gyms.root);

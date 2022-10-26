@@ -1,11 +1,12 @@
-import * as React from 'react';
-import { Button, Card, CardHeader, Stack, Typography } from '@mui/material';
+import { Button, Card, Stack, Typography } from '@mui/material';
+import { IconStyle } from 'src/utils/common';
+import { Jio } from 'src/@types/jio';
+import palette from 'src/theme/palette';
+import { formatStartEndDate } from 'src/utils/formatTime';
+import { Link } from 'react-router-dom';
 import Iconify from '../../../../../components/Iconify';
-import { IconStyle } from '../../../../../sections/@dashboard/user/profile/common';
-import { Jio } from '../../../../../@types/jio';
-import palette from '../../../../../theme/palette';
-import { formatStartEndDate } from '../../../../../utils/formatTime';
-import { getPassesText } from '../utils';
+import JioCardHeader from '../JioCardHeader';
+import { makeUserProfileLinkProps } from '../../../../publicProfile';
 
 interface JioCardProps {
   data: Jio;
@@ -14,7 +15,7 @@ interface JioCardProps {
 export default function JioCard({ data }: JioCardProps) {
   return (
     <Card>
-      <CardHeader title={data.user.name} subheader={`@${data.user.username}`} />
+      <JioCardHeader data={data} />
       <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
@@ -26,10 +27,6 @@ export default function JioCard({ data }: JioCardProps) {
             {formatStartEndDate(data.startDateTime, data.endDateTime)}
           </Typography>
         </Stack>
-        <Stack direction="row">
-          <IconStyle icon={'mingcute:coupon-line'} color={palette.light.grey[700]} />
-          <Typography variant="body2">{getPassesText(data)}</Typography>
-        </Stack>
         {Boolean(data.price) && (
           <Stack direction="row">
             <IconStyle icon={'eva:pricetags-outline'} color={palette.light.grey[700]} />
@@ -39,27 +36,25 @@ export default function JioCard({ data }: JioCardProps) {
         {data.openToClimbTogether && (
           <Stack direction="row">
             <IconStyle icon={'fluent:hand-wave-16-regular'} color={palette.light.grey[700]} />
-            <Typography variant="body2">Open Jio to climb together!</Typography>
+            <Typography variant="body2">Open to climb together</Typography>
           </Stack>
         )}
         {data.optionalNote && (
           <Stack direction="row">
-            <IconStyle icon={'eva:message-square-outline'} color={palette.light.grey[700]} />
+            <IconStyle icon={'eva:menu-2-outline'} color={palette.light.grey[700]} />
             <Typography variant="body2">{data.optionalNote}</Typography>
           </Stack>
         )}
         <Stack direction="row">
           <Button
             sx={{ mt: 1 }}
-            color="secondary"
             fullWidth
-            href={`https://t.me/${data.user.telegramHandle}`}
+            component={Link}
+            startIcon={<Iconify icon="eva:message-circle-outline" />}
             variant="outlined"
-            target="_blank"
-            rel="noopener"
+            {...makeUserProfileLinkProps({ user: data.creatorProfile, isShowFloatingButton: true })}
           >
-            <Iconify icon={'jam:telegram'} sx={{ mr: 1 }} />
-            <span>Message on Telegram</span>
+            <span>Message Climber</span>
           </Button>
         </Stack>
       </Stack>

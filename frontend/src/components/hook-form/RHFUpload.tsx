@@ -10,6 +10,7 @@ import {
   UploadProps,
   UploadMultiFileProps,
 } from '../upload';
+import { UploadSingleFileVideo } from "../upload/UploadSingleFileVideo";
 
 // ----------------------------------------------------------------------
 
@@ -62,6 +63,38 @@ export function RHFUploadSingleFile({ name, ...other }: Props) {
         return (
           <UploadSingleFile
             accept={{ 'image/*': [] }}
+            file={field.value}
+            error={checkError}
+            helperText={
+              checkError && (
+                <FormHelperText error sx={{ px: 2 }}>
+                  {error.message}
+                </FormHelperText>
+              )
+            }
+            {...other}
+          />
+        );
+      }}
+    />
+  );
+}
+
+// ----------------------------------------------------------------------
+
+export function RHFUploadSingleFileVideo({ name, ...other }: Props) {
+  const { control } = useFormContext();
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState: { error } }) => {
+        const checkError = !!error && !field.value;
+
+        return (
+          <UploadSingleFileVideo
+            accept={{ 'video/mp4': [], 'video/x-m4v': [], 'video/*': [] }}
             file={field.value}
             error={checkError}
             helperText={

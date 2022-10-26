@@ -25,8 +25,7 @@ export class PostModel extends BaseModel {
     creatorProfile: {
       relation: Model.HasOneRelation,
       modelClass: UserProfileModel,
-      filter: (query) =>
-        query.select(['userId', 'name', 'telegramHandle', 'height', 'reach']),
+      filter: (query) => query.select(UserProfileModel.relationWhitelist),
       join: {
         from: 'posts.creatorId',
         to: 'userProfiles.userId',
@@ -35,7 +34,8 @@ export class PostModel extends BaseModel {
     gym: {
       relation: Model.BelongsToOneRelation,
       modelClass: GymModel,
-      filter: (query) => query.select('id', 'name', 'permanentlyClosed'),
+      filter: (query) =>
+        query.select('id', 'name', 'shortName', 'permanentlyClosed'),
       join: {
         from: 'posts.gymId',
         to: 'gyms.id',

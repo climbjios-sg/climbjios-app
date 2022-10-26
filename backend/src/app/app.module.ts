@@ -26,6 +26,13 @@ import { LeadClimbingGradesModule } from '../leadClimbingGrades/leadClimbingGrad
 import { TopRopeGradesModule } from '../topRopeGrades/topRopeGrades.module';
 import { PronounsModule } from '../pronouns/pronouns.module';
 import { SncsCertificationsModule } from '../sncsCertifications/sncsCertifications.module';
+import { BetasModule } from '../betas/betas.module';
+import { ColorsModule } from '../colors/colors.module';
+import { BetasDaoModule } from '../database/daos/betas/betas.dao.module';
+import { ColorsDaoModule } from '../database/daos/colors/colors.dao.module';
+import { GymGradesDaoModule } from '../database/daos/gymGrades/gymGrades.dao.module';
+import { WallsDaoModule } from '../database/daos/walls/walls.dao.module';
+import { WallsModule } from '../walls/walls.module';
 
 @Module({
   imports: [
@@ -45,6 +52,10 @@ import { SncsCertificationsModule } from '../sncsCertifications/sncsCertificatio
     SncsCertificationsDaoModule,
     PronounsDaoModule,
     UserProfileDaoModule,
+    GymGradesDaoModule,
+    ColorsDaoModule,
+    WallsDaoModule,
+    BetasDaoModule,
 
     // Modules with controllers
     AuthModule,
@@ -56,6 +67,9 @@ import { SncsCertificationsModule } from '../sncsCertifications/sncsCertificatio
     TopRopeGradesModule,
     SncsCertificationsModule,
     PronounsModule,
+    ColorsModule,
+    BetasModule,
+    WallsModule,
   ],
   controllers: [AppController],
   providers: [

@@ -1,10 +1,13 @@
 import axios from 'axios';
+import { jwtAuthProvider } from 'src/authProviders/jwt';
+import { refreshAccessToken } from 'src/services/token';
 // config
 import { HOST_API } from '../config';
-import { refreshAccessToken } from '../services/token';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from './jwt';
 
 // ----------------------------------------------------------------------
+
+export const baseAxios = axios.create();
 
 const authorizedAxios = axios.create({
   baseURL: HOST_API,
@@ -24,7 +27,6 @@ authorizedAxios.interceptors.request.use(
   }
 );
 
-// Response interceptor for API calls
 authorizedAxios.interceptors.response.use(
   (response) => response,
   async function (error) {
@@ -32,15 +34,22 @@ authorizedAxios.interceptors.response.use(
     // If token expires, replay request
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+
       const refreshToken = localStorage.getItem(REFRESH_TOKEN);
       if (!refreshToken) {
         return Promise.reject(error);
       }
-      const { data } = await refreshAccessToken(refreshToken);
-      localStorage.setItem(ACCESS_TOKEN, data.accessToken);
-      localStorage.setItem(REFRESH_TOKEN, data.refreshToken);
-      authorizedAxios.defaults.headers.common.Authorization = 'Bearer ' + data.accessToken;
-      return authorizedAxios(originalRequest);
+
+      let res;
+      try {
+        res = await refreshAccessToken(refreshToken);
+      } catch(e) {
+        return await jwtAuthProvider.logout();
+      }
+      localStorage.setItem(ACCESS_TOKEN, res.data.accessToken);
+      localStorage.setItem(REFRESH_TOKEN, res.data.refreshToken);
+
+      return authorizedAxios(originalRequest);  
     }
     return Promise.reject(error);
   }

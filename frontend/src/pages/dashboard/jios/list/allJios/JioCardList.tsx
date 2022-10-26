@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { Grid, Button, Divider } from '@mui/material';
-import useVersion from 'src/hooks/useVersion';
+import useVersion from 'src/hooks/ui/useVersion';
 import JioCard from './JioCard';
 import JioCardSkeleton from '../JioCardSkeleton';
 import EmptyJiosContent from '../EmptyJiosContent';
 import EmptyContent from 'src/components/EmptyContent';
 import { useDispatch, useSelector } from 'src/store';
-import { listJios, ListJiosArgs } from 'src/store/reducers/jios';
+import { listJios } from 'src/store/reducers/jios';
 import { getDateTimeString } from 'src/utils/formatTime';
-import { Link } from 'react-router-dom';
-import { PATH_DASHBOARD } from '../../../../../routes/paths';
 import { addMinutes } from 'date-fns';
+import { GetJioListRequest } from 'src/@types/jio';
+import CreateJioButton from '../../../../../components/CreateJioButton';
 
 export default function JioCardList() {
   const dispatch = useDispatch();
@@ -63,7 +63,7 @@ export default function JioCardList() {
           </Grid>
         ))}
         <Grid sx={{ width: '100%', mt: 4 }} item>
-          <Divider textAlign="center">Can't find the right ClimbJio? 🤔</Divider>
+          <Divider textAlign="center">Can't find the right Jio? 🤔</Divider>
           <div
             style={{
               display: 'flex',
@@ -72,15 +72,7 @@ export default function JioCardList() {
               marginTop: 25,
             }}
           >
-            <Button
-              component={Link}
-              to={PATH_DASHBOARD.general.jios.create}
-              variant="contained"
-              fullWidth
-              size="large"
-            >
-              Create ClimbJio
-            </Button>
+            <CreateJioButton />
           </div>
         </Grid>
       </>
@@ -90,17 +82,14 @@ export default function JioCardList() {
   useEffect(() => {
     if (!jioSearchValues) {
       dispatch(
-        listJios({
-          // Starting climbs 30 min after current ime
-          startDateTime: addMinutes(new Date(), 30).toISOString(),
-        })
+        listJios({})
       );
       return;
     }
 
     const { date, startTiming, endTiming, type, gymId } = jioSearchValues;
 
-    const searchParams: ListJiosArgs = {
+    const searchParams: GetJioListRequest = {
       gymId: gymId,
       startDateTime: getDateTimeString(date, startTiming),
       endDateTime: getDateTimeString(date, endTiming),

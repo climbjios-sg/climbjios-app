@@ -41,7 +41,7 @@ export class PostService {
 
   async getPost(userId: string, postId: string) {
     const post = await this.postsDaoService.getById(postId);
-    if (post.creatorId !== userId) {
+    if (post?.creatorId !== userId) {
       throw new HttpException('Forbidden', 403);
     }
 
@@ -50,7 +50,7 @@ export class PostService {
 
   async patchPost(userId: string, postId: string, body: PatchPostDto) {
     const post = await this.postsDaoService.getById(postId);
-    if (post.creatorId !== userId) {
+    if (post?.creatorId !== userId) {
       throw new HttpException('Forbidden', 403);
     }
 

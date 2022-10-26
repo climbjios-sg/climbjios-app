@@ -1,16 +1,16 @@
 import Iconify from 'src/components/Iconify';
 import { useNavigate } from 'react-router-dom';
-import JiosCreateEditForm from '../form/JiosCreateEditForm';
-import { JioCreateEditFormValues, jioFormValuesToRequestJio } from '../form/utils';
-import { useRequest } from 'ahooks';
-import { useSnackbar } from 'notistack';
+import JiosCreateEditForm from '../forms/JiosCreateEditForm';
+import { JioCreateEditFormValues, jioFormValuesToJioRequest } from '../forms/utils';
 import { createJio } from 'src/services/jios';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { useDispatch, useSelector } from '../../../../store';
 import { clearJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
+import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
 
 export default function JiosCreate() {
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar, enqueueError } = useCustomSnackbar();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // Auto-populate default create values from search JioSearchForm
@@ -20,7 +20,7 @@ export default function JiosCreate() {
     navigate(PATH_DASHBOARD.general.jios.userJios);
   };
 
-  const { run: submitCreateJio } = useRequest(createJio, {
+  const { run: submitCreateJio } = useSafeRequest(createJio, {
     manual: true,
     onSuccess: () => {
       enqueueSnackbar(
@@ -33,16 +33,17 @@ export default function JiosCreate() {
       navigateOut();
     },
     onError: (error) => {
-      enqueueSnackbar('Failed to create', { variant: 'error' });
+      enqueueError('Failed to create Jio.');
     },
   });
 
   const handleCreate = async (data: JioCreateEditFormValues) => {
-    submitCreateJio(jioFormValuesToRequestJio(data));
+    submitCreateJio(jioFormValuesToJioRequest(data));
   };
 
   return (
     <JiosCreateEditForm
+      title="Create A Jio"
       onCancel={navigateOut}
       defaultValues={jioSearchValues || undefined}
       onSubmit={handleCreate}

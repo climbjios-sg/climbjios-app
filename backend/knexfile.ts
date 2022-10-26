@@ -17,11 +17,11 @@ const knexConfig = {
     },
     migrations: {
         directory: './src/database/migrations',
-        loadExtensions: IS_DEPLOYMENT ? ['.js'] : undefined,
+        loadExtensions: IS_DEPLOYMENT ? ['.js'] : ['.ts'],
     },
     seeds: {
         directory: './src/database/seeds',
-        loadExtensions: IS_DEPLOYMENT ? ['.js'] : undefined,
+        loadExtensions: IS_DEPLOYMENT ? ['.js'] : ['.ts'],
     },
     ...knexSnakeCaseMappers(),
 }

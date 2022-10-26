@@ -1,6 +1,5 @@
 import { useDropzone } from 'react-dropzone';
 // @mui
-import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 // type
 import { UploadProps } from './type';
@@ -8,20 +7,7 @@ import { UploadProps } from './type';
 import Image from '../Image';
 import RejectionFiles from './RejectionFiles';
 import BlockContent from './BlockContent';
-
-// ----------------------------------------------------------------------
-
-const DropZoneStyle = styled('div')(({ theme }) => ({
-  outline: 'none',
-  overflow: 'hidden',
-  position: 'relative',
-  padding: theme.spacing(5, 1),
-  borderRadius: theme.shape.borderRadius,
-  transition: theme.transitions.create('padding'),
-  backgroundColor: theme.palette.background.neutral,
-  border: `1px dashed ${theme.palette.grey[500_32]}`,
-  '&:hover': { opacity: 0.72, cursor: 'pointer' },
-}));
+import DropZoneStyle from './DropZoneStyle';
 
 // ----------------------------------------------------------------------
 
@@ -79,3 +65,5 @@ export default function UploadSingleFile({
     </Box>
   );
 }
+
+

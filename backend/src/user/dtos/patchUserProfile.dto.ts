@@ -7,6 +7,7 @@ import {
   Min,
   Max,
   ArrayMinSize,
+  IsBoolean,
 } from 'class-validator';
 
 export default class PatchUserProfileDto {
@@ -53,7 +54,10 @@ export default class PatchUserProfileDto {
   bio: string;
 
   @IsOptional()
-  @ArrayMinSize(1)
   @IsNumber(undefined, { each: true })
   favouriteGymIds: number[];
+
+  @IsOptional()
+  @IsBoolean()
+  hasProfilePicture: boolean;
 }

@@ -45,5 +45,5 @@ export default class SearchPostDto {
   @Transform((val) =>
     val.value === 'true' ? true : val.value === 'false' ? false : '',
   )
-  isClosed: boolean = false;
+  isClosed = false;
 }

@@ -10,15 +10,19 @@ import { ProgressBarStyle } from './components/ProgressBar';
 import NotistackProvider from './components/NotistackProvider';
 import MotionLazyContainer from './components/animate/MotionLazyContainer';
 // context
-import { NewUserProvider } from './contexts/NewUserContext';
+import { ProfileProvider } from './contexts/auth/ProfileContext';
+import { AuthProvider } from './@types/auth';
+import ServiceWorker from './serviceWorker/ServiceWorker';
 
-// ----------------------------------------------------------------------
+interface Props {
+  authProvider: AuthProvider;
+}
 
 if (process.env.REACT_APP_GA_TRACKING_ID) {
   ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
 }
 
-export default function App() {
+export default function App({ authProvider }: Props) {
   useEffect(() => {
     if (process.env.REACT_APP_GA_TRACKING_ID) {
       ReactGA.send({
@@ -29,16 +33,17 @@ export default function App() {
   }, []);
 
   return (
-    <NewUserProvider>
+    <ProfileProvider authProvider={authProvider}>
       <MotionLazyContainer>
         <ThemeProvider>
           <NotistackProvider>
             <ProgressBarStyle />
             <ScrollToTop />
             <Router />
+            <ServiceWorker />
           </NotistackProvider>
         </ThemeProvider>
       </MotionLazyContainer>
-    </NewUserProvider>
+    </ProfileProvider>
   );
 }

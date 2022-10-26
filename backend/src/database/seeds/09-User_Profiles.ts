@@ -38,6 +38,7 @@ export async function seed(knex: Knex): Promise<void> {
       // highestTopRopeGradeId: ,
       highestLeadClimbingGradeId: 2,
       sncsCertificationId: 2,
+      hasProfilePicture: true,
     },
   ]);
 }

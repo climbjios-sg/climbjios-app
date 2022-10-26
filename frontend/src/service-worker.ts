@@ -12,7 +12,8 @@ import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+import { StaleWhileRevalidate, NetworkFirst } from 'workbox-strategies';
+import { CacheName } from './@types/cache';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -57,17 +58,72 @@ registerRoute(
 // precache, in this case same-origin .png requests like those from in public/
 registerRoute(
   // Add in any other file extensions or routing criteria as needed.
-  ({ url }) => url.origin === self.location.origin && url.pathname.endsWith('.png'),
+  ({ url }) => url.origin === self.location.origin && ['.png','.gif','.jpg','.jpeg','.svg'].some(end => url.pathname.endsWith(end)),
   // Customize this strategy as needed, e.g., by changing to CacheFirst.
   new StaleWhileRevalidate({
-    cacheName: 'images',
+    cacheName: CacheName.IMAGES,
     plugins: [
-      // Ensure that once this runtime cache reaches a maximum size the
-      // least-recently used images are removed.
-      new ExpirationPlugin({ maxEntries: 50 }),
+      new ExpirationPlugin({ 
+        maxEntries: 50, // Ensure that once this runtime cache reaches a maximum size the least-recently used images are removed.
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+      }),
     ],
   })
 );
+
+// Ignores search params
+async function cacheKeyWillBeUsed({request, mode}: { request: any, mode: any}) {
+  const url = new URL(request.url);
+  return url.origin + url.pathname;
+}
+
+// Images
+[
+  `https://climbjios-(development|staging|production).s3.amazonaws.com/.*/profile_picture`,
+  `https://customer-.*.cloudflarestream.com/.*/thumbnails/thumbnail.jpg`,
+].forEach(url => {
+  registerRoute(
+    new RegExp(url),
+    new StaleWhileRevalidate({
+      cacheName: CacheName.IMAGES,
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 50,
+          maxAgeSeconds: 60 * 60 * 24 * 30  // 30 days
+        }),
+        {cacheKeyWillBeUsed}
+      ],
+    })
+  );
+});
+
+// Network first cache
+[
+  'posts.*',
+  'user',
+  'betas',
+  'betas/creator/.*',
+  'gyms',
+  'boulderingGrades',
+  'topRopeGrades',
+  'leadClimbingGrades',
+  'sncsCertifications',
+  'pronouns'
+].forEach(endpoint => {
+  registerRoute(
+    new RegExp(`${process.env.REACT_APP_HOST_API_KEY}/v1/${endpoint}`),
+    new NetworkFirst({
+      networkTimeoutSeconds: 3,
+      cacheName: CacheName.API,
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 50,
+          maxAgeSeconds: 60 * 60 * 24 * 30  // 30 days
+        }),
+      ],
+    })
+  );
+});
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})

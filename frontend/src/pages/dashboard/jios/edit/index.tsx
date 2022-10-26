@@ -1,13 +1,14 @@
 import Iconify from 'src/components/Iconify';
 import { useNavigate, useParams } from 'react-router-dom';
-import JiosCreateEditForm from '../form/JiosCreateEditForm';
-import { JioCreateEditFormValues, jioFormValuesToRequestJio } from '../form/utils';
-import { useRequest } from 'ahooks';
+import JiosCreateEditForm from '../forms/JiosCreateEditForm';
+import { JioCreateEditFormValues, jioFormValuesToJioRequest } from '../forms/utils';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { useSnackbar } from 'notistack';
 import { getJio, updateJio } from 'src/services/jios';
 import { Jio } from 'src/@types/jio';
 import { dateToTimeString } from '../../../../utils/formatTime';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
+import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
 
 const jioToJioFormValues = (jio: Jio): JioCreateEditFormValues => ({
   type: jio.type,
@@ -26,12 +27,13 @@ const jioToJioFormValues = (jio: Jio): JioCreateEditFormValues => ({
 export default function JiosEdit() {
   const { id } = useParams();
   const jioId = Number(id);
+  const errorSnackbar = useCustomSnackbar();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
-  const { data, error, loading } = useRequest(() => getJio(jioId), {
+  const { data } = useSafeRequest(() => getJio(jioId), {
     onError: () => {
-      enqueueSnackbar('Failed to get Jio.', { variant: 'error' });
+      errorSnackbar.enqueueError('Failed to retrieve your Jio.');
     },
   });
 
@@ -39,14 +41,14 @@ export default function JiosEdit() {
     navigate(PATH_DASHBOARD.general.jios.userJios);
   };
 
-  const { run: submitUpdateJio } = useRequest(updateJio, {
+  const { run: submitUpdateJio } = useSafeRequest(updateJio, {
     manual: true,
     onSuccess: () => {
-      enqueueSnackbar('Updated!');
+      enqueueSnackbar('Updated your Jio.');
       navigateOut();
     },
     onError: () => {
-      enqueueSnackbar('Failed to update Jio.', { variant: 'error' });
+      errorSnackbar.enqueueError('Failed to update your Jio.');
     },
   });
 
@@ -55,11 +57,13 @@ export default function JiosEdit() {
       return;
     }
 
-    submitUpdateJio(jioFormValuesToRequestJio(data), jioId);
+    submitUpdateJio(jioFormValuesToJioRequest(data), jioId);
   };
 
-  return !data || error || loading ? null : (
+  // TODO: handle error and loading
+  return !data ? null : (
     <JiosCreateEditForm
+      title="Edit Jio"
       onCancel={navigateOut}
       onSubmit={handleEdit}
       submitLabel="Submit"
