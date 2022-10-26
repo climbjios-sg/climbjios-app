@@ -102,6 +102,7 @@ export default function useAddToHomeScreen() {
         );
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Empty array since we only need this to render once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }
