@@ -20,6 +20,8 @@ interface IConstantsService {
     AWS_S3_BUCKET_NAME: string;
     AWS_REGION: string;
     CORS_ORIGIN: string;
+    CLOUDFLARE_ACCOUNT_ID: string;
+    CLOUDFLARE_STREAM_API_TOKEN: string;
 }
 export declare class ConstantsService implements IConstantsService {
     private readonly configService;
@@ -48,5 +50,8 @@ export declare class ConstantsService implements IConstantsService {
     AWS_S3_BUCKET_NAME: any;
     AWS_REGION: any;
     CORS_ORIGIN: any;
+    PORT: any;
+    CLOUDFLARE_ACCOUNT_ID: any;
+    CLOUDFLARE_STREAM_API_TOKEN: any;
 }
 export {};

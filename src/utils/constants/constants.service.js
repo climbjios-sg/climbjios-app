@@ -35,6 +35,9 @@ let ConstantsService = class ConstantsService {
         this.AWS_S3_BUCKET_NAME = this.getOrThrow('AWS_S3_BUCKET_NAME');
         this.AWS_REGION = this.getOrThrow('AWS_REGION');
         this.CORS_ORIGIN = this.getOrThrow('CORS_ORIGIN');
+        this.PORT = this.getOrDefaultTo('PORT', 4000);
+        this.CLOUDFLARE_ACCOUNT_ID = this.getOrDefaultTo('CLOUDFLARE_ACCOUNT_ID');
+        this.CLOUDFLARE_STREAM_API_TOKEN = this.getOrDefaultTo('CLOUDFLARE_STREAM_API_TOKEN');
     }
     get(varname) {
         return this.configService.get(varname);

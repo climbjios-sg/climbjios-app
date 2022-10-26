@@ -12,17 +12,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GymsService = void 0;
 const common_1 = require("@nestjs/common");
 const gyms_dao_service_1 = require("../database/daos/gyms/gyms.dao.service");
+const gymGrades_dao_service_1 = require("../database/daos/gymGrades/gymGrades.dao.service");
 let GymsService = class GymsService {
-    constructor(gymsDaoService) {
+    constructor(gymsDaoService, gymGradesDaoService) {
         this.gymsDaoService = gymsDaoService;
+        this.gymGradesDaoService = gymGradesDaoService;
     }
     getAll() {
         return this.gymsDaoService.getAll();
     }
+    async getGrades(gymId) {
+        const gym = await this.gymsDaoService.findById(gymId);
+        if (!gym) {
+            throw new common_1.HttpException('Invalid gym id!', 400);
+        }
+        return this.gymGradesDaoService.findByGymId(gymId);
+    }
 };
 GymsService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [gyms_dao_service_1.GymsDaoService])
+    __metadata("design:paramtypes", [gyms_dao_service_1.GymsDaoService,
+        gymGrades_dao_service_1.GymGradesDaoService])
 ], GymsService);
 exports.GymsService = GymsService;
 //# sourceMappingURL=gyms.service.js.map

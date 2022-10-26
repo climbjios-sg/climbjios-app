@@ -7,6 +7,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DatabaseModule = void 0;
+const wall_model_1 = require("./models/wall.model");
+const color_model_1 = require("./models/color.model");
+const gymGrade_model_1 = require("./models/gymGrade.model");
 const common_1 = require("@nestjs/common");
 const knex_1 = require("knex");
 const objection_1 = require("objection");
@@ -21,6 +24,7 @@ const topRopeGrade_model_1 = require("./models/topRopeGrade.model");
 const user_model_1 = require("./models/user.model");
 const userProfile_model_1 = require("./models/userProfile.model");
 const userProfileFavouriteGym_model_1 = require("./models/userProfileFavouriteGym.model");
+const beta_model_1 = require("./models/beta.model");
 const models = [
     gym_model_1.GymModel,
     post_model_1.PostModel,
@@ -32,6 +36,10 @@ const models = [
     pronoun_model_1.PronounModel,
     userProfile_model_1.UserProfileModel,
     userProfileFavouriteGym_model_1.UserProfileFavouriteGymModel,
+    gymGrade_model_1.GymGradeModel,
+    color_model_1.ColorModel,
+    wall_model_1.WallModel,
+    beta_model_1.BetaModel,
 ];
 const modelProviders = models.map((model) => ({
     provide: model.name,

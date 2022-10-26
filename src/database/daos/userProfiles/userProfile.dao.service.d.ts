@@ -17,12 +17,13 @@ export declare class UserProfileDaoService {
         telegramHandle?: string;
         height?: number;
         reach?: number;
+        bio?: string;
+        hasProfilePicture: boolean;
         pronounId?: number;
         highestBoulderingGradeId?: number;
         highestTopRopeGradeId?: number;
         highestLeadClimbingGradeId?: number;
         sncsCertificationId?: number;
-        bio?: string;
         pronoun?: import("../../models/pronoun.model").PronounModel;
         highestBoulderingGrade?: import("../../models/boulderingGrade.model").BoulderingGradeModel;
         highestTopRopeGrade?: import("../../models/topRopeGrade.model").TopRopeGradeModel;

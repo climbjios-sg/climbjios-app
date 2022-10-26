@@ -1,5 +1,5 @@
 import { ModelClass } from 'objection';
-import { UserModel } from 'src/database/models/user.model';
+import { UserModel } from '../../models/user.model';
 export declare class UserDaoService {
     private userModel;
     constructor(userModel: ModelClass<UserModel>);

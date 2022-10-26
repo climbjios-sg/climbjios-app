@@ -35,6 +35,13 @@ const leadClimbingGrades_module_1 = require("../leadClimbingGrades/leadClimbingG
 const topRopeGrades_module_1 = require("../topRopeGrades/topRopeGrades.module");
 const pronouns_module_1 = require("../pronouns/pronouns.module");
 const sncsCertifications_module_1 = require("../sncsCertifications/sncsCertifications.module");
+const betas_module_1 = require("../betas/betas.module");
+const colors_module_1 = require("../colors/colors.module");
+const betas_dao_module_1 = require("../database/daos/betas/betas.dao.module");
+const colors_dao_module_1 = require("../database/daos/colors/colors.dao.module");
+const gymGrades_dao_module_1 = require("../database/daos/gymGrades/gymGrades.dao.module");
+const walls_dao_module_1 = require("../database/daos/walls/walls.dao.module");
+const walls_module_1 = require("../walls/walls.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -54,6 +61,10 @@ AppModule = __decorate([
             sncsCertifications_dao_module_1.SncsCertificationsDaoModule,
             pronouns_dao_module_1.PronounsDaoModule,
             userProfile_dao_module_1.UserProfileDaoModule,
+            gymGrades_dao_module_1.GymGradesDaoModule,
+            colors_dao_module_1.ColorsDaoModule,
+            walls_dao_module_1.WallsDaoModule,
+            betas_dao_module_1.BetasDaoModule,
             auth_module_1.AuthModule,
             user_module_1.UserModule,
             posts_module_1.PostModule,
@@ -63,6 +74,9 @@ AppModule = __decorate([
             topRopeGrades_module_1.TopRopeGradesModule,
             sncsCertifications_module_1.SncsCertificationsModule,
             pronouns_module_1.PronounsModule,
+            colors_module_1.ColorsModule,
+            betas_module_1.BetasModule,
+            walls_module_1.WallsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [

@@ -33,9 +33,14 @@ let JwtAuthService = class JwtAuthService {
         });
     }
     verifyRefreshToken(refreshToken) {
-        return this.jwtService.verify(refreshToken, {
-            secret: this.constantsService.REFRESH_TOKEN_SECRET,
-        });
+        try {
+            return this.jwtService.verify(refreshToken, {
+                secret: this.constantsService.REFRESH_TOKEN_SECRET,
+            });
+        }
+        catch (e) {
+            throw new common_1.HttpException('Invalid refresh token', 401);
+        }
     }
     async generateJwts(user) {
         const payload = { id: user.id };

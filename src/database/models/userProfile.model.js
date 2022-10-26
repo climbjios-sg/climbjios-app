@@ -17,11 +17,13 @@ class UserProfileModel extends base_model_1.BaseModel {
         super(...arguments);
         this.$afterFind = (context) => {
             const result = super.$afterFind(context);
-            this.profilePictureUrl = UserProfileModel.s3Instance.getSignedUrl('getObject', {
-                Bucket: process.env.AWS_S3_BUCKET_NAME,
-                Key: `${this.userId}/${types_1.S3UploadType.PROFILE_PICTURE}`,
-                Expires: 60,
-            });
+            if (this.hasProfilePicture) {
+                this.profilePictureUrl = UserProfileModel.s3Instance.getSignedUrl('getObject', {
+                    Bucket: process.env.AWS_S3_BUCKET_NAME,
+                    Key: `${this.userId}/${types_1.S3UploadType.PROFILE_PICTURE}`,
+                    Expires: 60,
+                });
+            }
             return result;
         };
     }
@@ -29,6 +31,15 @@ class UserProfileModel extends base_model_1.BaseModel {
 exports.UserProfileModel = UserProfileModel;
 UserProfileModel.tableName = 'userProfiles';
 UserProfileModel.s3Instance = new AWS.S3();
+UserProfileModel.relationWhitelist = [
+    'userId',
+    'name',
+    'telegramHandle',
+    'bio',
+    'height',
+    'reach',
+    'hasProfilePicture',
+];
 UserProfileModel.relationMappings = () => ({
     pronoun: {
         relation: objection_1.Model.BelongsToOneRelation,
@@ -78,7 +89,7 @@ UserProfileModel.relationMappings = () => ({
     favouriteGyms: {
         relation: objection_1.Model.ManyToManyRelation,
         modelClass: gym_model_1.GymModel,
-        filter: (query) => query.select('id', 'name', 'permanentlyClosed'),
+        filter: (query) => query.select('id', 'name', 'shortName', 'permanentlyClosed'),
         join: {
             from: 'userProfiles.id',
             through: {

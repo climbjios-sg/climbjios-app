@@ -13,10 +13,10 @@ const knexConfig = Object.assign({ client: 'pg', connection: {
         database: process.env.DATABASE_NAME,
     }, migrations: {
         directory: './src/database/migrations',
-        loadExtensions: IS_DEPLOYMENT ? ['.js'] : undefined,
+        loadExtensions: IS_DEPLOYMENT ? ['.js'] : ['.ts'],
     }, seeds: {
         directory: './src/database/seeds',
-        loadExtensions: IS_DEPLOYMENT ? ['.js'] : undefined,
+        loadExtensions: IS_DEPLOYMENT ? ['.js'] : ['.ts'],
     } }, (0, objection_1.knexSnakeCaseMappers)());
 exports.default = knexConfig;
 //# sourceMappingURL=knexfile.js.map

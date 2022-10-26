@@ -27,6 +27,7 @@ async function seed(knex) {
             telegramHandle: 'bob_da_best',
             highestLeadClimbingGradeId: 2,
             sncsCertificationId: 2,
+            hasProfilePicture: true,
         },
     ]);
 }
