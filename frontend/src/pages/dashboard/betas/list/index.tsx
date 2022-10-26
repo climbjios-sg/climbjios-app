@@ -83,7 +83,7 @@ export default function BetasList() {
     selectedGym || 1 // Hack: Get gym grades of gym 1, if All gyms are selected. This gymGrades won't be render in that case. Doing this because of rule of hooks don't allow conditional hooks.
   );
   const gymOptions = useMemo(
-    () => addAllOption(gyms.map((gym) => ({ value: gym.value, label: gym.label }))),
+    () => addAllOption(gyms.map((gym) => ({ value: Number(gym.value), label: gym.label }))),
     [gyms]
   );
   const colorOptions = useMemo(
