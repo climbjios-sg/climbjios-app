@@ -51,6 +51,7 @@ export default function AddToHomeScreen() {
                     deferredPrompt = null;
                   }
                   closeSnackbar(snackbarId);
+                  setDontShow(true);
                 }}
               >
                 Install
@@ -88,14 +89,7 @@ export default function AddToHomeScreen() {
                   setDontShow(true);
                 }}
               >
-                Don't show again
-              </Button>
-              <Button
-                onClick={() => {
-                  closeSnackbar(snackbarId);
-                }}
-              >
-                Ok
+                Close
               </Button>
             </Stack>
           ),

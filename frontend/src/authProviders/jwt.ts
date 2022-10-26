@@ -34,9 +34,10 @@ const deleteSession = () => {
   localStorage.removeItem(ACCESS_TOKEN);
   localStorage.removeItem(REFRESH_TOKEN);
 };
-const deleteCache = (name: CacheName) => {
-  return caches.open(name).then(cache => cache.keys().then(requests => requests.map(req => cache.delete(req))))
-}
+const deleteCache = (name: CacheName) =>
+  caches
+    .open(name)
+    .then((cache) => cache.keys().then((requests) => requests.map((req) => cache.delete(req))));
 
 export const jwtAuthProvider: AuthProvider = {
   login: async (params) => {
@@ -64,8 +65,12 @@ export const jwtAuthProvider: AuthProvider = {
     }
   },
   logout: async () => {
-    deleteSession();
-    await deleteCache(CacheName.API);
+    try {
+      deleteSession();
+      await deleteCache(CacheName.API);
+    } catch (err) {
+      console.error(err);
+    }
   },
   checkError: async (status) => {
     if (status === 401 || status === 403) {
