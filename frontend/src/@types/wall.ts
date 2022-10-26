@@ -1,4 +1,3 @@
-export interface Wall {
-  id: number;
-  name: string;
-}
+import { OptionResponse } from '.';
+
+export interface Wall extends OptionResponse {}

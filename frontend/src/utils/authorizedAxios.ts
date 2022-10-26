@@ -40,6 +40,7 @@ authorizedAxios.interceptors.response.use(
       }
 
       try {
+        console.log('kw2', refreshToken);
         const res = await refreshAccessToken(refreshToken);
         localStorage.setItem(ACCESS_TOKEN, res.data.accessToken);
         localStorage.setItem(REFRESH_TOKEN, res.data.refreshToken);

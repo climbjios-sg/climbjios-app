@@ -4,12 +4,13 @@ import { Stack, FormGroup, Typography } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from './types';
 import RHFAutoMultiSelect from 'src/components/hook-form/RHFAutoMultiSelect';
-import useGetGyms from '../../hooks/services/useGetGyms';
+import useGetOptions from 'src/hooks/services/useGetOptions';
+import { getGymList } from 'src/services/gyms';
 
 export const FavoriteGymsForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();
   const { errors } = formState;
-  const gyms = useGetGyms();
+  const { data: gyms } = useGetOptions(getGymList);
 
   return (
     <Stack spacing={2}>
@@ -20,8 +21,8 @@ export const FavoriteGymsForm = () => {
         <RHFAutoMultiSelect
           name="favouriteGymIds"
           options={gyms.map((option) => ({
-            value: option.id,
-            label: option.name,
+            value: option.value,
+            label: option.label,
           }))}
           helperText={errors?.favouriteGymIds?.message || 'Choose the gyms that you frequent.'}
           FormHelperTextProps={{

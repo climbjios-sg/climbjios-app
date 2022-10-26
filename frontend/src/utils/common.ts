@@ -14,3 +14,6 @@ export const outgoingLinkProps = {
   target: '_blank',
   rel: 'noopener noreferrer',
 };
+
+export const getFormattedCamelCase = (camelCase: string) =>
+  camelCase.replace(/([a-z])([A-Z])/g, '$1 $2');

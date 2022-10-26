@@ -8,6 +8,7 @@ import { PATH_DASHBOARD } from 'src/routes/paths';
 import chroma from 'chroma-js';
 import MessageBarWithStore from '../../MessageBarWithStore';
 import useGetGymGrades from 'src/hooks/services/useGetGymGrades';
+import useGetOptions from 'src/hooks/services/useGetOptions';
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { getBetas } from 'src/services/betas';
@@ -17,10 +18,10 @@ import { Color } from 'src/@types/color';
 import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
 import NoContentGif from 'src/assets/no-content.gif';
 import EmptyContent from '../../../../components/EmptyContent';
-import useGetGyms from '../../../../hooks/services/useGetGyms';
 import BetasInfiniteScroll from '../../../../components/betas/BetaInfiniteScroll';
 import { BETAS_PAGE_SIZE } from 'src/config';
 import Image from 'src/components/Image';
+import { getGymList } from 'src/services/gyms';
 
 const FloatingContainer = styled('div')({
   position: 'fixed',
@@ -74,7 +75,7 @@ export default function BetasList() {
     target: document.getElementById('root') || undefined,
   });
   const theme = useTheme();
-  const gyms = useGetGyms();
+  const { data: gyms } = useGetOptions(getGymList);
   const colors = useSelector((state) => state.colors.data);
   const walls = useSelector((state) => state.walls.data);
   const viewVersion = useSelector((state) => state.ui.viewVersion);
@@ -82,7 +83,7 @@ export default function BetasList() {
     selectedGym || 1 // Hack: Get gym grades of gym 1, if All gyms are selected. This gymGrades won't be render in that case. Doing this because of rule of hooks don't allow conditional hooks.
   );
   const gymOptions = useMemo(
-    () => addAllOption(gyms.map((gym) => ({ value: gym.id, label: gym.name }))),
+    () => addAllOption(gyms.map((gym) => ({ value: gym.value, label: gym.label }))),
     [gyms]
   );
   const colorOptions = useMemo(
