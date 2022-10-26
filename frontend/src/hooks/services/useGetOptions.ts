@@ -4,7 +4,7 @@ import useCustomSnackbar from '../useCustomSnackbar';
 import useSafeRequest from './useSafeRequest';
 import { Options, Plugin } from 'ahooks/lib/useRequest/src/types';
 import { AxiosResponse } from 'axios';
-import { OptionResponse } from 'src/@types';
+import { Option, OptionResponse } from 'src/@types';
 
 const useGetOptions = <TData extends OptionResponse[], TParams extends any[]>(
   service: (...args: TParams) => Promise<AxiosResponse<TData, any>>,
@@ -28,12 +28,14 @@ const useGetOptions = <TData extends OptionResponse[], TParams extends any[]>(
     plugins
   );
 
+  const res: Option[] =
+    data?.data.map((option) => ({
+      value: option.id,
+      label: option.name,
+    })) ?? [];
+
   return {
-    data:
-      data?.data.map((option) => ({
-        value: option.id,
-        label: option.name,
-      })) ?? [],
+    data: res,
     ...rest,
   };
 };
