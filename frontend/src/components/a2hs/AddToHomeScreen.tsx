@@ -4,16 +4,7 @@ import { Button, Stack, Typography } from '@mui/material';
 import { InlineIcon } from '@iconify/react';
 import { isiOS, isPWA } from 'src/utils/device';
 import useLocalStorage from '../../hooks/useLocalStorage';
-
-// Note that BeforeInstallPromptEvent is still a non-standard experimental feature, and may not work for every user.
-interface IBeforeInstallPromptEvent extends Event {
-  readonly platforms: string[];
-  readonly userChoice: Promise<{
-    outcome: 'accepted' | 'dismissed';
-    platform: string;
-  }>;
-  prompt(): Promise<void>;
-}
+import IBeforeInstallPromptEvent from './IBeforeInstallPromptEvent';
 
 export default function AddToHomeScreen() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
