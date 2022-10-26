@@ -1,7 +1,7 @@
 import { AuthProvider } from 'src/@types/auth';
 import { CacheName } from 'src/@types/cache';
 import { PATH_AUTH } from 'src/routes/paths';
-import { refreshAccessToken } from 'src/services/token';
+import { refreshAccessToken, checkValidity } from 'src/services/token';
 import { getUser } from 'src/services/users';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/utils/jwt';
 
@@ -10,9 +10,9 @@ interface Session {
   refreshToken: string;
 }
 
-const hasAuthenticated = () => getSession() !== null;
 const isPublicUrl = (url: string) => [PATH_AUTH.root].includes(url);
-
+const isTokenExpired = (accessToken: string, offset = 5) =>
+  Date.now() >= JSON.parse(atob(accessToken.split('.')[1])).exp * 1000 + offset;
 const getSession = (): Session | null => {
   const accessToken = localStorage.getItem(ACCESS_TOKEN);
   const refreshToken = localStorage.getItem(REFRESH_TOKEN);
@@ -84,9 +84,16 @@ export const jwtAuthProvider: AuthProvider = {
       return;
     }
 
-    if (!hasAuthenticated()) {
+    const session = getSession();
+    if (session === null) {
       throw new Error();
     }
+
+    if (!isTokenExpired(session.accessToken)) {
+      return;
+    }
+
+    await checkValidity();
   },
   checkOnboarded: async () => {
     const response = await getUser();

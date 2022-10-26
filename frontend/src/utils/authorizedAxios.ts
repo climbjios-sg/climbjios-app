@@ -23,8 +23,8 @@ authorizedAxios.interceptors.request.use(
     };
     return config;
   },
-  (error) => {
-    Promise.reject(error);
+  async (error) => {
+    throw error;
   }
 );
 
