@@ -76,7 +76,7 @@ export const REGEX_USERNAME = /^([A-Za-z0-9]){3,30}$/;
 
 export const MAX_AVATAR_UPLOAD_SIZE_IN_BYTES = 3145728;
 
-export const MAX_VIDEO_UPLOAD_SIZE_IN_BYTES = 1e8;
+export const MAX_VIDEO_UPLOAD_SIZE_IN_BYTES = 2e8;
 
 // Error messages
 export const NAME_LEN_ERROR = `Name must be between ${MIN_USERNAME_LEN} and ${MAX_USERNAME_LEN} characters long`;
