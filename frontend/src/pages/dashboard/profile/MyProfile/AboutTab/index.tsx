@@ -14,7 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import AddToHomeScreenButton from 'src/components/a2hs/AddToHomeScreenButton';
+import AddToHomeScreenButton from 'src/components/addToHomeScreen/AddToHomeScreenButton';
 import Iconify from 'src/components/Iconify';
 import BioCard from 'src/components/profile/BioCard';
 import { PATH_DASHBOARD } from 'src/routes/paths';
