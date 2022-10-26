@@ -15,8 +15,7 @@ import { Jio } from 'src/@types/jio';
 import { IconStyle } from 'src/utils/common';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { useSearchParams } from 'react-router-dom';
-import AddToHomeScreen from 'src/components/a2hs/AddToHomeScreen';
-import { isMobile } from 'src/utils/device';
+import useAddToHomeScreen from 'src/hooks/useAddToHomeScreen';
 
 const StyledTab = styled(Tab)({
   '&.MuiButtonBase-root': {
@@ -79,6 +78,8 @@ export default function JiosList() {
   const onClickSearch = () => {
     navigate('search');
   };
+
+  useAddToHomeScreen();
 
   // Show button with filter if is searching, else show search button
   const renderSearchButton = () => {
@@ -158,7 +159,6 @@ export default function JiosList() {
 
   return (
     <Box sx={{ pt: 5, pb: 20, minHeight: '100vh', maxWidth: 600, margin: '0 auto' }}>
-      {isMobile() && <AddToHomeScreen />}
       <TabContext value={tabValue}>
         <Box>
           {renderSearchButton()}
