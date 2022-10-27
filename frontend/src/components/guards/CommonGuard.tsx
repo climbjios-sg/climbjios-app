@@ -13,14 +13,15 @@ interface Props {
   notOnboarded?: boolean;
 }
 
-// Incurs slightly more overhead compared to <Guard/> since
-// it preloads some common guards
 /**
- * Applies guards enabled in this order:
+ * Applies enabled guards in this order:
  * 1. Checks authenticated
  * 2. Checks not authenticated
  * 3. Checks onboarded
  * 4. Checks not onboarded
+ *
+ * Incurs slightly more overhead compared to <Guard/> as
+ * it preloads some common guards
  */
 export default function CommonGuard({
   children,
