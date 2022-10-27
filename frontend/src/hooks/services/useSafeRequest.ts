@@ -7,7 +7,7 @@ import useLogout from '../auth/useLogout';
 
 /**
  * This useRequest wrapper logs the user out
- * in the event that the response status indicates Unauthorized or Forbidden
+ * if the response status indicates Unauthorized or Forbidden access
  */
 const useSafeRequest = <TData, TParams extends any[]>(
   service: (...args: TParams) => Promise<AxiosResponse<TData, any>>,

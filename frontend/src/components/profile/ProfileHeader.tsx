@@ -1,5 +1,6 @@
 import { Stack, Typography } from '@mui/material';
-import { PronounName, User } from 'src/@types/user';
+import { User } from 'src/@types/user';
+import { PronounName } from 'src/@types/pronoun';
 import NameAvatar from '../NameAvatar';
 
 type ProfileHeaderProps = {

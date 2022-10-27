@@ -1,7 +1,6 @@
-export interface BoulderingGrade {
-  id: number;
-  name: string;
-}
+import { OptionResponse } from '.';
+
+export interface BoulderingGrade extends OptionResponse {}
 
 export type BoulderingGradeRequest = Partial<BoulderingGrade>;
 export type BoulderingGradeResponse = BoulderingGrade;

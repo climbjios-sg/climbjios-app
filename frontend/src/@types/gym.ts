@@ -1,14 +1,11 @@
-export interface Gym {
-  id: number;
-  name: string;
+import { OptionResponse } from '.';
+
+export interface Gym extends OptionResponse {
   shortName: string;
   permanentlyClosed: boolean;
 }
 
-export interface GymGrade {
-  id: number;
-  name: string;
-}
+export interface GymGrade extends OptionResponse {}
 
 export type GymRequest = Partial<Gym>;
 

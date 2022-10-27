@@ -1,7 +1,8 @@
 import { CacheKey } from 'src/config';
 import { getUser } from 'src/services/users';
 import useSafeRequest from '../services/useSafeRequest';
-import { User, PronounName } from 'src/@types/user';
+import { User } from 'src/@types/user';
+import { PronounName } from 'src/@types/pronoun';
 
 const defaultUser: User = {
   userId: '',

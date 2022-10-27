@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useCallback, useMemo } from 'react';
 import useCheckAuth from 'src/hooks/guards/useCheckAuth';
 import useCheckNotAuth from 'src/hooks/guards/useCheckNotAuth';
 import useCheckNotOnboarded from 'src/hooks/guards/useCheckNotOnboarded';
@@ -13,14 +13,15 @@ interface Props {
   notOnboarded?: boolean;
 }
 
-// Incurs slightly more overhead compared to <Guard/> since
-// it preloads some common guards
 /**
- * Applies guards enabled in this order:
+ * Applies enabled guards in this order:
  * 1. Checks authenticated
  * 2. Checks not authenticated
  * 3. Checks onboarded
  * 4. Checks not onboarded
+ *
+ * Incurs slightly more overhead compared to <Guard/> as
+ * it preloads some common guards
  */
 export default function CommonGuard({
   children,
@@ -31,14 +32,36 @@ export default function CommonGuard({
 }: Props) {
   const checkAuth = useCheckAuth();
   const checkNotAuth = useCheckNotAuth();
-  const checkOnboarded = useCheckOnboarded();
-  const checkNotOnboarded = useCheckNotOnboarded();
+  const _checkOnboarded = useCheckOnboarded();
+  const _checkNotOnboarded = useCheckNotOnboarded();
 
-  const guards = [];
-  authenticated && guards.push(checkAuth);
-  notAuthenticated && guards.push(checkNotAuth);
-  onboarded && guards.push(() => checkOnboarded({ disableNotification: true }));
-  notOnboarded && guards.push(() => checkNotOnboarded({ disableNotification: true }));
+  const checkOnboarded = useCallback(
+    () => _checkOnboarded({ disableNotification: true }),
+    [_checkOnboarded]
+  );
+  const checkNotOnboarded = useCallback(
+    () => _checkNotOnboarded({ disableNotification: true }),
+    [_checkNotOnboarded]
+  );
+
+  const guards = useMemo(() => {
+    const res = [];
+    authenticated && res.push(checkAuth);
+    notAuthenticated && res.push(checkNotAuth);
+    onboarded && res.push(checkOnboarded);
+    notOnboarded && res.push(checkNotOnboarded);
+
+    return res;
+  }, [
+    authenticated,
+    notAuthenticated,
+    notOnboarded,
+    onboarded,
+    checkAuth,
+    checkNotAuth,
+    checkNotOnboarded,
+    checkOnboarded,
+  ]);
 
   useGuard(guards);
 
