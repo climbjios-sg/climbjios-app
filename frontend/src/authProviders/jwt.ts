@@ -11,7 +11,7 @@ interface Session {
 }
 
 const isPublicUrl = (url: string) => [PATH_AUTH.root].includes(url);
-const isTokenExpired = (accessToken: string, offset = 5) =>
+const isTokenExpired = (accessToken: string, offset = 0) =>
   Date.now() >= JSON.parse(atob(accessToken.split('.')[1])).exp * 1000 + offset;
 const getSession = (): Session | null => {
   const accessToken = localStorage.getItem(ACCESS_TOKEN);
