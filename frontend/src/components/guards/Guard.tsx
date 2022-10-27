@@ -7,11 +7,7 @@ interface Props {
 }
 
 export default function Guard({ children, guards = [] }: Props) {
-  const { loading, error, ward } = useGuard(guards, children);
+  useGuard(guards);
 
-  if (loading || error) {
-    return null;
-  }
-
-  return <>{ward}</>;
+  return <>{children}</>;
 }
