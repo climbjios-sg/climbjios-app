@@ -63,7 +63,7 @@ export default function CommonGuard({
     checkOnboarded,
   ]);
 
-  useGuard(guards, children);
+  useGuard(guards);
 
   return <>{children}</>;
 }
