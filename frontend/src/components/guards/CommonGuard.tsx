@@ -63,13 +63,7 @@ export default function CommonGuard({
     checkOnboarded,
   ]);
 
-  const { loading, error, ward } = useGuard(guards, children);
+  useGuard(guards, children);
 
-  const isSafeToRender = ward === children && !loading && error === undefined;
-  if (!isSafeToRender) {
-    // TODO: skeleton
-    return null;
-  }
-
-  return <>{ward}</>;
+  return <>{children}</>;
 }

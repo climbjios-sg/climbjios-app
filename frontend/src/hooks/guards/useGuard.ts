@@ -13,7 +13,7 @@ interface State {
  * of current guards
  * (onError, disableNotification) => Promise<void>
  */
-const useGuard = (guards: Function[], ward: ReactNode) => {
+const useGuard = (guards: Function[], ward?: ReactNode) => {
   const [state, setState] = useState<State>({
     loading: true,
     loaded: false,
