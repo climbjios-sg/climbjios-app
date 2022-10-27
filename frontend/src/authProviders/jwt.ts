@@ -79,6 +79,10 @@ export const jwtAuthProvider: AuthProvider = {
       throw new Error();
     }
   },
+  /**
+   * Checks that both access token and refresh token are valid.
+   * If access token is valid, updates it using the refresh token.
+   */
   checkAuth: async () => {
     if (isPublicUrl(window.location.hash)) {
       return;
