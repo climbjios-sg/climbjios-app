@@ -1,26 +1,9 @@
 import { Gym } from './gym';
-
-export enum PronounName {
-  HeHim = 'He/Him',
-  SheHer = 'She/Her',
-  TheyThem = 'They/Them',
-  PreferNotToSay = 'Prefer not to say',
-}
-
-interface Pronoun {
-  id: number;
-  name: PronounName;
-}
-
-interface Grade {
-  id: number;
-  name: string;
-}
-
-interface Certification {
-  id: number;
-  name: string;
-}
+import { BoulderingGrade } from './boulderingGrade';
+import { TopRopeGrade } from './topRopeGrade';
+import { LeadClimbingGrade } from './leadClimbingGrade';
+import { SncsCertification } from './sncsCertification';
+import { Pronoun } from './pronoun';
 
 export interface User {
   userId: string;
@@ -33,11 +16,11 @@ export interface User {
   bio?: string | null;
   height?: number | null;
   reach?: number | null;
-  sncsCertification?: Certification | null;
+  sncsCertification?: SncsCertification | null;
   pronoun?: Pronoun | null;
-  highestBoulderingGrade?: Grade | null;
-  highestTopRopeGrade?: Grade | null;
-  highestLeadClimbingGrade?: Grade | null;
+  highestBoulderingGrade?: BoulderingGrade | null;
+  highestTopRopeGrade?: TopRopeGrade | null;
+  highestLeadClimbingGrade?: LeadClimbingGrade | null;
   favouriteGyms?: Gym[] | null;
   pronounId?: number | null;
   highestBoulderingGradeId?: number | null;

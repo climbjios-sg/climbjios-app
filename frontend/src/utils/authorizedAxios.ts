@@ -1,14 +1,15 @@
 import axios from 'axios';
-import { jwtAuthProvider } from 'src/authProviders/jwt';
 import { refreshAccessToken } from 'src/services/token';
 // config
 import { HOST_API } from '../config';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from './jwt';
+import { Mutex } from 'async-mutex';
 
 // ----------------------------------------------------------------------
 
 export const baseAxios = axios.create();
 
+const mutex = new Mutex();
 const authorizedAxios = axios.create({
   baseURL: HOST_API,
 });
@@ -22,37 +23,38 @@ authorizedAxios.interceptors.request.use(
     };
     return config;
   },
-  (error) => {
-    Promise.reject(error);
+  async (error) => {
+    throw error;
   }
 );
 
 authorizedAxios.interceptors.response.use(
   (response) => response,
-  async function (error) {
-    const originalRequest = error.config;
-    // If token expires, replay request
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+  (error) =>
+    mutex.runExclusive(async () => {
+      const originalRequest = error.config;
+      // If token expires, replay request
+      if (error.response.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
 
-      const refreshToken = localStorage.getItem(REFRESH_TOKEN);
-      if (!refreshToken) {
-        return Promise.reject(error);
+        const refreshToken = localStorage.getItem(REFRESH_TOKEN);
+        if (!refreshToken) {
+          throw error;
+        }
+
+        try {
+          const res = await refreshAccessToken(refreshToken);
+          localStorage.setItem(ACCESS_TOKEN, res.data.accessToken);
+          localStorage.setItem(REFRESH_TOKEN, res.data.refreshToken);
+        } catch {
+          throw error;
+        }
+
+        return authorizedAxios(originalRequest);
       }
 
-      let res;
-      try {
-        res = await refreshAccessToken(refreshToken);
-      } catch(e) {
-        return await jwtAuthProvider.logout();
-      }
-      localStorage.setItem(ACCESS_TOKEN, res.data.accessToken);
-      localStorage.setItem(REFRESH_TOKEN, res.data.refreshToken);
-
-      return authorizedAxios(originalRequest);  
-    }
-    return Promise.reject(error);
-  }
+      throw error;
+    })
 );
 
 export default authorizedAxios;

@@ -1,4 +1,3 @@
-export interface Color {
-  id: number;
-  name: string;
-}
+import { OptionResponse } from '.';
+
+export interface Color extends OptionResponse {}

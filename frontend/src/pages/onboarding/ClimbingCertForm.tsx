@@ -2,21 +2,10 @@ import { Stack, Typography } from '@mui/material';
 // components
 import { RHFSelect } from '../../components/hook-form';
 import { getSncsCertificationList } from 'src/services/sncsCertifications';
-import useSafeRequest from 'src/hooks/services/useSafeRequest';
-import { CacheKey, OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from 'src/config';
-import useCustomSnackbar from '../../hooks/useCustomSnackbar';
+import useGetOptions from 'src/hooks/services/useGetOptions';
 
 export const ClimbingCertForm = () => {
-  const { enqueueError } = useCustomSnackbar();
-  const { data: sncsCertifications } = useSafeRequest(getSncsCertificationList, {
-    // Caches successful data
-    cacheTime: OPTIONS_CACHE_TIME,
-    staleTime: OPTIONS_STALE_TIME,
-    cacheKey: CacheKey.SncsCertifications,
-    onError: () => {
-      enqueueError('Failed to get sncsCertifications.');
-    },
-  });
+  const { data: sncsCertifications } = useGetOptions(getSncsCertificationList);
 
   return (
     <Stack spacing={1}>
@@ -25,9 +14,9 @@ export const ClimbingCertForm = () => {
       </Typography>
       <RHFSelect name="sncsCertificationId" shouldSanitizeEmptyValue>
         <option value={''} />
-        {sncsCertifications?.data.map((option) => (
-          <option key={option.id} value={option.id}>
-            {option.name}
+        {sncsCertifications.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </RHFSelect>

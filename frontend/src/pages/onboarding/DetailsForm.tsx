@@ -5,23 +5,13 @@ import { RHFTextField, RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from './types';
 import { getPronounList } from 'src/services/pronouns';
-import useSafeRequest from 'src/hooks/services/useSafeRequest';
-import { CacheKey, OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from 'src/config';
-import useCustomSnackbar from '../../hooks/useCustomSnackbar';
+import useGetOptions from 'src/hooks/services/useGetOptions';
 
 export const DetailsForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();
   const { errors } = formState;
-  const { enqueueError } = useCustomSnackbar();
-  const { data: pronouns } = useSafeRequest(getPronounList, {
-    // Caches successful data
-    cacheTime: OPTIONS_CACHE_TIME,
-    staleTime: OPTIONS_STALE_TIME,
-    cacheKey: CacheKey.Pronouns,
-    onError: () => {
-      enqueueError('Failed to get pronouns.');
-    },
-  });
+
+  const { data: pronouns } = useGetOptions(getPronounList);
 
   return (
     <Stack spacing={3}>
@@ -63,9 +53,9 @@ export const DetailsForm = () => {
         </Typography>
         <RHFSelect name="pronounId" shouldSanitizeEmptyValue>
           <option value={''} />
-          {pronouns?.data.map((option) => (
-            <option key={option.id} value={option.id}>
-              {option.name}
+          {pronouns.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
             </option>
           ))}
         </RHFSelect>

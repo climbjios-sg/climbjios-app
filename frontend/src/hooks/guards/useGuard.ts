@@ -1,4 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
+
+interface State {
+  loading: boolean;
+  loaded: boolean;
+  error?: any;
+  ward?: ReactNode;
+}
 
 /**
  * TODO: create a common interface for guards but
@@ -6,21 +13,42 @@ import { useEffect } from 'react';
  * of current guards
  * (onError, disableNotification) => Promise<void>
  */
-const useGuard = (guards: Function[]) => {
+const useGuard = (guards: Function[], ward?: ReactNode) => {
+  const [state, setState] = useState<State>({
+    loading: true,
+    loaded: false,
+  });
+
   useEffect(() => {
     const callGuards = async () => {
       try {
         for (const guard of guards) {
           await guard({});
         }
+
+        setState({
+          loading: false,
+          loaded: true,
+          ward,
+        });
       } catch (error) {
-        // Silences the error since error handling
-        // is already taken care of by the guard hook
+        setState({
+          loading: false,
+          loaded: true,
+          error,
+        });
       }
     };
 
+    setState({
+      loading: true,
+      loaded: false,
+    });
+
     callGuards();
-  }, [guards]);
+  }, [guards, ward]);
+
+  return state;
 };
 
 export default useGuard;
