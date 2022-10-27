@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useCallback, useMemo } from 'react';
 import useCheckAuth from 'src/hooks/guards/useCheckAuth';
 import useCheckNotAuth from 'src/hooks/guards/useCheckNotAuth';
 import useCheckNotOnboarded from 'src/hooks/guards/useCheckNotOnboarded';
@@ -31,16 +31,44 @@ export default function CommonGuard({
 }: Props) {
   const checkAuth = useCheckAuth();
   const checkNotAuth = useCheckNotAuth();
-  const checkOnboarded = useCheckOnboarded();
-  const checkNotOnboarded = useCheckNotOnboarded();
+  const _checkOnboarded = useCheckOnboarded();
+  const _checkNotOnboarded = useCheckNotOnboarded();
 
-  const guards = [];
-  authenticated && guards.push(checkAuth);
-  notAuthenticated && guards.push(checkNotAuth);
-  onboarded && guards.push(() => checkOnboarded({ disableNotification: true }));
-  notOnboarded && guards.push(() => checkNotOnboarded({ disableNotification: true }));
+  const checkOnboarded = useCallback(
+    () => _checkOnboarded({ disableNotification: true }),
+    [_checkOnboarded]
+  );
+  const checkNotOnboarded = useCallback(
+    () => _checkNotOnboarded({ disableNotification: true }),
+    [_checkNotOnboarded]
+  );
 
-  useGuard(guards);
+  const guards = useMemo(() => {
+    const res = [];
+    authenticated && res.push(checkAuth);
+    notAuthenticated && res.push(checkNotAuth);
+    onboarded && res.push(checkOnboarded);
+    notOnboarded && res.push(checkNotOnboarded);
 
-  return <>{children}</>;
+    return res;
+  }, [
+    authenticated,
+    notAuthenticated,
+    notOnboarded,
+    onboarded,
+    checkAuth,
+    checkNotAuth,
+    checkNotOnboarded,
+    checkOnboarded,
+  ]);
+
+  const { loading, error, ward } = useGuard(guards, children);
+
+  // TODO: can pass loading or error states down for better UI/UX
+  // for now, I will just display null, if loading
+  if (ward !== children || loading || error) {
+    return null;
+  }
+
+  return <>{ward}</>;
 }
