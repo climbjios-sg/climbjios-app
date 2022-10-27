@@ -64,9 +64,9 @@ export default function CommonGuard({
 
   const { loading, error, ward } = useGuard(guards, children);
 
-  // TODO: can pass loading or error states down for better UI/UX
-  // for now, I will just display null, if loading
-  if (ward !== children || loading || error) {
+  const isSafeToRender = ward === children && !loading && error === undefined;
+  if (!isSafeToRender) {
+    // TODO: skeleton
     return null;
   }
 
