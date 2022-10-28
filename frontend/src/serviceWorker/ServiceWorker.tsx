@@ -25,6 +25,7 @@ const ServiceWorker: React.FC = () => {
 
     window.addEventListener('offline', handleOffline);
     window.addEventListener('online', handleOnline);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Register service worker
