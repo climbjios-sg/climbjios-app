@@ -3,14 +3,17 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import * as dotenv from 'dotenv';
 import { AppModule } from '../src/app/app.module';
-import { ConstantsService } from '../src/utils/constants/constants.service';
+import {
+  ConstantsService,
+  IConstantsService,
+} from '../src/utils/constants/constants.service';
 import knex from 'knex';
 import knexConfig from '../knexfile';
 import { TelegramOauthStrategy } from '../src/auth/telegramOauth/telegramOauth.strategy';
 import { MOCK_USER_1_UUID } from '../src/database/seeds/02-Users';
 import { GoogleOauthStrategy } from '../src/auth/googleOauth/googleOauth.strategy';
 import { JwtAuthService } from '../src/auth/jwtAuth/jwtAuth.service';
-import { TelegramAlertsService } from '../src/utils/telegramAlerts/telegramAlerts.service';
+import { TelegramService } from '../src/utils/telegram/telegram.service';
 import { getMockedTelegramOAuthStrategy } from './mocks/MockTelegramOauthStrategy';
 import { getDateFromNow } from './helpers';
 
@@ -34,7 +37,7 @@ describe('Backend (e2e)', () => {
   };
   let TEST_USER_JWT;
 
-  const mockConstantsService = {
+  const mockConstantsService: Partial<IConstantsService> = {
     ACCESS_TOKEN_SECRET: 'dummy-placeholder-1',
     ACCESS_TOKEN_EXPIRY: '1d',
     REFRESH_TOKEN_SECRET: 'dummy-placeholder-1',
@@ -46,6 +49,7 @@ describe('Backend (e2e)', () => {
     DATABASE_USER: process.env.DATABASE_USER,
     DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
     DATABASE_NAME: TEST_DATABASE_NAME,
+    NODE_ENV: 'test',
   };
 
   const createBaseTestingModule = () =>
@@ -58,9 +62,10 @@ describe('Backend (e2e)', () => {
       .useValue({})
       .overrideProvider(TelegramOauthStrategy)
       .useClass(getMockedTelegramOAuthStrategy(true))
-      .overrideProvider(TelegramAlertsService) // silence Telegram alerts module
+      .overrideProvider(TelegramService) // silence Telegram alerts module
       .useValue({
-        error: jest.fn(),
+        sendViaAlertsBot: jest.fn(),
+        sendViaOAuthBot: jest.fn(),
       });
 
   beforeAll(async () => {

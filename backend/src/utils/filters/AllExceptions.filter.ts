@@ -7,13 +7,13 @@ import {
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { UserProfileDaoService } from '../../database/daos/userProfiles/userProfile.dao.service';
-import { TelegramAlertsService } from '../telegramAlerts/telegramAlerts.service';
+import { LoggerService } from '../logger/logger.service';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   constructor(
     private readonly httpAdapterHost: HttpAdapterHost,
-    private readonly telegramAlertsService: TelegramAlertsService,
+    private readonly loggerService: LoggerService,
     private readonly userProfileDaoService: UserProfileDaoService,
   ) {}
 
@@ -47,7 +47,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     }
 
     // Log error
-    this.telegramAlertsService.error({
+    this.loggerService.error({
       statusCode: httpStatus,
       ...responseBody,
       path: httpAdapter.getRequestUrl(request),

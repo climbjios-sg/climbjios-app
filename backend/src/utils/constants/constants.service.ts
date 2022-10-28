@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-interface IConstantsService {
+export interface IConstantsService {
+  NODE_ENV: string;
   OAUTH_GOOGLE_ID: string;
   OAUTH_GOOGLE_SECRET: string;
   OAUTH_GOOGLE_REDIRECT_URL: string;
@@ -46,6 +47,7 @@ export class ConstantsService implements IConstantsService {
     return this.configService.getOrThrow(varname).toLowerCase() === 'true';
   }
 
+  NODE_ENV = this.get('NODE_ENV');
   OAUTH_GOOGLE_ID = this.getOrThrow('OAUTH_GOOGLE_ID');
   OAUTH_GOOGLE_SECRET = this.getOrThrow('OAUTH_GOOGLE_SECRET');
   OAUTH_GOOGLE_REDIRECT_URL = this.getOrThrow('OAUTH_GOOGLE_REDIRECT_URL');

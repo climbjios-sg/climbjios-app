@@ -12,7 +12,6 @@ import { GymsDaoModule } from '../database/daos/gyms/gyms.dao.module';
 import { ConstantsModule } from '../utils/constants/constants.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HttpModule } from '@nestjs/axios';
-import { TelegramAlertsModule } from '../utils/telegramAlerts/telegramAlerts.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from '../utils/filters/AllExceptions.filter';
 import { BoulderingGradesDaoModule } from '../database/daos/boulderingGrades/boulderingGrades.dao.module';
@@ -33,12 +32,13 @@ import { ColorsDaoModule } from '../database/daos/colors/colors.dao.module';
 import { GymGradesDaoModule } from '../database/daos/gymGrades/gymGrades.dao.module';
 import { WallsDaoModule } from '../database/daos/walls/walls.dao.module';
 import { WallsModule } from '../walls/walls.module';
+import { LoggerModule } from '../utils/logger/logger.module';
 
 @Module({
   imports: [
     HttpModule,
     ScheduleModule.forRoot(),
-    TelegramAlertsModule,
+    LoggerModule,
     ConstantsModule,
 
     // Database and DAOs
