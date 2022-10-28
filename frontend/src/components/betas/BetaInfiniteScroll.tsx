@@ -56,7 +56,7 @@ export default function BetasInfiniteScroll({
 
   return betas && betas.data.total > 0 ? (
     <StyledInfiniteScroll
-      style={{ paddingBottom: 20, ...style }}
+      style={style}
       dataLength={betas.metadata.pageSize * betas.metadata.currentPage + betas.data.total}
       next={async () => {
         const newResponse = await fetchPage(betas.metadata.currentPage + 1);
@@ -77,7 +77,9 @@ export default function BetasInfiniteScroll({
       endMessage={<InfiniteScrollHelper>That's all!</InfiniteScrollHelper>}
       refreshFunction={() => fetchPage(0)}
       pullDownToRefresh
+      scrollThreshold={0.6}
       pullDownToRefreshThreshold={50}
+      scrollableTarget='root'
       pullDownToRefreshContent={
         <InfiniteScrollHelper>&#8595; Pull down to refresh</InfiniteScrollHelper>
       }

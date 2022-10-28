@@ -5,15 +5,44 @@ import * as React from 'react';
 import { Stream } from '@cloudflare/stream-react';
 import Iconify from './Iconify';
 import Image from './Image';
+import { styled } from '@mui/system';
 
 interface Props {
-  videoSrc: string;
+  cloudflareVideoUid: string;
   thumbnailSrc: string;
+  // Display from videoUrl instead of cloudflareVideoUid if it exists
+  videoUrl?: string;
   sx?: SxProps<Theme>;
 }
 
-export default function Video({ sx, videoSrc, thumbnailSrc }: Props) {
+const FullScreenVideo = styled('video')({
+  width: '100vw',
+  height: '100vh',
+});
+
+export default function Video({ sx, cloudflareVideoUid, videoUrl, thumbnailSrc }: Props) {
   const [open, setOpen] = React.useState(false);
+
+  const renderedVideo = React.useMemo(() => {
+    if (videoUrl) {
+      return <FullScreenVideo src={videoUrl} autoPlay muted controls />;
+    } else {
+      return (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            px: 30,
+            py: 5,
+            height: '100%',
+            '& div': { paddingTop: '0 !important', position: 'static !important' },
+          }}
+        >
+          <Stream src={cloudflareVideoUid} autoplay muted controls />
+        </Box>
+      );
+    }
+  }, [cloudflareVideoUid, videoUrl]);
 
   return (
     <Box
@@ -69,18 +98,7 @@ export default function Video({ sx, videoSrc, thumbnailSrc }: Props) {
           >
             <Iconify icon="eva:close-fill" />
           </IconButton>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              px: 30,
-              py: 5,
-              height: '100%',
-              '& div': { paddingTop: '0 !important', position: 'static !important' },
-            }}
-          >
-            <Stream src={videoSrc} autoplay muted controls />
-          </Box>
+          {renderedVideo}
         </>
       </Modal>
     </Box>

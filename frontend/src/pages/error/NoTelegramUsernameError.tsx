@@ -9,7 +9,6 @@ import TabsWrapperStyle from 'src/components/TabsWrapperStyle';
 // assets
 import { PATH_AUTH } from 'src/routes/paths';
 import Logo from 'src/components/Logo';
-import Separator from 'src/components/Separator';
 //sections
 import TelegramUsernameAndroid from './TelegramUsernameAndroid';
 import TelegramUsernameIOS from './TelegramUsernameIOS';

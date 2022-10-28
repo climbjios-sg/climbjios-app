@@ -1,5 +1,4 @@
 import useSafeRequest from '../../hooks/services/useSafeRequest';
-import { getCreatorBetas } from '../../services/betas';
 import { BETAS_PAGE_SIZE } from 'src/config';
 import useCustomSnackbar from '../../hooks/useCustomSnackbar';
 import BetasInfiniteScroll from '../betas/BetaInfiniteScroll';
@@ -7,6 +6,7 @@ import EmptyContent from '../EmptyContent';
 import NoContentGif from 'src/assets/no-content.gif';
 import { useSelector } from '../../store';
 import Image from '../Image';
+import useGetCreatorBetas from '../../hooks/services/useGetCreatorBetas';
 
 interface ProfileBetasProps {
   style?: React.CSSProperties;
@@ -14,9 +14,10 @@ interface ProfileBetasProps {
   creatorId: string;
 }
 
-export default function ProfileBetas({ style, creatorId, isMine }: ProfileBetasProps) {
+export default function ProfileBetas({ style, creatorId, isMine = false }: ProfileBetasProps) {
   const errorSnackbar = useCustomSnackbar();
   const viewVersion = useSelector((state) => state.ui.viewVersion);
+  const getCreatorBetas = useGetCreatorBetas({ isMine });
   const getTargetBetas = (page: number) =>
     getCreatorBetas(creatorId, {
       page,

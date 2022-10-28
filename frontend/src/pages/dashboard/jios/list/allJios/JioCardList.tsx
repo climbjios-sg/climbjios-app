@@ -9,7 +9,6 @@ import EmptyContent from 'src/components/EmptyContent';
 import { useDispatch, useSelector } from 'src/store';
 import { listJios } from 'src/store/reducers/jios';
 import { getDateTimeString } from 'src/utils/formatTime';
-import { addMinutes } from 'date-fns';
 import { GetJioListRequest } from 'src/@types/jio';
 import CreateJioButton from '../../../../../components/CreateJioButton';
 

@@ -25,6 +25,7 @@ const ServiceWorker: React.FC = () => {
 
     window.addEventListener('offline', handleOffline);
     window.addEventListener('online', handleOnline);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Register service worker
@@ -55,7 +56,7 @@ const ServiceWorker: React.FC = () => {
         // Custom notistack countdown logic before force refreshing the page upon successful SW activation
         const id = new Date().getTime().toString();
         let countdownSeconds = 3;
-        const getSnackbarText = (seconds: number) => `Update installed successfully! Serving the new version in ${seconds}`;
+        const getSnackbarText = (seconds: number) => `Update installed successfully! Serving the new version in ${seconds}s`;
 
         enqueueSnackbar(
           <div id={id}>{getSnackbarText(countdownSeconds)}</div>,

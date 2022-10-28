@@ -5,6 +5,7 @@ export async function seed(knex: Knex): Promise<void> {
   await knex.raw('TRUNCATE TABLE gyms RESTART IDENTITY CASCADE');
 
   // Inserts seed entries
+  // When inserting new entries, create a new entry at the end of the list, otherwise the records referencing gym_id foreign key will get messed up
   await knex('gyms').insert([
     { name: 'Arête (By Upwall)', shortName: 'Arête', permanentlyClosed: false },
     { name: 'Ark Bloc', shortName: 'Ark Bloc', permanentlyClosed: false },
@@ -128,6 +129,11 @@ export async function seed(knex: Knex): Promise<void> {
     {
       name: 'Z-Vertigo',
       shortName: 'Z-Vertigo',
+      permanentlyClosed: false,
+    },
+    {
+      name: 'Boulder Planet (Tai Seng)',
+      shortName: 'BP (Tai Seng)',
       permanentlyClosed: false,
     },
   ]);
