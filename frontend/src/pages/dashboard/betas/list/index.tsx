@@ -11,17 +11,17 @@ import useGetGymGrades from 'src/hooks/services/useGetGymGrades';
 import useGetOptions from 'src/hooks/services/useGetOptions';
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
-import { getBetas } from 'src/services/betas';
 import { Gym, GymGrade } from 'src/@types/gym';
 import { Wall } from 'src/@types/wall';
 import { Color } from 'src/@types/color';
-import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
+import useCustomSnackbar from 'src/hooks/useCustomSnackbar';
 import NoContentGif from 'src/assets/no-content.gif';
-import EmptyContent from '../../../../components/EmptyContent';
-import BetasInfiniteScroll from '../../../../components/betas/BetaInfiniteScroll';
+import EmptyContent from 'src/components/EmptyContent';
+import BetasInfiniteScroll from 'src/components/betas/BetaInfiniteScroll';
 import { BETAS_PAGE_SIZE } from 'src/config';
 import Image from 'src/components/Image';
 import { getGymList } from 'src/services/gyms';
+import useGetBetas from 'src/hooks/services/useGetBetas';
 
 const FloatingContainer = styled('div')({
   position: 'fixed',
@@ -79,6 +79,7 @@ export default function BetasList() {
   const colors = useSelector((state) => state.colors.data);
   const walls = useSelector((state) => state.walls.data);
   const viewVersion = useSelector((state) => state.ui.viewVersion);
+  const getBetas = useGetBetas();
   const gymGrades = useGetGymGrades(
     selectedGym || 1 // Hack: Get gym grades of gym 1, if All gyms are selected. This gymGrades won't be render in that case. Doing this because of rule of hooks don't allow conditional hooks.
   );
@@ -116,7 +117,7 @@ export default function BetasList() {
         page,
         pageSize: BETAS_PAGE_SIZE,
       }),
-    [selectedColor, selectedGym, selectedGymGrade, selectedWall]
+    [getBetas, selectedColor, selectedGym, selectedGymGrade, selectedWall]
   );
 
   const { loading, data, mutate } = useSafeRequest(() => getTargetBetas(0), {
@@ -180,7 +181,10 @@ export default function BetasList() {
                 />
               </Stack>
               <IconButton
-                sx={{ px: 3 }}
+                sx={{
+                  px: 3,
+                  borderRadius: 1,
+                }}
                 color="primary"
                 component={Link}
                 to={PATH_DASHBOARD.general.betas.create(selectedGym)}

@@ -16,6 +16,12 @@ export type Beta = {
   creatorProfile: User;
   createdAt: string;
   updatedAt: string;
+  videoUrl?: string;
+};
+
+// Map of Beta ID -> Beta Video URL
+export type LocalBetaVideos = {
+  [betaId: string]: string;
 };
 
 export type ListBetasRequest = {
@@ -25,7 +31,7 @@ export type ListBetasRequest = {
   colorId?: number;
 } & PaginationRequestData;
 
-export type ListBetasResponse = PaginationResponse<Beta>
+export type ListBetasResponse = PaginationResponse<Beta>;
 
 export type BetaUploadUrlResponse = Pick<Beta, 'cloudflareVideoUid'> & {
   cloudflareUploadUrl: string;

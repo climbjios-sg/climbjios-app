@@ -1,10 +1,11 @@
 import {
+  Beta,
   ListBetasResponse,
   ListBetasRequest,
   BetaUploadUrlResponse,
   CreateBetaRequest,
 } from '../@types/beta';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { BE_API } from 'src/utils/api';
 import authorizedAxios from '../utils/authorizedAxios';
 
@@ -24,7 +25,7 @@ export const getBetaUploadUrl = () =>
   authorizedAxios.get<BetaUploadUrlResponse>(BE_API.betas.uploadVideoUrl);
 
 export const postCreateBeta = (beta: CreateBetaRequest) =>
-  authorizedAxios.post<CreateBetaRequest>(BE_API.betas.root, beta);
+  authorizedAxios.post<CreateBetaRequest, AxiosResponse<Beta>>(BE_API.betas.root, beta);
 
 export const uploadBetaVideoToCloudfare = async (video: File) => {
   const {

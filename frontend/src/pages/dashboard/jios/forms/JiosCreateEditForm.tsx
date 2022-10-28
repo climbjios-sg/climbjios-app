@@ -127,7 +127,6 @@ export default function JiosCreateEditForm({
             label="Select Gym"
             fullWidth
             name="gymId"
-            SelectProps={{ native: true }}
             defaultValue=""
           >
             {/* Disabled Option for first option to not auto-render */}

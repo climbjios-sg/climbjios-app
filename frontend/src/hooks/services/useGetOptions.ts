@@ -20,7 +20,7 @@ const useGetOptions = <TData extends OptionResponse[], TParams extends any[]>(
       staleTime: OPTIONS_STALE_TIME,
       cacheKey: service.name,
       onError: () => {
-        enqueueError(`Failed to ${getFormattedCamelCase(service.name)}`);
+        enqueueError(`Failed to ${getFormattedCamelCase(service.name)}.`);
       },
       ...options,
     },

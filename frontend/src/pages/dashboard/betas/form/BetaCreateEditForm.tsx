@@ -90,7 +90,6 @@ export default function BetaCreateEditForm({
           label="Select Gym"
           fullWidth
           name="gymId"
-          SelectProps={{ native: true }}
           defaultValue=""
         >
           {/* Disabled Option for first option to not auto-render */}
@@ -105,7 +104,6 @@ export default function BetaCreateEditForm({
           label="Select Colour"
           fullWidth
           name="colorId"
-          SelectProps={{ native: true }}
           defaultValue=""
         >
           {/* Disabled Option for first option to not auto-render */}
@@ -120,7 +118,6 @@ export default function BetaCreateEditForm({
           label="Select Wall"
           fullWidth
           name="wallId"
-          SelectProps={{ native: true }}
           defaultValue=""
         >
           {/* Disabled Option for first option to not auto-render */}
@@ -135,7 +132,6 @@ export default function BetaCreateEditForm({
           label="Select Grade"
           fullWidth
           name="gymGradeId"
-          SelectProps={{ native: true }}
           defaultValue=""
         >
           {/* Disabled Option for first option to not auto-render */}

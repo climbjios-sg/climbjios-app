@@ -48,7 +48,11 @@ const BetaCaseBase = React.memo(({ data, bottom }: Props) => (
             variant="subtitle2"
           >{`@${data.creatorProfile.telegramHandle}`}</Typography>
         </Stack>
-        <Video videoSrc={data.cloudflareVideoUid} thumbnailSrc={data.thumbnailUrl} />
+        <Video
+          cloudflareVideoUid={data.cloudflareVideoUid}
+          thumbnailSrc={data.thumbnailUrl}
+          videoUrl={data.videoUrl}
+        />
         <Stack
           sx={{
             position: 'absolute',

@@ -7,6 +7,7 @@ import gymsReducer from './gyms';
 import wallsReducer from './walls';
 import colorsReducer from './colors';
 import messageBarReducer from './messageBar';
+import myLocalBetaVideosReducer from './myLocalBetaVideos';
 
 const rootReducer = combineReducers({
   ui: uiReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   walls: wallsReducer,
   colors: colorsReducer,
   messageBar: messageBarReducer,
+  myLocalBetaVideos: myLocalBetaVideosReducer,
 });
 
 export default rootReducer;

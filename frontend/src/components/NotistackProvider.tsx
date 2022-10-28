@@ -23,6 +23,7 @@ function SnackbarStyles() {
         '#root': {
           '& .SnackbarContent-root': {
             width: '100%',
+            maxWidth: '400px',
             padding: theme.spacing(1),
             margin: theme.spacing(0.25, 0),
             boxShadow: theme.customShadows.z8,
