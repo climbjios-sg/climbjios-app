@@ -7,6 +7,7 @@ import Video from '../Video';
 import { Link } from 'react-router-dom';
 import { makeUserProfileLinkProps } from '../../pages/publicProfile';
 import NameAvatar from '../NameAvatar';
+import WallAndColorIcon from './WallAndColorIcon';
 
 // ----------------------------------------------------------------------
 
@@ -74,6 +75,7 @@ const BetaCaseBase = React.memo(({ data, bottom }: Props) => (
               {text}
             </Typography>
           ))}
+          <WallAndColorIcon color={data.color.name} wall={data.wall.name} />
         </Stack>
       </Box>
       {bottom}

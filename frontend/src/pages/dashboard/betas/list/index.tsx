@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import Iconify from 'src/components/Iconify';
 import { useSelector } from 'src/store';
 import { PATH_DASHBOARD } from 'src/routes/paths';
-import chroma from 'chroma-js';
 import MessageBarWithStore from '../../MessageBarWithStore';
 import useGetGymGrades from 'src/hooks/services/useGetGymGrades';
 import useGetOptions from 'src/hooks/services/useGetOptions';
@@ -22,6 +21,7 @@ import { BETAS_PAGE_SIZE } from 'src/config';
 import Image from 'src/components/Image';
 import { getGymList } from 'src/services/gyms';
 import useGetBetas from 'src/hooks/services/useGetBetas';
+import { displayBetaColor } from '../../../../components/betas/utils';
 
 const FloatingContainer = styled('div')({
   position: 'fixed',
@@ -40,7 +40,7 @@ const dot = (color = 'All') => ({
   display: 'flex',
 
   ':before': {
-    backgroundColor: color === 'All' ? `#ca97d4` : chroma(color).alpha(0.7).css(),
+    backgroundColor: displayBetaColor(color),
     borderRadius: 10,
     content: '" "',
     display: 'block',
