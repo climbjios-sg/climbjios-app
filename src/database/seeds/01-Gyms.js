@@ -128,6 +128,11 @@ async function seed(knex) {
             shortName: 'Z-Vertigo',
             permanentlyClosed: false,
         },
+        {
+            name: 'Boulder Planet (Tai Seng)',
+            shortName: 'BP (Tai Seng)',
+            permanentlyClosed: false,
+        },
     ]);
 }
 exports.seed = seed;

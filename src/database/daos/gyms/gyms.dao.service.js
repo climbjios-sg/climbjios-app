@@ -19,7 +19,10 @@ let GymsDaoService = class GymsDaoService {
         this.gymModel = gymModel;
     }
     getAll() {
-        return this.gymModel.query().select(['id', 'name', 'permanentlyClosed']);
+        return this.gymModel
+            .query()
+            .select(['id', 'name', 'permanentlyClosed'])
+            .orderBy('name', 'ASC');
     }
     findById(id) {
         return this.gymModel.query().findById(id);
