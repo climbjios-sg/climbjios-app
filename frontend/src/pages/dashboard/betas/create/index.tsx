@@ -11,10 +11,14 @@ import { pushMyLocalBetaVideo } from 'src/store/reducers/myLocalBetaVideos';
 import { refreshView } from 'src/store/reducers/ui';
 import { CustomFile } from 'src/components/upload';
 import BetaCreateEditForm from '../form/BetaCreateEditForm';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
 
 export default function BetaCreate() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { runAsync: runCreateBeta } = useSafeRequest(createBeta, {
+    manual: true,
+  });
 
   const handleSubmit = async (beta: BetaCreateEditFormValues) => {
     navigate(PATH_DASHBOARD.general.betas.root);
@@ -27,13 +31,13 @@ export default function BetaCreate() {
     );
     try {
       const cloudflareVideoUid = await uploadBetaVideoToCloudfare(beta.video as File);
-      const { data } = await createBeta({
+      const { data } = await runCreateBeta({
         cloudflareVideoUid,
         gymId: beta.gymId,
         wallId: beta.wallId,
         colorId: beta.colorId,
         gymGradeId: beta.gymGradeId,
-      });
+      })
 
       // Push beta video to store, so we don't have to refetch video when displaying it
       const betaVideo = beta.video as CustomFile;
