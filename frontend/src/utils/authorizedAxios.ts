@@ -20,6 +20,7 @@ authorizedAxios.interceptors.request.use(
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     config.headers = {
       Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
     };
     return config;
   },
@@ -33,6 +34,7 @@ authorizedAxios.interceptors.response.use(
   (error) =>
     mutex.runExclusive(async () => {
       const originalRequest = error.config;
+
       // If token expires, replay request
       if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
