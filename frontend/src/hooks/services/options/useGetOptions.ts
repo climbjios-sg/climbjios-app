@@ -8,7 +8,15 @@ const useGetOptions = <TData extends OptionResponse[], TParams extends any[]>(
   options?: Options<AxiosResponse<TData>, TParams>,
   plugins?: Plugin<AxiosResponse<TData>, TParams>[]
 ) => {
-  const { data, ...rest } = useSafeRequest(service, options, plugins);
+  const { data, ...rest } = useSafeRequest(
+    service,
+    {
+      cacheTime: -1,
+      staleTime: -1,
+      ...options,
+    },
+    plugins
+  );
 
   const res: Option[] =
     data?.data.map((option) => ({
