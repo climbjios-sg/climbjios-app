@@ -28,7 +28,9 @@ const defaultUser: User = {
 };
 
 const useGetIdentity = () => {
-  const { data, ...rest } = useSafeRequest(getUser);
+  const { data, ...rest } = useSafeRequest(getUser, {
+    cacheKey: CacheKey.User,
+  });
 
   return {
     identity: data?.data ?? defaultUser,
