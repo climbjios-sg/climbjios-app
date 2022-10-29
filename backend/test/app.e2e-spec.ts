@@ -16,6 +16,10 @@ import { JwtAuthService } from '../src/auth/jwtAuth/jwtAuth.service';
 import { TelegramService } from '../src/utils/telegram/telegram.service';
 import { getMockedTelegramOAuthStrategy } from './mocks/MockTelegramOauthStrategy';
 import { getDateFromNow } from './helpers';
+import {
+  MOCK_POST_1_UUID,
+  MOCK_POST_2_UUID,
+} from '../src/database/seeds/03-Posts';
 
 dotenv.config();
 describe('Backend (e2e)', () => {
@@ -454,7 +458,7 @@ describe('Backend (e2e)', () => {
 
     describe(':postId (GET)', () => {
       it('success', async () => {
-        const postId = 1;
+        const postId = MOCK_POST_1_UUID;
         const { body } = await request(app.getHttpServer())
           .get(`${prefix}/${postId}`)
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
@@ -462,7 +466,7 @@ describe('Backend (e2e)', () => {
 
         expect(body).toEqual(
           expect.objectContaining({
-            id: 1,
+            id: MOCK_POST_1_UUID,
             creatorId: MOCK_USER_1_UUID,
             numPasses: 5,
             price: 15.5,
@@ -499,17 +503,26 @@ describe('Backend (e2e)', () => {
       });
 
       it('does not belong to user', () => {
-        const postId = 2;
+        const postId = MOCK_POST_2_UUID;
         return request(app.getHttpServer())
           .get(`${prefix}/${postId}`)
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
           .expect(200);
       });
+
+      it('invalid uuid', () => {
+        const postId = '1';
+        return request(app.getHttpServer())
+          .get(`${prefix}/${postId}`)
+          .set('Authorization', 'Bearer ' + TEST_USER_JWT)
+          .expect(400)
+          .expect(`{"message":"Invalid post id!"}`);
+      });
     });
 
     describe(':postId (PATCH)', () => {
       it('success', async () => {
-        const postId = 1;
+        const postId = MOCK_POST_1_UUID;
         const data = {
           type: 'seller',
           numPasses: 3,
@@ -529,7 +542,7 @@ describe('Backend (e2e)', () => {
         expect(body).toEqual(
           expect.objectContaining({
             ...data,
-            id: 1,
+            id: MOCK_POST_1_UUID,
             creatorId: MOCK_USER_1_UUID,
             isClosed: false,
             creatorProfile: {
@@ -558,7 +571,7 @@ describe('Backend (e2e)', () => {
       });
 
       it('does not exist', () => {
-        const postId = 1000;
+        const postId = '9884e38a-bddd-4cd0-ad4d-e36e1e67944e';
         return request(app.getHttpServer())
           .patch(`${prefix}/${postId}`)
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
@@ -566,11 +579,20 @@ describe('Backend (e2e)', () => {
       });
 
       it('does not belong to user', () => {
-        const postId = 2;
+        const postId = MOCK_POST_2_UUID;
         return request(app.getHttpServer())
           .patch(`${prefix}/${postId}`)
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
           .expect(403);
+      });
+
+      it('invalid uuid', () => {
+        const postId = 1;
+        return request(app.getHttpServer())
+          .patch(`${prefix}/${postId}`)
+          .set('Authorization', 'Bearer ' + TEST_USER_JWT)
+          .expect(400)
+          .expect(`{"message":"Invalid post id!"}`);
       });
     });
   });

@@ -2,6 +2,8 @@ import { Knex } from 'knex';
 import { PostType } from '../../utils/types';
 import { UserModel } from '../models/user.model';
 
+export const MOCK_POST_1_UUID = '1d1bd429-291e-449c-80fd-54cdb236a075';
+export const MOCK_POST_2_UUID = '8a3b6b45-b956-42e7-bd16-1b6ac9891a53';
 export async function seed(knex: Knex): Promise<void> {
   if (['staging', 'production'].includes(process.env.NODE_ENV)) {
     console.log('skipping post seeds');
@@ -17,6 +19,7 @@ export async function seed(knex: Knex): Promise<void> {
   await knex('posts').insert([
     // Today (buying)
     {
+      id: MOCK_POST_1_UUID,
       creatorId: alison.id,
       type: PostType.BUYER,
       numPasses: 5,
@@ -38,6 +41,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     // Today (selling)
     {
+      id: MOCK_POST_2_UUID,
       creatorId: bob.id,
       type: PostType.SELLER,
       numPasses: 8,
