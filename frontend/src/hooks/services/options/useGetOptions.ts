@@ -2,6 +2,7 @@ import useSafeRequest from '../useSafeRequest';
 import { Options, Plugin } from 'ahooks/lib/useRequest/src/types';
 import { AxiosResponse } from 'axios';
 import { Option, OptionResponse } from 'src/@types';
+import { OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from 'src/config';
 
 const useGetOptions = <TData extends OptionResponse[], TParams extends any[]>(
   service: (...args: TParams) => Promise<AxiosResponse<TData, any>>,
@@ -11,8 +12,8 @@ const useGetOptions = <TData extends OptionResponse[], TParams extends any[]>(
   const { data, ...rest } = useSafeRequest(
     service,
     {
-      cacheTime: -1,
-      staleTime: -1,
+      cacheTime: OPTIONS_CACHE_TIME,
+      staleTime: OPTIONS_STALE_TIME,
       ...options,
     },
     plugins
