@@ -1,12 +1,10 @@
 import { Stack, Typography } from '@mui/material';
 // components
 import { RHFSelect } from '../../components/hook-form';
-import { getSncsCertificationList } from 'src/services/sncsCertifications';
-import useGetOptions from 'src/hooks/services/options/useGetOptions';
-import useGetSncsCertficationList from 'src/hooks/services/options/useGetSncsCertficationList';
+import useGetSncsCertificationList from 'src/hooks/services/options/useGetSncsCertificationList';
 
 export const ClimbingCertForm = () => {
-  const { data: sncsCertifications } = useGetSncsCertficationList();
+  const { data: sncsCertifications } = useGetSncsCertificationList();
 
   return (
     <Stack spacing={1}>
