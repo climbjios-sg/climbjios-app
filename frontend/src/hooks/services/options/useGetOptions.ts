@@ -1,5 +1,3 @@
-import { OPTIONS_CACHE_TIME, OPTIONS_STALE_TIME } from '../../../config';
-import useCustomSnackbar from '../../useCustomSnackbar';
 import useSafeRequest from '../useSafeRequest';
 import { Options, Plugin } from 'ahooks/lib/useRequest/src/types';
 import { AxiosResponse } from 'axios';
