@@ -1,24 +1,25 @@
-import { AppBar, Typography } from '@mui/material';
+import { useEffect } from 'react';
+import { Typography } from '@mui/material';
 import { Container, Stack } from '@mui/system';
 import { useRequest } from 'ahooks';
 import { useParams } from 'react-router-dom';
 import FloatingBottomCard from '../../components/FloatingBottomCard';
 import LoadingScreen from '../../components/LoadingScreen';
+import useCustomSnackbar from '../../hooks/useCustomSnackbar';
 import Logo from '../../components/Logo';
 import Page from '../../components/Page';
-import useCustomSnackbar from '../../hooks/useCustomSnackbar';
 import { getJio } from '../../services/jios';
 import LoginForm from '../auth/LoginForm';
 import JioCard from '../dashboard/jios/list/allJios/JioCard';
 import Page404 from '../error/Page404';
-
-interface JioPageProps {
-  id: string;
-}
+import { useDispatch } from '../../store';
+import { setRedirectPath } from '../../store/reducers/redirectPath';
+import { PATH_USER } from '../../routes/paths';
 
 export default function JioPage() {
   const { id } = useParams();
   const snackbar = useCustomSnackbar();
+  const dispatch = useDispatch();
   const jioId = id as string;
 
   const { data, loading } = useRequest(() => getJio(jioId), {
@@ -26,6 +27,16 @@ export default function JioPage() {
       snackbar.enqueueError('Failed to retrieve Jio.');
     },
   });
+
+  useEffect(() => {
+    if (data) {
+      dispatch(
+        setRedirectPath(PATH_USER.general.user(data.data.creatorId), {
+          state: data.data.creatorProfile,
+        })
+      );
+    }
+  }, [data, dispatch]);
 
   if (loading) {
     return <LoadingScreen />;
@@ -43,11 +54,20 @@ export default function JioPage() {
           <Stack alignItems="center">
             <Logo />
           </Stack>
-          <JioCard data={jioData} />
+          {jioData.isClosed ? (
+            <Typography variant="h4">This Jio is closed.</Typography>
+          ) : (
+            <JioCard data={jioData} isDisableButton />
+          )}
         </Stack>
       </Container>
       <FloatingBottomCard>
-        <LoginForm />
+        <Stack spacing={1}>
+          <Typography variant="h5" gutterBottom sx={{ color: 'text.secondary' }}>
+            Sign in to message climber
+          </Typography>
+          <LoginForm />
+        </Stack>
       </FloatingBottomCard>
     </Page>
   );

@@ -2,7 +2,7 @@
 import { Box, Typography, Button } from '@mui/material';
 import Iconify from '../../components/Iconify';
 // hooks
-import { useLocation } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 // components
 import FloatingBottomCard from 'src/components/FloatingBottomCard';
 import BioCard from '../../components/profile/BioCard';
@@ -29,6 +29,7 @@ export function makeUserProfileLinkProps(userProfileData: UserProfileLocationSta
 export default function PublicProfile() {
   const location = useLocation();
   const { user, isShowFloatingButton = false } = location.state as UserProfileLocationState;
+
   return user ? (
     <Box
       sx={{

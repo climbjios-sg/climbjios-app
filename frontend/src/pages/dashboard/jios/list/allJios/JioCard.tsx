@@ -10,12 +10,14 @@ import { makeUserProfileLinkProps } from '../../../../publicProfile';
 
 interface JioCardProps {
   data: Jio;
+  isDisableButton?: boolean;
+  isHideUsername?: boolean;
 }
 
-export default function JioCard({ data }: JioCardProps) {
+export default function JioCard({ data, isHideUsername = false, isDisableButton = false }: JioCardProps) {
   return (
     <Card>
-      <JioCardHeader data={data} />
+      <JioCardHeader data={data} isHideUsername={isHideUsername} />
       <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
@@ -45,18 +47,23 @@ export default function JioCard({ data }: JioCardProps) {
             <Typography variant="body2">{data.optionalNote}</Typography>
           </Stack>
         )}
-        <Stack direction="row">
-          <Button
-            sx={{ mt: 1 }}
-            fullWidth
-            component={Link}
-            startIcon={<Iconify icon="eva:message-circle-outline" />}
-            variant="outlined"
-            {...makeUserProfileLinkProps({ user: data.creatorProfile, isShowFloatingButton: true })}
-          >
-            <span>Message Climber</span>
-          </Button>
-        </Stack>
+        {!isDisableButton && (
+          <Stack direction="row">
+            <Button
+              sx={{ mt: 1 }}
+              fullWidth
+              component={Link}
+              startIcon={<Iconify icon="eva:message-circle-outline" />}
+              variant="outlined"
+              {...makeUserProfileLinkProps({
+                user: data.creatorProfile,
+                isShowFloatingButton: true,
+              })}
+            >
+              <span>Message Climber</span>
+            </Button>
+          </Stack>
+        )}
       </Stack>
     </Card>
   );
