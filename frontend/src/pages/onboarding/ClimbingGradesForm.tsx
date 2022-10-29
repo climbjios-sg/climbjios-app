@@ -3,7 +3,6 @@ import { Stack, FormHelperText, Typography } from '@mui/material';
 import { RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from './types';
-import useGetOptions from 'src/hooks/services/options/useGetOptions';
 import useGetBoulderingGradeList from 'src/hooks/services/options/useGetBoulderingGradeList';
 import useGetTopRopeGradeList from 'src/hooks/services/options/useGetTopRopeGradeList';
 import useGetLeadClimbingGradeList from 'src/hooks/services/options/useGetLeadClimbingGradeList';
