@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { BetaCreateEditFormValues } from 'src/@types/beta';
 import BackBar from 'src/components/BackBar';
 import { PATH_DASHBOARD } from 'src/routes/paths';
-import { postCreateBeta, uploadBetaVideoToCloudfare } from 'src/services/betas';
+import { createBeta, uploadBetaVideoToCloudfare } from 'src/services/betas';
 import { useDispatch } from 'src/store';
 import { openMessageBar } from 'src/store/reducers/messageBar';
 import { pushMyLocalBetaVideo } from 'src/store/reducers/myLocalBetaVideos';
@@ -15,6 +15,7 @@ import BetaCreateEditForm from '../form/BetaCreateEditForm';
 export default function BetaCreate() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleSubmit = async (beta: BetaCreateEditFormValues) => {
     navigate(PATH_DASHBOARD.general.betas.root);
     dispatch(
@@ -26,7 +27,7 @@ export default function BetaCreate() {
     );
     try {
       const cloudflareVideoUid = await uploadBetaVideoToCloudfare(beta.video as File);
-      const { data } = await postCreateBeta({
+      const { data } = await createBeta({
         cloudflareVideoUid,
         gymId: beta.gymId,
         wallId: beta.wallId,
@@ -44,7 +45,7 @@ export default function BetaCreate() {
           })
         );
       }
-      
+
       dispatch(
         openMessageBar({
           icon: 'noto:party-popper',

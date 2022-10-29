@@ -7,9 +7,7 @@ export enum PronounName {
   PreferNotToSay = 'Prefer not to say',
 }
 
-export interface Pronoun extends OptionResponse {
-  name: PronounName;
-}
+export interface Pronoun extends OptionResponse<PronounName> {}
 
 export type PronounRequest = Partial<Pronoun>;
 export type PronounResponse = Pronoun;

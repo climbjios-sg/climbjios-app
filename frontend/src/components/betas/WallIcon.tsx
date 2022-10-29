@@ -1,19 +1,23 @@
+import { useTheme } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useMemo } from 'react';
+import { Color } from '../../@types/color';
+import { Wall, WallName } from '../../@types/wall';
 import Iconify from '../Iconify';
 import { displayBetaColor } from './utils';
 
-type WallAndColorIconProps = {
-  color: string;
-  wall: string;
+type WallIconProps = {
+  wall: Wall['name'];
+  color?: Color['name'];
 };
 
-export default function WallAndColorIcon({ color, wall }: WallAndColorIconProps) {
-  const betaColor = displayBetaColor(color);
+export default function WallIcon({ color, wall }: WallIconProps) {
+  const theme = useTheme();
+  const betaColor = displayBetaColor(color ? color.toLowerCase() : theme.palette.primary.main);
 
   const renderedIcon = useMemo(() => {
-    switch (wall.toLowerCase()) {
-      case 'vertical':
+    switch (wall) {
+      case WallName.Vertical:
         return (
           <Iconify
             sx={{ transform: 'rotate(90deg)' }}
@@ -21,7 +25,7 @@ export default function WallAndColorIcon({ color, wall }: WallAndColorIconProps)
             color={betaColor}
           />
         );
-      case 'overhang': {
+      case WallName.Overhang: {
         return (
           <Iconify
             sx={{ transform: 'rotate(90deg)' }}
@@ -30,7 +34,7 @@ export default function WallAndColorIcon({ color, wall }: WallAndColorIconProps)
           />
         );
       }
-      case 'slab': {
+      case WallName.Slab: {
         return <Iconify icon={'icon-park-twotone:right-angle'} color={betaColor} />;
       }
       default:
