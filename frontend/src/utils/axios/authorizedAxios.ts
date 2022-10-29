@@ -1,13 +1,9 @@
 import axios from 'axios';
 import { refreshAccessToken } from 'src/services/token';
 // config
-import { HOST_API } from '../config';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from './jwt';
+import { HOST_API } from '../../config';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../jwt';
 import { Mutex } from 'async-mutex';
-
-// ----------------------------------------------------------------------
-
-export const baseAxios = axios.create();
 
 const mutex = new Mutex();
 const authorizedAxios = axios.create({

@@ -39,11 +39,8 @@ export class PostService {
     });
   }
 
-  async getPost(userId: string, postId: string) {
+  async getPost(postId: string) {
     const post = await this.postsDaoService.getById(postId);
-    if (post?.creatorId !== userId) {
-      throw new HttpException('Forbidden', 403);
-    }
 
     return post;
   }

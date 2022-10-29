@@ -64,6 +64,10 @@ export default function Router() {
       path: '/updateTelegramUsername',
       element: <NoTelegramUsernamePage />,
     },
+    {
+      path: 'jios/:id',
+      element: <JioPage />,
+    },
     { path: '*', element: <Navigate to="/login" replace /> },
   ]);
 }
@@ -82,3 +86,5 @@ const UserPublicProfile = Loadable(lazy(() => import('../pages/publicProfile')))
 
 // LANDING
 const Page404 = Loadable(lazy(() => import('../pages/error/Page404')));
+
+const JioPage = Loadable(lazy(() => import('../pages/jio')));
