@@ -4,7 +4,7 @@ import { Stack, FormGroup, Typography } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from './types';
 import RHFAutoMultiSelect from 'src/components/hook-form/RHFAutoMultiSelect';
-import useGetOptions from 'src/hooks/services/useGetOptions';
+import useGetOptions from 'src/hooks/services/options/useGetOptions';
 import { getGymList } from 'src/services/gyms';
 
 export const FavoriteGymsForm = () => {

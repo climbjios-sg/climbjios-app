@@ -2,7 +2,7 @@ import { Stack, Typography } from '@mui/material';
 // components
 import { RHFSelect } from '../../components/hook-form';
 import { getSncsCertificationList } from 'src/services/sncsCertifications';
-import useGetOptions from 'src/hooks/services/useGetOptions';
+import useGetOptions from 'src/hooks/services/options/useGetOptions';
 
 export const ClimbingCertForm = () => {
   const { data: sncsCertifications } = useGetOptions(getSncsCertificationList);

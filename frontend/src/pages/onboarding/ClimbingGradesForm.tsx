@@ -6,7 +6,7 @@ import { getBoulderingGradeList } from 'src/services/boulderingGrades';
 import { getTopRopeGradeList } from 'src/services/topRopeGrades';
 import { getLeadClimbingGradeList } from 'src/services/leadClimbingGrades';
 import { OnboardingFormValues } from './types';
-import useGetOptions from 'src/hooks/services/useGetOptions';
+import useGetOptions from 'src/hooks/services/options/useGetOptions';
 
 export const ClimbingGradesForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();

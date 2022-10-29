@@ -5,7 +5,7 @@ import { RHFTextField, RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from './types';
 import { getPronounList } from 'src/services/pronouns';
-import useGetOptions from 'src/hooks/services/useGetOptions';
+import useGetOptions from 'src/hooks/services/options/useGetOptions';
 
 export const DetailsForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();

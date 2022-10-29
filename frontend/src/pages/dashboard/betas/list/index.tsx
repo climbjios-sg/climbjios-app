@@ -7,7 +7,7 @@ import { useSelector } from 'src/store';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import MessageBarWithStore from '../../MessageBarWithStore';
 import useGetGymGrades from 'src/hooks/services/useGetGymGrades';
-import useGetOptions from 'src/hooks/services/useGetOptions';
+import useGetOptions from 'src/hooks/services/options/useGetOptions';
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { Gym, GymGrade } from 'src/@types/gym';
