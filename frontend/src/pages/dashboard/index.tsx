@@ -95,6 +95,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (redirectPath.to) {
+      console.log(redirectPath);
       navigate(redirectPath.to, redirectPath.options);
       dispatch(clearRedirectPath());
     }

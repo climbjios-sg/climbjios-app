@@ -16,7 +16,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     set(state, action) {
-      state.to = action.payload.redirectUrl;
+      state.to = action.payload.to;
       state.options = action.payload.options;
     },
 
@@ -28,7 +28,7 @@ const slice = createSlice({
 
 export function setRedirectPath(to: string, options?: NavigateOptions) {
   return () => {
-    dispatch(slice.actions.set(to, options));
+    dispatch(slice.actions.set({ to, options }));
   };
 }
 
