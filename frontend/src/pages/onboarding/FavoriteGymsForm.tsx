@@ -20,10 +20,7 @@ export const FavoriteGymsForm = () => {
         </Typography>
         <RHFAutoMultiSelect
           name="favouriteGymIds"
-          options={gyms.map((option) => ({
-            value: option.value,
-            label: option.label,
-          }))}
+          options={gyms}
           helperText={errors?.favouriteGymIds?.message || 'Choose the gyms that you frequent.'}
           FormHelperTextProps={{
             error: !!errors?.favouriteGymIds,
