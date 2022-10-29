@@ -4,14 +4,13 @@ import { Stack, InputAdornment, Typography } from '@mui/material';
 import { RHFTextField, RHFSelect } from '../../components/hook-form';
 import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from './types';
-import { getPronounList } from 'src/services/pronouns';
-import useGetOptions from 'src/hooks/services/options/useGetOptions';
+import useGetPronounList from 'src/hooks/services/options/useGetPronounList';
 
 export const DetailsForm = () => {
   const { formState } = useFormContext<OnboardingFormValues>();
   const { errors } = formState;
 
-  const { data: pronouns } = useGetOptions(getPronounList);
+  const { data: pronouns } = useGetPronounList();
 
   return (
     <Stack spacing={3}>

@@ -7,7 +7,6 @@ import { useSelector } from 'src/store';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import MessageBarWithStore from '../../MessageBarWithStore';
 import useGetGymGrades from 'src/hooks/services/useGetGymGrades';
-import useGetOptions from 'src/hooks/services/options/useGetOptions';
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { Gym, GymGrade } from 'src/@types/gym';
@@ -19,9 +18,9 @@ import EmptyContent from 'src/components/EmptyContent';
 import BetasInfiniteScroll from 'src/components/betas/BetaInfiniteScroll';
 import { BETAS_PAGE_SIZE } from 'src/config';
 import Image from 'src/components/Image';
-import { getGymList } from 'src/services/gyms';
 import useGetBetas from 'src/hooks/services/useGetBetas';
 import { displayBetaColor } from '../../../../components/betas/utils';
+import useGetGymList from 'src/hooks/services/options/useGetGymList';
 
 const FloatingContainer = styled('div')({
   position: 'fixed',
@@ -75,7 +74,7 @@ export default function BetasList() {
     target: document.getElementById('root') || undefined,
   });
   const theme = useTheme();
-  const { data: gyms } = useGetOptions(getGymList);
+  const { data: gyms } = useGetGymList();
   const colors = useSelector((state) => state.colors.data);
   const walls = useSelector((state) => state.walls.data);
   const viewVersion = useSelector((state) => state.ui.viewVersion);
