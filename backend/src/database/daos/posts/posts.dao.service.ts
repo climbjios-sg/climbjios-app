@@ -34,7 +34,11 @@ export class PostsDaoService {
       isClosed: boolean;
     },
   ) {
-    return this.postModel.query().insert(post).returning('*');
+    return this.postModel
+      .query()
+      .insert(post)
+      .returning('*')
+      .withGraphFetched('gym');
   }
 
   patchById(id: string, data: Partial<PostModel>) {

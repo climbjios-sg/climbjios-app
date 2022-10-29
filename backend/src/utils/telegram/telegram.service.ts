@@ -53,6 +53,7 @@ export class TelegramService {
         {
           chat_id: chatId,
           text: message,
+          parse_mode: 'HTML',
         },
       ),
     );

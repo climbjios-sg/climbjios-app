@@ -5,12 +5,18 @@ import PatchPostDto from './dtos/patchPost.dto';
 import CreatePostDto from './dtos/createPost.dto';
 import SearchPostDto from './dtos/searchPost.dto';
 import { PostType } from '../utils/types';
+import { TelegramService } from '../utils/telegram/telegram.service';
+import { PostModel } from '../database/models/post.model';
+import { ConstantsService } from '../utils/constants/constants.service';
+import * as moment from 'moment';
 
 @Injectable()
 export class PostService {
   constructor(
     private readonly postsDaoService: PostsDaoService,
     private readonly gymsDaoService: GymsDaoService,
+    private readonly telegramService: TelegramService,
+    private readonly constantsService: ConstantsService,
   ) {}
 
   getOwnPosts(userId: string) {
@@ -32,11 +38,23 @@ export class PostService {
       throw new HttpException('Invalid gym id!', 400);
     }
 
-    return this.postsDaoService.create({
-      creatorId,
-      ...body,
-      isClosed: false,
-    });
+    return this.postsDaoService
+      .create({
+        creatorId,
+        ...body,
+        isClosed: false,
+      })
+      .then((created) => {
+        /**
+         * Intentionally not using await here so that control goes back to the
+         * frontend immediately after post is created, instead of waiting for
+         * a roundtrip to Telegram servers.
+         *
+         * NOTE: We can improve this by setting up a queue service.
+         */
+        this.notifyMainGroupOnSuccessfulPost(created);
+        return created;
+      });
   }
 
   async getPost(postId: string) {
@@ -94,5 +112,55 @@ export class PostService {
         400,
       );
     }
+  }
+
+  private notifyMainGroupOnSuccessfulPost(createdObj: PostModel) {
+    let header;
+    switch (createdObj.type) {
+      case PostType.BUYER:
+        header = `Buying ${createdObj.numPasses} 🎟`;
+        break;
+      case PostType.SELLER:
+        header = `Selling ${createdObj.numPasses} 🎟`;
+        break;
+      case PostType.OTHER:
+        header = 'Looking for friends to climb with\n(No need 🎟️)';
+        break;
+      default:
+        // Should not reach this case
+        break;
+    }
+    header = `<b>${header}</b>\n\n`;
+
+    const gym = `📍 ${createdObj.gym.name}\n`;
+    const dateTime = `🗓 ${moment(createdObj.startDateTime).format(
+      'ddd, D MMM YYYY, h:mma',
+    )}-${moment(createdObj.endDateTime).format('h:mma')}\n`;
+    const price =
+      createdObj.type !== PostType.OTHER
+        ? `💵 $${createdObj.price}/pass\n`
+        : '';
+    const openToClimbTogether = createdObj.openToClimbTogether
+      ? `👋 Open to climb together\n`
+      : '';
+    const optionalNote = createdObj.optionalNote
+      ? `💬 ${createdObj.optionalNote}\n`
+      : '';
+    const redirectLink = `${this.constantsService.CORS_ORIGIN}?jioId=${createdObj.id}`;
+    const redirectLinkMsg = `🔗 <a href='${redirectLink}'>${redirectLink}</a>\n`;
+
+    const message =
+      header +
+      gym +
+      dateTime +
+      price +
+      openToClimbTogether +
+      optionalNote +
+      redirectLinkMsg;
+
+    return this.telegramService.sendViaOAuthBot(
+      message,
+      this.constantsService.TELEGRAM_MAIN_CHAT_GROUP_ID,
+    );
   }
 }
