@@ -1,9 +1,10 @@
 import ReactDOM from 'react-dom/client';
+import { PersistGate } from 'redux-persist/integration/react'
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { store } from './store';
+import { persistor, store } from './store';
 import { Provider } from 'react-redux';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
@@ -31,9 +32,11 @@ const renderRoot = async () => {
   root.render(
     <HelmetProvider>
       <Provider store={store}>
-        <BrowserRouter>
-          <App authProvider={authProvider} />
-        </BrowserRouter>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
+            <App authProvider={authProvider} />
+          </BrowserRouter>
+        </PersistGate>
       </Provider>
     </HelmetProvider>
   );

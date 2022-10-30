@@ -13,6 +13,7 @@ import ProfileBetas from '../../components/profile/ProfileBetas';
 import ProfileHeaderAndTabs from '../../components/profile/ProfileHeaderAndTabs';
 import { outgoingLinkProps } from '../../utils/common';
 import { Stack } from '@mui/system';
+import Page404 from '../error/Page404';
 
 export type UserProfileLocationState = {
   user: User;
@@ -28,9 +29,13 @@ export function makeUserProfileLinkProps(userProfileData: UserProfileLocationSta
 
 export default function PublicProfile() {
   const location = useLocation();
-  const { user, isShowFloatingButton = false } = location.state as UserProfileLocationState;
+  const state = location.state as UserProfileLocationState;
+  if (!state || !state.user) {
+    return <Page404 />;
+  }
 
-  return user ? (
+  const { user, isShowFloatingButton } = state;
+  return (
     <Box
       sx={{
         pb: 25,
@@ -67,7 +72,5 @@ export default function PublicProfile() {
         </FloatingBottomCard>
       )}
     </Box>
-  ) : (
-    <></>
   );
 }

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Typography } from '@mui/material';
 import { Container, Stack } from '@mui/system';
 import { useRequest } from 'ahooks';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import FloatingBottomCard from '../../components/FloatingBottomCard';
 import LoadingScreen from '../../components/LoadingScreen';
 import useCustomSnackbar from '../../hooks/useCustomSnackbar';
@@ -15,11 +15,15 @@ import Page404 from '../error/Page404';
 import { useDispatch } from '../../store';
 import { setRedirectPath } from '../../store/reducers/redirectPath';
 import { PATH_USER } from '../../routes/paths';
+import { UserProfileLocationState } from '../publicProfile';
+import useAuthState from '../../hooks/auth/useAuthState';
 
 export default function JioPage() {
+  const { authenticated } = useAuthState();
   const { id } = useParams();
   const snackbar = useCustomSnackbar();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const jioId = id as string;
 
   const { data, loading } = useRequest(() => getJio(jioId), {
@@ -29,14 +33,23 @@ export default function JioPage() {
   });
 
   useEffect(() => {
-    if (data) {
-      dispatch(
-        setRedirectPath(PATH_USER.general.user(data.data.creatorId), {
-          state: data.data.creatorProfile,
-        })
-      );
+    if (data && !data.data.isClosed) {
+      const redirectPathTo = PATH_USER.general.user(data.data.creatorId);
+      const redirectPathOptions = {
+        state: {
+          user: data.data.creatorProfile,
+          isShowFloatingButton: true,
+        } as UserProfileLocationState,
+      };
+
+      if (authenticated) {
+        navigate(redirectPathTo, redirectPathOptions);
+        return;
+      }
+
+      dispatch(setRedirectPath(redirectPathTo, redirectPathOptions));
     }
-  }, [data, dispatch]);
+  }, [authenticated, data, dispatch, navigate]);
 
   if (loading) {
     return <LoadingScreen />;
@@ -55,7 +68,9 @@ export default function JioPage() {
             <Logo />
           </Stack>
           {jioData.isClosed ? (
-            <Typography variant="h4">This Jio is closed.</Typography>
+            <Typography textAlign="center" variant="h4">
+              This Jio is closed.
+            </Typography>
           ) : (
             <JioCard data={jioData} isDisableButton />
           )}

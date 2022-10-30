@@ -21,7 +21,8 @@ const slice = createSlice({
     },
 
     clear(state) {
-      state = { ...initialState };
+      state.to = null;
+      state.options = undefined;
     },
   },
 });

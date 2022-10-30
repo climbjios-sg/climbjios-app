@@ -95,9 +95,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (redirectPath.to) {
-      console.log(redirectPath);
       navigate(redirectPath.to, redirectPath.options);
-      dispatch(clearRedirectPath());
+      // Setting timeout at not doing so will cause navigation to fail
+      setTimeout(() => dispatch(clearRedirectPath()), 1000);
     }
   }, [dispatch, navigate, redirectPath]);
 
