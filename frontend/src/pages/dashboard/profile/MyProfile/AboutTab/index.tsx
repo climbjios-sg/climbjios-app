@@ -23,9 +23,10 @@ import { outgoingLinkProps } from '../../../../../utils/common';
 
 interface AboutTabProps {
   user: User;
+  userLoading: boolean;
 }
 
-export default function AboutTab({ user }: AboutTabProps) {
+export default function AboutTab({ user, userLoading }: AboutTabProps) {
   const logout = useLogout();
   const theme = useTheme();
 
@@ -33,6 +34,7 @@ export default function AboutTab({ user }: AboutTabProps) {
     <Stack direction="column" alignItems="center" spacing={3}>
       <BioCard
         data={user}
+        loading={userLoading}
         action={
           <Button
             variant="outlined"

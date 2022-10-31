@@ -17,7 +17,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       name: 'BFF Climb (Bendemeer)',
-      shortName: 'BFF (Bendemeer)',
+      shortName: 'BFF (Bendmr)',
       permanentlyClosed: false,
     },
     { name: 'Boruda', shortName: 'Boruda', permanentlyClosed: false },
@@ -58,7 +58,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       name: 'Boulder Planet (Sembawang)',
-      shortName: 'BP',
+      shortName: 'BP (Semb)',
       permanentlyClosed: false,
     },
     {

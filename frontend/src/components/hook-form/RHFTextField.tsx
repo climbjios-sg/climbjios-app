@@ -44,6 +44,12 @@ export default function RHFTextField({
           value={transform.input(getValues(name))}
           error={!!error}
           helperText={error?.message}
+          // Disables number change on scroll
+          onWheel={(e) => {
+            if (other.type === 'number' && e.target instanceof HTMLElement) {
+              e.target.blur();
+            }
+          }}
           {...other}
         />
       )}

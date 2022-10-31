@@ -26,10 +26,14 @@ const BetaCaseBase = React.memo(({ data, bottom }: Props) => (
           sx={{
             textDecoration: 'none',
             color: 'inherit',
-            left: 8,
             zIndex: 1001,
-            top: 6,
             position: 'absolute',
+            backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .5))',
+            left: 0,
+            paddingLeft: '8px',
+            top: 0,
+            paddingTop: '6px',
+            width: '100%'
           }}
           direction="row"
           alignItems="center"
