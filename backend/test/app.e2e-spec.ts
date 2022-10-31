@@ -493,20 +493,12 @@ describe('Backend (e2e)', () => {
         );
       });
 
-      it('does not exist', () => {
-        const postId = 1000;
-        return request(app.getHttpServer())
-          .get(`${prefix}/${postId}`)
-          .set('Authorization', 'Bearer ' + TEST_USER_JWT)
-          .expect(403);
-      });
-
       it('does not belong to user', () => {
         const postId = 2;
         return request(app.getHttpServer())
           .get(`${prefix}/${postId}`)
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
-          .expect(403);
+          .expect(200);
       });
     });
 

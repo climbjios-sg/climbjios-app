@@ -5,9 +5,10 @@ import {
   BetaUploadUrlResponse,
   CreateBetaRequest,
 } from '../@types/beta';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { BE_API } from 'src/utils/api';
-import authorizedAxios from '../utils/authorizedAxios';
+import plainAxios from '../utils/axios/plainAxios';
+import authorizedAxios from '../utils/axios/authorizedAxios';
 
 export const getBetas = (params: ListBetasRequest) =>
   authorizedAxios.get<ListBetasResponse>(BE_API.betas.root, {
@@ -33,7 +34,7 @@ export const uploadBetaVideoToCloudfare = async (video: File) => {
   } = await getBetaUploadUrl();
   const formData = new FormData();
   formData.append('file', video);
-  await axios.post(cloudflareUploadUrl, formData, {
+  await plainAxios.post(cloudflareUploadUrl, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

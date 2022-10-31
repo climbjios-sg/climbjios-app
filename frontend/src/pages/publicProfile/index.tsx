@@ -8,11 +8,12 @@ import FloatingBottomCard from 'src/components/FloatingBottomCard';
 import BioCard from '../../components/profile/BioCard';
 // types
 import { User } from 'src/@types/user';
-import { PATH_USER } from '../../routes/paths';
+import { PATH_DASHBOARD, PATH_USER } from '../../routes/paths';
 import ProfileBetas from '../../components/profile/ProfileBetas';
 import ProfileHeaderAndTabs from '../../components/profile/ProfileHeaderAndTabs';
 import { outgoingLinkProps } from '../../utils/common';
 import { Stack } from '@mui/system';
+import Page404 from '../error/Page404';
 
 export type UserProfileLocationState = {
   user: User;
@@ -28,8 +29,13 @@ export function makeUserProfileLinkProps(userProfileData: UserProfileLocationSta
 
 export default function PublicProfile() {
   const location = useLocation();
-  const { user, isShowFloatingButton = false } = location.state as UserProfileLocationState;
-  return user ? (
+  const state = location.state as UserProfileLocationState;
+  if (!state || !state.user) {
+    return <Page404 />;
+  }
+
+  const { user, isShowFloatingButton } = state;
+  return (
     <Box
       sx={{
         pb: 25,
@@ -40,6 +46,7 @@ export default function PublicProfile() {
     >
       <ProfileHeaderAndTabs
         showBack
+        backTo={PATH_DASHBOARD.general.jios.root}
         user={user}
         aboutTab={
           <Stack sx={{ px: 2 }}>
@@ -66,7 +73,5 @@ export default function PublicProfile() {
         </FloatingBottomCard>
       )}
     </Box>
-  ) : (
-    <></>
   );
 }

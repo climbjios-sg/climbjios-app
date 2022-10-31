@@ -8,9 +8,10 @@ import NameAvatar from '../../../../components/NameAvatar';
 
 interface JioCardHeaderProps {
   data: Jio;
+  isHideUsername?: boolean;
 }
 
-export default function JioCardHeader({ data }: JioCardHeaderProps) {
+export default function JioCardHeader({ data, isHideUsername = false }: JioCardHeaderProps) {
   return (
     <CardHeader
       avatar={
@@ -35,7 +36,9 @@ export default function JioCardHeader({ data }: JioCardHeaderProps) {
               mx: 'auto',
             }}
           />
-          <Typography variant="h6">{`@${data.creatorProfile.telegramHandle}`}</Typography>
+          {!isHideUsername && (
+            <Typography variant="h6">{`@${data.creatorProfile.telegramHandle}`}</Typography>
+          )}
         </Stack>
       }
       action={

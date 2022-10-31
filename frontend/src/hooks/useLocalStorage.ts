@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 // ----------------------------------------------------------------------
 
 export default function useLocalStorage<ValueType>(key: string, defaultValue: ValueType) {
-  const [value, setValue] = useState(() => {
+  const [value, setValue] = useState<ValueType>(() => {
     const storedValue = localStorage.getItem(key);
 
     return storedValue === null ? defaultValue : JSON.parse(storedValue);
@@ -32,5 +32,5 @@ export default function useLocalStorage<ValueType>(key: string, defaultValue: Va
     });
   };
 
-  return [value, setValueInLocalStorage];
+  return { value, setValueInLocalStorage };
 }

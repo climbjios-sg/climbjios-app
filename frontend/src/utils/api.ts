@@ -20,6 +20,7 @@ export const BE_API = {
   },
   posts: {
     root: '/v1/posts',
+    post: (id: string) => `/v1/posts/${id}`,
     search: '/v1/posts/search',
   },
   betas: {

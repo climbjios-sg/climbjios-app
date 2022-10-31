@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 // components
 import Page from '../../components/Page';
-import { useLocation, Link, useRoutes, Navigate } from 'react-router-dom';
+import { useLocation, Link, useRoutes, Navigate, useNavigate } from 'react-router-dom';
 import Iconify from '../../components/Iconify';
 import Profile from './profile';
 import Jios from './jios';
@@ -19,6 +19,7 @@ import Betas from './betas';
 import { listColors } from '../../store/reducers/colors';
 import { listWalls } from '../../store/reducers/walls';
 import MessageBarWithStore from './MessageBarWithStore';
+import useRedirectPath from '../../hooks/useRedirectPath';
 
 interface BottomTab {
   path: string;
@@ -89,6 +90,15 @@ const DashboardRouter = () =>
 export default function Dashboard() {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { redirectPath, clearRedirectPath } = useRedirectPath();
+
+  useEffect(() => {
+    if (redirectPath) {
+      navigate(redirectPath.to, redirectPath.options);
+      clearRedirectPath();
+    }
+  }, [clearRedirectPath, dispatch, navigate, redirectPath]);
 
   useEffect(() => {
     dispatch(listGyms());

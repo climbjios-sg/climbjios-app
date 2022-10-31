@@ -12,6 +12,7 @@ import PatchPostDto from './dtos/patchPost.dto';
 import CreatePostDto from './dtos/createPost.dto';
 import { PostService } from './post.service';
 import SearchPostDto from './dtos/searchPost.dto';
+import { Public } from '../auth/jwtAuth/public.decorator';
 
 @Controller('posts')
 export class PostController {
@@ -35,9 +36,10 @@ export class PostController {
     return this.postService.searchPosts(query);
   }
 
+  @Public()
   @Get(':postId')
-  getPost(@Req() req, @Param() params) {
-    return this.postService.getPost(req.user.id, params.postId);
+  getPost(@Param() params) {
+    return this.postService.getPost(params.postId);
   }
 
   @Patch(':postId')
