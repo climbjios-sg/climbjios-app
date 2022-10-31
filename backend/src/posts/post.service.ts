@@ -167,12 +167,16 @@ export class PostService {
       .sendViaOAuthBot(
         this.formatAlertMessage(createdObj),
         this.constantsService.TELEGRAM_MAIN_CHAT_GROUP_ID,
+        this.formatAlertMessageInlineButton(createdObj.id),
       )
       .then((res) =>
         this.postsDaoService.patchById(createdObj.id, {
           telegramAlertMessageId: res.data?.result?.message_id,
         }),
-      );
+      )
+      .catch((e) => {
+        this.loggerService.log(e);
+      });
   }
 
   private editTelegramMessage(obj: PostModel) {
@@ -197,7 +201,7 @@ export class PostService {
         header = `Selling ${obj.numPasses} 🎟`;
         break;
       case PostType.OTHER:
-        header = 'Looking for friends to climb with\n(No need 🎟️)';
+        header = 'Looking to climb together\n(No need 🎟️)';
         break;
       default:
         // Should not reach this case
@@ -214,17 +218,9 @@ export class PostService {
       ? `👋 Open to climb together\n`
       : '';
     const optionalNote = obj.optionalNote ? `💬 ${obj.optionalNote}\n` : '';
-    const redirectLink = `${this.constantsService.CORS_ORIGIN}/jios/${obj.id}`;
-    const redirectLinkMsg = `🔗 <a href='${redirectLink}'>${redirectLink}</a>\n`;
 
     let message =
-      header +
-      gym +
-      dateTime +
-      price +
-      openToClimbTogether +
-      optionalNote +
-      redirectLinkMsg;
+      header + gym + dateTime + price + openToClimbTogether + optionalNote;
 
     if (obj.status === PostStatus.CLOSED) {
       message = `❌ <b>CLOSED</b>\n\n<s>${message}</s>`;
@@ -233,5 +229,19 @@ export class PostService {
     }
 
     return message;
+  }
+
+  private formatAlertMessageInlineButton(postId: string) {
+    const redirectLink = `${this.constantsService.CORS_ORIGIN}/jios/${postId}`;
+    return {
+      inline_keyboard: [
+        [
+          {
+            text: 'Message User',
+            url: redirectLink,
+          },
+        ],
+      ],
+    };
   }
 }

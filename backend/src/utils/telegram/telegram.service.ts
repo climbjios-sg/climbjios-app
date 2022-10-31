@@ -23,12 +23,13 @@ export class TelegramService {
   /**
    * Send a message via OAUTH_TELEGRAM_BOT_TOKEN to the given chat id
    */
-  sendViaOAuthBot(message: string, chatId: string) {
-    return this.sendMessage(
+  sendViaOAuthBot(message: string, chatId: string, replyMarkup?: any) {
+    return this.sendMessage({
       message,
-      this.constantsService.OAUTH_TELEGRAM_BOT_TOKEN,
+      botToken: this.constantsService.OAUTH_TELEGRAM_BOT_TOKEN,
       chatId,
-    );
+      replyMarkup,
+    });
   }
 
   /**
@@ -56,18 +57,28 @@ export class TelegramService {
       );
     }
 
-    return this.sendMessage(
+    return this.sendMessage({
       message,
-      this.constantsService.TELEGRAM_ALERTS_BOT_TOKEN,
-      this.constantsService.TELEGRAM_ALERTS_CHAT_ID,
-    );
+      botToken: this.constantsService.TELEGRAM_ALERTS_BOT_TOKEN,
+      chatId: this.constantsService.TELEGRAM_ALERTS_CHAT_ID,
+    });
   }
 
   private generateTelegramApiUrl(botToken: string, command: TelegramCommand) {
     return `https://api.telegram.org/bot${botToken}/${command}`;
   }
 
-  private sendMessage(message: string, botToken: string, chatId: string) {
+  private sendMessage({
+    message,
+    botToken,
+    chatId,
+    replyMarkup,
+  }: {
+    message: string;
+    botToken: string;
+    chatId: string;
+    replyMarkup?: any;
+  }) {
     return firstValueFrom(
       this.httpService.post(
         this.generateTelegramApiUrl(botToken, TelegramCommand.SEND_MESSAGE),
@@ -75,6 +86,7 @@ export class TelegramService {
           chat_id: chatId,
           text: message,
           parse_mode: 'HTML',
+          reply_markup: replyMarkup,
         },
       ),
     );
