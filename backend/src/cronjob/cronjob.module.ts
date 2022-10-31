@@ -6,6 +6,8 @@ import { UserDaoModule } from '../database/daos/users/user.dao.module';
 import { DatabaseModule } from '../database/database.module';
 import { CronjobService } from './cronjob.service';
 import { LoggerModule } from '../utils/logger/logger.module';
+import { PostModule } from '../posts/posts.module';
+import { GymsDaoModule } from '../database/daos/gyms/gyms.dao.module';
 
 @Module({
   imports: [
@@ -16,6 +18,9 @@ import { LoggerModule } from '../utils/logger/logger.module';
     DatabaseModule,
     UserDaoModule,
     PostDaoModule,
+    GymsDaoModule,
+
+    PostModule,
   ],
   providers: [CronjobService],
 })

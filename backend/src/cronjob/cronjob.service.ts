@@ -3,12 +3,14 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { LoggerService } from '../utils/logger/logger.service';
 import { PostsDaoService } from '../database/daos/posts/posts.dao.service';
 import { UserDaoService } from '../database/daos/users/user.dao.service';
+import { PostService } from '../posts/post.service';
 
 @Injectable()
 export class CronjobService {
   constructor(
     private readonly loggerService: LoggerService,
     private readonly userDaoService: UserDaoService,
+    private readonly postService: PostService,
     private readonly postsDaoService: PostsDaoService,
   ) {}
 
@@ -23,6 +25,6 @@ export class CronjobService {
 
   @Cron(CronExpression.EVERY_30_MINUTES)
   closeOutdatedPosts() {
-    return this.postsDaoService.closePostsWithEndDateBefore(new Date());
+    return this.postService.updateExpiredOpenPosts();
   }
 }

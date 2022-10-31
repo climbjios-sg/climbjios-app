@@ -7,5 +7,6 @@ import { TelegramModule } from '../utils/telegram/telegram.module';
   imports: [TelegramModule],
   controllers: [PostController],
   providers: [PostService],
+  exports: [PostService],
 })
 export class PostModule {}

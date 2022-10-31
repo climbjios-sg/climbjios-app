@@ -111,19 +111,11 @@ export class PostService {
 
     return this.postsDaoService
       .patchById(postId, {
-        ...body,
+        ...data,
       })
       .then((obj) => {
         if (obj.status === PostStatus.CLOSED) {
-          this.telegramService
-            .editViaOAuthBot(
-              obj.telegramAlertMessageId,
-              this.constantsService.TELEGRAM_MAIN_CHAT_GROUP_ID,
-              this.formatAlertMessage(obj),
-            )
-            .catch((e) => {
-              this.loggerService.log(e);
-            });
+          this.editTelegramMessage(obj);
         }
         return obj;
       });
@@ -131,6 +123,26 @@ export class PostService {
 
   searchPosts(query: SearchPostDto) {
     return this.postsDaoService.getUpcomingPosts(query);
+  }
+
+  /**
+   * This method is to be called from the cronjob.
+   *
+   * Updates the status of all existing open posts that are expired to 'expired',
+   * and also updates the corresponding Telegram messages.
+   */
+  updateExpiredOpenPosts() {
+    return this.postsDaoService
+      .getExpiredOpenPosts()
+      .then((expiredPosts) =>
+        Promise.all(
+          expiredPosts.map((p) =>
+            this.postsDaoService
+              .patchById(p.id, { status: PostStatus.EXPIRED })
+              .then((updated) => this.editTelegramMessage(updated)),
+          ),
+        ),
+      );
   }
 
   private checkPostTypeAndNumPasses(type: PostType, numPasses: number) {
@@ -161,6 +173,18 @@ export class PostService {
           telegramAlertMessageId: res.data?.result?.message_id,
         }),
       );
+  }
+
+  private editTelegramMessage(obj: PostModel) {
+    return this.telegramService
+      .editViaOAuthBot(
+        obj.telegramAlertMessageId,
+        this.constantsService.TELEGRAM_MAIN_CHAT_GROUP_ID,
+        this.formatAlertMessage(obj),
+      )
+      .catch((e) => {
+        this.loggerService.log(e);
+      });
   }
 
   private formatAlertMessage(obj: PostModel) {
@@ -203,9 +227,9 @@ export class PostService {
       redirectLinkMsg;
 
     if (obj.status === PostStatus.CLOSED) {
-      message = `❌ <b>CLOSED</b>\n\n${message}`;
+      message = `❌ <b>CLOSED</b>\n\n<s>${message}</s>`;
     } else if (obj.status === PostStatus.EXPIRED) {
-      message = `❌ <b>EXPIRED</b>\n\n${message}`;
+      message = `❌ <b>EXPIRED</b>\n\n<s>${message}</s>`;
     }
 
     return message;

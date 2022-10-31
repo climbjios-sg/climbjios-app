@@ -118,10 +118,14 @@ export class PostsDaoService {
       .then((r: any) => r.count);
   }
 
-  closePostsWithEndDateBefore(date: Date) {
+  /**
+   * So that cronjob can close them.
+   */
+  getExpiredOpenPosts() {
     return this.postModel
       .query()
-      .update({ status: PostStatus.CLOSED })
-      .where('endDateTime', '<', date);
+      .select()
+      .where('endDateTime', '<', new Date())
+      .where('status', PostStatus.OPEN);
   }
 }
