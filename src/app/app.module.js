@@ -42,6 +42,7 @@ const gymGrades_dao_module_1 = require("../database/daos/gymGrades/gymGrades.dao
 const walls_dao_module_1 = require("../database/daos/walls/walls.dao.module");
 const walls_module_1 = require("../walls/walls.module");
 const logger_module_1 = require("../utils/logger/logger.module");
+const refreshTokens_dao_module_1 = require("../database/daos/refreshTokens/refreshTokens.dao.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -65,6 +66,7 @@ AppModule = __decorate([
             colors_dao_module_1.ColorsDaoModule,
             walls_dao_module_1.WallsDaoModule,
             betas_dao_module_1.BetasDaoModule,
+            refreshTokens_dao_module_1.RefreshTokensDaoModule,
             auth_module_1.AuthModule,
             user_module_1.UserModule,
             posts_module_1.PostModule,

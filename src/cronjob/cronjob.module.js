@@ -17,6 +17,7 @@ const cronjob_service_1 = require("./cronjob.service");
 const logger_module_1 = require("../utils/logger/logger.module");
 const posts_module_1 = require("../posts/posts.module");
 const gyms_dao_module_1 = require("../database/daos/gyms/gyms.dao.module");
+const refreshTokens_dao_module_1 = require("../database/daos/refreshTokens/refreshTokens.dao.module");
 let CronjobModule = class CronjobModule {
 };
 CronjobModule = __decorate([
@@ -29,6 +30,7 @@ CronjobModule = __decorate([
             user_dao_module_1.UserDaoModule,
             posts_dao_module_1.PostDaoModule,
             gyms_dao_module_1.GymsDaoModule,
+            refreshTokens_dao_module_1.RefreshTokensDaoModule,
             posts_module_1.PostModule,
         ],
         providers: [cronjob_service_1.CronjobService],

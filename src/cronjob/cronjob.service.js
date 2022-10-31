@@ -16,12 +16,14 @@ const logger_service_1 = require("../utils/logger/logger.service");
 const posts_dao_service_1 = require("../database/daos/posts/posts.dao.service");
 const user_dao_service_1 = require("../database/daos/users/user.dao.service");
 const post_service_1 = require("../posts/post.service");
+const refreshTokens_dao_service_1 = require("../database/daos/refreshTokens/refreshTokens.dao.service");
 let CronjobService = class CronjobService {
-    constructor(loggerService, userDaoService, postService, postsDaoService) {
+    constructor(loggerService, userDaoService, postService, postsDaoService, refreshTokensDaoService) {
         this.loggerService = loggerService;
         this.userDaoService = userDaoService;
         this.postService = postService;
         this.postsDaoService = postsDaoService;
+        this.refreshTokensDaoService = refreshTokensDaoService;
     }
     async metricAlerts() {
         return this.loggerService.log({
@@ -33,6 +35,9 @@ let CronjobService = class CronjobService {
     }
     closeOutdatedPosts() {
         return this.postService.updateExpiredOpenPosts();
+    }
+    cleanUpExpiredRefreshTokens() {
+        return this.refreshTokensDaoService.deleteExpired();
     }
 };
 __decorate([
@@ -47,12 +52,19 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], CronjobService.prototype, "closeOutdatedPosts", null);
+__decorate([
+    (0, schedule_1.Cron)(schedule_1.CronExpression.EVERY_DAY_AT_MIDNIGHT),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], CronjobService.prototype, "cleanUpExpiredRefreshTokens", null);
 CronjobService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [logger_service_1.LoggerService,
         user_dao_service_1.UserDaoService,
         post_service_1.PostService,
-        posts_dao_service_1.PostsDaoService])
+        posts_dao_service_1.PostsDaoService,
+        refreshTokens_dao_service_1.RefreshTokensDaoService])
 ], CronjobService);
 exports.CronjobService = CronjobService;
 //# sourceMappingURL=cronjob.service.js.map
