@@ -14,12 +14,12 @@ import Iconify from '../../components/Iconify';
 import Profile from './profile';
 import Jios from './jios';
 import { listGyms } from '../../store/reducers/gyms';
-import { useDispatch, useSelector } from '../../store';
+import { useDispatch } from '../../store';
 import Betas from './betas';
 import { listColors } from '../../store/reducers/colors';
 import { listWalls } from '../../store/reducers/walls';
 import MessageBarWithStore from './MessageBarWithStore';
-import { clearRedirectPath } from '../../store/reducers/redirectPath';
+import useRedirectPath from '../../hooks/useRedirectPath';
 
 interface BottomTab {
   path: string;
@@ -91,15 +91,14 @@ export default function Dashboard() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const redirectPath = useSelector((state) => state.redirectPath);
+  const { redirectPath, clearRedirectPath } = useRedirectPath();
 
   useEffect(() => {
-    if (redirectPath.to) {
+    if (redirectPath) {
       navigate(redirectPath.to, redirectPath.options);
-      // Setting timeout at not doing so will cause navigation to fail
-      setTimeout(() => dispatch(clearRedirectPath()), 1000);
+      clearRedirectPath();
     }
-  }, [dispatch, navigate, redirectPath]);
+  }, [clearRedirectPath, dispatch, navigate, redirectPath]);
 
   useEffect(() => {
     dispatch(listGyms());

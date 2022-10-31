@@ -8,7 +8,7 @@ import FloatingBottomCard from 'src/components/FloatingBottomCard';
 import BioCard from '../../components/profile/BioCard';
 // types
 import { User } from 'src/@types/user';
-import { PATH_USER } from '../../routes/paths';
+import { PATH_DASHBOARD, PATH_USER } from '../../routes/paths';
 import ProfileBetas from '../../components/profile/ProfileBetas';
 import ProfileHeaderAndTabs from '../../components/profile/ProfileHeaderAndTabs';
 import { outgoingLinkProps } from '../../utils/common';
@@ -46,6 +46,7 @@ export default function PublicProfile() {
     >
       <ProfileHeaderAndTabs
         showBack
+        backTo={PATH_DASHBOARD.general.jios.root}
         user={user}
         aboutTab={
           <Stack sx={{ px: 2 }}>

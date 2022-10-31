@@ -4,17 +4,6 @@ import {
   useDispatch as useAppDispatch,
   useSelector as useAppSelector,
 } from 'react-redux';
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  persistReducer,
-  persistStore,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 import { CLEAR_STATE } from './actions/clearActions';
 import _rootReducer from './reducers';
 
@@ -26,26 +15,9 @@ const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
   return _rootReducer(state, action);
 };
 
-const persistedReducer = persistReducer(
-  {
-    key: 'root',
-    storage,
-    whitelist: ['redirectPath'],
-  },
-  rootReducer
-);
-
 export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
+  reducer: rootReducer,
 });
-
-export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof _rootReducer>;
 

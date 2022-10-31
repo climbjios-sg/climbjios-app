@@ -10,14 +10,14 @@ import { makeUserProfileLinkProps } from '../../../../publicProfile';
 
 interface JioCardProps {
   data: Jio;
-  isDisableButton?: boolean;
-  isHideUsername?: boolean;
+  isButtonDisabled?: boolean;
+  isUsernameHidden?: boolean;
 }
 
-export default function JioCard({ data, isHideUsername = false, isDisableButton = false }: JioCardProps) {
+export default function JioCard({ data, isUsernameHidden = false, isButtonDisabled = false }: JioCardProps) {
   return (
     <Card>
-      <JioCardHeader data={data} isHideUsername={isHideUsername} />
+      <JioCardHeader data={data} isHideUsername={isUsernameHidden} />
       <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
@@ -47,7 +47,7 @@ export default function JioCard({ data, isHideUsername = false, isDisableButton 
             <Typography variant="body2">{data.optionalNote}</Typography>
           </Stack>
         )}
-        {!isDisableButton && (
+        {!isButtonDisabled && (
           <Stack direction="row">
             <Button
               sx={{ mt: 1 }}

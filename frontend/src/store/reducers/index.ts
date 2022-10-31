@@ -8,7 +8,6 @@ import wallsReducer from './walls';
 import colorsReducer from './colors';
 import messageBarReducer from './messageBar';
 import myLocalBetaVideosReducer from './myLocalBetaVideos';
-import redirectPathReducer from './redirectPath';
 
 const rootReducer = combineReducers({
   ui: uiReducer,
@@ -20,7 +19,6 @@ const rootReducer = combineReducers({
   colors: colorsReducer,
   messageBar: messageBarReducer,
   myLocalBetaVideos: myLocalBetaVideosReducer,
-  redirectPath: redirectPathReducer
 });
 
 export default rootReducer;

@@ -14,12 +14,15 @@ interface BackBarProps {
   title?: string;
   position?: AppBarProps['position'];
   disableHideOnScroll?: boolean;
+  // If to is not given, will navigate to previous page by default
+  to?: string;
 }
 
 export default function BackBar({
   title,
   position = 'absolute',
   disableHideOnScroll,
+  to,
 }: BackBarProps) {
   const navigate = useNavigate();
   const trigger = useScrollTrigger({
@@ -44,7 +47,11 @@ export default function BackBar({
           sx={{ mr: 1 }}
           color="primary"
           onClick={() => {
-            navigate(-1);
+            if (to) {
+              navigate(to);
+            } else {
+              navigate(-1);
+            }
           }}
         >
           <Iconify icon="eva:arrow-back-fill" color="primary" />

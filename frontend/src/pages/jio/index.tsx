@@ -13,10 +13,10 @@ import LoginForm from '../auth/LoginForm';
 import JioCard from '../dashboard/jios/list/allJios/JioCard';
 import Page404 from '../error/Page404';
 import { useDispatch } from '../../store';
-import { setRedirectPath } from '../../store/reducers/redirectPath';
 import { PATH_USER } from '../../routes/paths';
 import { UserProfileLocationState } from '../publicProfile';
 import useAuthState from '../../hooks/auth/useAuthState';
+import useRedirectPath from '../../hooks/useRedirectPath';
 
 export default function JioPage() {
   const { authenticated } = useAuthState();
@@ -24,6 +24,7 @@ export default function JioPage() {
   const snackbar = useCustomSnackbar();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { setRedirectPath } = useRedirectPath();
   const jioId = id as string;
 
   const { data, loading } = useRequest(() => getJio(jioId), {
@@ -47,15 +48,15 @@ export default function JioPage() {
         return;
       }
 
-      dispatch(setRedirectPath(redirectPathTo, redirectPathOptions));
+      setRedirectPath({ to: redirectPathTo, options: redirectPathOptions });
     }
-  }, [authenticated, data, dispatch, navigate]);
+  }, [authenticated, data, dispatch, navigate, setRedirectPath]);
 
   if (loading) {
     return <LoadingScreen />;
   }
 
-  if (!data) {
+  if (!data || !data.data) {
     return <Page404 />;
   }
 
@@ -72,7 +73,7 @@ export default function JioPage() {
               This Jio is closed.
             </Typography>
           ) : (
-            <JioCard data={jioData} isDisableButton />
+            <JioCard data={jioData} isButtonDisabled />
           )}
         </Stack>
       </Container>
