@@ -18,8 +18,9 @@ export class CronjobService {
   async metricAlerts() {
     return this.loggerService.log({
       num_telegram_users: await this.userDaoService.getTelegramUserCount(),
-      num_posts: await this.postsDaoService.getPostsCount(),
       num_open_posts: await this.postsDaoService.getOpenPostsCount(),
+      num_closed_posts: await this.postsDaoService.getClosedPostsCount(),
+      num_expired_posts: await this.postsDaoService.getExpiredOpenPosts(),
     });
   }
 

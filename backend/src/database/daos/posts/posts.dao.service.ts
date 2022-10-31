@@ -100,20 +100,31 @@ export class PostsDaoService {
   }
 
   // Used only for metric alerts
-  getPostsCount() {
-    return this.postModel
-      .query()
-      .count()
-      .first()
-      .then((r: any) => r.count);
-  }
-
-  // Used only for metric alerts
   getOpenPostsCount() {
     return this.postModel
       .query()
       .count()
       .where({ status: PostStatus.OPEN })
+      .first()
+      .then((r: any) => r.count);
+  }
+
+  // Used only for metric alerts
+  getExpiredPostsCount() {
+    return this.postModel
+      .query()
+      .count()
+      .where({ status: PostStatus.EXPIRED })
+      .first()
+      .then((r: any) => r.count);
+  }
+
+  // Used only for metric alerts
+  getClosedPostsCount() {
+    return this.postModel
+      .query()
+      .count()
+      .where({ status: PostStatus.CLOSED })
       .first()
       .then((r: any) => r.count);
   }
