@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { makeUserProfileLinkProps } from '../../pages/publicProfile';
 import NameAvatar from '../NameAvatar';
 import WallIcon from './WallIcon';
+import { format } from 'date-fns';
 
 // ----------------------------------------------------------------------
 
@@ -26,10 +27,14 @@ const BetaCaseBase = React.memo(({ data, bottom }: Props) => (
           sx={{
             textDecoration: 'none',
             color: 'inherit',
-            left: 8,
             zIndex: 1001,
-            top: 6,
             position: 'absolute',
+            backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .5))',
+            left: 0,
+            paddingLeft: '8px',
+            top: 0,
+            paddingTop: '6px',
+            width: '100%',
           }}
           direction="row"
           alignItems="center"
@@ -44,10 +49,13 @@ const BetaCaseBase = React.memo(({ data, bottom }: Props) => (
             name={data.creatorProfile.telegramHandle}
             src={data.creatorProfile.profilePictureUrl || undefined}
           />
-          <Typography
-            color="white"
-            variant="subtitle2"
-          >{`@${data.creatorProfile.telegramHandle}`}</Typography>
+          <Stack direction="column" spacing={-0.15}>
+            <Typography
+              color="white"
+              variant="subtitle2"
+            >{`@${data.creatorProfile.telegramHandle}`}</Typography>
+            <Typography color="white" variant="caption">{format(new Date(data.createdAt), 'd MMM')}</Typography>
+          </Stack>
         </Stack>
         <Video
           cloudflareVideoUid={data.cloudflareVideoUid}

@@ -750,7 +750,7 @@ describe('Backend (e2e)', () => {
               {
                 id: 5,
                 name: 'BFF Climb (Bendemeer)',
-                shortName: 'BFF (Bendemeer)',
+                shortName: 'BFF (Bendmr)',
                 permanentlyClosed: false,
               },
             ],

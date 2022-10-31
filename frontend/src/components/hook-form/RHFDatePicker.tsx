@@ -35,6 +35,7 @@ export default function RHFDatePicker({ name, label }: Props) {
             renderInput={(params) => (
               <TextField {...params} fullWidth error={!!error} helperText={error?.message} />
             )}
+            inputFormat="DD/MM/YYYY"
           />
         </LocalizationProvider>
       )}

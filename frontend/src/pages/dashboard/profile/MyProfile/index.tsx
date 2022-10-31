@@ -4,7 +4,7 @@ import ProfileBetas from '../../../../components/profile/ProfileBetas';
 import AboutTab from './AboutTab';
 
 export default function MyProfile() {
-  const { identity: user } = useGetIdentity();
+  const { identity: user, loading } = useGetIdentity();
 
   if (!user) {
     return <></>;
@@ -14,7 +14,8 @@ export default function MyProfile() {
     <ProfileHeaderAndTabs
       sx={{ px: 0, maxWidth: 600, margin: '0 auto', pb: 20 }}
       user={user}
-      aboutTab={<AboutTab user={user} />}
+      userLoading={loading}
+      aboutTab={<AboutTab user={user} userLoading={loading} />}
       betasTab={<ProfileBetas isMine creatorId={user.userId} />}
     />
   );

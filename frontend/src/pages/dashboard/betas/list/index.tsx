@@ -173,7 +173,6 @@ export default function BetasList() {
                 <Select
                   classNamePrefix="gym"
                   options={gymOptions}
-                  defaultInputValue="All"
                   onChange={(option) => {
                     setSelectedGym(option?.value);
                   }}
