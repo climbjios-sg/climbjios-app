@@ -74,7 +74,7 @@ export default function JioPage() {
               This Jio is closed.
             </Typography>
           ) : (
-            <JioCard data={jioData} isButtonDisabled />
+            <JioCard data={jioData} isButtonDisabled isHeaderLinkDisabled isUsernameHidden />
           )}
         </Stack>
       </Container>
