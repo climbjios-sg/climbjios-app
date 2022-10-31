@@ -1,3 +1,9 @@
 import { OptionResponse } from '.';
 
-export interface Wall extends OptionResponse {}
+export enum WallName {
+  Vertical = 'Vertical',
+  Overhang = 'Overhang',
+  Slab = 'Slab',
+}
+
+export interface Wall extends OptionResponse<WallName> {}

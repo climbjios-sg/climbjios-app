@@ -24,7 +24,7 @@ export const deleteBeta = (betaId: string) => authorizedAxios.delete(BE_API.beta
 export const getBetaUploadUrl = () =>
   authorizedAxios.get<BetaUploadUrlResponse>(BE_API.betas.uploadVideoUrl);
 
-export const postCreateBeta = (beta: CreateBetaRequest) =>
+export const createBeta = (beta: CreateBetaRequest) =>
   authorizedAxios.post<CreateBetaRequest, AxiosResponse<Beta>>(BE_API.betas.root, beta);
 
 export const uploadBetaVideoToCloudfare = async (video: File) => {
