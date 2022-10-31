@@ -19,14 +19,12 @@ export async function seed(knex: Knex): Promise<void> {
       oauthName: 'Alison Lim',
       authProvider: 'google',
       authProviderId: 'authTestId1',
-      refreshToken: 'refresh_token',
     },
     {
       id: MOCK_USER_2_UUID,
       oauthName: 'Bob Tan',
       authProvider: 'telegram',
       authProviderId: 'authTestId2',
-      refreshToken: 'refresh_token',
     },
   ]);
 }

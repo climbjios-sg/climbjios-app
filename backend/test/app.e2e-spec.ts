@@ -145,16 +145,23 @@ describe('Backend (e2e)', () => {
         expect.objectContaining({
           id: expect.anything(),
           authProvider: 'telegram',
-          refreshToken: expect.anything(),
           authProviderId: 'telegram_id',
           email: null,
           oauthName: 'first_name last_name',
         }),
       );
 
+      const refreshToken = (
+        await knex(knexTestDatabaseConfig)
+          .select()
+          .from('refreshTokens')
+          .where('userId', insertedUser.id)
+          .first()
+      ).refreshToken;
+
       const { body } = await request(app.getHttpServer())
         .post(`${prefix}/refresh`)
-        .send({ refreshToken: insertedUser.refreshToken })
+        .send({ refreshToken })
         .expect(201);
 
       expect(body).toEqual(
@@ -314,8 +321,8 @@ describe('Backend (e2e)', () => {
           numPasses: 3,
           price: 18,
           gymId: 3,
-          startDateTime: getDateFromNow(1, 0).toISOString(),
-          endDateTime: getDateFromNow(1, 1).toISOString(),
+          startDateTime: getDateFromNow(1, 0, 0).toISOString(),
+          endDateTime: getDateFromNow(1, 0, 1).toISOString(),
           openToClimbTogether: true,
           optionalNote: 'Hi there! Nice to meet u',
         };
@@ -546,8 +553,8 @@ describe('Backend (e2e)', () => {
           numPasses: 3,
           price: 18,
           gymId: 3,
-          startDateTime: getDateFromNow(1, 0).toISOString(),
-          endDateTime: getDateFromNow(1, 1).toISOString(),
+          startDateTime: getDateFromNow(1, 0, 0).toISOString(),
+          endDateTime: getDateFromNow(1, 0, 1).toISOString(),
           openToClimbTogether: true,
           optionalNote: 'Hi there! Nice to meet u',
         };
