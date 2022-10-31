@@ -33,7 +33,7 @@ const useGetIdentity = () => {
   });
 
   return {
-    identity: data?.data || defaultUser,
+    identity: data?.data ?? defaultUser,
     ...rest,
   };
 };
