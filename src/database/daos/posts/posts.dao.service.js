@@ -100,18 +100,27 @@ let PostsDaoService = PostsDaoService_1 = class PostsDaoService {
     deleteAllUserPosts(userId, trx) {
         return this.postModel.query(trx).delete().where({ userId });
     }
-    getPostsCount() {
-        return this.postModel
-            .query()
-            .count()
-            .first()
-            .then((r) => r.count);
-    }
     getOpenPostsCount() {
         return this.postModel
             .query()
             .count()
             .where({ status: types_1.PostStatus.OPEN })
+            .first()
+            .then((r) => r.count);
+    }
+    getExpiredPostsCount() {
+        return this.postModel
+            .query()
+            .count()
+            .where({ status: types_1.PostStatus.EXPIRED })
+            .first()
+            .then((r) => r.count);
+    }
+    getClosedPostsCount() {
+        return this.postModel
+            .query()
+            .count()
+            .where({ status: types_1.PostStatus.CLOSED })
             .first()
             .then((r) => r.count);
     }

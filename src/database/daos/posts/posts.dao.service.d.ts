@@ -16,7 +16,8 @@ export declare class PostsDaoService {
     patchById(id: string, data: Partial<PostModel>): import("objection").QueryBuilder<PostModel, PostModel>;
     getUpcomingPosts(search: SearchPostDto): Promise<PostModel[]>;
     deleteAllUserPosts(userId: string, trx: Transaction): import("objection").QueryBuilder<PostModel, number>;
-    getPostsCount(): Promise<any>;
     getOpenPostsCount(): Promise<any>;
+    getExpiredPostsCount(): Promise<any>;
+    getClosedPostsCount(): Promise<any>;
     getExpiredOpenPosts(): import("objection").QueryBuilder<PostModel, PostModel[]>;
 }
