@@ -23,4 +23,22 @@ export class RefreshTokensDaoService {
   findByUserId(userId: string) {
     return this.refreshTokenModel.query().select().where({ userId });
   }
+
+  /**
+   * To be run by cronjob. Deletes entries that have not been updated for at least a month.
+   */
+  deleteExpired() {
+    return this.refreshTokenModel
+      .query()
+      .delete()
+      .where(
+        'updatedAt',
+        '<',
+        (() => {
+          let date = new Date();
+          date.setDate(new Date().getDate() - 31);
+          return date;
+        })(),
+      );
+  }
 }
