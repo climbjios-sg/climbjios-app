@@ -1,9 +1,11 @@
 import { ConfigService } from '@nestjs/config';
-interface IConstantsService {
+export interface IConstantsService {
+    NODE_ENV: string;
     OAUTH_GOOGLE_ID: string;
     OAUTH_GOOGLE_SECRET: string;
     OAUTH_GOOGLE_REDIRECT_URL: string;
     OAUTH_TELEGRAM_BOT_TOKEN: string;
+    TELEGRAM_MAIN_CHAT_GROUP_ID: string;
     TELEGRAM_ALERTS_BOT_TOKEN: string;
     TELEGRAM_ALERTS_CHAT_ID: string;
     ACCESS_TOKEN_SECRET: string;
@@ -30,10 +32,12 @@ export declare class ConstantsService implements IConstantsService {
     private getOrThrow;
     private getOrDefaultTo;
     private getBooleanOrThrow;
+    NODE_ENV: any;
     OAUTH_GOOGLE_ID: any;
     OAUTH_GOOGLE_SECRET: any;
     OAUTH_GOOGLE_REDIRECT_URL: any;
     OAUTH_TELEGRAM_BOT_TOKEN: any;
+    TELEGRAM_MAIN_CHAT_GROUP_ID: any;
     TELEGRAM_ALERTS_BOT_TOKEN: any;
     TELEGRAM_ALERTS_CHAT_ID: any;
     ACCESS_TOKEN_SECRET: any;
@@ -54,4 +58,3 @@ export declare class ConstantsService implements IConstantsService {
     CLOUDFLARE_ACCOUNT_ID: any;
     CLOUDFLARE_STREAM_API_TOKEN: any;
 }
-export {};

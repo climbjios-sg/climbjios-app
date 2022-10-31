@@ -13,9 +13,6 @@ const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 const types_1 = require("../../utils/types");
 class SearchPostDto {
-    constructor() {
-        this.isClosed = false;
-    }
 }
 __decorate([
     (0, class_validator_1.IsOptional)(),
@@ -52,11 +49,5 @@ __decorate([
     (0, class_validator_1.IsDateString)(),
     __metadata("design:type", Date)
 ], SearchPostDto.prototype, "endDateTime", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsBoolean)(),
-    (0, class_transformer_1.Transform)((val) => val.value === 'true' ? true : val.value === 'false' ? false : ''),
-    __metadata("design:type", Object)
-], SearchPostDto.prototype, "isClosed", void 0);
 exports.default = SearchPostDto;
 //# sourceMappingURL=searchPost.dto.js.map

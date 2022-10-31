@@ -1,3 +1,4 @@
+import { HttpException } from '@nestjs/common';
 import PatchPostDto from './dtos/patchPost.dto';
 import CreatePostDto from './dtos/createPost.dto';
 import { PostService } from './post.service';
@@ -9,5 +10,5 @@ export declare class PostController {
     createPost(req: any, body: CreatePostDto): Promise<import("../database/models/post.model").PostModel>;
     searchPosts(query: SearchPostDto): Promise<import("../database/models/post.model").PostModel[]>;
     getPost(params: any): Promise<import("../database/models/post.model").PostModel>;
-    patchPost(req: any, params: any, body: PatchPostDto): Promise<import("@nestjs/common").HttpException | import("../database/models/post.model").PostModel>;
+    patchPost(req: any, params: any, body: PatchPostDto): Promise<HttpException | import("../database/models/post.model").PostModel>;
 }

@@ -13,11 +13,11 @@ exports.AllExceptionsFilter = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const userProfile_dao_service_1 = require("../../database/daos/userProfiles/userProfile.dao.service");
-const telegramAlerts_service_1 = require("../telegramAlerts/telegramAlerts.service");
+const logger_service_1 = require("../logger/logger.service");
 let AllExceptionsFilter = class AllExceptionsFilter {
-    constructor(httpAdapterHost, telegramAlertsService, userProfileDaoService) {
+    constructor(httpAdapterHost, loggerService, userProfileDaoService) {
         this.httpAdapterHost = httpAdapterHost;
-        this.telegramAlertsService = telegramAlertsService;
+        this.loggerService = loggerService;
         this.userProfileDaoService = userProfileDaoService;
     }
     async catch(exception, host) {
@@ -44,7 +44,7 @@ let AllExceptionsFilter = class AllExceptionsFilter {
                 message: exception.message,
             };
         }
-        this.telegramAlertsService.error(Object.assign(Object.assign({ statusCode: httpStatus }, responseBody), { path: httpAdapter.getRequestUrl(request), timestamp: new Date().toISOString(), user: request.user
+        this.loggerService.error(Object.assign(Object.assign({ statusCode: httpStatus }, responseBody), { path: httpAdapter.getRequestUrl(request), timestamp: new Date().toISOString(), user: request.user
                 ? await this.userProfileDaoService.findByUserId({
                     userId: request.user.id,
                     select: ['userId', 'name', 'telegramHandle'],
@@ -56,7 +56,7 @@ let AllExceptionsFilter = class AllExceptionsFilter {
 AllExceptionsFilter = __decorate([
     (0, common_1.Catch)(),
     __metadata("design:paramtypes", [core_1.HttpAdapterHost,
-        telegramAlerts_service_1.TelegramAlertsService,
+        logger_service_1.LoggerService,
         userProfile_dao_service_1.UserProfileDaoService])
 ], AllExceptionsFilter);
 exports.AllExceptionsFilter = AllExceptionsFilter;

@@ -6,20 +6,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostModule = void 0;
+exports.LoggerModule = void 0;
 const common_1 = require("@nestjs/common");
-const posts_controller_1 = require("./posts.controller");
-const post_service_1 = require("./post.service");
-const telegram_module_1 = require("../utils/telegram/telegram.module");
-let PostModule = class PostModule {
+const telegram_module_1 = require("../telegram/telegram.module");
+const logger_service_1 = require("./logger.service");
+let LoggerModule = class LoggerModule {
 };
-PostModule = __decorate([
+LoggerModule = __decorate([
+    (0, common_1.Global)(),
     (0, common_1.Module)({
         imports: [telegram_module_1.TelegramModule],
-        controllers: [posts_controller_1.PostController],
-        providers: [post_service_1.PostService],
-        exports: [post_service_1.PostService],
+        providers: [logger_service_1.LoggerService],
+        exports: [logger_service_1.LoggerService],
     })
-], PostModule);
-exports.PostModule = PostModule;
-//# sourceMappingURL=posts.module.js.map
+], LoggerModule);
+exports.LoggerModule = LoggerModule;
+//# sourceMappingURL=logger.module.js.map

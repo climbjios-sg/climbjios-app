@@ -21,7 +21,6 @@ const gyms_dao_module_1 = require("../database/daos/gyms/gyms.dao.module");
 const constants_module_1 = require("../utils/constants/constants.module");
 const schedule_1 = require("@nestjs/schedule");
 const axios_1 = require("@nestjs/axios");
-const telegramAlerts_module_1 = require("../utils/telegramAlerts/telegramAlerts.module");
 const core_1 = require("@nestjs/core");
 const AllExceptions_filter_1 = require("../utils/filters/AllExceptions.filter");
 const boulderingGrades_dao_module_1 = require("../database/daos/boulderingGrades/boulderingGrades.dao.module");
@@ -42,6 +41,7 @@ const colors_dao_module_1 = require("../database/daos/colors/colors.dao.module")
 const gymGrades_dao_module_1 = require("../database/daos/gymGrades/gymGrades.dao.module");
 const walls_dao_module_1 = require("../database/daos/walls/walls.dao.module");
 const walls_module_1 = require("../walls/walls.module");
+const logger_module_1 = require("../utils/logger/logger.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -49,7 +49,7 @@ AppModule = __decorate([
         imports: [
             axios_1.HttpModule,
             schedule_1.ScheduleModule.forRoot(),
-            telegramAlerts_module_1.TelegramAlertsModule,
+            logger_module_1.LoggerModule,
             constants_module_1.ConstantsModule,
             database_module_1.DatabaseModule,
             user_dao_module_1.UserDaoModule,

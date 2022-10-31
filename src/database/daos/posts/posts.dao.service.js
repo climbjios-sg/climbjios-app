@@ -36,7 +36,11 @@ let PostsDaoService = PostsDaoService_1 = class PostsDaoService {
             .withGraphFetched(PostsDaoService_1.allGraphs);
     }
     create(post) {
-        return this.postModel.query().insert(post).returning('*');
+        return this.postModel
+            .query()
+            .insert(post)
+            .returning('*')
+            .withGraphFetched('gym');
     }
     patchById(id, data) {
         return this.postModel
@@ -54,7 +58,9 @@ let PostsDaoService = PostsDaoService_1 = class PostsDaoService {
             .orderBy('gymId', 'ASC')
             .withGraphFetched(PostsDaoService_1.allGraphs);
         if (!Object.keys(search).length) {
-            return await query.where('endDateTime', '>=', new Date());
+            return await query
+                .where('endDateTime', '>=', new Date())
+                .where('status', types_1.PostStatus.OPEN);
         }
         Object.entries(search).forEach(([key, value]) => {
             if (key === 'numPasses') {
@@ -105,15 +111,16 @@ let PostsDaoService = PostsDaoService_1 = class PostsDaoService {
         return this.postModel
             .query()
             .count()
-            .where({ isClosed: false })
+            .where({ status: types_1.PostStatus.OPEN })
             .first()
             .then((r) => r.count);
     }
-    closePostsWithEndDateBefore(date) {
+    getExpiredOpenPosts() {
         return this.postModel
             .query()
-            .update({ isClosed: true })
-            .where('endDateTime', '<', date);
+            .select()
+            .where('endDateTime', '<', new Date())
+            .where('status', types_1.PostStatus.OPEN);
     }
 };
 PostsDaoService.allGraphs = `[creatorProfile.${userProfile_dao_service_1.UserProfileDaoService.allGraphs},gym]`;

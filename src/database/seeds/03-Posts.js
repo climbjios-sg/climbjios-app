@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.seed = void 0;
+exports.seed = exports.MOCK_POST_2_UUID = exports.MOCK_POST_1_UUID = void 0;
 const types_1 = require("../../utils/types");
+exports.MOCK_POST_1_UUID = '1d1bd429-291e-449c-80fd-54cdb236a075';
+exports.MOCK_POST_2_UUID = '8a3b6b45-b956-42e7-bd16-1b6ac9891a53';
 async function seed(knex) {
     if (['staging', 'production'].includes(process.env.NODE_ENV)) {
         console.log('skipping post seeds');
@@ -11,6 +13,7 @@ async function seed(knex) {
     const [alison, bob] = await knex.select().from('users');
     await knex('posts').insert([
         {
+            id: exports.MOCK_POST_1_UUID,
             creatorId: alison.id,
             type: types_1.PostType.BUYER,
             numPasses: 5,
@@ -23,14 +26,15 @@ async function seed(knex) {
             })(),
             endDateTime: (() => {
                 const d = new Date();
-                d.setHours(22, 15, 0, 0);
+                d.setHours(23, 59, 0, 0);
                 return d;
             })(),
             openToClimbTogether: true,
             optionalNote: 'Hello! Nice to meet you!',
-            isClosed: false,
+            status: types_1.PostStatus.OPEN,
         },
         {
+            id: exports.MOCK_POST_2_UUID,
             creatorId: bob.id,
             type: types_1.PostType.SELLER,
             numPasses: 8,
@@ -43,12 +47,12 @@ async function seed(knex) {
             })(),
             endDateTime: (() => {
                 const d = new Date();
-                d.setHours(14, 30, 0, 0);
+                d.setHours(23, 59, 0, 0);
                 return d;
             })(),
             openToClimbTogether: true,
             optionalNote: "I'm selling tix!",
-            isClosed: false,
+            status: types_1.PostStatus.OPEN,
         },
         {
             creatorId: bob.id,
@@ -63,12 +67,12 @@ async function seed(knex) {
             })(),
             endDateTime: (() => {
                 const d = new Date();
-                d.setHours(14, 30, 0, 0);
+                d.setHours(23, 59, 0, 0);
                 return d;
             })(),
             openToClimbTogether: true,
             optionalNote: 'I love climbing! Open jio!',
-            isClosed: false,
+            status: types_1.PostStatus.OPEN,
         },
         {
             creatorId: alison.id,
@@ -90,7 +94,7 @@ async function seed(knex) {
             })(),
             openToClimbTogether: true,
             optionalNote: 'Hello! Nice to meet you!',
-            isClosed: false,
+            status: types_1.PostStatus.CLOSED,
         },
         {
             creatorId: bob.id,
@@ -112,7 +116,7 @@ async function seed(knex) {
             })(),
             openToClimbTogether: true,
             optionalNote: 'Im selling!',
-            isClosed: false,
+            status: types_1.PostStatus.EXPIRED,
         },
         {
             creatorId: bob.id,
@@ -134,7 +138,7 @@ async function seed(knex) {
             })(),
             openToClimbTogether: true,
             optionalNote: 'Looking for climbing mates!',
-            isClosed: false,
+            status: types_1.PostStatus.OPEN,
         },
         {
             creatorId: alison.id,
@@ -156,7 +160,7 @@ async function seed(knex) {
             })(),
             openToClimbTogether: true,
             optionalNote: 'Hello! Looking for tix next week',
-            isClosed: false,
+            status: types_1.PostStatus.OPEN,
         },
         {
             creatorId: bob.id,
@@ -178,7 +182,7 @@ async function seed(knex) {
             })(),
             openToClimbTogether: true,
             optionalNote: 'Hello! Selling these tix next week',
-            isClosed: false,
+            status: types_1.PostStatus.OPEN,
         },
         {
             creatorId: bob.id,
@@ -200,7 +204,7 @@ async function seed(knex) {
             })(),
             openToClimbTogether: true,
             optionalNote: 'Climb wif me!',
-            isClosed: false,
+            status: types_1.PostStatus.OPEN,
         },
     ]);
 }

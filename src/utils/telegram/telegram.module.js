@@ -6,19 +6,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TelegramAlertsModule = void 0;
+exports.TelegramModule = void 0;
 const axios_1 = require("@nestjs/axios");
 const common_1 = require("@nestjs/common");
-const telegramAlerts_service_1 = require("./telegramAlerts.service");
-let TelegramAlertsModule = class TelegramAlertsModule {
+const telegram_service_1 = require("./telegram.service");
+let TelegramModule = class TelegramModule {
 };
-TelegramAlertsModule = __decorate([
-    (0, common_1.Global)(),
+TelegramModule = __decorate([
     (0, common_1.Module)({
         imports: [axios_1.HttpModule],
-        providers: [telegramAlerts_service_1.TelegramAlertsService],
-        exports: [telegramAlerts_service_1.TelegramAlertsService],
+        providers: [telegram_service_1.TelegramService],
+        exports: [telegram_service_1.TelegramService],
     })
-], TelegramAlertsModule);
-exports.TelegramAlertsModule = TelegramAlertsModule;
-//# sourceMappingURL=telegramAlerts.module.js.map
+], TelegramModule);
+exports.TelegramModule = TelegramModule;
+//# sourceMappingURL=telegram.module.js.map

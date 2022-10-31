@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostController = void 0;
 const common_1 = require("@nestjs/common");
+const uuid_1 = require("uuid");
 const patchPost_dto_1 = require("./dtos/patchPost.dto");
 const createPost_dto_1 = require("./dtos/createPost.dto");
 const post_service_1 = require("./post.service");
@@ -33,9 +34,15 @@ let PostController = class PostController {
         return this.postService.searchPosts(query);
     }
     getPost(params) {
+        if (!(0, uuid_1.validate)(params.postId)) {
+            throw new common_1.HttpException('Invalid post id!', 400);
+        }
         return this.postService.getPost(params.postId);
     }
     patchPost(req, params, body) {
+        if (!(0, uuid_1.validate)(params.postId)) {
+            throw new common_1.HttpException('Invalid post id!', 400);
+        }
         return this.postService.patchPost(req.user.id, params.postId, body);
     }
 };
