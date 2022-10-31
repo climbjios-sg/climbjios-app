@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { makeUserProfileLinkProps } from '../../pages/publicProfile';
 import NameAvatar from '../NameAvatar';
 import WallIcon from './WallIcon';
+import { format } from 'date-fns';
 
 // ----------------------------------------------------------------------
 
@@ -33,7 +34,7 @@ const BetaCaseBase = React.memo(({ data, bottom }: Props) => (
             paddingLeft: '8px',
             top: 0,
             paddingTop: '6px',
-            width: '100%'
+            width: '100%',
           }}
           direction="row"
           alignItems="center"
@@ -48,10 +49,13 @@ const BetaCaseBase = React.memo(({ data, bottom }: Props) => (
             name={data.creatorProfile.telegramHandle}
             src={data.creatorProfile.profilePictureUrl || undefined}
           />
-          <Typography
-            color="white"
-            variant="subtitle2"
-          >{`@${data.creatorProfile.telegramHandle}`}</Typography>
+          <Stack direction="column" spacing={-0.15}>
+            <Typography
+              color="white"
+              variant="subtitle2"
+            >{`@${data.creatorProfile.telegramHandle}`}</Typography>
+            <Typography color="white" variant="caption">{format(new Date(data.createdAt), 'd MMM')}</Typography>
+          </Stack>
         </Stack>
         <Video
           cloudflareVideoUid={data.cloudflareVideoUid}
