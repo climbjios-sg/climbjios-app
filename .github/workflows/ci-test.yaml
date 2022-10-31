@@ -2,6 +2,10 @@ name: ci-test
 
 on:
   pull_request:
+  push:
+    branches:
+      - main
+      - dev
 
 jobs:
   test:
