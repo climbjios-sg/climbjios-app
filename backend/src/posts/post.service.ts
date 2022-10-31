@@ -4,7 +4,7 @@ import { PostsDaoService } from '../database/daos/posts/posts.dao.service';
 import PatchPostDto from './dtos/patchPost.dto';
 import CreatePostDto from './dtos/createPost.dto';
 import SearchPostDto from './dtos/searchPost.dto';
-import { PostType } from '../utils/types';
+import { PostStatus, PostType } from '../utils/types';
 import { TelegramService } from '../utils/telegram/telegram.service';
 import { PostModel } from '../database/models/post.model';
 import { ConstantsService } from '../utils/constants/constants.service';
@@ -44,7 +44,7 @@ export class PostService {
       .create({
         creatorId,
         ...body,
-        isClosed: false,
+        status: PostStatus.OPEN,
       })
       .then((created) => {
         /**
@@ -74,6 +74,10 @@ export class PostService {
       throw new HttpException('Forbidden', 403);
     }
 
+    if ([PostStatus.CLOSED, PostStatus.EXPIRED].includes(post.status)) {
+      throw new HttpException('Cannot patch closed or expired posts!', 400);
+    }
+
     const postType = body.type ?? post.type;
     const numPasses = body.numPasses ?? post.numPasses;
     this.checkPostTypeAndNumPasses(postType, numPasses);
@@ -95,12 +99,22 @@ export class PostService {
       );
     }
 
+    // If post is closed, we would have thrown error 400 above as we do not
+    // allow patching of closed or expired posts
+    const isClosed = body.isClosed ?? post.isClosed;
+
+    const data = {
+      ...body,
+      status: isClosed ? PostStatus.CLOSED : PostStatus.OPEN,
+    };
+    delete data.isClosed;
+
     return this.postsDaoService
       .patchById(postId, {
         ...body,
       })
       .then((obj) => {
-        if (obj.isClosed) {
+        if (obj.status === PostStatus.CLOSED) {
           this.telegramService
             .editViaOAuthBot(
               obj.telegramAlertMessageId,
@@ -188,8 +202,10 @@ export class PostService {
       optionalNote +
       redirectLinkMsg;
 
-    if (obj.isClosed) {
-      message = `❌ <b>CLOSED</b>\n\n<s>${message}</s>`;
+    if (obj.status === PostStatus.CLOSED) {
+      message = `❌ <b>CLOSED</b>\n\n${message}`;
+    } else if (obj.status === PostStatus.EXPIRED) {
+      message = `❌ <b>EXPIRED</b>\n\n${message}`;
     }
 
     return message;

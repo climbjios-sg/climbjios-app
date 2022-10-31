@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { PostType } from '../../utils/types';
+import { PostStatus, PostType } from '../../utils/types';
 import { UserModel } from '../models/user.model';
 
 export const MOCK_POST_1_UUID = '1d1bd429-291e-449c-80fd-54cdb236a075';
@@ -32,12 +32,12 @@ export async function seed(knex: Knex): Promise<void> {
       })(),
       endDateTime: (() => {
         const d = new Date();
-        d.setHours(22, 15, 0, 0);
+        d.setHours(23, 59, 0, 0);
         return d;
       })(),
       openToClimbTogether: true,
       optionalNote: 'Hello! Nice to meet you!',
-      isClosed: false,
+      status: PostStatus.OPEN,
     },
     // Today (selling)
     {
@@ -54,12 +54,12 @@ export async function seed(knex: Knex): Promise<void> {
       })(),
       endDateTime: (() => {
         const d = new Date();
-        d.setHours(14, 30, 0, 0);
+        d.setHours(23, 59, 0, 0);
         return d;
       })(),
       openToClimbTogether: true,
       optionalNote: "I'm selling tix!",
-      isClosed: false,
+      status: PostStatus.OPEN,
     },
     // Today (other)
     {
@@ -75,12 +75,12 @@ export async function seed(knex: Knex): Promise<void> {
       })(),
       endDateTime: (() => {
         const d = new Date();
-        d.setHours(14, 30, 0, 0);
+        d.setHours(23, 59, 0, 0);
         return d;
       })(),
       openToClimbTogether: true,
       optionalNote: 'I love climbing! Open jio!',
-      isClosed: false,
+      status: PostStatus.OPEN,
     },
     // Yesterday (buying)
     {
@@ -103,7 +103,7 @@ export async function seed(knex: Knex): Promise<void> {
       })(),
       openToClimbTogether: true,
       optionalNote: 'Hello! Nice to meet you!',
-      isClosed: false,
+      status: PostStatus.CLOSED,
     },
     // Yesterday (selling)
     {
@@ -126,7 +126,7 @@ export async function seed(knex: Knex): Promise<void> {
       })(),
       openToClimbTogether: true,
       optionalNote: 'Im selling!',
-      isClosed: false,
+      status: PostStatus.EXPIRED,
     },
     // Yesterday (other)
     {
@@ -149,7 +149,7 @@ export async function seed(knex: Knex): Promise<void> {
       })(),
       openToClimbTogether: true,
       optionalNote: 'Looking for climbing mates!',
-      isClosed: false,
+      status: PostStatus.OPEN,
     },
     // Next week (buying)
     {
@@ -172,7 +172,7 @@ export async function seed(knex: Knex): Promise<void> {
       })(),
       openToClimbTogether: true,
       optionalNote: 'Hello! Looking for tix next week',
-      isClosed: false,
+      status: PostStatus.OPEN,
     },
     // Next week (selling)
     {
@@ -195,7 +195,7 @@ export async function seed(knex: Knex): Promise<void> {
       })(),
       openToClimbTogether: true,
       optionalNote: 'Hello! Selling these tix next week',
-      isClosed: false,
+      status: PostStatus.OPEN,
     },
     // Next week (other)
     {
@@ -218,7 +218,7 @@ export async function seed(knex: Knex): Promise<void> {
       })(),
       openToClimbTogether: true,
       optionalNote: 'Climb wif me!',
-      isClosed: false,
+      status: PostStatus.OPEN,
     },
   ]);
 }

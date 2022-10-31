@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import { PostType } from '../../utils/types';
+import { PostStatus, PostType } from '../../utils/types';
 import { BaseModel } from './base.model';
 import { GymModel } from './gym.model';
 import { UserProfileModel } from './userProfile.model';
@@ -16,11 +16,13 @@ export class PostModel extends BaseModel {
   readonly endDateTime: Date;
   readonly openToClimbTogether: boolean;
   readonly optionalNote: string;
-  readonly isClosed: boolean;
+  readonly status: PostStatus;
   readonly telegramAlertMessageId: number;
 
   readonly creatorProfile: UserProfileModel;
   readonly gym: GymModel;
+
+  isClosed: boolean;
 
   static relationMappings = () => ({
     creatorProfile: {
@@ -43,4 +45,13 @@ export class PostModel extends BaseModel {
       },
     },
   });
+
+  // To maintain compatability with the frontend for now, although backend representation has changed
+  $afterFind = (context) => {
+    const result = super.$afterFind(context);
+    this.isClosed = [PostStatus.CLOSED, PostStatus.EXPIRED].includes(
+      this.status,
+    );
+    return result;
+  };
 }

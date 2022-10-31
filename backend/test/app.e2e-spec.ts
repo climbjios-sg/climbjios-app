@@ -20,6 +20,7 @@ import {
   MOCK_POST_1_UUID,
   MOCK_POST_2_UUID,
 } from '../src/database/seeds/03-Posts';
+import { PostStatus } from '../src/utils/types';
 
 dotenv.config();
 describe('Backend (e2e)', () => {
@@ -329,7 +330,7 @@ describe('Backend (e2e)', () => {
           expect.objectContaining({
             ...data,
             creatorId: MOCK_USER_1_UUID,
-            isClosed: false,
+            status: PostStatus.OPEN,
           }),
         );
       });
@@ -365,8 +366,8 @@ describe('Backend (e2e)', () => {
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
           .expect(200);
 
-        expect(body.length).toEqual(9);
-        expect(body[2]).toEqual(
+        expect(body.length).toEqual(6);
+        expect(body[0]).toEqual(
           expect.objectContaining({
             creatorId: MOCK_USER_1_UUID,
             numPasses: 5,
@@ -375,6 +376,7 @@ describe('Backend (e2e)', () => {
             openToClimbTogether: true,
             optionalNote: 'Hello! Nice to meet you!',
             isClosed: false,
+            status: PostStatus.OPEN,
             startDateTime: expect.anything(),
             endDateTime: expect.anything(),
             type: 'buyer',
@@ -412,7 +414,7 @@ describe('Backend (e2e)', () => {
         );
       });
 
-      it('with search params - returns filtered open posts', async () => {
+      it('with search params - returns filtered posts', async () => {
         const { body } = await request(app.getHttpServer())
           .get(`${prefix}/search?type=buyer&numPasses=3`)
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
@@ -427,7 +429,8 @@ describe('Backend (e2e)', () => {
             gymId: 1,
             openToClimbTogether: true,
             optionalNote: 'Im selling!',
-            isClosed: false,
+            isClosed: true,
+            status: PostStatus.EXPIRED,
             type: 'seller',
             creatorProfile: {
               userId: expect.anything(),
@@ -480,6 +483,7 @@ describe('Backend (e2e)', () => {
             openToClimbTogether: true,
             optionalNote: 'Hello! Nice to meet you!',
             isClosed: false,
+            status: PostStatus.OPEN,
             startDateTime: expect.anything(),
             endDateTime: expect.anything(),
             type: 'buyer',
@@ -550,7 +554,7 @@ describe('Backend (e2e)', () => {
             ...data,
             id: MOCK_POST_1_UUID,
             creatorId: MOCK_USER_1_UUID,
-            isClosed: false,
+            status: PostStatus.OPEN,
             creatorProfile: {
               userId: MOCK_USER_1_UUID,
               name: 'Alison',
