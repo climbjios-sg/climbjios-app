@@ -3,16 +3,24 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import * as dotenv from 'dotenv';
 import { AppModule } from '../src/app/app.module';
-import { ConstantsService } from '../src/utils/constants/constants.service';
+import {
+  ConstantsService,
+  IConstantsService,
+} from '../src/utils/constants/constants.service';
 import knex from 'knex';
 import knexConfig from '../knexfile';
 import { TelegramOauthStrategy } from '../src/auth/telegramOauth/telegramOauth.strategy';
 import { MOCK_USER_1_UUID } from '../src/database/seeds/02-Users';
 import { GoogleOauthStrategy } from '../src/auth/googleOauth/googleOauth.strategy';
 import { JwtAuthService } from '../src/auth/jwtAuth/jwtAuth.service';
-import { TelegramAlertsService } from '../src/utils/telegramAlerts/telegramAlerts.service';
+import { TelegramService } from '../src/utils/telegram/telegram.service';
 import { getMockedTelegramOAuthStrategy } from './mocks/MockTelegramOauthStrategy';
 import { getDateFromNow } from './helpers';
+import {
+  MOCK_POST_1_UUID,
+  MOCK_POST_2_UUID,
+} from '../src/database/seeds/03-Posts';
+import { PostStatus } from '../src/utils/types';
 
 dotenv.config();
 describe('Backend (e2e)', () => {
@@ -34,7 +42,7 @@ describe('Backend (e2e)', () => {
   };
   let TEST_USER_JWT;
 
-  const mockConstantsService = {
+  const mockConstantsService: Partial<IConstantsService> = {
     ACCESS_TOKEN_SECRET: 'dummy-placeholder-1',
     ACCESS_TOKEN_EXPIRY: '1d',
     REFRESH_TOKEN_SECRET: 'dummy-placeholder-1',
@@ -46,6 +54,7 @@ describe('Backend (e2e)', () => {
     DATABASE_USER: process.env.DATABASE_USER,
     DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
     DATABASE_NAME: TEST_DATABASE_NAME,
+    NODE_ENV: 'test',
   };
 
   const createBaseTestingModule = () =>
@@ -58,9 +67,16 @@ describe('Backend (e2e)', () => {
       .useValue({})
       .overrideProvider(TelegramOauthStrategy)
       .useClass(getMockedTelegramOAuthStrategy(true))
-      .overrideProvider(TelegramAlertsService) // silence Telegram alerts module
+      .overrideProvider(TelegramService) // silence Telegram alerts module
       .useValue({
-        error: jest.fn(),
+        sendViaAlertsBot: jest.fn(),
+        sendViaOAuthBot: jest.fn().mockResolvedValue({
+          data: {
+            result: {
+              message_id: 1,
+            },
+          },
+        }),
       });
 
   beforeAll(async () => {
@@ -314,7 +330,7 @@ describe('Backend (e2e)', () => {
           expect.objectContaining({
             ...data,
             creatorId: MOCK_USER_1_UUID,
-            isClosed: false,
+            status: PostStatus.OPEN,
           }),
         );
       });
@@ -350,8 +366,8 @@ describe('Backend (e2e)', () => {
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
           .expect(200);
 
-        expect(body.length).toEqual(9);
-        expect(body[2]).toEqual(
+        expect(body.length).toEqual(6);
+        expect(body[0]).toEqual(
           expect.objectContaining({
             creatorId: MOCK_USER_1_UUID,
             numPasses: 5,
@@ -360,6 +376,7 @@ describe('Backend (e2e)', () => {
             openToClimbTogether: true,
             optionalNote: 'Hello! Nice to meet you!',
             isClosed: false,
+            status: PostStatus.OPEN,
             startDateTime: expect.anything(),
             endDateTime: expect.anything(),
             type: 'buyer',
@@ -397,7 +414,7 @@ describe('Backend (e2e)', () => {
         );
       });
 
-      it('with search params - returns filtered open posts', async () => {
+      it('with search params - returns filtered posts', async () => {
         const { body } = await request(app.getHttpServer())
           .get(`${prefix}/search?type=buyer&numPasses=3`)
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
@@ -412,7 +429,8 @@ describe('Backend (e2e)', () => {
             gymId: 1,
             openToClimbTogether: true,
             optionalNote: 'Im selling!',
-            isClosed: false,
+            isClosed: true,
+            status: PostStatus.EXPIRED,
             type: 'seller',
             creatorProfile: {
               userId: expect.anything(),
@@ -449,7 +467,7 @@ describe('Backend (e2e)', () => {
 
     describe(':postId (GET)', () => {
       it('success', async () => {
-        const postId = 1;
+        const postId = MOCK_POST_1_UUID;
         const { body } = await request(app.getHttpServer())
           .get(`${prefix}/${postId}`)
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
@@ -457,7 +475,7 @@ describe('Backend (e2e)', () => {
 
         expect(body).toEqual(
           expect.objectContaining({
-            id: 1,
+            id: MOCK_POST_1_UUID,
             creatorId: MOCK_USER_1_UUID,
             numPasses: 5,
             price: 15.5,
@@ -465,6 +483,7 @@ describe('Backend (e2e)', () => {
             openToClimbTogether: true,
             optionalNote: 'Hello! Nice to meet you!',
             isClosed: false,
+            status: PostStatus.OPEN,
             startDateTime: expect.anything(),
             endDateTime: expect.anything(),
             type: 'buyer',
@@ -493,18 +512,35 @@ describe('Backend (e2e)', () => {
         );
       });
 
+      it('does not exist', () => {
+        const postId = '9884e38a-bddd-4cd0-ad4d-e36e1e67944e';
+        return request(app.getHttpServer())
+          .get(`${prefix}/${postId}`)
+          .set('Authorization', 'Bearer ' + TEST_USER_JWT)
+          .expect(404);
+      });
+
       it('does not belong to user', () => {
-        const postId = 2;
+        const postId = MOCK_POST_2_UUID;
         return request(app.getHttpServer())
           .get(`${prefix}/${postId}`)
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
           .expect(200);
       });
+
+      it('invalid uuid', () => {
+        const postId = '1';
+        return request(app.getHttpServer())
+          .get(`${prefix}/${postId}`)
+          .set('Authorization', 'Bearer ' + TEST_USER_JWT)
+          .expect(400)
+          .expect(`{"message":"Invalid post id!"}`);
+      });
     });
 
     describe(':postId (PATCH)', () => {
       it('success', async () => {
-        const postId = 1;
+        const postId = MOCK_POST_1_UUID;
         const data = {
           type: 'seller',
           numPasses: 3,
@@ -524,9 +560,9 @@ describe('Backend (e2e)', () => {
         expect(body).toEqual(
           expect.objectContaining({
             ...data,
-            id: 1,
+            id: MOCK_POST_1_UUID,
             creatorId: MOCK_USER_1_UUID,
-            isClosed: false,
+            status: PostStatus.OPEN,
             creatorProfile: {
               userId: MOCK_USER_1_UUID,
               name: 'Alison',
@@ -553,7 +589,7 @@ describe('Backend (e2e)', () => {
       });
 
       it('does not exist', () => {
-        const postId = 1000;
+        const postId = '9884e38a-bddd-4cd0-ad4d-e36e1e67944e';
         return request(app.getHttpServer())
           .patch(`${prefix}/${postId}`)
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
@@ -561,11 +597,20 @@ describe('Backend (e2e)', () => {
       });
 
       it('does not belong to user', () => {
-        const postId = 2;
+        const postId = MOCK_POST_2_UUID;
         return request(app.getHttpServer())
           .patch(`${prefix}/${postId}`)
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
           .expect(403);
+      });
+
+      it('invalid uuid', () => {
+        const postId = 1;
+        return request(app.getHttpServer())
+          .patch(`${prefix}/${postId}`)
+          .set('Authorization', 'Bearer ' + TEST_USER_JWT)
+          .expect(400)
+          .expect(`{"message":"Invalid post id!"}`);
       });
     });
   });

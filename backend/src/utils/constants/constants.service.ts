@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-interface IConstantsService {
+export interface IConstantsService {
+  NODE_ENV: string;
   OAUTH_GOOGLE_ID: string;
   OAUTH_GOOGLE_SECRET: string;
   OAUTH_GOOGLE_REDIRECT_URL: string;
   OAUTH_TELEGRAM_BOT_TOKEN: string;
+  TELEGRAM_MAIN_CHAT_GROUP_ID: string;
   TELEGRAM_ALERTS_BOT_TOKEN: string;
   TELEGRAM_ALERTS_CHAT_ID: string;
   ACCESS_TOKEN_SECRET: string;
@@ -46,10 +48,12 @@ export class ConstantsService implements IConstantsService {
     return this.configService.getOrThrow(varname).toLowerCase() === 'true';
   }
 
+  NODE_ENV = this.get('NODE_ENV');
   OAUTH_GOOGLE_ID = this.getOrThrow('OAUTH_GOOGLE_ID');
   OAUTH_GOOGLE_SECRET = this.getOrThrow('OAUTH_GOOGLE_SECRET');
   OAUTH_GOOGLE_REDIRECT_URL = this.getOrThrow('OAUTH_GOOGLE_REDIRECT_URL');
   OAUTH_TELEGRAM_BOT_TOKEN = this.getOrThrow('OAUTH_TELEGRAM_BOT_TOKEN');
+  TELEGRAM_MAIN_CHAT_GROUP_ID = this.get('TELEGRAM_MAIN_CHAT_GROUP_ID');
   TELEGRAM_ALERTS_BOT_TOKEN = this.get('TELEGRAM_ALERTS_BOT_TOKEN');
   TELEGRAM_ALERTS_CHAT_ID = this.get('TELEGRAM_ALERTS_CHAT_ID');
   ACCESS_TOKEN_SECRET = this.getOrThrow('ACCESS_TOKEN_SECRET');

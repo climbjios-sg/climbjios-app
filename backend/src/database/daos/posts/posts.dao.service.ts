@@ -3,7 +3,7 @@ import { ModelClass, Transaction } from 'objection';
 import { PostModel } from '../../models/post.model';
 import CreatePostDto from '../../../posts/dtos/createPost.dto';
 import SearchPostDto from '../../../posts/dtos/searchPost.dto';
-import { PostType } from '../../../utils/types';
+import { PostStatus, PostType } from '../../../utils/types';
 import { UserProfileDaoService } from '../userProfiles/userProfile.dao.service';
 
 @Injectable()
@@ -31,10 +31,14 @@ export class PostsDaoService {
   create(
     post: CreatePostDto & {
       creatorId: string;
-      isClosed: boolean;
+      status: PostStatus.OPEN;
     },
   ) {
-    return this.postModel.query().insert(post).returning('*');
+    return this.postModel
+      .query()
+      .insert(post)
+      .returning('*')
+      .withGraphFetched('gym');
   }
 
   patchById(id: string, data: Partial<PostModel>) {
@@ -56,7 +60,9 @@ export class PostsDaoService {
 
     // No filters set
     if (!Object.keys(search).length) {
-      return await query.where('endDateTime', '>=', new Date());
+      return await query
+        .where('endDateTime', '>=', new Date())
+        .where('status', PostStatus.OPEN);
     }
     Object.entries(search).forEach(([key, value]) => {
       if (key === 'numPasses') {
@@ -107,15 +113,19 @@ export class PostsDaoService {
     return this.postModel
       .query()
       .count()
-      .where({ isClosed: false })
+      .where({ status: PostStatus.OPEN })
       .first()
       .then((r: any) => r.count);
   }
 
-  closePostsWithEndDateBefore(date: Date) {
+  /**
+   * So that cronjob can close them.
+   */
+  getExpiredOpenPosts() {
     return this.postModel
       .query()
-      .update({ isClosed: true })
-      .where('endDateTime', '<', date);
+      .select()
+      .where('endDateTime', '<', new Date())
+      .where('status', PostStatus.OPEN);
   }
 }
