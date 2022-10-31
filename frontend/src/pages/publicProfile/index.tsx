@@ -8,7 +8,7 @@ import FloatingBottomCard from 'src/components/FloatingBottomCard';
 import BioCard from '../../components/profile/BioCard';
 // types
 import { User } from 'src/@types/user';
-import { PATH_DASHBOARD, PATH_USER } from '../../routes/paths';
+import { PATH_USER } from '../../routes/paths';
 import ProfileBetas from '../../components/profile/ProfileBetas';
 import ProfileHeaderAndTabs from '../../components/profile/ProfileHeaderAndTabs';
 import { outgoingLinkProps } from '../../utils/common';
@@ -18,6 +18,7 @@ import Page404 from '../error/Page404';
 export type UserProfileLocationState = {
   user: User;
   isShowFloatingButton?: boolean;
+  backTo?: string;
 };
 
 export function makeUserProfileLinkProps(userProfileData: UserProfileLocationState) {
@@ -34,7 +35,7 @@ export default function PublicProfile() {
     return <Page404 />;
   }
 
-  const { user, isShowFloatingButton } = state;
+  const { user, isShowFloatingButton, backTo } = state;
   return (
     <Box
       sx={{
@@ -46,7 +47,7 @@ export default function PublicProfile() {
     >
       <ProfileHeaderAndTabs
         showBack
-        backTo={PATH_DASHBOARD.general.jios.root}
+        backTo={backTo}
         user={user}
         aboutTab={
           <Stack sx={{ px: 2 }}>
