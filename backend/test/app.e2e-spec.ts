@@ -512,6 +512,14 @@ describe('Backend (e2e)', () => {
         );
       });
 
+      it('does not exist', () => {
+        const postId = '9884e38a-bddd-4cd0-ad4d-e36e1e67944e';
+        return request(app.getHttpServer())
+          .get(`${prefix}/${postId}`)
+          .set('Authorization', 'Bearer ' + TEST_USER_JWT)
+          .expect(404);
+      });
+
       it('does not belong to user', () => {
         const postId = MOCK_POST_2_UUID;
         return request(app.getHttpServer())
