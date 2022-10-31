@@ -69,7 +69,13 @@ describe('Backend (e2e)', () => {
       .overrideProvider(TelegramService) // silence Telegram alerts module
       .useValue({
         sendViaAlertsBot: jest.fn(),
-        sendViaOAuthBot: jest.fn(),
+        sendViaOAuthBot: jest.fn().mockResolvedValue({
+          data: {
+            result: {
+              message_id: 1,
+            },
+          },
+        }),
       });
 
   beforeAll(async () => {

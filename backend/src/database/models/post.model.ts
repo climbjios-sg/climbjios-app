@@ -17,6 +17,7 @@ export class PostModel extends BaseModel {
   readonly openToClimbTogether: boolean;
   readonly optionalNote: string;
   readonly isClosed: boolean;
+  readonly telegramAlertMessageId: number;
 
   readonly creatorProfile: UserProfileModel;
   readonly gym: GymModel;

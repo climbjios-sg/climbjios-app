@@ -9,6 +9,7 @@ import { TelegramService } from '../utils/telegram/telegram.service';
 import { PostModel } from '../database/models/post.model';
 import { ConstantsService } from '../utils/constants/constants.service';
 import * as moment from 'moment';
+import { LoggerService } from '../utils/logger/logger.service';
 
 @Injectable()
 export class PostService {
@@ -17,6 +18,7 @@ export class PostService {
     private readonly gymsDaoService: GymsDaoService,
     private readonly telegramService: TelegramService,
     private readonly constantsService: ConstantsService,
+    private readonly loggerService: LoggerService,
   ) {}
 
   getOwnPosts(userId: string) {
@@ -93,9 +95,24 @@ export class PostService {
       );
     }
 
-    return this.postsDaoService.patchById(postId, {
-      ...body,
-    });
+    return this.postsDaoService
+      .patchById(postId, {
+        ...body,
+      })
+      .then((obj) => {
+        if (obj.isClosed) {
+          this.telegramService
+            .editViaOAuthBot(
+              obj.telegramAlertMessageId,
+              this.constantsService.TELEGRAM_MAIN_CHAT_GROUP_ID,
+              this.formatAlertMessage(obj),
+            )
+            .catch((e) => {
+              this.loggerService.log(e);
+            });
+        }
+        return obj;
+      });
   }
 
   searchPosts(query: SearchPostDto) {
@@ -114,14 +131,32 @@ export class PostService {
     }
   }
 
+  /**
+   * Format and send the Telegram Alert to the main group when a post is
+   * successfully created. Also updates the database with the message_id of the
+   * Telegram message.
+   */
   private notifyMainGroupOnSuccessfulPost(createdObj: PostModel) {
+    return this.telegramService
+      .sendViaOAuthBot(
+        this.formatAlertMessage(createdObj),
+        this.constantsService.TELEGRAM_MAIN_CHAT_GROUP_ID,
+      )
+      .then((res) =>
+        this.postsDaoService.patchById(createdObj.id, {
+          telegramAlertMessageId: res.data?.result?.message_id,
+        }),
+      );
+  }
+
+  private formatAlertMessage(obj: PostModel) {
     let header;
-    switch (createdObj.type) {
+    switch (obj.type) {
       case PostType.BUYER:
-        header = `Buying ${createdObj.numPasses} 🎟`;
+        header = `Buying ${obj.numPasses} 🎟`;
         break;
       case PostType.SELLER:
-        header = `Selling ${createdObj.numPasses} 🎟`;
+        header = `Selling ${obj.numPasses} 🎟`;
         break;
       case PostType.OTHER:
         header = 'Looking for friends to climb with\n(No need 🎟️)';
@@ -132,24 +167,19 @@ export class PostService {
     }
     header = `<b>${header}</b>\n\n`;
 
-    const gym = `📍 ${createdObj.gym.name}\n`;
-    const dateTime = `🗓 ${moment(createdObj.startDateTime).format(
+    const gym = `📍 ${obj.gym.name}\n`;
+    const dateTime = `🗓 ${moment(obj.startDateTime).format(
       'ddd, D MMM YYYY, h:mma',
-    )}-${moment(createdObj.endDateTime).format('h:mma')}\n`;
-    const price =
-      createdObj.type !== PostType.OTHER
-        ? `💵 $${createdObj.price}/pass\n`
-        : '';
-    const openToClimbTogether = createdObj.openToClimbTogether
+    )}-${moment(obj.endDateTime).format('h:mma')}\n`;
+    const price = obj.type !== PostType.OTHER ? `💵 $${obj.price}/pass\n` : '';
+    const openToClimbTogether = obj.openToClimbTogether
       ? `👋 Open to climb together\n`
       : '';
-    const optionalNote = createdObj.optionalNote
-      ? `💬 ${createdObj.optionalNote}\n`
-      : '';
-    const redirectLink = `${this.constantsService.CORS_ORIGIN}?jioId=${createdObj.id}`;
+    const optionalNote = obj.optionalNote ? `💬 ${obj.optionalNote}\n` : '';
+    const redirectLink = `${this.constantsService.CORS_ORIGIN}/jios/${obj.id}`;
     const redirectLinkMsg = `🔗 <a href='${redirectLink}'>${redirectLink}</a>\n`;
 
-    const message =
+    let message =
       header +
       gym +
       dateTime +
@@ -158,9 +188,10 @@ export class PostService {
       optionalNote +
       redirectLinkMsg;
 
-    return this.telegramService.sendViaOAuthBot(
-      message,
-      this.constantsService.TELEGRAM_MAIN_CHAT_GROUP_ID,
-    );
+    if (obj.isClosed) {
+      message = `❌ <b>CLOSED</b>\n\n<s>${message}</s>`;
+    }
+
+    return message;
   }
 }
