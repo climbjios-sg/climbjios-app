@@ -8,6 +8,6 @@ export declare class PostController {
     getOwnPosts(req: any): import("objection").QueryBuilder<import("../database/models/post.model").PostModel, import("../database/models/post.model").PostModel[]>;
     createPost(req: any, body: CreatePostDto): Promise<import("../database/models/post.model").PostModel>;
     searchPosts(query: SearchPostDto): Promise<import("../database/models/post.model").PostModel[]>;
-    getPost(req: any, params: any): Promise<import("../database/models/post.model").PostModel>;
+    getPost(params: any): Promise<import("../database/models/post.model").PostModel>;
     patchPost(req: any, params: any, body: PatchPostDto): Promise<import("@nestjs/common").HttpException | import("../database/models/post.model").PostModel>;
 }

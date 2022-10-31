@@ -30,10 +30,10 @@ let PostService = class PostService {
         }
         return this.postsDaoService.create(Object.assign(Object.assign({ creatorId }, body), { isClosed: false }));
     }
-    async getPost(userId, postId) {
+    async getPost(postId) {
         const post = await this.postsDaoService.getById(postId);
-        if ((post === null || post === void 0 ? void 0 : post.creatorId) !== userId) {
-            throw new common_1.HttpException('Forbidden', 403);
+        if (!post) {
+            throw new common_1.HttpException('No such jio', 404);
         }
         return post;
     }
