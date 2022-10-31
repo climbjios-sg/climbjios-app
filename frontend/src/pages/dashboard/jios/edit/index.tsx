@@ -28,7 +28,7 @@ const jioToJioFormValues = (jio: Jio): JioCreateEditFormValues => ({
 
 export default function JiosEdit() {
   const { id } = useParams();
-  const jioId = id as string;
+  const jioId = String(id);
   const snackbar = useCustomSnackbar();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();

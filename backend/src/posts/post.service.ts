@@ -41,6 +41,9 @@ export class PostService {
 
   async getPost(postId: string) {
     const post = await this.postsDaoService.getById(postId);
+    if (!post) {
+      throw new HttpException('No such jio', 404);
+    }
 
     return post;
   }
