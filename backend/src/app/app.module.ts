@@ -33,6 +33,7 @@ import { GymGradesDaoModule } from '../database/daos/gymGrades/gymGrades.dao.mod
 import { WallsDaoModule } from '../database/daos/walls/walls.dao.module';
 import { WallsModule } from '../walls/walls.module';
 import { LoggerModule } from '../utils/logger/logger.module';
+import { RefreshTokensDaoModule } from '../database/daos/refreshTokens/refreshTokens.dao.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { LoggerModule } from '../utils/logger/logger.module';
     ColorsDaoModule,
     WallsDaoModule,
     BetasDaoModule,
+    RefreshTokensDaoModule,
 
     // Modules with controllers
     AuthModule,
