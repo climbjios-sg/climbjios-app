@@ -8,15 +8,26 @@ import NameAvatar from '../../../../components/NameAvatar';
 
 interface JioCardHeaderProps {
   data: Jio;
-  isHideUsername?: boolean;
+  isUsernameHidden?: boolean;
+  isLinkDisabled?: boolean;
 }
 
-export default function JioCardHeader({ data, isHideUsername = false }: JioCardHeaderProps) {
+export default function JioCardHeader({
+  data,
+  isUsernameHidden = false,
+  isLinkDisabled = false,
+}: JioCardHeaderProps) {
+  const linkProps = isLinkDisabled
+    ? {}
+    : {
+        component: Link,
+        ...makeUserProfileLinkProps({ user: data.creatorProfile }),
+      };
+
   return (
     <CardHeader
       avatar={
         <Stack
-          component={Link}
           sx={{
             textDecoration: 'none',
             color: 'inherit',
@@ -24,7 +35,7 @@ export default function JioCardHeader({ data, isHideUsername = false }: JioCardH
           spacing={1}
           direction="row"
           alignItems="center"
-          {...makeUserProfileLinkProps({ user: data.creatorProfile })}
+          {...linkProps}
         >
           <NameAvatar
             name={data.creatorProfile.telegramHandle}
@@ -36,7 +47,7 @@ export default function JioCardHeader({ data, isHideUsername = false }: JioCardH
               mx: 'auto',
             }}
           />
-          {!isHideUsername && (
+          {!isUsernameHidden && (
             <Typography variant="h6">{`@${data.creatorProfile.telegramHandle}`}</Typography>
           )}
         </Stack>

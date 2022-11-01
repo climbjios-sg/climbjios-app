@@ -13,7 +13,7 @@ import LoginForm from '../auth/LoginForm';
 import JioCard from '../dashboard/jios/list/allJios/JioCard';
 import Page404 from '../error/Page404';
 import { useDispatch } from '../../store';
-import { PATH_USER } from '../../routes/paths';
+import { PATH_DASHBOARD, PATH_USER } from '../../routes/paths';
 import { UserProfileLocationState } from '../publicProfile';
 import useAuthState from '../../hooks/auth/useAuthState';
 import useRedirectPath from '../../hooks/useRedirectPath';
@@ -40,6 +40,7 @@ export default function JioPage() {
         state: {
           user: data.data.creatorProfile,
           isShowFloatingButton: true,
+          backTo: PATH_DASHBOARD.general.jios.root,
         } as UserProfileLocationState,
       };
 
@@ -73,7 +74,7 @@ export default function JioPage() {
               This Jio is closed.
             </Typography>
           ) : (
-            <JioCard data={jioData} isButtonDisabled />
+            <JioCard data={jioData} isButtonDisabled isHeaderLinkDisabled isUsernameHidden />
           )}
         </Stack>
       </Container>
