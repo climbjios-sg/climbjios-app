@@ -86,7 +86,8 @@ export class PostsDaoService {
         } else if (value === PostType.SELLER) {
           query.where('type', PostType.BUYER);
         } else {
-          query.where('type', PostType.OTHER);
+          // PostType.OTHERS: return posts that have 'open to climb with others'
+          query.where('openToClimbTogether', true);
         }
       } else {
         query.where(key, value);
