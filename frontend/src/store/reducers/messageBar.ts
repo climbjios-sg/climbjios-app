@@ -8,7 +8,6 @@ type State = Pick<MessageBarProps, 'icon' | 'message' | 'loading' | 'show'> & {
 
 const initialState: State = {
   show: false,
-  icon: '',
   message: '',
   enableCloseButton: false,
   loading: false,
@@ -27,7 +26,7 @@ const slice = createSlice({
     },
     close(state) {
       state.show = false;
-      state.icon = '';
+      state.icon = undefined;
       state.message = '';
       state.enableCloseButton = false;
       state.loading = false;

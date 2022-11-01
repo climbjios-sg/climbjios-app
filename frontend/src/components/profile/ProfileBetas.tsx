@@ -24,7 +24,7 @@ export default function ProfileBetas({ style, creatorId, isMine = false }: Profi
       pageSize: BETAS_PAGE_SIZE,
     });
 
-  const { loading, data, mutate } = useSafeRequest(() => getTargetBetas(0), {
+  const { loading, data, mutate, refresh } = useSafeRequest(() => getTargetBetas(0), {
     onError: () => {
       errorSnackbar.enqueueError('Failed to get Betas.');
     },
@@ -38,6 +38,7 @@ export default function ProfileBetas({ style, creatorId, isMine = false }: Profi
         width: '95vw',
         ...style,
       }}
+      refresh={refresh}
       loading={loading}
       data={data}
       onFetchPage={(newResponse) => {

@@ -1,4 +1,4 @@
-import { IconifyIcon } from '@iconify/react';
+
 import {
   AppBar,
   Button,
@@ -8,13 +8,12 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import Iconify from './Iconify';
 
 export type MessageBarProps = {
   show: boolean;
-  icon: IconifyIcon | string;
   message: string;
   onClose?: () => void;
+  icon?: React.ReactElement;
   loading?: boolean;
 };
 
@@ -40,13 +39,17 @@ export default function MessageBar({
           zIndex: theme.zIndex.snackbar,
         }}
       >
-        {loading && <LinearProgress />}
+        {loading && <LinearProgress color="secondary" />}
         <Toolbar>
-          {Boolean(icon) && <Iconify sx={{ mr: 2 }} color="text.primary" icon={icon} />}
-          <Typography variant="subtitle2" component="div" sx={{ flexGrow: 1 }}>
+          {icon}
+          <Typography variant="subtitle2" component="div" sx={{ flexGrow: 1, ml: 2 }}>
             {message}
           </Typography>
-          {Boolean(onClose) && <Button color="secondary" onClick={onClose}>Close</Button>}
+          {Boolean(onClose) && (
+            <Button color="secondary" onClick={onClose}>
+              Close
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Collapse>

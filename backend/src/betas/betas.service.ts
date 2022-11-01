@@ -46,10 +46,11 @@ export class BetasService {
         data,
         metadata: {
           totalCount: count,
+          // Page index starts from 0
           currentPage,
           pageSize: query.pageSize,
           totalPages,
-          isLastPage: totalPages === currentPage,
+          isLastPage: totalPages - 1 === currentPage,
         },
       };
     } catch (err) {

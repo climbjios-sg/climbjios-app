@@ -12,6 +12,7 @@ import { refreshView } from 'src/store/reducers/ui';
 import { CustomFile } from 'src/components/upload';
 import BetaCreateEditForm from '../form/BetaCreateEditForm';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
+import Iconify from 'src/components/Iconify';
 
 export default function BetaCreate() {
   const dispatch = useDispatch();
@@ -24,7 +25,6 @@ export default function BetaCreate() {
     navigate(PATH_DASHBOARD.general.betas.root);
     dispatch(
       openMessageBar({
-        icon: 'game-icons:mountain-climbing',
         message: 'Uploading your beta...',
         loading: true,
       })
@@ -37,7 +37,7 @@ export default function BetaCreate() {
         wallId: beta.wallId,
         colorId: beta.colorId,
         gymGradeId: beta.gymGradeId,
-      })
+      });
 
       // Push beta video to store, so we don't have to refetch video when displaying it
       const betaVideo = beta.video as CustomFile;
@@ -52,7 +52,7 @@ export default function BetaCreate() {
 
       dispatch(
         openMessageBar({
-          icon: 'noto:party-popper',
+          icon: <Iconify icon="noto:party-popper" />,
           message: 'Woohoo! Uploaded your Beta!',
           autoHideDuration: 4000,
           enableCloseButton: true,
@@ -63,7 +63,7 @@ export default function BetaCreate() {
     } catch (err) {
       dispatch(
         openMessageBar({
-          icon: 'icon-park-outline:file-failed',
+          icon: <Iconify icon="icon-park-outline:file-failed" />,
           message: 'Failed to upload your beta 😢. Try again!',
           autoHideDuration: 6000,
           enableCloseButton: true,
