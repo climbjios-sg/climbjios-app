@@ -12,6 +12,7 @@ export declare class BetaModel extends BaseModel {
     readonly colorId: number;
     readonly wallId: number;
     readonly cloudflareVideoUid: string;
+    readonly count: string;
     thumbnailUrl: string;
     static relationMappings: () => {
         creatorProfile: {

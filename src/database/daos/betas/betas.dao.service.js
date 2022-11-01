@@ -60,7 +60,7 @@ let BetasDaoService = BetasDaoService_1 = class BetasDaoService {
     }
     async getCount(args) {
         const countArr = await this.buildGetQuery(args).count({ count: '*' });
-        return countArr['count'];
+        return Number(countArr[0].count);
     }
 };
 BetasDaoService.allGraphs = `[gym,color,wall,gymGrade,creatorProfile.${userProfile_dao_service_1.UserProfileDaoService.allGraphs}]`;
