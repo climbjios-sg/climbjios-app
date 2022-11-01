@@ -88,7 +88,7 @@ let PostsDaoService = PostsDaoService_1 = class PostsDaoService {
                     query.where('type', types_1.PostType.BUYER);
                 }
                 else {
-                    query.where('type', types_1.PostType.OTHER);
+                    query.where('openToClimbTogether', true);
                 }
             }
             else {
