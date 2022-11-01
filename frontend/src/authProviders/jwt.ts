@@ -84,19 +84,24 @@ export const jwtAuthProvider: AuthProvider = {
    * If access token is invalid, updates it using the refresh token.
    */
   checkAuth: async () => {
+    // Don't check auth if it's a public url
     if (isPublicUrl(window.location.hash)) {
       return;
     }
 
     const session = getSession();
+    // If there's no session, terminate
     if (session === null) {
       throw new Error();
     }
 
-    if (!isTokenExpired(session.accessToken)) {
-      return;
+    // If token is expired, terminate
+    if (isTokenExpired(session.accessToken)) {
+      throw new Error();
     }
 
+    // Send request to check if access token is valid
+    // Will auto refresh access token if it's expired
     await checkValidity();
   },
   checkOnboarded: async () => {
