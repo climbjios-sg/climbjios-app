@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
-import EmptyContent from '../../../../components/EmptyContent';
-import SupportButton from '../../../../components/SupportButton';
+import EmptyContent from 'src/components/EmptyContent';
+import SupportButton from 'src/components/SupportButton';
 
 export default function ErrorContent() {
   return (
