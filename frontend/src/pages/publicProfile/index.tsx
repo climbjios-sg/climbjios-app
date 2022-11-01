@@ -29,6 +29,7 @@ export function makeUserProfileLinkProps(userProfileData: UserProfileLocationSta
 }
 
 type PublicProfileProps = {
+  // If location.state is not provided, will use data prop to populate this page
   data?: UserProfileLocationState;
 };
 
