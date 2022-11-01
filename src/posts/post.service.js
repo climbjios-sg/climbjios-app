@@ -157,7 +157,7 @@ let PostService = class PostService {
             inline_keyboard: [
                 [
                     {
-                        text: 'Message User',
+                        text: 'Message Climber 👈',
                         url: redirectLink,
                     },
                 ],
