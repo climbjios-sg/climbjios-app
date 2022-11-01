@@ -3,89 +3,115 @@ import { Typography } from '@mui/material';
 import { Container, Stack } from '@mui/system';
 import { useRequest } from 'ahooks';
 import { useNavigate, useParams } from 'react-router-dom';
-import FloatingBottomCard from '../../components/FloatingBottomCard';
-import LoadingScreen from '../../components/LoadingScreen';
-import useCustomSnackbar from '../../hooks/useCustomSnackbar';
-import Logo from '../../components/Logo';
-import Page from '../../components/Page';
-import { getJio } from '../../services/jios';
+import FloatingBottomCard from 'src/components/FloatingBottomCard';
+import Logo from 'src/components/Logo';
+import Page from 'src/components/Page';
+import { getJio } from 'src/services/jios';
 import LoginForm from '../auth/LoginForm';
-import JioCard from '../dashboard/jios/list/allJios/JioCard';
+import JioCard from 'src/components/jios/JioCard';
+import { useDispatch } from 'src/store';
+import { PATH_DASHBOARD, PATH_USER } from 'src/routes/paths';
+import PublicProfile from '../publicProfile';
+import useAuthState from 'src/hooks/auth/useAuthState';
+import useRedirectPath from 'src/hooks/useRedirectPath';
+import { User } from 'src/@types/user';
+import JioCardLoader from 'src/components/jios/JioCardLoader';
 import Page404 from '../error/Page404';
-import { useDispatch } from '../../store';
-import { PATH_DASHBOARD, PATH_USER } from '../../routes/paths';
-import { UserProfileLocationState } from '../publicProfile';
-import useAuthState from '../../hooks/auth/useAuthState';
-import useRedirectPath from '../../hooks/useRedirectPath';
 
-export default function JioPage() {
-  const { authenticated } = useAuthState();
-  const { id } = useParams();
-  const snackbar = useCustomSnackbar();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { setRedirectPath } = useRedirectPath();
-  const jioId = id as string;
+const makePublicProfileState = (creatorProfile: User) => ({
+  user: creatorProfile,
+  isShowFloatingButton: true,
+  backTo: PATH_DASHBOARD.general.jios.root,
+});
 
-  const { data, loading } = useRequest(() => getJio(jioId), {
-    onError: () => {
-      snackbar.enqueueError('Failed to retrieve Jio.');
-    },
-  });
+type JioPageWrapperProps = {
+  title: string;
+  children: React.ReactNode;
+  hideLogin?: boolean;
+};
 
-  useEffect(() => {
-    if (data && !data.data.isClosed) {
-      const redirectPathTo = PATH_USER.general.user(data.data.creatorId);
-      const redirectPathOptions = {
-        state: {
-          user: data.data.creatorProfile,
-          isShowFloatingButton: true,
-          backTo: PATH_DASHBOARD.general.jios.root,
-        } as UserProfileLocationState,
-      };
-
-      if (authenticated) {
-        navigate(redirectPathTo, redirectPathOptions);
-        return;
-      }
-
-      setRedirectPath({ to: redirectPathTo, options: redirectPathOptions });
-    }
-  }, [authenticated, data, dispatch, navigate, setRedirectPath]);
-
-  if (loading) {
-    return <LoadingScreen />;
-  }
-
-  if (!data || !data.data) {
-    return <Page404 />;
-  }
-
-  const jioData = data.data;
+function JioPageWrapper({ title, children, hideLogin = false }: JioPageWrapperProps) {
   return (
-    <Page title={`Jio at ${jioData.gym.name} by ${jioData.creatorProfile.name}`}>
+    <Page title={title}>
       <Container maxWidth="sm" sx={{ my: 3 }}>
         <Stack spacing={5}>
           <Stack alignItems="center">
             <Logo />
           </Stack>
-          {jioData.isClosed ? (
-            <Typography textAlign="center" variant="h4">
-              This Jio is closed.
-            </Typography>
-          ) : (
-            <JioCard data={jioData} isButtonDisabled isHeaderLinkDisabled isUsernameHidden />
-          )}
+          {children}
         </Stack>
       </Container>
-      <FloatingBottomCard>
-        <Stack spacing={1}>
-          <Typography variant="h5" gutterBottom sx={{ color: 'text.secondary' }}>
-            Sign in to message climber
-          </Typography>
-          <LoginForm />
-        </Stack>
-      </FloatingBottomCard>
+      {!hideLogin && (
+        <FloatingBottomCard>
+          <Stack spacing={1}>
+            <Typography variant="h5" gutterBottom sx={{ color: 'text.secondary' }}>
+              Sign in to message climber
+            </Typography>
+            <LoginForm />
+          </Stack>
+        </FloatingBottomCard>
+      )}
     </Page>
+  );
+}
+
+export default function JioPage() {
+  const { authenticated } = useAuthState();
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { setRedirectPath } = useRedirectPath();
+  const jioId = id as string;
+
+  const { data, loading } = useRequest(() => getJio(jioId));
+
+  useEffect(() => {
+    if (data && !data.data.isClosed && !authenticated) {
+      setRedirectPath({
+        to: PATH_USER.general.user(data.data.creatorId),
+        options: {
+          state: makePublicProfileState(data.data.creatorProfile),
+        },
+      });
+    }
+  }, [authenticated, data, dispatch, navigate, setRedirectPath]);
+
+  // If loading
+  if (loading) {
+    return (
+      <JioPageWrapper title="Loading Jio..." hideLogin>
+        <JioCardLoader />
+      </JioPageWrapper>
+    );
+  }
+
+  // If can't find data
+  if (!data || !data.data) {
+    return <Page404 />;
+  }
+
+  const title = `Jio at ${data.data.gym.name} by ${data.data.creatorProfile.name}`;
+
+  // If isClosed
+  if (data.data.isClosed) {
+    return (
+      <JioPageWrapper title={title}>
+        <Typography textAlign="center" variant="h4">
+          This Jio is closed.
+        </Typography>
+      </JioPageWrapper>
+    );
+  }
+
+  // If authenticated
+  if (authenticated) {
+    return <PublicProfile data={makePublicProfileState(data.data.creatorProfile)} />;
+  }
+
+  // If not authenticated
+  return (
+    <JioPageWrapper title={title}>
+      <JioCard data={data.data} isButtonDisabled isHeaderLinkDisabled isUsernameHidden />
+    </JioPageWrapper>
   );
 }

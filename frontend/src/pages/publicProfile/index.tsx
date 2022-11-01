@@ -28,9 +28,13 @@ export function makeUserProfileLinkProps(userProfileData: UserProfileLocationSta
   };
 }
 
-export default function PublicProfile() {
+type PublicProfileProps = {
+  data?: UserProfileLocationState;
+};
+
+export default function PublicProfile({ data }: PublicProfileProps) {
   const location = useLocation();
-  const state = location.state as UserProfileLocationState;
+  const state = location.state ? (location.state as UserProfileLocationState) : data;
   if (!state || !state.user) {
     return <Page404 />;
   }

@@ -13,7 +13,7 @@ import { closeMyJio } from 'src/services/myJios';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { Link } from 'react-router-dom';
-import JioCardHeader from '../JioCardHeader';
+import JioCardHeader from 'src/components/jios/JioCardHeader';
 
 interface MyJioCardProps {
   data: Jio;

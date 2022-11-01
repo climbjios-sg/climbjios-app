@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid } from '@mui/material';
 import EmptyContent from 'src/components/EmptyContent';
-import CreateJioButton from '../../../../components/CreateJioButton';
+import CreateJioButton from './CreateJioButton';
 
 interface EmptyJiosContentProps {
   title: string;

@@ -1,10 +1,10 @@
 import { CardHeader, Stack, Typography } from '@mui/material';
 import { IconStyle } from 'src/utils/common';
 import { Jio } from 'src/@types/jio';
-import { getPassesText } from './utils';
+import { getPassesText } from '../../pages/dashboard/jios/list/utils';
 import { Link } from 'react-router-dom';
-import { makeUserProfileLinkProps } from '../../../publicProfile';
-import NameAvatar from '../../../../components/NameAvatar';
+import { makeUserProfileLinkProps } from '../../pages/publicProfile';
+import NameAvatar from '../NameAvatar';
 
 interface JioCardHeaderProps {
   data: Jio;

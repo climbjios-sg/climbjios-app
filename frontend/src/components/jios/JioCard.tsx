@@ -4,9 +4,9 @@ import { Jio } from 'src/@types/jio';
 import palette from 'src/theme/palette';
 import { formatStartEndDate } from 'src/utils/formatTime';
 import { Link } from 'react-router-dom';
-import Iconify from '../../../../../components/Iconify';
-import JioCardHeader from '../JioCardHeader';
-import { makeUserProfileLinkProps } from '../../../../publicProfile';
+import Iconify from 'src/components/Iconify';
+import JioCardHeader from 'src/components/jios/JioCardHeader';
+import { makeUserProfileLinkProps } from 'src/pages/publicProfile';
 
 interface JioCardProps {
   data: Jio;
