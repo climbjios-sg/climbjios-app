@@ -94,10 +94,7 @@ export default function JioCardList() {
       endDateTime: getDateTimeString(date, endTiming),
     };
 
-    // Add jio type to search params iff there's a preference to buy or sell passes
-    if (type !== 'other') {
-      searchParams.type = type;
-    }
+    searchParams.type = type;
 
     dispatch(listJios(searchParams));
   }, [version, dispatch, jioSearchValues]);
