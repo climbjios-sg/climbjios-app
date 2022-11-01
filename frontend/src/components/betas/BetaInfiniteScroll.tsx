@@ -34,6 +34,7 @@ interface BetasInfiniteScrollProps {
   onFetchPage: (newResponse: AxiosResponse<ListBetasResponse, any>) => void;
   emptyContent: React.ReactElement;
   loading: boolean;
+  refresh: () => any;
   isMine?: boolean; // True iff beta are mine
   style?: React.CSSProperties;
 }
@@ -44,6 +45,7 @@ export default function BetasInfiniteScroll({
   onFetchPage,
   emptyContent,
   loading,
+  refresh,
   style,
   isMine,
 }: BetasInfiniteScrollProps) {
@@ -75,7 +77,7 @@ export default function BetasInfiniteScroll({
         </Stack>
       }
       endMessage={<InfiniteScrollHelper>That's all!</InfiniteScrollHelper>}
-      refreshFunction={() => fetchPage(0)}
+      refreshFunction={refresh}
       pullDownToRefresh
       scrollThreshold={0.6}
       pullDownToRefreshThreshold={50}
