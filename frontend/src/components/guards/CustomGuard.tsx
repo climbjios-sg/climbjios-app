@@ -42,9 +42,7 @@ export default function CustomGuard({
     _checkOnboarded({ disableNotification: true });
   }, [_checkOnboarded]);
   const checkNotOnboarded = useCallback(() => {
-    _checkNotOnboarded({
-      disableNotification: true,
-    });
+    _checkNotOnboarded({ disableNotification: true });
   }, [_checkNotOnboarded]);
 
   const guards = useMemo(() => {
