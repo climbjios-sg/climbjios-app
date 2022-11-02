@@ -46,9 +46,7 @@ const useGuard = (guards: Function[], ward?: ReactNode) => {
     });
 
     callGuards();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [guards, ward]);
 
   return state;
 };

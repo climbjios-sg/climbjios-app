@@ -133,7 +133,7 @@ describe('Backend (e2e)', () => {
         .expect(302)
         .expect(
           'Location',
-          /https:\/\/app\.climbjios\.com\?accessToken=.+&refreshToken=.*/,
+          /https:\/\/app\.climbjios\.com\/authRedirect\?accessToken=.+&refreshToken=.*/,
         );
 
       const insertedUser = await knex(knexTestDatabaseConfig)

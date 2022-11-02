@@ -27,6 +27,19 @@ const defaultUser: User = {
   favouriteGyms: [],
 };
 
+/**
+ * Return the current user identity by calling authProvider.getIdentity() on mount
+ *
+ * The return value updates according to the call state:
+ *
+ * - mount: { loading: true, loaded: false }
+ * - success: { identity: Identity, loading: false, loaded: true }
+ * - error: { error: Error, loading: false, loaded: true }
+ *
+ * The implementation is left to the authProvider.
+ *
+ * @returns The current user identity. Destructure as { identity, error, loading, loaded }.
+ */
 const useGetIdentity = () => {
   const { data, ...rest } = useSafeRequest(getUser, {
     cacheKey: CacheKey.User,
