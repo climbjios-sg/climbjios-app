@@ -9,6 +9,8 @@ export const MAPBOX_API = process.env.REACT_APP_MAPBOX_API;
 
 export const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
+export const isDebug = process.env.DEBUG === 'true';
+
 // LAYOUT
 
 export const HEADER = {
