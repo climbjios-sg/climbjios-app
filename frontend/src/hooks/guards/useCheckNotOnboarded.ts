@@ -1,6 +1,6 @@
 import { useSnackbar } from 'notistack';
 import { useCallback } from 'react';
-import { NavigateOptions, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import useAuthProvider from '../auth/useAuthProvider';
 
