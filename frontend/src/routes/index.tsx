@@ -3,7 +3,7 @@ import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-import CommonGuard from 'src/components/guards/CommonGuard';
+import CustomGuard from 'src/components/guards/CustomGuard';
 import NoTelegramUsernamePage from 'src/pages/error/NoTelegramUsernameError';
 
 // ----------------------------------------------------------------------
@@ -28,27 +28,27 @@ export default function Router() {
     {
       path: 'login',
       element: (
-        <CommonGuard notAuthenticated>
+        <CustomGuard notAuthenticated>
           <Login />
-        </CommonGuard>
+        </CustomGuard>
       ),
     },
     // Onboarding Routes
     {
       path: 'onboarding',
       element: (
-        <CommonGuard authenticated notOnboarded>
+        <CustomGuard authenticated notOnboarded>
           <Onboarding />
-        </CommonGuard>
+        </CustomGuard>
       ),
     },
     // Dashboard Routes
     {
       path: 'dashboard/*',
       element: (
-        <CommonGuard authenticated onboarded>
+        <CustomGuard authenticated onboarded>
           <Dashboard />
-        </CommonGuard>
+        </CustomGuard>
       ),
     },
     // Public Profile Routes

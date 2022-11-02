@@ -26,7 +26,7 @@ interface Props {
  * Incurs slightly more overhead compared to <Guard/> as
  * it preloads some common guards
  */
-export default function CommonGuard({
+export default function CustomGuard({
   children,
   authenticated = false,
   notAuthenticated = false,
