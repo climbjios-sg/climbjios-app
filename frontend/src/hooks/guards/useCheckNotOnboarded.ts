@@ -5,7 +5,7 @@ import { PATH_DASHBOARD } from 'src/routes/paths';
 import useAuthProvider from '../auth/useAuthProvider';
 
 type CheckNotOnboarded = (params: {
-  redirectOnError?: boolean;
+  redirectOnSuccess?: boolean;
   disableNotification?: boolean;
   redirectTo?: string;
 }) => Promise<any>;
@@ -17,13 +17,13 @@ const useCheckNotOnboarded = (): CheckNotOnboarded => {
 
   const checkNotOnboarded = useCallback(
     async ({
-      redirectOnError = true,
+      redirectOnSuccess = true,
       disableNotification = false,
       redirectTo = PATH_DASHBOARD.root,
     }) => {
       await authProvider.checkOnboarded();
 
-      if (redirectOnError) {
+      if (redirectOnSuccess) {
         navigate(redirectTo);
 
         if (!disableNotification) {
