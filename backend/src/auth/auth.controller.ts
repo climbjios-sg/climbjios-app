@@ -58,7 +58,7 @@ export class AuthController {
 
     const { accessToken, refreshToken } =
       await this.jwtAuthService.generateJwts(req.user);
-    const redirectUrl = `${this.constantsService.CORS_ORIGIN}?accessToken=${accessToken}&refreshToken=${refreshToken}`;
+    const redirectUrl = `${this.constantsService.CORS_ORIGIN}/authRedirect?accessToken=${accessToken}&refreshToken=${refreshToken}`;
 
     return res.redirect(redirectUrl);
   }
