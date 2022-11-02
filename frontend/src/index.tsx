@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { authProviderFactory } from './authProviders';
-import { DEFAULT_AUTH_PROVIDER } from './config';
+import { DEFAULT_AUTH_PROVIDER, isDebug } from './config';
 
 // ----------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ if (process.env.REACT_APP_SENTRY_DSN) {
 
 const DebugRouter = ({ children }: React.PropsWithChildren<unknown>) => {
   const location = useLocation();
-  if (process.env.NODE_ENV === 'development') {
+  if (isDebug) {
     console.log(
       `Route: ${location.pathname}${location.search}, State: ${JSON.stringify(location.state)}`
     );
