@@ -97,7 +97,7 @@ export default function JioPage() {
     return (
       <JioPageWrapper title={title}>
         <Typography textAlign="center" variant="h4">
-          This Jio is closed.
+        This Jio is closed.
         </Typography>
       </JioPageWrapper>
     );
