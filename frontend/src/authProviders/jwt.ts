@@ -1,7 +1,7 @@
 import { AuthProvider } from 'src/@types/auth';
 import { CacheName } from 'src/@types/cache';
 import { PATH_AUTH } from 'src/routes/paths';
-import { refreshAccessToken, checkValidity } from 'src/services/token';
+import { refreshAccessToken, checkValidity as refreshSessionTokens } from 'src/services/token';
 import { getUser } from 'src/services/users';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/utils/jwt';
 
@@ -80,8 +80,9 @@ export const jwtAuthProvider: AuthProvider = {
     }
   },
   /**
-   * Validates the session tokens.
-   * If access token is invalid, updates it using the refresh token.
+   * Resolves if session tokens are valid.
+   * In case of invalid access token, refreshes it using the current refresh token and resolves
+   * In case of invalid refresh token, throws an error.
    */
   checkAuth: async () => {
     if (isPublicUrl(window.location.hash)) {
@@ -97,7 +98,7 @@ export const jwtAuthProvider: AuthProvider = {
       return;
     }
 
-    await checkValidity();
+    await refreshSessionTokens();
   },
   checkOnboarded: async () => {
     const response = await getUser();
