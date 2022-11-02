@@ -5,6 +5,7 @@ import useCheckNotOnboarded from 'src/hooks/guards/useCheckNotOnboarded';
 import useCheckOnboarded from 'src/hooks/guards/useCheckOnboarded';
 import useGuard from 'src/hooks/guards/useGuard';
 import useRedirectPath from '../../hooks/useRedirectPath';
+import Guard from './Guard';
 
 interface Props {
   children?: ReactNode;
@@ -15,7 +16,6 @@ interface Props {
   onboarded?: boolean;
   // If onboarded, redirects to dashboard
   notOnboarded?: boolean;
-  onSuccess?: () => void;
 }
 
 /**
@@ -34,7 +34,6 @@ export default function CommonGuard({
   notAuthenticated = false,
   onboarded = false,
   notOnboarded = false,
-  onSuccess,
 }: Props) {
   const { redirectPath, clearRedirectPath } = useRedirectPath();
   const checkAuth = useCheckAuth();
@@ -73,7 +72,5 @@ export default function CommonGuard({
     checkOnboarded,
   ]);
 
-  useGuard(guards, onSuccess);
-
-  return <>{children}</>;
+  return <Guard guards={guards}>{children}</Guard>;
 }
