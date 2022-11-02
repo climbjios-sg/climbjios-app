@@ -52,7 +52,7 @@ export default function CommonGuard({
       redirectOptions: redirectPath?.options,
     });
     clearRedirectPath();
-  }, [_checkNotOnboarded, clearRedirectPath, redirectPath]);
+  }, [_checkNotOnboarded, clearRedirectPath, redirectPath?.options, redirectPath?.to]);
 
   const guards = useMemo(() => {
     const res = [];
