@@ -1,11 +1,10 @@
 import { Suspense, lazy, ElementType } from 'react';
-import { Navigate, useRoutes, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 import CommonGuard from 'src/components/guards/CommonGuard';
 import NoTelegramUsernamePage from 'src/pages/error/NoTelegramUsernameError';
-import useRedirectPath from '../hooks/useRedirectPath';
 
 // ----------------------------------------------------------------------
 
@@ -23,9 +22,6 @@ const Loadable = (Component: ElementType) => (props: any) => {
 };
 
 export default function Router() {
-  const { redirectPath, clearRedirectPath } = useRedirectPath();
-  const navigate = useNavigate();
-
   useAutoLogin();
 
   return useRoutes([
@@ -50,16 +46,7 @@ export default function Router() {
     {
       path: 'dashboard/*',
       element: (
-        <CommonGuard
-          authenticated
-          onboarded
-          onSuccess={() => {
-            if (redirectPath) {
-              navigate(redirectPath.to, redirectPath.options);
-              clearRedirectPath();
-            }
-          }}
-        >
+        <CommonGuard authenticated onboarded>
           <Dashboard />
         </CommonGuard>
       ),
