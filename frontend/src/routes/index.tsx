@@ -66,7 +66,7 @@ export default function Router() {
       element: <JioPage />,
     },
     {
-      path: '',
+      path: 'authRedirect',
       element: <AutoLogin />,
     },
     { path: '*', element: <Navigate to="/login" replace /> },
