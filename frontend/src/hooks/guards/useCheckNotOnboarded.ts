@@ -8,7 +8,6 @@ type CheckNotOnboarded = (params: {
   redirectOnSuccess?: boolean;
   disableNotification?: boolean;
   redirectTo?: string;
-  redirectOptions?: NavigateOptions;
 }) => Promise<any>;
 
 const useCheckNotOnboarded = (): CheckNotOnboarded => {
@@ -21,12 +20,11 @@ const useCheckNotOnboarded = (): CheckNotOnboarded => {
       redirectOnSuccess = true,
       disableNotification = false,
       redirectTo = PATH_DASHBOARD.root,
-      redirectOptions,
     }) => {
       await authProvider.checkOnboarded();
 
       if (redirectOnSuccess) {
-        navigate(redirectTo, redirectOptions);
+        navigate(redirectTo);
 
         if (!disableNotification) {
           enqueueSnackbar('You have already been onboarded', { variant: 'error' });

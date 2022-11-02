@@ -35,7 +35,6 @@ export default function CommonGuard({
   onboarded = false,
   notOnboarded = false,
 }: Props) {
-  const { redirectPath, clearRedirectPath } = useRedirectPath();
   const checkAuth = useCheckAuth();
   const checkNotAuth = useCheckNotAuth();
   const _checkOnboarded = useCheckOnboarded();
@@ -47,11 +46,8 @@ export default function CommonGuard({
   const checkNotOnboarded = useCallback(() => {
     _checkNotOnboarded({
       disableNotification: true,
-      redirectTo: redirectPath?.to,
-      redirectOptions: redirectPath?.options,
     });
-    clearRedirectPath();
-  }, [_checkNotOnboarded, clearRedirectPath, redirectPath?.options, redirectPath?.to]);
+  }, [_checkNotOnboarded]);
 
   const guards = useMemo(() => {
     const res = [];
