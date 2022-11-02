@@ -3,7 +3,7 @@ import useCheckAuth from 'src/hooks/guards/useCheckAuth';
 import useCheckNotAuth from 'src/hooks/guards/useCheckNotAuth';
 import useCheckNotOnboarded from 'src/hooks/guards/useCheckNotOnboarded';
 import useCheckOnboarded from 'src/hooks/guards/useCheckOnboarded';
-import useGuard from 'src/hooks/guards/useGuard';
+import Guard from './Guard';
 
 interface Props {
   children?: ReactNode;
@@ -66,7 +66,5 @@ export default function CommonGuard({
     checkOnboarded,
   ]);
 
-  useGuard(guards);
-
-  return <>{children}</>;
+  return <Guard guards={guards}>{children}</Guard>;
 }
