@@ -10,6 +10,16 @@ type CheckNotOnboarded = (params: {
   redirectTo?: string;
 }) => Promise<any>;
 
+/**
+ * Get a callback for calling the authProvider.checkOnboarded() method.
+ * In case of resolution, redirects to the dashboard page.
+ *
+ * This is a low level hook.
+ *
+ * @see useNotOnboarded
+ *
+ * @returns {Function} checkNotOnboarded callback
+ */
 const useCheckNotOnboarded = (): CheckNotOnboarded => {
   const authProvider = useAuthProvider();
   const { enqueueSnackbar } = useSnackbar();

@@ -80,7 +80,7 @@ export const jwtAuthProvider: AuthProvider = {
     }
   },
   /**
-   * Checks that both access token and refresh token are valid.
+   * Validates the session tokens.
    * If access token is invalid, updates it using the refresh token.
    */
   checkAuth: async () => {

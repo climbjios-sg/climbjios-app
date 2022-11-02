@@ -28,7 +28,7 @@ const defaultUser: User = {
 };
 
 /**
- * Return the current user identity by calling authProvider.getIdentity() on mount
+ * Return the current user identity
  *
  * The return value updates according to the call state:
  *
@@ -36,18 +36,18 @@ const defaultUser: User = {
  * - success: { identity: Identity, loading: false, loaded: true }
  * - error: { error: Error, loading: false, loaded: true }
  *
- * The implementation is left to the authProvider.
- *
  * @returns The current user identity. Destructure as { identity, error, loading, loaded }.
  */
 const useGetIdentity = () => {
-  const { data, ...rest } = useSafeRequest(getUser, {
+  const { data, loading, error } = useSafeRequest(getUser, {
     cacheKey: CacheKey.User,
   });
 
   return {
     identity: data?.data ?? defaultUser,
-    ...rest,
+    loading,
+    loaded: !loading,
+    error,
   };
 };
 
