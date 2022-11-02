@@ -4,7 +4,6 @@ import useCheckNotAuth from 'src/hooks/guards/useCheckNotAuth';
 import useCheckNotOnboarded from 'src/hooks/guards/useCheckNotOnboarded';
 import useCheckOnboarded from 'src/hooks/guards/useCheckOnboarded';
 import useGuard from 'src/hooks/guards/useGuard';
-import useRedirectPath from '../../hooks/useRedirectPath';
 
 interface Props {
   children?: ReactNode;
@@ -15,7 +14,6 @@ interface Props {
   onboarded?: boolean;
   // If onboarded, redirects to dashboard
   notOnboarded?: boolean;
-  onSuccess?: () => void;
 }
 
 /**
@@ -34,9 +32,7 @@ export default function CommonGuard({
   notAuthenticated = false,
   onboarded = false,
   notOnboarded = false,
-  onSuccess,
 }: Props) {
-  const { redirectPath, clearRedirectPath } = useRedirectPath();
   const checkAuth = useCheckAuth();
   const checkNotAuth = useCheckNotAuth();
   const _checkOnboarded = useCheckOnboarded();
@@ -48,11 +44,8 @@ export default function CommonGuard({
   const checkNotOnboarded = useCallback(() => {
     _checkNotOnboarded({
       disableNotification: true,
-      redirectTo: redirectPath?.to,
-      redirectOptions: redirectPath?.options,
     });
-    clearRedirectPath();
-  }, [_checkNotOnboarded, clearRedirectPath, redirectPath?.options, redirectPath?.to]);
+  }, [_checkNotOnboarded]);
 
   const guards = useMemo(() => {
     const res = [];
@@ -73,7 +66,7 @@ export default function CommonGuard({
     checkOnboarded,
   ]);
 
-  useGuard(guards, onSuccess);
+  useGuard(guards);
 
   return <>{children}</>;
 }

@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -24,6 +24,17 @@ if (process.env.REACT_APP_SENTRY_DSN) {
   });
 }
 
+const DebugRouter = ({ children }: React.PropsWithChildren<unknown>) => {
+  const location = useLocation();
+  if (process.env.NODE_ENV === 'development') {
+    console.log(
+      `Route: ${location.pathname}${location.search}, State: ${JSON.stringify(location.state)}`
+    );
+  }
+
+  return <>{children}</>;
+};
+
 const renderRoot = async () => {
   const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
   const authProvider = await authProviderFactory(DEFAULT_AUTH_PROVIDER);
@@ -32,7 +43,9 @@ const renderRoot = async () => {
     <HelmetProvider>
       <Provider store={store}>
         <BrowserRouter>
-          <App authProvider={authProvider} />
+          <DebugRouter>
+            <App authProvider={authProvider} />
+          </DebugRouter>
         </BrowserRouter>
       </Provider>
     </HelmetProvider>
