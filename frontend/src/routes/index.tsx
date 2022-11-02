@@ -1,6 +1,5 @@
 import { Suspense, lazy, ElementType } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
-import useAutoLogin from 'src/hooks/auth/useAutoLogin';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 import CustomGuard from 'src/components/guards/CustomGuard';
@@ -22,8 +21,6 @@ const Loadable = (Component: ElementType) => (props: any) => {
 };
 
 export default function Router() {
-  useAutoLogin();
-
   return useRoutes([
     {
       path: 'login',
@@ -68,12 +65,17 @@ export default function Router() {
       path: 'jios/:id',
       element: <JioPage />,
     },
+    {
+      path: '',
+      element: <AutoLogin />,
+    },
     { path: '*', element: <Navigate to="/login" replace /> },
   ]);
 }
 
 // AUTHENTICATION
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
+const AutoLogin = Loadable(lazy(() => import('../pages/auth/AutoLogin')));
 
 // ONBOARDING
 const Onboarding = Loadable(lazy(() => import('../pages/onboarding')));

@@ -3,8 +3,6 @@ import useCheckAuth from 'src/hooks/guards/useCheckAuth';
 import useCheckNotAuth from 'src/hooks/guards/useCheckNotAuth';
 import useCheckNotOnboarded from 'src/hooks/guards/useCheckNotOnboarded';
 import useCheckOnboarded from 'src/hooks/guards/useCheckOnboarded';
-import useGuard from 'src/hooks/guards/useGuard';
-import useRedirectPath from '../../hooks/useRedirectPath';
 import Guard from './Guard';
 
 interface Props {
@@ -44,9 +42,7 @@ export default function CustomGuard({
     _checkOnboarded({ disableNotification: true });
   }, [_checkOnboarded]);
   const checkNotOnboarded = useCallback(() => {
-    _checkNotOnboarded({
-      disableNotification: true,
-    });
+    _checkNotOnboarded({ disableNotification: true });
   }, [_checkNotOnboarded]);
 
   const guards = useMemo(() => {
