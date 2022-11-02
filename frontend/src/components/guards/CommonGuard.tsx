@@ -8,9 +8,13 @@ import useGuard from 'src/hooks/guards/useGuard';
 interface Props {
   children?: ReactNode;
   authenticated?: boolean;
+  // If authenticated, redirect to onboarding
   notAuthenticated?: boolean;
+  // If not onboarded, redirects to onboarding
   onboarded?: boolean;
+  // If onboarded, redirects to dashboard
   notOnboarded?: boolean;
+  onSuccess?: () => void;
 }
 
 /**
@@ -29,16 +33,16 @@ export default function CommonGuard({
   notAuthenticated = false,
   onboarded = false,
   notOnboarded = false,
+  onSuccess,
 }: Props) {
   const checkAuth = useCheckAuth();
   const checkNotAuth = useCheckNotAuth();
   const _checkOnboarded = useCheckOnboarded();
   const _checkNotOnboarded = useCheckNotOnboarded();
 
-  const checkOnboarded = useCallback(
-    () => _checkOnboarded({ disableNotification: true }),
-    [_checkOnboarded]
-  );
+  const checkOnboarded = useCallback(() => {
+    _checkOnboarded({ disableNotification: true });
+  }, [_checkOnboarded]);
   const checkNotOnboarded = useCallback(
     () => _checkNotOnboarded({ disableNotification: true }),
     [_checkNotOnboarded]
@@ -63,7 +67,7 @@ export default function CommonGuard({
     checkOnboarded,
   ]);
 
-  useGuard(guards);
+  useGuard(guards, onSuccess);
 
   return <>{children}</>;
 }
