@@ -98,7 +98,8 @@ export default function Dashboard() {
       navigate(redirectPath.to, redirectPath.options);
       clearRedirectPath();
     }
-  }, [clearRedirectPath, dispatch, navigate, redirectPath]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     dispatch(listGyms());
