@@ -229,6 +229,7 @@ export default function JiosCreateEditForm({
             fullWidth
           />
           <Button
+            className='jios-create-edit-submit'
             type="submit"
             size="large"
             variant="contained"

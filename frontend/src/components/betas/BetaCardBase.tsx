@@ -19,7 +19,7 @@ type Props = {
 
 // Memoizing content since it will be rendered in a infinite list
 const BetaCaseBase = React.memo(({ data, bottom }: Props) => (
-  <Card sx={{ background: 'black', height: '100%' }}>
+  <Card className='beta-card' sx={{ background: 'black', height: '100%' }}>
     <Stack direction="column">
       <Box sx={{ position: 'relative', height: '100%' }}>
         <Stack
