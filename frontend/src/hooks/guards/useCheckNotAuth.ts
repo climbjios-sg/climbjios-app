@@ -12,6 +12,7 @@ const useCheckNotAuth = (): CheckNotAuth => {
   const checkNotAuth = useCallback(
     async ({ redirectTo = PATH_DASHBOARD.root }) => {
       await authProvider.checkAuth();
+      console.log('useCheckNotAuth', redirectTo);
       navigate(redirectTo);
     },
 

@@ -24,6 +24,7 @@ const useCheckNotOnboarded = (): CheckNotOnboarded => {
       await authProvider.checkOnboarded();
 
       if (redirectOnSuccess) {
+        console.log('useCheckNotOnboarded', redirectTo);
         navigate(redirectTo);
 
         if (!disableNotification) {
