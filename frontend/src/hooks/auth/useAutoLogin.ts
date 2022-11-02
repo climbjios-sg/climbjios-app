@@ -6,8 +6,7 @@ import useRedirectPath from '../useRedirectPath';
 import useLogin from './useLogin';
 
 /**
- * Tries to login using the access token and refresh token
- * found in the URL params.
+ * Tries to login using the session tokens found in the URL params.
  */
 const useAutoLogin = () => {
   const login = useLogin();

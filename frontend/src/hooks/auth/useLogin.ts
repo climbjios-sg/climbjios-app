@@ -10,6 +10,27 @@ type Login = (
   redirectOptions?: NavigateOptions
 ) => Promise<any>;
 
+/**
+ * Get a callback for calling the authProvider.login() method
+ * and redirect to the previous authenticated page (or the home page) on success.
+ *
+ * @see useAuthProvider
+ *
+ * @returns {Function} login callback
+ *
+ * @example
+ *
+ * const LoginButton = () => {
+ *     const [loading, setLoading] = useState(false);
+ *     const login = useLogin();
+ *     const handleClick = {
+ *         setLoading(true);
+ *         login({ username: 'john', password: 'p@ssw0rd' }, '/posts')
+ *             .then(() => setLoading(false));
+ *     }
+ *     return <button onClick={handleClick}>Login</button>;
+ * }
+ */
 const useLogin = (): Login => {
   const authProvider = useAuthProvider();
   const navigate = useNavigate();
