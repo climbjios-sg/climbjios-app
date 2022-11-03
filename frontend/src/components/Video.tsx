@@ -2,7 +2,7 @@
 import { Theme } from '@mui/material/styles';
 import { Box, IconButton, Modal, SxProps } from '@mui/material';
 import * as React from 'react';
-import { Stream } from '@cloudflare/stream-react';
+import { Stream, StreamPlayerApi } from '@cloudflare/stream-react';
 import Iconify from './Iconify';
 import Image from './Image';
 import { styled } from '@mui/system';
@@ -22,10 +22,25 @@ const FullScreenVideo = styled('video')({
 
 export default function Video({ sx, cloudflareVideoUid, videoUrl, thumbnailSrc }: Props) {
   const [open, setOpen] = React.useState(false);
+  const streamRef = React.useRef<StreamPlayerApi>();
+
+  React.useEffect(() => {
+    if (streamRef.current) {
+      if (open) {
+        // Start video when opened
+        streamRef.current.autoplay = true; // Set auto play true to prevent play button from showing
+        streamRef.current.play();
+      } else {
+        // Stop video and reset to start when closed
+        streamRef.current.pause();
+        streamRef.current.currentTime = 0;
+      }
+    }
+  }, [open]);
 
   const renderedVideo = React.useMemo(() => {
     if (videoUrl) {
-      return <FullScreenVideo src={videoUrl} autoPlay muted controls />;
+      return <FullScreenVideo src={videoUrl} muted controls />;
     } else {
       return (
         <Box
@@ -38,7 +53,8 @@ export default function Video({ sx, cloudflareVideoUid, videoUrl, thumbnailSrc }
             '& div': { paddingTop: '0 !important', position: 'static !important' },
           }}
         >
-          <Stream src={cloudflareVideoUid} autoplay muted controls />
+          {/* preload property auto fetches first few video segments if user has good internet */}
+          <Stream streamRef={streamRef} src={cloudflareVideoUid} muted controls preload="auto" />
         </Box>
       );
     }
@@ -79,7 +95,14 @@ export default function Video({ sx, cloudflareVideoUid, videoUrl, thumbnailSrc }
         }}
       />
       <Image ratio="9/16" src={thumbnailSrc} />
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal
+        open
+        sx={{
+          // Controlling open and close logic with display so that video will preload even when modal is closed
+          display: open ? 'block' : 'none',
+        }}
+        onClose={() => setOpen(false)}
+      >
         <>
           <IconButton
             sx={{
