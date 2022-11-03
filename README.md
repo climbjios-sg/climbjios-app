@@ -6,7 +6,7 @@ We use [GitHub Issues](https://github.com/climbjios-sg/climbjios-app/issues) to 
 
 ## Release
 
-We following [semenatic versioning](https://semver.org).
+We follow [semantic versioning](https://semver.org).
 
 See our [CHANGELOG](https://github.com/climbjios-sg/climbjios-app/blob/main/CHANGELOG.md).
 
