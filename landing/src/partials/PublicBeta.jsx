@@ -29,9 +29,9 @@ function PublicBeta() {
                       className="text-blue-600"
                       target="_blank"
                       rel="noopener"
-                      href={externalUrls.climbJiosTelegramUrl}
+                      href={externalUrls.climbJiosFeedbackTelegramUrl}
                     >
-                      ClimbJios Telegram Group
+                      ClimbJios Feedback Telegram Group
                     </a>
                     .
                   </strong>
