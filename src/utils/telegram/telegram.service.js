@@ -33,8 +33,8 @@ let TelegramService = class TelegramService {
             replyMarkup,
         });
     }
-    editViaOAuthBot(messageId, chatId, message) {
-        return this.editMessageText(this.constantsService.OAUTH_TELEGRAM_BOT_TOKEN, messageId, chatId, message);
+    editViaOAuthBot(messageId, chatId, message, replyMarkup) {
+        return this.editMessageText(this.constantsService.OAUTH_TELEGRAM_BOT_TOKEN, messageId, chatId, message, replyMarkup);
     }
     sendViaAlertsBot(message) {
         if (!this.constantsService.TELEGRAM_ALERTS_BOT_TOKEN ||
@@ -64,12 +64,13 @@ let TelegramService = class TelegramService {
             message_id: messageId,
         }));
     }
-    editMessageText(botToken, messageId, chatId, message) {
+    editMessageText(botToken, messageId, chatId, message, replyMarkup) {
         return (0, rxjs_1.firstValueFrom)(this.httpService.post(this.generateTelegramApiUrl(botToken, TelegramCommand.EDIT_MESSAGE_TEXT), {
             chat_id: chatId,
             message_id: messageId,
             text: message,
             parse_mode: 'HTML',
+            reply_markup: replyMarkup,
         }));
     }
 };
