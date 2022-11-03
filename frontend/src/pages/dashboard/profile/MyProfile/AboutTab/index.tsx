@@ -18,8 +18,8 @@ import AddToHomeScreenButton from 'src/components/addToHomeScreen/AddToHomeScree
 import Iconify from 'src/components/Iconify';
 import BioCard from 'src/components/profile/BioCard';
 import { PATH_DASHBOARD } from 'src/routes/paths';
-import { MAIL_TO_SUPPORT_EMAIL, SUPPORT_TELEGRAM } from '../../../../../config';
-import { outgoingLinkProps } from '../../../../../utils/common';
+import { MAIL_TO_SUPPORT_EMAIL, SUPPORT_TELEGRAM, VERSION } from 'src/config';
+import { outgoingLinkProps } from 'src/utils/common';
 
 interface AboutTabProps {
   user: User;
@@ -117,6 +117,12 @@ export default function AboutTab({ user, userLoading }: AboutTabProps) {
           </List>
         </nav>
       </Paper>
+      <Typography
+        variant="body2"
+        sx={{ textAlign: 'center', margin: '0 auto', color: 'text.secondary' }}
+      >
+        {`v${VERSION}`}
+      </Typography>
     </Stack>
   );
 }

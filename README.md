@@ -2,7 +2,17 @@
 
 Hello folks! Welcome to the ClimbJios repo. To start contributing, read through this guide.
 
-We use [GitHub Projects](https://github.com/orgs/climbjios-sg/projects/1) to handle everything from design to code.
+We use [GitHub Issues](https://github.com/climbjios-sg/climbjios-app/issues) to handle everything from design to code.
+
+## Release
+
+We following [semenatic versioning](https://semver.org).
+
+See our [CHANGELOG](https://github.com/climbjios-sg/climbjios-app/blob/main/CHANGELOG.md).
+
+To make a new release, you have to bump the version in [frontend/package.json](https://github.com/climbjios-sg/climbjios-app/blob/main/frontend/package.json) and update the CHANGELOG.
+
+We count each merge to main as a new release.
 
 ## Flows
 

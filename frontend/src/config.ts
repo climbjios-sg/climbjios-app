@@ -5,11 +5,13 @@ import { AuthProviderType } from './@types/auth';
 
 export const HOST_API = process.env.REACT_APP_HOST_API_KEY || '';
 
-export const MAPBOX_API = process.env.REACT_APP_MAPBOX_API;
+// UTILS
 
 export const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 export const isDebug = process.env.REACT_APP_DEBUG === 'true';
+
+export const VERSION = process.env.REACT_APP_VERSION;
 
 // LAYOUT
 
