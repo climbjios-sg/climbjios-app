@@ -27,6 +27,7 @@ export default function JioCardHeader({
   return (
     <CardHeader
       avatar={
+        <div className='jio-card-avatar'>
         <Stack
           sx={{
             textDecoration: 'none',
@@ -51,6 +52,7 @@ export default function JioCardHeader({
             <Typography variant="h6">{`@${data.creatorProfile.telegramHandle}`}</Typography>
           )}
         </Stack>
+        </div>
       }
       action={
         <Stack sx={{ pt: 1.5 }} spacing={1} direction="row" alignItems="center">

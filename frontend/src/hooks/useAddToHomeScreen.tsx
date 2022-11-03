@@ -48,6 +48,7 @@ export default function useAddToHomeScreen() {
                   Cancel
                 </Button>
                 <Button
+                  className='add-to-home-screen-accept'
                   variant="outlined"
                   onClick={() => {
                     if (deferredPrompt) {
