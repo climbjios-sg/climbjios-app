@@ -35,12 +35,18 @@ export class TelegramService {
   /**
    * Edit a message text sent by OAUTH_TELEGRAM_BOT_TOKEN in the given chat
    */
-  editViaOAuthBot(messageId: number, chatId: string, message: string) {
+  editViaOAuthBot(
+    messageId: number,
+    chatId: string,
+    message: string,
+    replyMarkup?: any,
+  ) {
     return this.editMessageText(
       this.constantsService.OAUTH_TELEGRAM_BOT_TOKEN,
       messageId,
       chatId,
       message,
+      replyMarkup,
     );
   }
 
@@ -109,6 +115,7 @@ export class TelegramService {
     messageId: number,
     chatId: string,
     message: string,
+    replyMarkup?: any,
   ) {
     return firstValueFrom(
       this.httpService.post(
@@ -121,6 +128,7 @@ export class TelegramService {
           message_id: messageId,
           text: message,
           parse_mode: 'HTML',
+          reply_markup: replyMarkup,
         },
       ),
     );

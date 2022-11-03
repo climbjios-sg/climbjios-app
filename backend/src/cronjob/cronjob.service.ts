@@ -22,7 +22,7 @@ export class CronjobService {
       num_telegram_users: await this.userDaoService.getTelegramUserCount(),
       num_open_posts: await this.postsDaoService.getOpenPostsCount(),
       num_closed_posts: await this.postsDaoService.getClosedPostsCount(),
-      num_expired_posts: await this.postsDaoService.getExpiredOpenPosts(),
+      num_expired_posts: await this.postsDaoService.getExpiredPostsCount(),
     });
   }
 
