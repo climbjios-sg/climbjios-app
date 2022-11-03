@@ -10,7 +10,7 @@ export declare class TelegramService {
     private readonly httpService;
     constructor(constantsService: ConstantsService, httpService: HttpService);
     sendViaOAuthBot(message: string, chatId: string, replyMarkup?: any): Promise<import("axios").AxiosResponse<any, any>>;
-    editViaOAuthBot(messageId: number, chatId: string, message: string): Promise<import("axios").AxiosResponse<any, any>>;
+    editViaOAuthBot(messageId: number, chatId: string, message: string, replyMarkup?: any): Promise<import("axios").AxiosResponse<any, any>>;
     sendViaAlertsBot(message: string): void | Promise<import("axios").AxiosResponse<any, any>>;
     private generateTelegramApiUrl;
     private sendMessage;
