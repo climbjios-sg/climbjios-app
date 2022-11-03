@@ -114,9 +114,7 @@ export class PostService {
         ...data,
       })
       .then((obj) => {
-        if (obj.status === PostStatus.CLOSED) {
-          this.editTelegramMessage(obj);
-        }
+        this.editTelegramMessage(obj);
         return obj;
       });
   }
