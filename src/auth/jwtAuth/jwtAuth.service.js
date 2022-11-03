@@ -12,13 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.JwtAuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
-const user_dao_service_1 = require("../../database/daos/users/user.dao.service");
 const constants_service_1 = require("../../utils/constants/constants.service");
+const refreshTokens_dao_service_1 = require("../../database/daos/refreshTokens/refreshTokens.dao.service");
 let JwtAuthService = class JwtAuthService {
-    constructor(jwtService, constantsService, userDaoService) {
+    constructor(jwtService, constantsService, refreshTokensDaoService) {
         this.jwtService = jwtService;
         this.constantsService = constantsService;
-        this.userDaoService = userDaoService;
+        this.refreshTokensDaoService = refreshTokensDaoService;
     }
     generateAccessToken(payload) {
         return this.jwtService.sign(payload, {
@@ -42,11 +42,16 @@ let JwtAuthService = class JwtAuthService {
             throw new common_1.HttpException('Invalid refresh token', 401);
         }
     }
-    async generateJwts(user) {
+    async generateJwts(user, oldToken) {
         const payload = { id: user.id };
         const accessToken = this.generateAccessToken(payload);
         const refreshToken = this.generateRefreshToken(payload);
-        await this.userDaoService.updateById(user.id, { refreshToken });
+        if (oldToken) {
+            await this.refreshTokensDaoService.patchByRefreshToken(oldToken, refreshToken);
+        }
+        else {
+            await this.refreshTokensDaoService.create(user.id, refreshToken);
+        }
         return {
             accessToken,
             refreshToken,
@@ -54,18 +59,19 @@ let JwtAuthService = class JwtAuthService {
     }
     async generateJwtsFromRefreshToken(refreshToken) {
         const user = this.verifyRefreshToken(refreshToken);
-        const dbUser = await this.userDaoService.findById(user.id);
-        if (dbUser.refreshToken !== refreshToken) {
+        const userRefreshTokens = await this.refreshTokensDaoService.findByUserId(user.id);
+        const isValidRefreshToken = userRefreshTokens.some((r) => r.refreshToken === refreshToken);
+        if (!isValidRefreshToken) {
             throw new common_1.HttpException('Invalid refresh token', 401);
         }
-        return this.generateJwts(user);
+        return this.generateJwts(user, refreshToken);
     }
 };
 JwtAuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [jwt_1.JwtService,
         constants_service_1.ConstantsService,
-        user_dao_service_1.UserDaoService])
+        refreshTokens_dao_service_1.RefreshTokensDaoService])
 ], JwtAuthService);
 exports.JwtAuthService = JwtAuthService;
 //# sourceMappingURL=jwtAuth.service.js.map

@@ -14,10 +14,17 @@ const common_1 = require("@nestjs/common");
 const gyms_dao_service_1 = require("../database/daos/gyms/gyms.dao.service");
 const posts_dao_service_1 = require("../database/daos/posts/posts.dao.service");
 const types_1 = require("../utils/types");
+const telegram_service_1 = require("../utils/telegram/telegram.service");
+const constants_service_1 = require("../utils/constants/constants.service");
+const moment = require("moment");
+const logger_service_1 = require("../utils/logger/logger.service");
 let PostService = class PostService {
-    constructor(postsDaoService, gymsDaoService) {
+    constructor(postsDaoService, gymsDaoService, telegramService, constantsService, loggerService) {
         this.postsDaoService = postsDaoService;
         this.gymsDaoService = gymsDaoService;
+        this.telegramService = telegramService;
+        this.constantsService = constantsService;
+        this.loggerService = loggerService;
     }
     getOwnPosts(userId) {
         return this.postsDaoService.getUserPosts(userId);
@@ -28,20 +35,28 @@ let PostService = class PostService {
         if (!gym) {
             throw new common_1.HttpException('Invalid gym id!', 400);
         }
-        return this.postsDaoService.create(Object.assign(Object.assign({ creatorId }, body), { isClosed: false }));
+        return this.postsDaoService
+            .create(Object.assign(Object.assign({ creatorId }, body), { status: types_1.PostStatus.OPEN }))
+            .then((created) => {
+            this.notifyMainGroupOnSuccessfulPost(created);
+            return created;
+        });
     }
-    async getPost(userId, postId) {
+    async getPost(postId) {
         const post = await this.postsDaoService.getById(postId);
-        if ((post === null || post === void 0 ? void 0 : post.creatorId) !== userId) {
-            throw new common_1.HttpException('Forbidden', 403);
+        if (!post) {
+            throw new common_1.HttpException('No such jio', 404);
         }
         return post;
     }
     async patchPost(userId, postId, body) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e;
         const post = await this.postsDaoService.getById(postId);
         if ((post === null || post === void 0 ? void 0 : post.creatorId) !== userId) {
             throw new common_1.HttpException('Forbidden', 403);
+        }
+        if ([types_1.PostStatus.CLOSED, types_1.PostStatus.EXPIRED].includes(post.status)) {
+            throw new common_1.HttpException('Cannot patch closed or expired posts!', 400);
         }
         const postType = (_a = body.type) !== null && _a !== void 0 ? _a : post.type;
         const numPasses = (_b = body.numPasses) !== null && _b !== void 0 ? _b : post.numPasses;
@@ -54,10 +69,27 @@ let PostService = class PostService {
         else if (startDateTime > endDateTime) {
             return new common_1.HttpException('startDateTime should be before endDateTime!', 400);
         }
-        return this.postsDaoService.patchById(postId, Object.assign({}, body));
+        const isClosed = (_e = body.isClosed) !== null && _e !== void 0 ? _e : post.isClosed;
+        const data = Object.assign(Object.assign({}, body), { status: isClosed ? types_1.PostStatus.CLOSED : types_1.PostStatus.OPEN });
+        delete data.isClosed;
+        return this.postsDaoService
+            .patchById(postId, Object.assign({}, data))
+            .then((obj) => {
+            if (obj.status === types_1.PostStatus.CLOSED) {
+                this.editTelegramMessage(obj);
+            }
+            return obj;
+        });
     }
     searchPosts(query) {
         return this.postsDaoService.getUpcomingPosts(query);
+    }
+    updateExpiredOpenPosts() {
+        return this.postsDaoService
+            .getExpiredOpenPosts()
+            .then((expiredPosts) => Promise.all(expiredPosts.map((p) => this.postsDaoService
+            .patchById(p.id, { status: types_1.PostStatus.EXPIRED })
+            .then((updated) => this.editTelegramMessage(updated)))));
     }
     checkPostTypeAndNumPasses(type, numPasses) {
         if ([types_1.PostType.BUYER, types_1.PostType.SELLER].includes(type) && numPasses === 0) {
@@ -67,11 +99,79 @@ let PostService = class PostService {
             throw new common_1.HttpException("'other' type must have numPasses equals 0!", 400);
         }
     }
+    notifyMainGroupOnSuccessfulPost(createdObj) {
+        return this.telegramService
+            .sendViaOAuthBot(this.formatAlertMessage(createdObj), this.constantsService.TELEGRAM_MAIN_CHAT_GROUP_ID, this.formatAlertMessageInlineButton(createdObj.id))
+            .then((res) => {
+            var _a, _b;
+            return this.postsDaoService.patchById(createdObj.id, {
+                telegramAlertMessageId: (_b = (_a = res.data) === null || _a === void 0 ? void 0 : _a.result) === null || _b === void 0 ? void 0 : _b.message_id,
+            });
+        })
+            .catch((e) => {
+            this.loggerService.log(e);
+        });
+    }
+    editTelegramMessage(obj) {
+        return this.telegramService
+            .editViaOAuthBot(obj.telegramAlertMessageId, this.constantsService.TELEGRAM_MAIN_CHAT_GROUP_ID, this.formatAlertMessage(obj))
+            .catch((e) => {
+            this.loggerService.log(e);
+        });
+    }
+    formatAlertMessage(obj) {
+        let header;
+        switch (obj.type) {
+            case types_1.PostType.BUYER:
+                header = `Buying ${obj.numPasses} 🎟`;
+                break;
+            case types_1.PostType.SELLER:
+                header = `Selling ${obj.numPasses} 🎟`;
+                break;
+            case types_1.PostType.OTHER:
+                header = 'Looking to climb together\n(No need 🎟️)';
+                break;
+            default:
+                break;
+        }
+        header = `<b>${header}</b>\n\n`;
+        const gym = `📍 ${obj.gym.name}\n`;
+        const dateTime = `🗓 ${moment(obj.startDateTime).format('ddd, D MMM YYYY, h:mma')}-${moment(obj.endDateTime).format('h:mma')}\n`;
+        const price = obj.type !== types_1.PostType.OTHER ? `💵 $${obj.price}/pass\n` : '';
+        const openToClimbTogether = obj.openToClimbTogether
+            ? `👋 Open to climb together\n`
+            : '';
+        const optionalNote = obj.optionalNote ? `💬 ${obj.optionalNote}\n` : '';
+        let message = header + gym + dateTime + price + openToClimbTogether + optionalNote;
+        if (obj.status === types_1.PostStatus.CLOSED) {
+            message = `❌ <b>CLOSED</b>\n\n<s>${message}</s>`;
+        }
+        else if (obj.status === types_1.PostStatus.EXPIRED) {
+            message = `❌ <b>EXPIRED</b>\n\n<s>${message}</s>`;
+        }
+        return message;
+    }
+    formatAlertMessageInlineButton(postId) {
+        const redirectLink = `${this.constantsService.CORS_ORIGIN}/jios/${postId}`;
+        return {
+            inline_keyboard: [
+                [
+                    {
+                        text: 'Message Climber 👈',
+                        url: redirectLink,
+                    },
+                ],
+            ],
+        };
+    }
 };
 PostService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [posts_dao_service_1.PostsDaoService,
-        gyms_dao_service_1.GymsDaoService])
+        gyms_dao_service_1.GymsDaoService,
+        telegram_service_1.TelegramService,
+        constants_service_1.ConstantsService,
+        logger_service_1.LoggerService])
 ], PostService);
 exports.PostService = PostService;
 //# sourceMappingURL=post.service.js.map

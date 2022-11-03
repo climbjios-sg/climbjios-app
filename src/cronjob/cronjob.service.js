@@ -12,25 +12,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CronjobService = void 0;
 const common_1 = require("@nestjs/common");
 const schedule_1 = require("@nestjs/schedule");
+const logger_service_1 = require("../utils/logger/logger.service");
 const posts_dao_service_1 = require("../database/daos/posts/posts.dao.service");
 const user_dao_service_1 = require("../database/daos/users/user.dao.service");
-const telegramAlerts_service_1 = require("../utils/telegramAlerts/telegramAlerts.service");
+const post_service_1 = require("../posts/post.service");
+const refreshTokens_dao_service_1 = require("../database/daos/refreshTokens/refreshTokens.dao.service");
 let CronjobService = class CronjobService {
-    constructor(telegramAlertsService, userDaoService, postsDaoService) {
-        this.telegramAlertsService = telegramAlertsService;
+    constructor(loggerService, userDaoService, postService, postsDaoService, refreshTokensDaoService) {
+        this.loggerService = loggerService;
         this.userDaoService = userDaoService;
+        this.postService = postService;
         this.postsDaoService = postsDaoService;
+        this.refreshTokensDaoService = refreshTokensDaoService;
     }
-    async telegramAlerts() {
-        return this.telegramAlertsService.log({
+    async metricAlerts() {
+        return this.loggerService.log({
             num_telegram_users: await this.userDaoService.getTelegramUserCount(),
-            num_google_users: await this.userDaoService.getGoogleUserCount(),
-            num_posts: await this.postsDaoService.getPostsCount(),
             num_open_posts: await this.postsDaoService.getOpenPostsCount(),
+            num_closed_posts: await this.postsDaoService.getClosedPostsCount(),
+            num_expired_posts: await this.postsDaoService.getExpiredOpenPosts(),
         });
     }
     closeOutdatedPosts() {
-        return this.postsDaoService.closePostsWithEndDateBefore(new Date());
+        return this.postService.updateExpiredOpenPosts();
+    }
+    cleanUpExpiredRefreshTokens() {
+        return this.refreshTokensDaoService.deleteExpired();
     }
 };
 __decorate([
@@ -38,18 +45,26 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], CronjobService.prototype, "telegramAlerts", null);
+], CronjobService.prototype, "metricAlerts", null);
 __decorate([
     (0, schedule_1.Cron)(schedule_1.CronExpression.EVERY_30_MINUTES),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], CronjobService.prototype, "closeOutdatedPosts", null);
+__decorate([
+    (0, schedule_1.Cron)(schedule_1.CronExpression.EVERY_DAY_AT_MIDNIGHT),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], CronjobService.prototype, "cleanUpExpiredRefreshTokens", null);
 CronjobService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [telegramAlerts_service_1.TelegramAlertsService,
+    __metadata("design:paramtypes", [logger_service_1.LoggerService,
         user_dao_service_1.UserDaoService,
-        posts_dao_service_1.PostsDaoService])
+        post_service_1.PostService,
+        posts_dao_service_1.PostsDaoService,
+        refreshTokens_dao_service_1.RefreshTokensDaoService])
 ], CronjobService);
 exports.CronjobService = CronjobService;
 //# sourceMappingURL=cronjob.service.js.map

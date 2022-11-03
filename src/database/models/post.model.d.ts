@@ -1,4 +1,4 @@
-import { PostType } from '../../utils/types';
+import { PostStatus, PostType } from '../../utils/types';
 import { BaseModel } from './base.model';
 import { GymModel } from './gym.model';
 import { UserProfileModel } from './userProfile.model';
@@ -13,9 +13,11 @@ export declare class PostModel extends BaseModel {
     readonly endDateTime: Date;
     readonly openToClimbTogether: boolean;
     readonly optionalNote: string;
-    readonly isClosed: boolean;
+    readonly status: PostStatus;
+    readonly telegramAlertMessageId: number;
     readonly creatorProfile: UserProfileModel;
     readonly gym: GymModel;
+    isClosed: boolean;
     static relationMappings: () => {
         creatorProfile: {
             relation: import("objection").RelationType;
@@ -36,4 +38,5 @@ export declare class PostModel extends BaseModel {
             };
         };
     };
+    $afterFind: (context: any) => void | Promise<any>;
 }

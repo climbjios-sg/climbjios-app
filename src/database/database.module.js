@@ -25,6 +25,7 @@ const user_model_1 = require("./models/user.model");
 const userProfile_model_1 = require("./models/userProfile.model");
 const userProfileFavouriteGym_model_1 = require("./models/userProfileFavouriteGym.model");
 const beta_model_1 = require("./models/beta.model");
+const refreshToken_model_1 = require("./models/refreshToken.model");
 const models = [
     gym_model_1.GymModel,
     post_model_1.PostModel,
@@ -40,6 +41,7 @@ const models = [
     color_model_1.ColorModel,
     wall_model_1.WallModel,
     beta_model_1.BetaModel,
+    refreshToken_model_1.RefreshTokenModel,
 ];
 const modelProviders = models.map((model) => ({
     provide: model.name,

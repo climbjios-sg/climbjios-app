@@ -1,11 +1,11 @@
 import { ExceptionFilter, ArgumentsHost } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { UserProfileDaoService } from '../../database/daos/userProfiles/userProfile.dao.service';
-import { TelegramAlertsService } from '../telegramAlerts/telegramAlerts.service';
+import { LoggerService } from '../logger/logger.service';
 export declare class AllExceptionsFilter implements ExceptionFilter {
     private readonly httpAdapterHost;
-    private readonly telegramAlertsService;
+    private readonly loggerService;
     private readonly userProfileDaoService;
-    constructor(httpAdapterHost: HttpAdapterHost, telegramAlertsService: TelegramAlertsService, userProfileDaoService: UserProfileDaoService);
+    constructor(httpAdapterHost: HttpAdapterHost, loggerService: LoggerService, userProfileDaoService: UserProfileDaoService);
     catch(exception: Error, host: ArgumentsHost): Promise<void>;
 }

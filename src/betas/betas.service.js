@@ -49,7 +49,7 @@ let BetasService = class BetasService {
                     currentPage,
                     pageSize: query.pageSize,
                     totalPages,
-                    isLastPage: totalPages === currentPage,
+                    isLastPage: totalPages - 1 === currentPage,
                 },
             };
         }

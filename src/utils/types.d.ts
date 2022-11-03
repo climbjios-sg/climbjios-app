@@ -10,6 +10,11 @@ export declare enum PostType {
     SELLER = "seller",
     OTHER = "other"
 }
+export declare enum PostStatus {
+    OPEN = "open",
+    CLOSED = "closed",
+    EXPIRED = "expired"
+}
 export declare enum S3UploadType {
     PROFILE_PICTURE = "profile_picture"
 }

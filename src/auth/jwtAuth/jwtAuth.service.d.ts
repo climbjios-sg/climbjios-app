@@ -1,15 +1,15 @@
 import { JwtService } from '@nestjs/jwt';
-import { UserDaoService } from '../../database/daos/users/user.dao.service';
 import { ConstantsService } from '../../utils/constants/constants.service';
+import { RefreshTokensDaoService } from '../../database/daos/refreshTokens/refreshTokens.dao.service';
 export declare class JwtAuthService {
     private readonly jwtService;
     private readonly constantsService;
-    private readonly userDaoService;
-    constructor(jwtService: JwtService, constantsService: ConstantsService, userDaoService: UserDaoService);
+    private readonly refreshTokensDaoService;
+    constructor(jwtService: JwtService, constantsService: ConstantsService, refreshTokensDaoService: RefreshTokensDaoService);
     private generateAccessToken;
     private generateRefreshToken;
     private verifyRefreshToken;
-    generateJwts(user: any): Promise<{
+    generateJwts(user: any, oldToken?: string): Promise<{
         accessToken: string;
         refreshToken: string;
     }>;

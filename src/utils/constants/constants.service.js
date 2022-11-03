@@ -15,10 +15,12 @@ const config_1 = require("@nestjs/config");
 let ConstantsService = class ConstantsService {
     constructor(configService) {
         this.configService = configService;
+        this.NODE_ENV = this.get('NODE_ENV');
         this.OAUTH_GOOGLE_ID = this.getOrThrow('OAUTH_GOOGLE_ID');
         this.OAUTH_GOOGLE_SECRET = this.getOrThrow('OAUTH_GOOGLE_SECRET');
         this.OAUTH_GOOGLE_REDIRECT_URL = this.getOrThrow('OAUTH_GOOGLE_REDIRECT_URL');
         this.OAUTH_TELEGRAM_BOT_TOKEN = this.getOrThrow('OAUTH_TELEGRAM_BOT_TOKEN');
+        this.TELEGRAM_MAIN_CHAT_GROUP_ID = this.get('TELEGRAM_MAIN_CHAT_GROUP_ID');
         this.TELEGRAM_ALERTS_BOT_TOKEN = this.get('TELEGRAM_ALERTS_BOT_TOKEN');
         this.TELEGRAM_ALERTS_CHAT_ID = this.get('TELEGRAM_ALERTS_CHAT_ID');
         this.ACCESS_TOKEN_SECRET = this.getOrThrow('ACCESS_TOKEN_SECRET');

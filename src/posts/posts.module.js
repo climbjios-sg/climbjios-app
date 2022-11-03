@@ -10,12 +10,15 @@ exports.PostModule = void 0;
 const common_1 = require("@nestjs/common");
 const posts_controller_1 = require("./posts.controller");
 const post_service_1 = require("./post.service");
+const telegram_module_1 = require("../utils/telegram/telegram.module");
 let PostModule = class PostModule {
 };
 PostModule = __decorate([
     (0, common_1.Module)({
+        imports: [telegram_module_1.TelegramModule],
         controllers: [posts_controller_1.PostController],
         providers: [post_service_1.PostService],
+        exports: [post_service_1.PostService],
     })
 ], PostModule);
 exports.PostModule = PostModule;

@@ -6,5 +6,4 @@ export default class SearchPostDto {
     gymId: number;
     startDateTime: Date;
     endDateTime: Date;
-    isClosed: boolean;
 }

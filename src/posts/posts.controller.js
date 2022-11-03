@@ -14,10 +14,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostController = void 0;
 const common_1 = require("@nestjs/common");
+const uuid_1 = require("uuid");
 const patchPost_dto_1 = require("./dtos/patchPost.dto");
 const createPost_dto_1 = require("./dtos/createPost.dto");
 const post_service_1 = require("./post.service");
 const searchPost_dto_1 = require("./dtos/searchPost.dto");
+const public_decorator_1 = require("../auth/jwtAuth/public.decorator");
 let PostController = class PostController {
     constructor(postService) {
         this.postService = postService;
@@ -31,10 +33,16 @@ let PostController = class PostController {
     searchPosts(query) {
         return this.postService.searchPosts(query);
     }
-    getPost(req, params) {
-        return this.postService.getPost(req.user.id, params.postId);
+    getPost(params) {
+        if (!(0, uuid_1.validate)(params.postId)) {
+            throw new common_1.HttpException('Invalid post id!', 400);
+        }
+        return this.postService.getPost(params.postId);
     }
     patchPost(req, params, body) {
+        if (!(0, uuid_1.validate)(params.postId)) {
+            throw new common_1.HttpException('Invalid post id!', 400);
+        }
         return this.postService.patchPost(req.user.id, params.postId, body);
     }
 };
@@ -61,11 +69,11 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "searchPosts", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)(':postId'),
-    __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Param)()),
+    __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "getPost", null);
 __decorate([

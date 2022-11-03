@@ -14,7 +14,7 @@ async function seed(knex) {
         },
         {
             name: 'BFF Climb (Bendemeer)',
-            shortName: 'BFF (Bendemeer)',
+            shortName: 'BFF (Bendmr)',
             permanentlyClosed: false,
         },
         { name: 'Boruda', shortName: 'Boruda', permanentlyClosed: false },
@@ -55,7 +55,7 @@ async function seed(knex) {
         },
         {
             name: 'Boulder Planet (Sembawang)',
-            shortName: 'BP',
+            shortName: 'BP (Semb)',
             permanentlyClosed: false,
         },
         {
