@@ -80,6 +80,7 @@ export default function JiosCreateEditForm({
       numPasses: currentJio?.numPasses || 1,
       price: currentJio?.price,
       openToClimbTogether: currentJio?.openToClimbTogether,
+      optionalNote: currentJio?.optionalNote,
     }),
     [currentJio]
   );
@@ -123,12 +124,7 @@ export default function JiosCreateEditForm({
       <FormProvider methods={methods} onSubmit={handleSubmit(submitForm)}>
         <Stack spacing={3} sx={{ px: '15px', mt: 11 }}>
           <Typography variant="subtitle1">Where are you climbing at?</Typography>
-          <RHFSelect
-            label="Select Gym"
-            fullWidth
-            name="gymId"
-            defaultValue=""
-          >
+          <RHFSelect label="Select Gym" fullWidth name="gymId" defaultValue="">
             {/* Disabled Option for first option to not auto-render */}
             <option value="" disabled />
             {gyms.map((gym: Gym) => (
@@ -229,7 +225,7 @@ export default function JiosCreateEditForm({
             fullWidth
           />
           <Button
-            className='jios-create-edit-submit'
+            className="jios-create-edit-submit"
             type="submit"
             size="large"
             variant="contained"

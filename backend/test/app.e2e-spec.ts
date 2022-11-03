@@ -77,6 +77,13 @@ describe('Backend (e2e)', () => {
             },
           },
         }),
+        editViaOAuthBot: jest.fn().mockResolvedValue({
+          data: {
+            result: {
+              message_id: 1,
+            },
+          },
+        }),
       });
 
   beforeAll(async () => {
