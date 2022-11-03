@@ -33,7 +33,7 @@ export default function useAddToHomeScreen() {
         deferredPrompt = e;
         // Update UI to notify the user they can install the PWA
         if (!isiOS() && !dontShow) {
-          enqueueSnackbar(`Install the ClimbJios app on your device for easy access anytime.`, {
+          enqueueSnackbar(`Add the ClimbJios app to your device's homescreen for easy access anytime.`, {
             variant: 'info',
             persist: true,
             action: (snackbarId) => (
@@ -80,10 +80,10 @@ export default function useAddToHomeScreen() {
         enqueueSnackbar(
           <Stack>
             <Typography>
-              Install the ClimbJios app on your device for easy access anytime.
+              Add the ClimbJios app to your device's homescreen for easy access anytime.
             </Typography>
             <Typography>
-              1. Tap on <InlineIcon icon="uil:upload-alt" />
+              1. In Safari, tap on <InlineIcon icon="uil:upload-alt" />
             </Typography>
             <Typography>2. Select Add to Home Screen</Typography>
           </Stack>,

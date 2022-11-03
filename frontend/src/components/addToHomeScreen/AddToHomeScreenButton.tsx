@@ -33,7 +33,7 @@ export default function AddToHomeScreenButton({ renderButton }: AddToHomeScreenB
             </Typography>
             <Stack spacing={1}>
               <Typography>
-                1. Tap on <InlineIcon icon="uil:upload-alt" />
+                1. In Safari, tap on <InlineIcon icon="uil:upload-alt" />
               </Typography>
               <Typography>
                 2. Select Add to Home Screen <InlineIcon icon="fluent:add-square-24-regular" />
@@ -47,10 +47,11 @@ export default function AddToHomeScreenButton({ renderButton }: AddToHomeScreenB
             </Typography>
             <Stack spacing={1}>
               <Typography>
-                1. Tap on <InlineIcon icon="carbon:overflow-menu-vertical" />
+                1. In the browser, tap on <InlineIcon icon="carbon:overflow-menu-vertical" />
               </Typography>
               <Typography>
-                2. Select <InlineIcon icon="material-symbols:add-to-home-screen" /> Install or{' '}
+                2. Select <InlineIcon icon="material-symbols:add-to-home-screen" /> Add to Home screen or{' '}
+                <InlineIcon icon="material-symbols:add-to-home-screen" /> Install or{' '}
                 <InlineIcon icon="material-symbols:add-to-home-screen" /> Install App
               </Typography>
             </Stack>
