@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import Iconify from '../../../../components/Iconify';
-import { PATH_DASHBOARD } from '../../../../routes/paths';
-import { useDispatch, useSelector } from '../../../../store';
-import { clearJiosSearchForm, setJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
+import Iconify from 'src/components/Iconify';
+import { PATH_DASHBOARD } from 'src/routes/paths';
+import { useDispatch, useSelector } from 'src/store';
+import { clearJiosSearchForm, setJiosSearchForm } from 'src/store/reducers/jiosSearchForm';
 import JiosSearchForm from '../forms/JiosSearchForm';
 import { JioSearchFormValues } from '../forms/utils';
 

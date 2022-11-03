@@ -7,6 +7,22 @@ import useAuthProvider from './useAuthProvider';
 
 type Logout = (redirectTo?: string) => Promise<any>;
 
+/**
+ * Get a callback for calling the authProvider.logout() method,
+ * redirect to the login page, and clear the Redux state.
+ *
+ * @see useAuthProvider
+ *
+ * @returns {Function} logout callback
+ *
+ * @example
+ *
+ * const LogoutButton = () => {
+ *     const logout = useLogout();
+ *     const handleClick = () => logout();
+ *     return <button onClick={handleClick}>Logout</button>;
+ * }
+ */
 const useLogout = (): Logout => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

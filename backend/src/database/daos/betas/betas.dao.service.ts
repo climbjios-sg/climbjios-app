@@ -62,7 +62,6 @@ export class BetasDaoService {
 
   async getCount(args: GetBetasQuery) {
     const countArr = await this.buildGetQuery(args).count({ count: '*' });
-    // NOTE: count would be a string if is larger than size of an integer, but it's unlikely in our business scenario
-    return countArr['count'] as number;
+    return Number(countArr[0].count);
   }
 }

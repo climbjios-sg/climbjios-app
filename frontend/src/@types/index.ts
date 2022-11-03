@@ -3,7 +3,7 @@ export interface Option {
   label: string;
 }
 
-export interface OptionResponse {
+export interface OptionResponse<T = string> {
   id: number;
-  name: string;
+  name: T;
 }

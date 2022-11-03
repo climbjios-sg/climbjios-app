@@ -5,9 +5,10 @@ import {
   BetaUploadUrlResponse,
   CreateBetaRequest,
 } from '../@types/beta';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { BE_API } from 'src/utils/api';
-import authorizedAxios from '../utils/authorizedAxios';
+import plainAxios from '../utils/axios/plainAxios';
+import authorizedAxios from '../utils/axios/authorizedAxios';
 
 export const getBetas = (params: ListBetasRequest) =>
   authorizedAxios.get<ListBetasResponse>(BE_API.betas.root, {
@@ -24,7 +25,7 @@ export const deleteBeta = (betaId: string) => authorizedAxios.delete(BE_API.beta
 export const getBetaUploadUrl = () =>
   authorizedAxios.get<BetaUploadUrlResponse>(BE_API.betas.uploadVideoUrl);
 
-export const postCreateBeta = (beta: CreateBetaRequest) =>
+export const createBeta = (beta: CreateBetaRequest) =>
   authorizedAxios.post<CreateBetaRequest, AxiosResponse<Beta>>(BE_API.betas.root, beta);
 
 export const uploadBetaVideoToCloudfare = async (video: File) => {
@@ -33,7 +34,7 @@ export const uploadBetaVideoToCloudfare = async (video: File) => {
   } = await getBetaUploadUrl();
   const formData = new FormData();
   formData.append('file', video);
-  await axios.post(cloudflareUploadUrl, formData, {
+  await plainAxios.post(cloudflareUploadUrl, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

@@ -119,7 +119,7 @@ export default function BetasList() {
     [getBetas, selectedColor, selectedGym, selectedGymGrade, selectedWall]
   );
 
-  const { loading, data, mutate } = useSafeRequest(() => getTargetBetas(0), {
+  const { loading, data, mutate, refresh } = useSafeRequest(() => getTargetBetas(0), {
     onError: () => {
       errorSnackbar.enqueueError('Failed to get Betas.');
     },
@@ -173,7 +173,6 @@ export default function BetasList() {
                 <Select
                   classNamePrefix="gym"
                   options={gymOptions}
-                  defaultInputValue="All"
                   onChange={(option) => {
                     setSelectedGym(option?.value);
                   }}
@@ -255,6 +254,7 @@ export default function BetasList() {
               </Button>
             </EmptyContent>
           }
+          refresh={refresh}
           fetchPage={getTargetBetas}
         />
       </Box>

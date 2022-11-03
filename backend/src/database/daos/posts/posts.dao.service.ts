@@ -3,7 +3,7 @@ import { ModelClass, Transaction } from 'objection';
 import { PostModel } from '../../models/post.model';
 import CreatePostDto from '../../../posts/dtos/createPost.dto';
 import SearchPostDto from '../../../posts/dtos/searchPost.dto';
-import { PostType } from '../../../utils/types';
+import { PostStatus, PostType } from '../../../utils/types';
 import { UserProfileDaoService } from '../userProfiles/userProfile.dao.service';
 
 @Injectable()
@@ -31,10 +31,14 @@ export class PostsDaoService {
   create(
     post: CreatePostDto & {
       creatorId: string;
-      isClosed: boolean;
+      status: PostStatus.OPEN;
     },
   ) {
-    return this.postModel.query().insert(post).returning('*');
+    return this.postModel
+      .query()
+      .insert(post)
+      .returning('*')
+      .withGraphFetched('gym');
   }
 
   patchById(id: string, data: Partial<PostModel>) {
@@ -56,7 +60,9 @@ export class PostsDaoService {
 
     // No filters set
     if (!Object.keys(search).length) {
-      return await query.where('endDateTime', '>=', new Date());
+      return await query
+        .where('endDateTime', '>=', new Date())
+        .where('status', PostStatus.OPEN);
     }
     Object.entries(search).forEach(([key, value]) => {
       if (key === 'numPasses') {
@@ -80,7 +86,8 @@ export class PostsDaoService {
         } else if (value === PostType.SELLER) {
           query.where('type', PostType.BUYER);
         } else {
-          query.where('type', PostType.OTHER);
+          // PostType.OTHERS: return posts that have 'open to climb with others'
+          query.where('openToClimbTogether', true);
         }
       } else {
         query.where(key, value);
@@ -94,28 +101,43 @@ export class PostsDaoService {
   }
 
   // Used only for metric alerts
-  getPostsCount() {
+  getOpenPostsCount() {
     return this.postModel
       .query()
       .count()
+      .where({ status: PostStatus.OPEN })
       .first()
       .then((r: any) => r.count);
   }
 
   // Used only for metric alerts
-  getOpenPostsCount() {
+  getExpiredPostsCount() {
     return this.postModel
       .query()
       .count()
-      .where({ isClosed: false })
+      .where({ status: PostStatus.EXPIRED })
       .first()
       .then((r: any) => r.count);
   }
 
-  closePostsWithEndDateBefore(date: Date) {
+  // Used only for metric alerts
+  getClosedPostsCount() {
     return this.postModel
       .query()
-      .update({ isClosed: true })
-      .where('endDateTime', '<', date);
+      .count()
+      .where({ status: PostStatus.CLOSED })
+      .first()
+      .then((r: any) => r.count);
+  }
+
+  /**
+   * So that cronjob can close them.
+   */
+  getExpiredOpenPosts() {
+    return this.postModel
+      .query()
+      .select()
+      .where('endDateTime', '<', new Date())
+      .where('status', PostStatus.OPEN);
   }
 }

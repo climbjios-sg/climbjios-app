@@ -27,14 +27,27 @@ const defaultUser: User = {
   favouriteGyms: [],
 };
 
+/**
+ * Return the current user identity
+ *
+ * The return value updates according to the call state:
+ *
+ * - mount: { loading: true, loaded: false }
+ * - success: { identity: Identity, loading: false, loaded: true }
+ * - error: { error: Error, loading: false, loaded: true }
+ *
+ * @returns The current user identity. Destructure as { identity, error, loading, loaded }.
+ */
 const useGetIdentity = () => {
-  const { data, ...rest } = useSafeRequest(getUser, {
+  const { data, loading, error } = useSafeRequest(getUser, {
     cacheKey: CacheKey.User,
   });
 
   return {
     identity: data?.data ?? defaultUser,
-    ...rest,
+    loading,
+    loaded: !loading,
+    error,
   };
 };
 

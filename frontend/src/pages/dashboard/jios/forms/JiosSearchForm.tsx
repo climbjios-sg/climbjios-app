@@ -167,6 +167,7 @@ export default function JiosSearchForm({
 
           <FloatingBottomCard>
             <Button
+              className='jios-search-submit'
               type="submit"
               size="large"
               variant="contained"

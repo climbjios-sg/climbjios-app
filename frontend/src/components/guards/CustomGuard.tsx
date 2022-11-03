@@ -3,13 +3,16 @@ import useCheckAuth from 'src/hooks/guards/useCheckAuth';
 import useCheckNotAuth from 'src/hooks/guards/useCheckNotAuth';
 import useCheckNotOnboarded from 'src/hooks/guards/useCheckNotOnboarded';
 import useCheckOnboarded from 'src/hooks/guards/useCheckOnboarded';
-import useGuard from 'src/hooks/guards/useGuard';
+import Guard from './Guard';
 
 interface Props {
   children?: ReactNode;
   authenticated?: boolean;
+  // If authenticated, redirect to onboarding
   notAuthenticated?: boolean;
+  // If not onboarded, redirects to onboarding
   onboarded?: boolean;
+  // If onboarded, redirects to dashboard
   notOnboarded?: boolean;
 }
 
@@ -23,7 +26,7 @@ interface Props {
  * Incurs slightly more overhead compared to <Guard/> as
  * it preloads some common guards
  */
-export default function CommonGuard({
+export default function CustomGuard({
   children,
   authenticated = false,
   notAuthenticated = false,
@@ -35,14 +38,12 @@ export default function CommonGuard({
   const _checkOnboarded = useCheckOnboarded();
   const _checkNotOnboarded = useCheckNotOnboarded();
 
-  const checkOnboarded = useCallback(
-    () => _checkOnboarded({ disableNotification: true }),
-    [_checkOnboarded]
-  );
-  const checkNotOnboarded = useCallback(
-    () => _checkNotOnboarded({ disableNotification: true }),
-    [_checkNotOnboarded]
-  );
+  const checkOnboarded = useCallback(() => {
+    _checkOnboarded({ disableNotification: true });
+  }, [_checkOnboarded]);
+  const checkNotOnboarded = useCallback(() => {
+    _checkNotOnboarded({ disableNotification: true });
+  }, [_checkNotOnboarded]);
 
   const guards = useMemo(() => {
     const res = [];
@@ -63,7 +64,5 @@ export default function CommonGuard({
     checkOnboarded,
   ]);
 
-  useGuard(guards);
-
-  return <>{children}</>;
+  return <Guard guards={guards}>{children}</Guard>;
 }

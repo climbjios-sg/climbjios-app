@@ -4,29 +4,34 @@ import { useNavigate } from 'react-router';
 import { BetaCreateEditFormValues } from 'src/@types/beta';
 import BackBar from 'src/components/BackBar';
 import { PATH_DASHBOARD } from 'src/routes/paths';
-import { postCreateBeta, uploadBetaVideoToCloudfare } from 'src/services/betas';
+import { createBeta, uploadBetaVideoToCloudfare } from 'src/services/betas';
 import { useDispatch } from 'src/store';
 import { openMessageBar } from 'src/store/reducers/messageBar';
 import { pushMyLocalBetaVideo } from 'src/store/reducers/myLocalBetaVideos';
 import { refreshView } from 'src/store/reducers/ui';
 import { CustomFile } from 'src/components/upload';
 import BetaCreateEditForm from '../form/BetaCreateEditForm';
+import useSafeRequest from 'src/hooks/services/useSafeRequest';
+import Iconify from 'src/components/Iconify';
 
 export default function BetaCreate() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { runAsync: runCreateBeta } = useSafeRequest(createBeta, {
+    manual: true,
+  });
+
   const handleSubmit = async (beta: BetaCreateEditFormValues) => {
     navigate(PATH_DASHBOARD.general.betas.root);
     dispatch(
       openMessageBar({
-        icon: 'game-icons:mountain-climbing',
         message: 'Uploading your beta...',
         loading: true,
       })
     );
     try {
       const cloudflareVideoUid = await uploadBetaVideoToCloudfare(beta.video as File);
-      const { data } = await postCreateBeta({
+      const { data } = await runCreateBeta({
         cloudflareVideoUid,
         gymId: beta.gymId,
         wallId: beta.wallId,
@@ -44,10 +49,10 @@ export default function BetaCreate() {
           })
         );
       }
-      
+
       dispatch(
         openMessageBar({
-          icon: 'noto:party-popper',
+          icon: <Iconify icon="noto:party-popper" />,
           message: 'Woohoo! Uploaded your Beta!',
           autoHideDuration: 4000,
           enableCloseButton: true,
@@ -58,7 +63,7 @@ export default function BetaCreate() {
     } catch (err) {
       dispatch(
         openMessageBar({
-          icon: 'icon-park-outline:file-failed',
+          icon: <Iconify icon="icon-park-outline:file-failed" />,
           message: 'Failed to upload your beta 😢. Try again!',
           autoHideDuration: 6000,
           enableCloseButton: true,

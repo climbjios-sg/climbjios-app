@@ -5,25 +5,35 @@ import { PATH_DASHBOARD } from 'src/routes/paths';
 import useAuthProvider from '../auth/useAuthProvider';
 
 type CheckNotOnboarded = (params: {
-  redirectOnError?: boolean;
+  redirectOnSuccess?: boolean;
   disableNotification?: boolean;
   redirectTo?: string;
 }) => Promise<any>;
 
+/**
+ * Get a callback for calling the authProvider.checkOnboarded() method.
+ * In case of resolution, redirects to the dashboard page.
+ *
+ * This is a low level hook.
+ *
+ * @see useNotOnboarded
+ *
+ * @returns {Function} checkNotOnboarded callback
+ */
 const useCheckNotOnboarded = (): CheckNotOnboarded => {
   const authProvider = useAuthProvider();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
-  const checkNotOnboarded = useCallback(
+  const checkNotOnboarded: CheckNotOnboarded = useCallback(
     async ({
-      redirectOnError = true,
+      redirectOnSuccess = true,
       disableNotification = false,
       redirectTo = PATH_DASHBOARD.root,
     }) => {
       await authProvider.checkOnboarded();
 
-      if (redirectOnError) {
+      if (redirectOnSuccess) {
         navigate(redirectTo);
 
         if (!disableNotification) {

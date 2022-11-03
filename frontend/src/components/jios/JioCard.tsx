@@ -4,18 +4,21 @@ import { Jio } from 'src/@types/jio';
 import palette from 'src/theme/palette';
 import { formatStartEndDate } from 'src/utils/formatTime';
 import { Link } from 'react-router-dom';
-import Iconify from '../../../../../components/Iconify';
-import JioCardHeader from '../JioCardHeader';
-import { makeUserProfileLinkProps } from '../../../../publicProfile';
+import Iconify from 'src/components/Iconify';
+import JioCardHeader from 'src/components/jios/JioCardHeader';
+import { makeUserProfileLinkProps } from 'src/pages/publicProfile';
 
 interface JioCardProps {
   data: Jio;
+  isHeaderLinkDisabled?: boolean;
+  isButtonDisabled?: boolean;
+  isUsernameHidden?: boolean;
 }
 
-export default function JioCard({ data }: JioCardProps) {
+export default function JioCard({ data, isHeaderLinkDisabled = false, isUsernameHidden = false, isButtonDisabled = false }: JioCardProps) {
   return (
     <Card>
-      <JioCardHeader data={data} />
+      <JioCardHeader data={data} isUsernameHidden={isUsernameHidden} isLinkDisabled={isHeaderLinkDisabled} />
       <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
@@ -45,18 +48,23 @@ export default function JioCard({ data }: JioCardProps) {
             <Typography variant="body2">{data.optionalNote}</Typography>
           </Stack>
         )}
-        <Stack direction="row">
-          <Button
-            sx={{ mt: 1 }}
-            fullWidth
-            component={Link}
-            startIcon={<Iconify icon="eva:message-circle-outline" />}
-            variant="outlined"
-            {...makeUserProfileLinkProps({ user: data.creatorProfile, isShowFloatingButton: true })}
-          >
-            <span>Message Climber</span>
-          </Button>
-        </Stack>
+        {!isButtonDisabled && (
+          <Stack direction="row">
+            <Button
+              sx={{ mt: 1 }}
+              fullWidth
+              component={Link}
+              startIcon={<Iconify icon="eva:message-circle-outline" />}
+              variant="outlined"
+              {...makeUserProfileLinkProps({
+                user: data.creatorProfile,
+                isShowFloatingButton: true,
+              })}
+            >
+              <span>Message Climber</span>
+            </Button>
+          </Stack>
+        )}
       </Stack>
     </Card>
   );

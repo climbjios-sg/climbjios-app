@@ -1,29 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { LoggerService } from '../utils/logger/logger.service';
 import { PostsDaoService } from '../database/daos/posts/posts.dao.service';
 import { UserDaoService } from '../database/daos/users/user.dao.service';
-import { TelegramAlertsService } from '../utils/telegramAlerts/telegramAlerts.service';
+import { PostService } from '../posts/post.service';
+import { RefreshTokensDaoService } from '../database/daos/refreshTokens/refreshTokens.dao.service';
 
 @Injectable()
 export class CronjobService {
   constructor(
-    private readonly telegramAlertsService: TelegramAlertsService,
+    private readonly loggerService: LoggerService,
     private readonly userDaoService: UserDaoService,
+    private readonly postService: PostService,
     private readonly postsDaoService: PostsDaoService,
+    private readonly refreshTokensDaoService: RefreshTokensDaoService,
   ) {}
 
   @Cron(CronExpression.EVERY_3_HOURS)
-  async telegramAlerts() {
-    return this.telegramAlertsService.log({
+  async metricAlerts() {
+    return this.loggerService.log({
       num_telegram_users: await this.userDaoService.getTelegramUserCount(),
-      num_google_users: await this.userDaoService.getGoogleUserCount(),
-      num_posts: await this.postsDaoService.getPostsCount(),
       num_open_posts: await this.postsDaoService.getOpenPostsCount(),
+      num_closed_posts: await this.postsDaoService.getClosedPostsCount(),
+      num_expired_posts: await this.postsDaoService.getExpiredOpenPosts(),
     });
   }
 
   @Cron(CronExpression.EVERY_30_MINUTES)
   closeOutdatedPosts() {
-    return this.postsDaoService.closePostsWithEndDateBefore(new Date());
+    return this.postService.updateExpiredOpenPosts();
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  cleanUpExpiredRefreshTokens() {
+    return this.refreshTokensDaoService.deleteExpired();
   }
 }

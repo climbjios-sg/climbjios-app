@@ -13,10 +13,12 @@ import ProfileBetas from '../../components/profile/ProfileBetas';
 import ProfileHeaderAndTabs from '../../components/profile/ProfileHeaderAndTabs';
 import { outgoingLinkProps } from '../../utils/common';
 import { Stack } from '@mui/system';
+import Page404 from '../error/Page404';
 
 export type UserProfileLocationState = {
   user: User;
   isShowFloatingButton?: boolean;
+  backTo?: string;
 };
 
 export function makeUserProfileLinkProps(userProfileData: UserProfileLocationState) {
@@ -26,10 +28,20 @@ export function makeUserProfileLinkProps(userProfileData: UserProfileLocationSta
   };
 }
 
-export default function PublicProfile() {
+type PublicProfileProps = {
+  // If location.state is not provided, will use data prop to populate this page
+  data?: UserProfileLocationState;
+};
+
+export default function PublicProfile({ data }: PublicProfileProps) {
   const location = useLocation();
-  const { user, isShowFloatingButton = false } = location.state as UserProfileLocationState;
-  return user ? (
+  const state = location.state ? (location.state as UserProfileLocationState) : data;
+  if (!state || !state.user) {
+    return <Page404 />;
+  }
+
+  const { user, isShowFloatingButton, backTo } = state;
+  return (
     <Box
       sx={{
         pb: 25,
@@ -40,6 +52,7 @@ export default function PublicProfile() {
     >
       <ProfileHeaderAndTabs
         showBack
+        backTo={backTo}
         user={user}
         aboutTab={
           <Stack sx={{ px: 2 }}>
@@ -66,7 +79,5 @@ export default function PublicProfile() {
         </FloatingBottomCard>
       )}
     </Box>
-  ) : (
-    <></>
   );
 }

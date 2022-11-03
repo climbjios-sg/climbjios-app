@@ -2,15 +2,15 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { Grid, Button, Divider } from '@mui/material';
 import useVersion from 'src/hooks/ui/useVersion';
-import JioCard from './JioCard';
-import JioCardSkeleton from '../JioCardSkeleton';
-import EmptyJiosContent from '../EmptyJiosContent';
+import JioCard from 'src/components/jios/JioCard';
+import JioCardLoader from 'src/components/jios/JioCardLoader';
+import EmptyJiosContent from 'src/components/jios/EmptyJiosContent';
 import EmptyContent from 'src/components/EmptyContent';
 import { useDispatch, useSelector } from 'src/store';
 import { listJios } from 'src/store/reducers/jios';
 import { getDateTimeString } from 'src/utils/formatTime';
 import { GetJioListRequest } from 'src/@types/jio';
-import CreateJioButton from '../../../../../components/CreateJioButton';
+import CreateJioButton from 'src/components/jios/CreateJioButton';
 
 export default function JioCardList() {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ export default function JioCardList() {
     if (loading) {
       return (
         <Grid sx={{ width: '100%', mt: 2 }} item>
-          <JioCardSkeleton />
+          <JioCardLoader />
         </Grid>
       );
     }
@@ -94,10 +94,7 @@ export default function JioCardList() {
       endDateTime: getDateTimeString(date, endTiming),
     };
 
-    // Add jio type to search params iff there's a preference to buy or sell passes
-    if (type !== 'other') {
-      searchParams.type = type;
-    }
+    searchParams.type = type;
 
     dispatch(listJios(searchParams));
   }, [version, dispatch, jioSearchValues]);

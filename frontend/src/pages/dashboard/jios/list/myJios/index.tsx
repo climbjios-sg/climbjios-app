@@ -3,12 +3,12 @@ import { useEffect } from 'react';
 import { Divider, Grid } from '@mui/material';
 import { listMyJios } from 'src/store/reducers/myJios';
 import { useDispatch, useSelector } from 'src/store';
-import MyJioCard from './MyJioCard';
-import EmptyJiosContent from '../EmptyJiosContent';
+import MyJioCard from 'src/components/jios/MyJioCard';
+import EmptyJiosContent from 'src/components/jios/EmptyJiosContent';
 import useVersion from 'src/hooks/ui/useVersion';
-import JioCardSkeleton from '../JioCardSkeleton';
-import ErrorContent from '../ErrorContent';
-import CreateJioButton from '../../../../../components/CreateJioButton';
+import JioCardLoader from 'src/components/jios/JioCardLoader';
+import ErrorContent from 'src/components/jios/ErrorJiosContent';
+import CreateJioButton from 'src/components/jios/CreateJioButton';
 
 export default function MyJioCardList() {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export default function MyJioCardList() {
     if (loading) {
       return (
         <Grid sx={{ width: '100%', mt: 2 }} item>
-          <JioCardSkeleton />
+          <JioCardLoader />
         </Grid>
       );
     }

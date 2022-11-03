@@ -1,6 +1,16 @@
 import { useEffect } from 'react';
 import useCheckNotOnboarded from './useCheckNotOnboarded';
 
+/**
+ * Restrict access to new users.
+ * Redirect onboarded users to the dashboard page.
+ *
+ * @example
+ *     const FooPage = () => {
+ *         useNotOnboarded();
+ *         return <Foo />;
+ *     }
+ */
 const useNotOnboarded = () => {
   const checkNotOnboarded = useCheckNotOnboarded();
 

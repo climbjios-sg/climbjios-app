@@ -90,6 +90,7 @@ export default function Dashboard() {
   const theme = useTheme();
   const dispatch = useDispatch();
 
+  // TODO: Check and remove if no one using the redux states
   useEffect(() => {
     dispatch(listGyms());
     dispatch(listColors());

@@ -9,7 +9,7 @@ export default function FloatingBottomCard({ children }: Props) {
 
   return (
     <Paper
-      elevation={3}
+      elevation={5}
       sx={{
         position: 'fixed',
         left: 0,

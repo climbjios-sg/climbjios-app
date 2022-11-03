@@ -11,6 +11,7 @@ const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
   if (action.type === CLEAR_STATE) {
     state = {} as RootState;
   }
+
   return _rootReducer(state, action);
 };
 

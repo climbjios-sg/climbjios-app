@@ -8,6 +8,9 @@ import BackBar from '../BackBar';
 interface ProfileProps {
   sx?: SxProps<Theme>;
   showBack?: boolean;
+  // backTo is the link to navigate to when back button is clicked. If not given will navigate to previous page.
+  backTo?: string;
+  userLoading?: boolean;
   user: User;
   aboutTab: React.ReactElement;
   betasTab: React.ReactElement;
@@ -19,6 +22,8 @@ export default function ProfileHeaderAndTabs({
   aboutTab,
   betasTab,
   showBack,
+  backTo,
+  userLoading = false,
 }: ProfileProps) {
   const theme = useTheme();
   const { currentTab, onChangeTab } = useTabs('about');
@@ -47,9 +52,9 @@ export default function ProfileHeaderAndTabs({
           width: showBack ? 'auto' : '100%',
         }}
       >
-        {showBack && <BackBar position="static" disableHideOnScroll />}
+        {showBack && <BackBar position="static" disableHideOnScroll to={backTo} />}
         <Stack sx={{ px: 2, pt: showBack ? 2 : 4 }} direction="column" spacing={1}>
-          <ProfileHeader user={user} />
+          <ProfileHeader user={user} loading={userLoading} />
           <Tabs
             allowScrollButtonsMobile
             variant="scrollable"

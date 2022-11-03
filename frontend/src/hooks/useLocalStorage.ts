@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 // ----------------------------------------------------------------------
 
 export default function useLocalStorage<ValueType>(key: string, defaultValue: ValueType) {
-  const [value, setValue] = useState(() => {
+  const [value, setValue] = useState<ValueType>(() => {
     const storedValue = localStorage.getItem(key);
 
     return storedValue === null ? defaultValue : JSON.parse(storedValue);
@@ -22,7 +22,7 @@ export default function useLocalStorage<ValueType>(key: string, defaultValue: Va
     };
   }, [key, defaultValue]);
 
-  const setValueInLocalStorage = (newValue: ValueType) => {
+  const setValueInLocalStorage = useCallback((newValue: ValueType) => {
     setValue((currentValue: ValueType) => {
       const result = typeof newValue === 'function' ? newValue(currentValue) : newValue;
 
@@ -30,7 +30,7 @@ export default function useLocalStorage<ValueType>(key: string, defaultValue: Va
 
       return result;
     });
-  };
+  }, [key]);
 
-  return [value, setValueInLocalStorage];
+  return { value, setValueInLocalStorage };
 }

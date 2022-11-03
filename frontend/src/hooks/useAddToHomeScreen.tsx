@@ -17,7 +17,10 @@ interface IBeforeInstallPromptEvent extends Event {
 
 export default function useAddToHomeScreen() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const [dontShow, setDontShow] = useLocalStorage<boolean>('dontShowSnackbar', false);
+  const { value: dontShow, setValueInLocalStorage: setDontShow } = useLocalStorage<boolean>(
+    'dontShowSnackbar',
+    false
+  );
 
   useEffect(() => {
     if (isMobile()) {
@@ -45,6 +48,7 @@ export default function useAddToHomeScreen() {
                   Cancel
                 </Button>
                 <Button
+                  className='add-to-home-screen-accept'
                   variant="outlined"
                   onClick={() => {
                     if (deferredPrompt) {

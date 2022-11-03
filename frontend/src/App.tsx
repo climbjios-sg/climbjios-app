@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import ReactGA from 'react-ga4';
+import TagManager from 'react-gtm-module';
 // routes
 import Router from './routes';
 // theme
@@ -18,20 +17,11 @@ interface Props {
   authProvider: AuthProvider;
 }
 
-if (process.env.REACT_APP_GA_TRACKING_ID) {
-  ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
+if (process.env.REACT_APP_GTM_ID) {
+  TagManager.initialize({ gtmId: process.env.REACT_APP_GTM_ID });
 }
 
 export default function App({ authProvider }: Props) {
-  useEffect(() => {
-    if (process.env.REACT_APP_GA_TRACKING_ID) {
-      ReactGA.send({
-        hitType: 'pageview',
-        page: window.location.pathname + window.location.search,
-      });
-    }
-  }, []);
-
   return (
     <ProfileProvider authProvider={authProvider}>
       <MotionLazyContainer>

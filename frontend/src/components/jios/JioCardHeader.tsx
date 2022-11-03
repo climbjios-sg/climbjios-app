@@ -1,21 +1,34 @@
 import { CardHeader, Stack, Typography } from '@mui/material';
 import { IconStyle } from 'src/utils/common';
 import { Jio } from 'src/@types/jio';
-import { getPassesText } from './utils';
+import { getPassesText } from '../../pages/dashboard/jios/list/utils';
 import { Link } from 'react-router-dom';
-import { makeUserProfileLinkProps } from '../../../publicProfile';
-import NameAvatar from '../../../../components/NameAvatar';
+import { makeUserProfileLinkProps } from '../../pages/publicProfile';
+import NameAvatar from '../NameAvatar';
 
 interface JioCardHeaderProps {
   data: Jio;
+  isUsernameHidden?: boolean;
+  isLinkDisabled?: boolean;
 }
 
-export default function JioCardHeader({ data }: JioCardHeaderProps) {
+export default function JioCardHeader({
+  data,
+  isUsernameHidden = false,
+  isLinkDisabled = false,
+}: JioCardHeaderProps) {
+  const linkProps = isLinkDisabled
+    ? {}
+    : {
+        component: Link,
+        ...makeUserProfileLinkProps({ user: data.creatorProfile }),
+      };
+
   return (
     <CardHeader
       avatar={
+        <div className='jio-card-avatar'>
         <Stack
-          component={Link}
           sx={{
             textDecoration: 'none',
             color: 'inherit',
@@ -23,7 +36,7 @@ export default function JioCardHeader({ data }: JioCardHeaderProps) {
           spacing={1}
           direction="row"
           alignItems="center"
-          {...makeUserProfileLinkProps({ user: data.creatorProfile })}
+          {...linkProps}
         >
           <NameAvatar
             name={data.creatorProfile.telegramHandle}
@@ -35,8 +48,11 @@ export default function JioCardHeader({ data }: JioCardHeaderProps) {
               mx: 'auto',
             }}
           />
-          <Typography variant="h6">{`@${data.creatorProfile.telegramHandle}`}</Typography>
+          {!isUsernameHidden && (
+            <Typography variant="h6">{`@${data.creatorProfile.telegramHandle}`}</Typography>
+          )}
         </Stack>
+        </div>
       }
       action={
         <Stack sx={{ pt: 1.5 }} spacing={1} direction="row" alignItems="center">

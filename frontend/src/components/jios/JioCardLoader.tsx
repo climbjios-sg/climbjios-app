@@ -1,6 +1,6 @@
 import { Card, CardHeader, Stack, Skeleton } from '@mui/material';
 
-export default function JioCardSkeleton() {
+export default function JioCardLoader() {
   return (
     <Card>
       <CardHeader avatar={<Skeleton />} title={<Skeleton />} />
