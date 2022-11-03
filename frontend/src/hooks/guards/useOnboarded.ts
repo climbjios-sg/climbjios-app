@@ -1,6 +1,16 @@
 import { useEffect } from 'react';
 import useCheckOnboarded from './useCheckOnboarded';
 
+/**
+ * Restrict access to onboarded users.
+ * Redirect new users to the onboarding page.
+ *
+ * @example
+ *     const FooPage = () => {
+ *         useOnboarded();
+ *         return <Foo />;
+ *     }
+ */
 const useOnboarded = () => {
   const checkOnboarded = useCheckOnboarded();
 

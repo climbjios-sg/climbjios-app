@@ -10,6 +10,16 @@ type CheckOnboarded = (params: {
   redirectTo?: string;
 }) => Promise<any>;
 
+/**
+ * Get a callback for calling the authProvider.checkOnboarded() method.
+ * In case of rejection, redirects to the onboarding page.
+ *
+ * This is a low level hook.
+ *
+ * @see useOnboarded
+ *
+ * @returns {Function} checkOnboarded callback
+ */
 const useCheckOnboarded = (): CheckOnboarded => {
   const authProvider = useAuthProvider();
   const { enqueueSnackbar } = useSnackbar();
