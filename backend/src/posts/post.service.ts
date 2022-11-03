@@ -183,6 +183,9 @@ export class PostService {
         obj.telegramAlertMessageId,
         this.constantsService.TELEGRAM_MAIN_CHAT_GROUP_ID,
         this.formatAlertMessage(obj),
+        obj.status === PostStatus.OPEN
+          ? this.formatAlertMessageInlineButton(obj.id)
+          : undefined,
       )
       .catch((e) => {
         this.loggerService.log(e);
