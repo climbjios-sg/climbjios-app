@@ -1,8 +1,8 @@
 {
-  "name": "@minimal/material-kit-react",
-  "author": "minimals.cc",
-  "version": "3.5.0",
-  "description": "React Scripts & Typescript",
+  "name": "climbjios-app",
+  "author": "climbjios-sg",
+  "version": "1.0.0",
+  "description": "The social network for climbers.",
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",
