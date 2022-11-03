@@ -3,6 +3,7 @@ import { Box, Stack, Container, Typography } from '@mui/material';
 import Page from '../../components/Page';
 import Logo from '../../components/Logo';
 import LoginForm from './LoginForm';
+import { VERSION } from '../../config';
 
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
@@ -62,6 +63,10 @@ export default function Login() {
           </ContentStyle>
         </Container>
       </RootStyle>
+
+      <Typography variant="body2" sx={{ textAlign: 'center', margin: '0 auto', color: 'text.secondary' }}>
+        {`v${VERSION}`}
+      </Typography>
     </Page>
   );
 }
