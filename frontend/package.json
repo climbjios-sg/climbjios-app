@@ -1,7 +1,7 @@
 {
   "name": "climbjios-app",
   "author": "climbjios-sg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The social network for climbers.",
   "private": true,
   "scripts": {
