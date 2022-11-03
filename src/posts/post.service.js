@@ -75,9 +75,7 @@ let PostService = class PostService {
         return this.postsDaoService
             .patchById(postId, Object.assign({}, data))
             .then((obj) => {
-            if (obj.status === types_1.PostStatus.CLOSED) {
-                this.editTelegramMessage(obj);
-            }
+            this.editTelegramMessage(obj);
             return obj;
         });
     }
