@@ -12,8 +12,8 @@ import { getDateTimeString } from 'src/utils/formatTime';
 import { GetJioListRequest } from 'src/@types/jio';
 import CreateJioButton from 'src/components/jios/CreateJioButton';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import useRefresh from '../../../../../hooks/ui/useRefresh';
-import InfiniteScrollHelper from '../../../../../components/InfiniteScrollHelper';
+import InfiniteScrollHelper from 'src/components/InfiniteScrollHelper';
+import useRefresh from 'src/hooks/ui/useRefresh';
 
 export default function JioCardList() {
   const dispatch = useDispatch();

@@ -4,14 +4,14 @@ import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Option } from '../../../../../@types';
-import { Jio } from '../../../../../@types/jio';
-import Iconify from '../../../../../components/Iconify';
-import { JIO_TYPE_BUY_SELL_OPTIONS } from '../../../../../config';
-import useGetGymList from '../../../../../hooks/services/options/useGetGymList';
-import { PATH_DASHBOARD } from '../../../../../routes/paths';
-import { useDispatch } from '../../../../../store';
-import { setJiosSearchForm } from '../../../../../store/reducers/jiosSearchForm';
+import { Option } from 'src/@types';
+import { Jio } from 'src/@types/jio';
+import Iconify from 'src/components/Iconify';
+import { JIO_TYPE_BUY_SELL_OPTIONS } from 'src/config';
+import useGetGymList from 'src/hooks/services/options/useGetGymList';
+import { PATH_DASHBOARD } from 'src/routes/paths';
+import { useDispatch } from 'src/store';
+import { setJiosSearchForm } from 'src/store/reducers/jiosSearchForm';
 
 function Label({ icon = '', text = '' }) {
   return (

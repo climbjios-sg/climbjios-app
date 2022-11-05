@@ -19,9 +19,9 @@ import BetasInfiniteScroll from 'src/components/betas/BetaInfiniteScroll';
 import { BETAS_PAGE_SIZE } from 'src/config';
 import Image from 'src/components/Image';
 import useGetBetas from 'src/hooks/services/useGetBetas';
-import { displayBetaColor } from '../../../../components/betas/utils';
+import { displayBetaColor } from 'src/components/betas/utils';
 import useGetGymList from 'src/hooks/services/options/useGetGymList';
-import FloatingContainer from '../../../../components/FloatingContainer';
+import FloatingContainer from 'src/components/FloatingContainer';
 
 const colorStyles: StylesConfig<any> = {
   option: (styles, { data }) => ({ ...styles, ...dot(data.label) }),
