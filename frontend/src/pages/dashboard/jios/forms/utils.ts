@@ -5,13 +5,6 @@ import { dateToTimeString, getDateTimeString, zeroTime } from '../../../../utils
 
 // ----------------------------------------------------------------------
 
-export const JIOTYPE_OPTION = [
-  { label: 'Buy', value: 'buyer' },
-  { label: 'Sell', value: 'seller' },
-  { label: 'None, just looking for friends to climb with', value: 'other' },
-];
-// ----------------------------------------------------------------------
-
 export interface JioCreateEditFormValues {
   type: Jio['type'];
   numPasses: Jio['numPasses'];
@@ -26,9 +19,8 @@ export interface JioCreateEditFormValues {
   endTiming: string;
 }
 
-export type JioSearchFormValues = Pick<
-  JioCreateEditFormValues,
-  'gymId' | 'date' | 'startTiming' | 'endTiming' | 'type'
+export type JioSearchFormValues = Partial<
+  Pick<JioCreateEditFormValues, 'gymId' | 'date' | 'startTiming' | 'endTiming' | 'type'>
 >;
 
 export const jioFormValuesToJioRequest = ({

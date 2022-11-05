@@ -1,11 +1,12 @@
 import { styled } from '@mui/system';
-import { TypographyProps, Typography, CircularProgress, Stack } from '@mui/material';
+import { CircularProgress, Stack } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ListBetasResponse } from '../../@types/beta';
 import { AxiosResponse } from 'axios';
 import BetaCard from './BetaCard';
 import BetaLoader from './BetaLoader';
 import MyBetaCard from './MyBetaCard';
+import InfiniteScrollHelper from '../InfiniteScrollHelper';
 
 const StyledInfiniteScroll = styled(InfiniteScroll)({
   maxWidth: 600,
@@ -18,14 +19,6 @@ const StyledInfiniteScroll = styled(InfiniteScroll)({
   '& > div:first-of-type': {
     gridColumn: 'span 2',
   },
-});
-
-const InfiniteScrollHelper = styled((props: TypographyProps) => (
-  <Typography {...props} variant="h5" />
-))({
-  gridColumn: 'span 2',
-  textAlign: 'center',
-  justifySelf: 'center',
 });
 
 interface BetasInfiniteScrollProps {
@@ -81,7 +74,7 @@ export default function BetasInfiniteScroll({
       pullDownToRefresh
       scrollThreshold={0.6}
       pullDownToRefreshThreshold={50}
-      scrollableTarget='root'
+      scrollableTarget="root"
       pullDownToRefreshContent={
         <InfiniteScrollHelper>&#8595; Pull down to refresh</InfiniteScrollHelper>
       }

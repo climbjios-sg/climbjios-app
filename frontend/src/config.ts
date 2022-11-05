@@ -106,3 +106,14 @@ export const OPTIONS_STALE_TIME = -1;
 
 // Betas
 export const BETAS_PAGE_SIZE = 10;
+
+// Jio Form
+export const JIO_TYPE_BUY_SELL_OPTIONS = [
+  { label: 'Buy', value: 'buyer' },
+  { label: 'Sell', value: 'seller' },
+]
+
+export const JIOTYPE_OPTIONS = [
+  ...JIO_TYPE_BUY_SELL_OPTIONS,
+  { label: 'None, just looking for folks to climb with', value: 'other' },
+];

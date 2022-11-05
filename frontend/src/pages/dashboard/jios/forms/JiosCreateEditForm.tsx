@@ -21,9 +21,9 @@ import { useSelector } from '../../../../store';
 import {
   formatJioFormValues,
   JioCreateEditFormValues,
-  JIOTYPE_OPTION,
   yupStartEndDateTimingObject,
 } from './utils';
+import { JIOTYPE_OPTIONS } from "../../../../config";
 import { addDays } from 'date-fns';
 import useRHFScrollToInputOnError from '../../../../hooks/useRHFScrollToInputOnError';
 import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
@@ -164,7 +164,7 @@ export default function JiosCreateEditForm({
           </Stack>
 
           <Typography variant="subtitle1">Are you looking to buy or sell passes?</Typography>
-          <RHFRadioGroup sx={{ mt: -1.5 }} name="type" options={JIOTYPE_OPTION} color="primary" />
+          <RHFRadioGroup sx={{ mt: -1.5 }} name="type" options={JIOTYPE_OPTIONS} color="primary" />
 
           {/* Display passes related data iff climber is buying or selling */}
           {formData.type && formData.type !== 'other' && (
