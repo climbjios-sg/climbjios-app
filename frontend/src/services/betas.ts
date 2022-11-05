@@ -20,13 +20,16 @@ export const getCreatorBetas = (creatorId: string, params: ListBetasRequest) =>
     params,
   });
 
-export const deleteBeta = (betaId: string) => authorizedAxios.delete(BE_API.betas.beta(betaId));
+export const deleteBeta = (betaId: string) =>
+  authorizedAxios.delete(BE_API.betas.beta.root(betaId));
 
 export const getBetaUploadUrl = () =>
   authorizedAxios.get<BetaUploadUrlResponse>(BE_API.betas.uploadVideoUrl);
 
 export const createBeta = (beta: CreateBetaRequest) =>
   authorizedAxios.post<CreateBetaRequest, AxiosResponse<Beta>>(BE_API.betas.root, beta);
+
+export const likeBeta = (betaId: string) => authorizedAxios.post(BE_API.betas.beta.like(betaId));
 
 export const uploadBetaVideoToCloudfare = async (video: File) => {
   const {

@@ -16,6 +16,7 @@ import { UserModel } from './models/user.model';
 import { UserProfileModel } from './models/userProfile.model';
 import { UserProfileFavouriteGymModel } from './models/userProfileFavouriteGym.model';
 import { BetaModel } from './models/beta.model';
+import { BetaLikeModel } from './models/betaLike.model';
 import { RefreshTokenModel } from './models/refreshToken.model';
 
 const models = [
@@ -34,6 +35,7 @@ const models = [
   WallModel,
   BetaModel,
   RefreshTokenModel,
+  BetaLikeModel,
 ];
 const modelProviders = models.map((model) => ({
   provide: model.name,

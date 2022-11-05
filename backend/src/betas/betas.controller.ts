@@ -39,6 +39,11 @@ export class BetasController {
     return this.betasService.deleteBeta(req.user.id, params.betaId);
   }
 
+  @Post(':betaId/like')
+  likeBeta(@Req() req, @Param('betaId') betaId: string) {
+    return this.betasService.likeBeta(req.user.id, betaId);
+  }
+
   @Get('videoUploadUrl')
   getVideoUploadUrl() {
     return this.betasService.getVideoUploadUrl();
