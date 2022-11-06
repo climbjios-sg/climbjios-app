@@ -1,5 +1,5 @@
-import { Box, Button, IconButton, Paper, Slide, useScrollTrigger, useTheme } from '@mui/material';
-import { Stack, styled } from '@mui/system';
+import { Box, Button, IconButton, Paper, Slide, useScrollTrigger } from '@mui/material';
+import { Stack } from '@mui/system';
 import Select, { StylesConfig } from 'react-select';
 import { Link } from 'react-router-dom';
 import Iconify from 'src/components/Iconify';
@@ -19,15 +19,9 @@ import BetasInfiniteScroll from 'src/components/betas/BetaInfiniteScroll';
 import { BETAS_PAGE_SIZE } from 'src/config';
 import Image from 'src/components/Image';
 import useGetBetas from 'src/hooks/services/useGetBetas';
-import { displayBetaColor } from '../../../../components/betas/utils';
+import { displayBetaColor } from 'src/components/betas/utils';
 import useGetGymList from 'src/hooks/services/options/useGetGymList';
-
-const FloatingContainer = styled('div')({
-  position: 'fixed',
-  left: 0,
-  top: 0,
-  width: '100vw',
-});
+import FloatingContainer from 'src/components/FloatingContainer';
 
 const colorStyles: StylesConfig<any> = {
   option: (styles, { data }) => ({ ...styles, ...dot(data.label) }),
@@ -73,7 +67,6 @@ export default function BetasList() {
   const trigger = useScrollTrigger({
     target: document.getElementById('root') || undefined,
   });
-  const theme = useTheme();
   const { data: gyms } = useGetGymList();
   const colors = useSelector((state) => state.colors.data);
   const walls = useSelector((state) => state.walls.data);
@@ -130,7 +123,7 @@ export default function BetasList() {
 
   return (
     <>
-      <FloatingContainer sx={{ zIndex: theme.zIndex.drawer }}>
+      <FloatingContainer>
         <MessageBarWithStore />
         <Paper
           elevation={1}
@@ -157,7 +150,7 @@ export default function BetasList() {
                 alignItems="center"
                 sx={{
                   border: 'solid 1px hsl(0, 0%, 80%)',
-                  borderRadius: 10,
+                  borderRadius: 2,
                   paddingLeft: 1,
                   py: '1px',
                   ml: 1,

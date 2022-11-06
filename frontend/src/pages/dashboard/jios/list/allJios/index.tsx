@@ -11,10 +11,14 @@ import { listJios } from 'src/store/reducers/jios';
 import { getDateTimeString } from 'src/utils/formatTime';
 import { GetJioListRequest } from 'src/@types/jio';
 import CreateJioButton from 'src/components/jios/CreateJioButton';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import InfiniteScrollHelper from 'src/components/InfiniteScrollHelper';
+import useRefresh from 'src/hooks/ui/useRefresh';
 
 export default function JioCardList() {
   const dispatch = useDispatch();
   const version = useVersion();
+  const refresh = useRefresh();
   const jioSearchValues = useSelector((state) => state.jioSearchForm.data);
 
   const { data, error, loading } = useSelector((state) => state.jios);
@@ -56,11 +60,32 @@ export default function JioCardList() {
 
     return (
       <>
-        {data.map((jio) => (
-          <Grid key={jio.id} sx={{ width: '100%', mt: 2 }} item>
-            <JioCard data={jio} />
-          </Grid>
-        ))}
+        <InfiniteScroll
+          // Note: We are using this comoponent just for pull-to-refresh
+          // No pagination is implemented
+          // Pagination related props are stubs
+          dataLength={data.length}
+          next={() => {}}
+          hasMore={false}
+          loader={null}
+          // Pull to refresh props
+          pullDownToRefresh
+          refreshFunction={refresh}
+          pullDownToRefreshThreshold={50}
+          pullDownToRefreshContent={
+            <InfiniteScrollHelper sx={{ mb: 2 }}>&#8595; Pull down to refresh</InfiniteScrollHelper>
+          }
+          releaseToRefreshContent={
+            <InfiniteScrollHelper sx={{ mb: 2 }}>&#8593; Release to refresh</InfiniteScrollHelper>
+          }
+          scrollableTarget="root"
+        >
+          {data.map((jio) => (
+            <Grid key={jio.id} sx={{ width: '100%', mt: 2 }} item>
+              <JioCard data={jio} />
+            </Grid>
+          ))}
+        </InfiniteScroll>
         <Grid sx={{ width: '100%', mt: 4 }} item>
           <Divider textAlign="center">Can't find the right Jio? 🤔</Divider>
           <div
@@ -76,25 +101,26 @@ export default function JioCardList() {
         </Grid>
       </>
     );
-  }, [data, error, jioSearchValues, loading]);
+  }, [data, error, jioSearchValues, loading, refresh]);
 
   useEffect(() => {
     if (!jioSearchValues) {
-      dispatch(
-        listJios({})
-      );
+      dispatch(listJios({}));
       return;
     }
 
-    const { date, startTiming, endTiming, type, gymId } = jioSearchValues;
+    const searchParams = {} as GetJioListRequest;
+    if (jioSearchValues.date) {
+      searchParams.startDateTime = getDateTimeString(jioSearchValues.date, '00:00');
+    }
 
-    const searchParams: GetJioListRequest = {
-      gymId: gymId,
-      startDateTime: getDateTimeString(date, startTiming),
-      endDateTime: getDateTimeString(date, endTiming),
-    };
+    if (jioSearchValues.gymId) {
+      searchParams.gymId = jioSearchValues.gymId;
+    }
 
-    searchParams.type = type;
+    if (jioSearchValues.type) {
+      searchParams.type = jioSearchValues.type;
+    }
 
     dispatch(listJios(searchParams));
   }, [version, dispatch, jioSearchValues]);

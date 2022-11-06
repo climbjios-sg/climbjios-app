@@ -1,5 +1,5 @@
-export interface Option {
-  value: string | number;
+export interface Option<T = string | number> {
+  value: T;
   label: string;
 }
 
