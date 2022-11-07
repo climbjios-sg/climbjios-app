@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v1.2.0
+
+Featue
+- Create Jios without date
+
+Fix
+- Jio search dates when Buying/Selling filter is turned on
+
 ## v1.1.0
 
 Feature
