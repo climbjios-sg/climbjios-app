@@ -1,16 +1,7 @@
 import * as React from 'react';
 import { styled } from '@mui/system';
 import { TabContext, TabPanel } from '@mui/lab';
-import {
-  Tab,
-  Grid,
-  Tabs,
-  Box,
-  Paper,
-  Stack,
-  useScrollTrigger,
-  Slide,
-} from '@mui/material';
+import { Tab, Tabs, Box, Paper, Stack, useScrollTrigger, Slide } from '@mui/material';
 import JioCardList from './allJios';
 import MyJioCardList from './myJios';
 import { useSearchParams } from 'react-router-dom';
@@ -63,8 +54,8 @@ export default function JiosList() {
               borderRadius: 0,
             }}
           >
-            <Grid container justifyContent="space-between" alignItems="center">
-              <Grid item>
+            <Slide appear={false} direction="down" in={!trigger}>
+              <Stack sx={{ display: trigger ? 'none' : 'flex' }} direction="row">
                 <Tabs
                   indicatorColor="secondary"
                   value={tabValue}
@@ -76,23 +67,19 @@ export default function JiosList() {
                     <StyledTab key={tab} label={tab} value={tab} />
                   ))}
                 </Tabs>
-              </Grid>
-            </Grid>
-            <Slide appear={false} direction="down" in={!trigger}>
-              <Stack sx={{ display: trigger ? 'none' : 'flex' }}>
-                {tabValue === TabValue.AllJios && <JioSearch />}
               </Stack>
             </Slide>
+            {tabValue === TabValue.AllJios && <JioSearch />}
           </Paper>
         </FloatingContainer>
         {/* Open Jios Tab */}
         <TabPanel value={TabValue.AllJios}>
-          <Stack sx={{ height: 210 }} />
+          <Box sx={{ height: 160 }} />
           <JioCardList />
         </TabPanel>
         {/* My Jios Tab */}
         <TabPanel value={TabValue.MyJios}>
-          <Stack sx={{ height: 40 }} />
+          <Box sx={{ height: 40 }} />
           <MyJioCardList />
         </TabPanel>
       </TabContext>

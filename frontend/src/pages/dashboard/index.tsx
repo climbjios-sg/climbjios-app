@@ -6,6 +6,8 @@ import {
   BottomNavigationAction,
   Paper,
   useTheme,
+  useScrollTrigger,
+  Slide,
 } from '@mui/material';
 // components
 import Page from '../../components/Page';
@@ -89,6 +91,9 @@ const DashboardRouter = () =>
 export default function Dashboard() {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const trigger = useScrollTrigger({
+    target: document.getElementById('root') || undefined,
+  });
 
   // TODO: Check and remove if no one using the redux states
   useEffect(() => {
@@ -103,12 +108,14 @@ export default function Dashboard() {
       <Container>
         <DashboardRouter />
       </Container>
-      <Paper
-        sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: theme.zIndex.appBar }}
-        elevation={3}
-      >
-        <BottomTabs tabs={DASHBOARD_TABS} />
-      </Paper>
+      <Slide appear={false} direction="up" in={!trigger}>
+        <Paper
+          sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: theme.zIndex.appBar }}
+          elevation={3}
+        >
+          <BottomTabs tabs={DASHBOARD_TABS} />
+        </Paper>
+      </Slide>
     </Page>
   );
 }

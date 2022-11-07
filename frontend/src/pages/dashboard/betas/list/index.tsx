@@ -22,6 +22,7 @@ import useGetBetas from 'src/hooks/services/useGetBetas';
 import { displayBetaColor } from 'src/components/betas/utils';
 import useGetGymList from 'src/hooks/services/options/useGetGymList';
 import FloatingContainer from 'src/components/FloatingContainer';
+import { SelectWithIcon } from '../../../../components/SelectWithIcon';
 
 const colorStyles: StylesConfig<any> = {
   option: (styles, { data }) => ({ ...styles, ...dot(data.label) }),
@@ -145,32 +146,14 @@ export default function BetasList() {
                 width: '100%',
               }}
             >
-              <Stack
-                direction="row"
-                alignItems="center"
-                sx={{
-                  border: 'solid 1px hsl(0, 0%, 80%)',
-                  borderRadius: 2,
-                  paddingLeft: 1,
-                  py: '1px',
-                  ml: 1,
-                  '& .gym__control': {
-                    border: 'none !important',
-                    boxShadow: 'none !important',
-                    background: 'none',
-                    minWidth: 240,
-                  },
+              <SelectWithIcon
+                sx={{ ml: 1 }}
+                icon={<Iconify icon="eva:pin-outline" height={24} width={24} />}
+                options={gymOptions}
+                onChange={(option) => {
+                  setSelectedGym(option?.value);
                 }}
-              >
-                <Iconify icon="eva:pin-outline" height={24} width={24} />
-                <Select
-                  classNamePrefix="gym"
-                  options={gymOptions}
-                  onChange={(option) => {
-                    setSelectedGym(option?.value);
-                  }}
-                />
-              </Stack>
+              />
               <IconButton
                 sx={{
                   px: 3,
