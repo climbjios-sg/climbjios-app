@@ -81,10 +81,10 @@ let PostsDaoService = PostsDaoService_1 = class PostsDaoService {
                 query.where('startDateTime', '<=', new Date(value));
             }
             else if (key === 'type') {
-                if (value === types_1.PostType.BUYER) {
+                if (value === types_1.PostType.SELLER) {
                     query.where('type', types_1.PostType.SELLER);
                 }
-                else if (value === types_1.PostType.SELLER) {
+                else if (value === types_1.PostType.BUYER) {
                     query.where('type', types_1.PostType.BUYER);
                 }
                 else {
