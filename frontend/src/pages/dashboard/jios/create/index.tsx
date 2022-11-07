@@ -9,12 +9,28 @@ import { clearJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
 
+function invertJioTypeValues(
+  values: Partial<
+    Pick<JioCreateEditFormValues, 'gymId' | 'date' | 'startTiming' | 'endTiming' | 'type'>
+  > | null
+) {
+  const newValues = { ...values };
+  if (newValues?.type === 'buyer') {
+    newValues.type = 'seller';
+  } else if (newValues?.type === 'seller') {
+    newValues.type = 'buyer';
+  }
+  return newValues;
+}
+
 export default function JiosCreate() {
   const { enqueueSnackbar, enqueueError } = useCustomSnackbar();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // Auto-populate default create values from search JioSearchForm
-  const jioSearchValues = useSelector((state) => state.jioSearchForm.data);
+  const jioCreateDefaultValues = invertJioTypeValues(
+    useSelector((state) => state.jioSearchForm.data)
+  );
 
   const navigateOut = () => {
     navigate(PATH_DASHBOARD.general.jios.userJios);
@@ -45,7 +61,7 @@ export default function JiosCreate() {
     <JiosCreateEditForm
       title="Create A Jio"
       onCancel={navigateOut}
-      defaultValues={jioSearchValues || undefined}
+      defaultValues={jioCreateDefaultValues || undefined}
       onSubmit={handleCreate}
       submitLabel="Submit"
       submitIcon={<Iconify icon={'eva:add-outline'} width={24} height={24} />}
