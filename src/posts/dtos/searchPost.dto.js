@@ -22,20 +22,6 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_transformer_1.Transform)((val) => parseInt(val.value)),
-    (0, class_validator_1.IsInt)(),
-    (0, class_validator_1.Min)(0),
-    __metadata("design:type", Number)
-], SearchPostDto.prototype, "numPasses", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_transformer_1.Transform)((val) => parseFloat(val.value)),
-    (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.Min)(1),
-    __metadata("design:type", Number)
-], SearchPostDto.prototype, "price", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_transformer_1.Transform)((val) => parseInt(val.value)),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], SearchPostDto.prototype, "gymId", void 0);
@@ -49,5 +35,19 @@ __decorate([
     (0, class_validator_1.IsDateString)(),
     __metadata("design:type", Date)
 ], SearchPostDto.prototype, "endDateTime", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_transformer_1.Transform)((val) => parseInt(val.value)),
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.Min)(0),
+    __metadata("design:type", Number)
+], SearchPostDto.prototype, "numPasses", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_transformer_1.Transform)((val) => parseFloat(val.value)),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(1),
+    __metadata("design:type", Number)
+], SearchPostDto.prototype, "price", void 0);
 exports.default = SearchPostDto;
 //# sourceMappingURL=searchPost.dto.js.map

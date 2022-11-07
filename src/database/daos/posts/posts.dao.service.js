@@ -57,44 +57,37 @@ let PostsDaoService = PostsDaoService_1 = class PostsDaoService {
             .orderBy('endDateTime', 'ASC')
             .orderBy('gymId', 'ASC')
             .withGraphFetched(PostsDaoService_1.allGraphs);
-        if (!Object.keys(search).length) {
-            return await query
-                .where('endDateTime', '>=', new Date())
-                .where('status', types_1.PostStatus.OPEN);
+        query.where('status', types_1.PostStatus.OPEN);
+        if (search.type) {
+            query.where('type', search.type);
         }
-        Object.entries(search).forEach(([key, value]) => {
-            if (key === 'numPasses') {
-                query.where(key, '>=', value);
+        if (search.numPasses) {
+            query.where('numPasses', '>=', search.numPasses);
+        }
+        if (search.gymId) {
+            query.where('gymId', search.gymId);
+        }
+        if (search.price) {
+            if (search.type === types_1.PostType.SELLER) {
+                query.where('price', '>=', search.price);
             }
-            else if (key === 'price') {
-                if (search.type === types_1.PostType.SELLER) {
-                    query.where(key, '>=', value);
-                }
-                else if (search.type === types_1.PostType.BUYER) {
-                    query.where(key, '<=', value);
-                }
+            else if (search.type === types_1.PostType.BUYER) {
+                query.where('price', '<=', search.price);
             }
-            else if (key === 'startDateTime') {
-                query.where('endDateTime', '>=', new Date(value));
-            }
-            else if (key === 'endDateTime') {
-                query.where('startDateTime', '<=', new Date(value));
-            }
-            else if (key === 'type') {
-                if (value === types_1.PostType.SELLER) {
-                    query.where('type', types_1.PostType.SELLER);
-                }
-                else if (value === types_1.PostType.BUYER) {
-                    query.where('type', types_1.PostType.BUYER);
-                }
-                else {
-                    query.where('openToClimbTogether', true);
-                }
-            }
-            else {
-                query.where(key, value);
-            }
-        });
+        }
+        query
+            .where('startDateTime', '>=', new Date())
+            .orWhere('startDateTime', null);
+        if (search.startDateTime) {
+            query
+                .where('endDateTime', '>=', new Date(search.startDateTime))
+                .orWhere('endDateTime', null);
+        }
+        if (search.endDateTime) {
+            query
+                .where('startDateTime', '<=', new Date(search.endDateTime))
+                .orWhere('startDateTime', null);
+        }
         return await query;
     }
     deleteAllUserPosts(userId, trx) {

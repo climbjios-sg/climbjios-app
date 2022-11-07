@@ -38,15 +38,15 @@ __decorate([
     __metadata("design:type", Number)
 ], PatchPostDto.prototype, "gymId", void 0);
 __decorate([
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsDateString)(),
+    (0, class_validator_1.IsOptional)(),
     (0, DateIsAfterNow_1.DateIsAfterNow)(),
     (0, DateMatch_1.DateMatch)(PatchPostDto, (dto) => dto.endDateTime, true),
     __metadata("design:type", Date)
 ], PatchPostDto.prototype, "startDateTime", void 0);
 __decorate([
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsDateString)(),
+    (0, class_validator_1.IsOptional)(),
     (0, DateIsAfterNow_1.DateIsAfterNow)(),
     (0, DateMatch_1.DateMatch)(PatchPostDto, (dto) => dto.startDateTime, true),
     __metadata("design:type", Date)
