@@ -29,7 +29,14 @@ export function formatDate(date: Date) {
 // formatStartEndDate takes a start and end date ISO string, and converts it into a string display in UI
 // Note: Browser automatically display local timezone based on utc date string
 // e.g. Wed, 12 Dec, 9am-9pm
-export function formatStartEndDate(startISOString: string, endISOString: string): string {
+export function formatStartEndDate(
+  startISOString: string | null,
+  endISOString: string | null
+): string {
+  if (!startISOString || !endISOString) {
+    return 'Anytime';
+  }
+
   const startDateTimeObject = new Date(startISOString);
   const endDateTimeObject = new Date(endISOString);
   const dateString = format(startDateTimeObject, 'E, d MMM'); // e.g. Wed, 12 Dec

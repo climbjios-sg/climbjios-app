@@ -35,9 +35,11 @@ export default class CreatePostDto {
 
   @IsDateString()
   @DateIsAfterNow()
+  @IsOptional()
   startDateTime: Date;
 
   @IsDateString()
+  @IsOptional()
   @DateIsAfterNow()
   @DateMatch(CreatePostDto, (dto) => dto.startDateTime)
   @DateIsAfter(CreatePostDto, (dto) => dto.startDateTime)

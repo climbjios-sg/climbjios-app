@@ -11,8 +11,8 @@ export interface Jio {
   updatedAt: string;
   openToClimbTogether: boolean;
   isClosed: boolean;
-  startDateTime: string;
-  endDateTime: string;
+  startDateTime: string | null;
+  endDateTime: string | null;
   type: JioType;
   gym: Gym;
   numPasses: number;
@@ -23,16 +23,18 @@ export interface Jio {
 
 // Generic request and response types
 
-export type JioRequest = Pick<
-  Jio,
-  | 'type'
-  | 'numPasses'
-  | 'price'
-  | 'gymId'
-  | 'startDateTime'
-  | 'endDateTime'
-  | 'openToClimbTogether'
-  | 'optionalNote'
+export type JioRequest = Partial<
+  Pick<
+    Jio,
+    | 'type'
+    | 'numPasses'
+    | 'price'
+    | 'gymId'
+    | 'startDateTime'
+    | 'endDateTime'
+    | 'openToClimbTogether'
+    | 'optionalNote'
+  >
 >;
 export type JioResponse = Jio;
 

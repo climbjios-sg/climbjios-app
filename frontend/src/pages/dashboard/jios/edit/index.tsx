@@ -19,11 +19,11 @@ const jioToJioFormValues = (jio: Jio): JioCreateEditFormValues => ({
   gymId: jio.gym.id,
   openToClimbTogether: jio.openToClimbTogether,
   optionalNote: jio.optionalNote,
-  date: new Date(jio.startDateTime),
+  date: jio.startDateTime ? new Date(jio.startDateTime) : null,
   // Time in 09:00 format
-  startTiming: dateToTimeString(new Date(jio.startDateTime)),
+  startTiming: jio.startDateTime ? dateToTimeString(new Date(jio.startDateTime)) : undefined,
   // Time in 09:00 format
-  endTiming: dateToTimeString(new Date(jio.endDateTime)),
+  endTiming: jio.endDateTime ? dateToTimeString(new Date(jio.endDateTime)) : undefined,
 });
 
 export default function JiosEdit() {

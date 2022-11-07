@@ -42,7 +42,7 @@ export const jioFormValuesToJioRequest = ({
     optionalNote,
   };
 
-  if (date) {
+  if (date && startTiming && endTiming) {
     returnObj.startDateTime = getDateTimeString(date, startTiming);
     returnObj.endDateTime = getDateTimeString(date, endTiming);
   }
