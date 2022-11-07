@@ -6,6 +6,7 @@ import {
   useTheme,
   useScrollTrigger,
   Slide,
+  Box,
 } from '@mui/material';
 import { Stack } from '@mui/system';
 import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers';
@@ -136,6 +137,11 @@ export default function JioSearch() {
             size="small"
             sx={{ width: 110 }}
             value={jioType}
+            SelectProps={{
+              // Hide icon if jiotype is present
+              // Box is a placeholder
+              IconComponent: jioType ? Box : undefined,
+            }}
             onChange={(e) => {
               setJioType(e.target.value);
             }}
