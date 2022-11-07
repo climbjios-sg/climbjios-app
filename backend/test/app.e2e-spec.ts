@@ -368,7 +368,7 @@ describe('Backend (e2e)', () => {
           .expect(400);
 
         expect(res.error.text).toEqual(
-          '{"statusCode":400,"message":["type should not be null or undefined","numPasses should not be null or undefined","startDateTime should not be null or undefined","endDateTime should be after (dto) => dto.startDateTime!"],"error":"Bad Request"}',
+          '{"statusCode":400,"message":["type should not be null or undefined","numPasses should not be null or undefined","endDateTime should be after (dto) => dto.startDateTime!"],"error":"Bad Request"}',
         );
       });
     });
