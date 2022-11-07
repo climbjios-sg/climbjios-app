@@ -1,6 +1,7 @@
 import XRegExp from 'xregexp';
 import { AuthProviderType } from './@types/auth';
 import packageJson from '../package.json';
+import { Jio } from 'src/@types/jio';
 
 // API
 
@@ -106,3 +107,20 @@ export const OPTIONS_STALE_TIME = -1;
 
 // Betas
 export const BETAS_PAGE_SIZE = 10;
+
+interface JioTypeOption {
+  label: string;
+  value: Jio['type'];
+}
+
+// Jio Form
+export const JIO_TYPE_BUY_SELL_OPTIONS: JioTypeOption[] = [
+  { label: 'Buying', value: 'buyer' },
+  { label: 'Selling', value: 'seller' },
+];
+
+export const JIOTYPE_OPTIONS: JioTypeOption[] = [
+  { label: 'Buy', value: 'buyer' },
+  { label: 'Sell', value: 'seller' },
+  { label: 'None, just looking for folks to climb with', value: 'other' },
+];

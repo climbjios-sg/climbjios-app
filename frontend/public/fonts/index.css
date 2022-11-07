@@ -19,6 +19,7 @@
 
 /* CSS to prevent Browser pull to refresh */
 body {
+  overscroll-behavior-y: contain;
   overflow: hidden;
 }
 

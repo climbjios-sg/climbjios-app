@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Grid, Button, Divider } from '@mui/material';
+import { Grid, Button, Divider, Box } from '@mui/material';
 import useVersion from 'src/hooks/ui/useVersion';
 import JioCard from 'src/components/jios/JioCard';
 import JioCardLoader from 'src/components/jios/JioCardLoader';
@@ -11,10 +11,14 @@ import { listJios } from 'src/store/reducers/jios';
 import { getDateTimeString } from 'src/utils/formatTime';
 import { GetJioListRequest } from 'src/@types/jio';
 import CreateJioButton from 'src/components/jios/CreateJioButton';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import InfiniteScrollHelper from 'src/components/InfiniteScrollHelper';
+import useRefresh from 'src/hooks/ui/useRefresh';
 
 export default function JioCardList() {
   const dispatch = useDispatch();
   const version = useVersion();
+  const refresh = useRefresh();
   const jioSearchValues = useSelector((state) => state.jioSearchForm.data);
 
   const { data, error, loading } = useSelector((state) => state.jios);
@@ -55,13 +59,41 @@ export default function JioCardList() {
     }
 
     return (
-      <>
-        {data.map((jio) => (
-          <Grid key={jio.id} sx={{ width: '100%', mt: 2 }} item>
-            <JioCard data={jio} />
-          </Grid>
-        ))}
-        <Grid sx={{ width: '100%', mt: 4 }} item>
+      <Box
+        sx={{
+          width: '100%',
+          '& infinite-scroll-component__outerdiv': {
+            width: '100%',
+          },
+        }}
+      >
+        <InfiniteScroll
+          // Note: We are using this comoponent just for pull-to-refresh
+          // No pagination is implemented
+          // Pagination related props are stubs
+          dataLength={data.length}
+          next={() => {}}
+          hasMore={false}
+          loader={null}
+          // Pull to refresh props
+          pullDownToRefresh
+          refreshFunction={refresh}
+          pullDownToRefreshThreshold={50}
+          pullDownToRefreshContent={
+            <InfiniteScrollHelper sx={{ mb: 2 }}>&#8595; Pull down to refresh</InfiniteScrollHelper>
+          }
+          releaseToRefreshContent={
+            <InfiniteScrollHelper sx={{ mb: 2 }}>&#8593; Release to refresh</InfiniteScrollHelper>
+          }
+          scrollableTarget="root"
+        >
+          {data.map((jio) => (
+            <Box key={jio.id} sx={{ width: '100%', mt: 2 }}>
+              <JioCard data={jio} />
+            </Box>
+          ))}
+        </InfiniteScroll>
+        <Box sx={{ width: '100%', mt: 4 }}>
           <Divider textAlign="center">Can't find the right Jio? 🤔</Divider>
           <div
             style={{
@@ -73,28 +105,30 @@ export default function JioCardList() {
           >
             <CreateJioButton />
           </div>
-        </Grid>
-      </>
+        </Box>
+      </Box>
     );
-  }, [data, error, jioSearchValues, loading]);
+  }, [data, error, jioSearchValues, loading, refresh]);
 
   useEffect(() => {
     if (!jioSearchValues) {
-      dispatch(
-        listJios({})
-      );
+      dispatch(listJios({}));
       return;
     }
 
-    const { date, startTiming, endTiming, type, gymId } = jioSearchValues;
+    const searchParams = {} as GetJioListRequest;
+    if (jioSearchValues.date) {
+      searchParams.startDateTime = getDateTimeString(jioSearchValues.date, '00:00');
+      searchParams.endDateTime = getDateTimeString(jioSearchValues.date, '23:59');
+    }
 
-    const searchParams: GetJioListRequest = {
-      gymId: gymId,
-      startDateTime: getDateTimeString(date, startTiming),
-      endDateTime: getDateTimeString(date, endTiming),
-    };
+    if (jioSearchValues.gymId) {
+      searchParams.gymId = jioSearchValues.gymId;
+    }
 
-    searchParams.type = type;
+    if (jioSearchValues.type) {
+      searchParams.type = jioSearchValues.type;
+    }
 
     dispatch(listJios(searchParams));
   }, [version, dispatch, jioSearchValues]);
