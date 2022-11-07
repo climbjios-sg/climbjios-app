@@ -81,9 +81,9 @@ export class PostsDaoService {
         // where endDateTime is after startDateTime of post
         query.where('startDateTime', '<=', new Date(value));
       } else if (key === 'type') {
-        if (value === PostType.BUYER) {
+        if (value === PostType.SELLER) {
           query.where('type', PostType.SELLER);
-        } else if (value === PostType.SELLER) {
+        } else if (value === PostType.BUYER) {
           query.where('type', PostType.BUYER);
         } else {
           // PostType.OTHERS: return posts that have 'open to climb with others'

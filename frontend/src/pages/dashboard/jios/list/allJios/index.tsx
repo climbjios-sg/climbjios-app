@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Grid, Button, Divider } from '@mui/material';
+import { Grid, Button, Divider, Box } from '@mui/material';
 import useVersion from 'src/hooks/ui/useVersion';
 import JioCard from 'src/components/jios/JioCard';
 import JioCardLoader from 'src/components/jios/JioCardLoader';
@@ -59,7 +59,14 @@ export default function JioCardList() {
     }
 
     return (
-      <>
+      <Box
+        sx={{
+          width: '100%',
+          '& infinite-scroll-component__outerdiv': {
+            width: '100%',
+          },
+        }}
+      >
         <InfiniteScroll
           // Note: We are using this comoponent just for pull-to-refresh
           // No pagination is implemented
@@ -81,12 +88,12 @@ export default function JioCardList() {
           scrollableTarget="root"
         >
           {data.map((jio) => (
-            <Grid key={jio.id} sx={{ width: '100%', mt: 2 }} item>
+            <Box key={jio.id} sx={{ width: '100%', mt: 2 }}>
               <JioCard data={jio} />
-            </Grid>
+            </Box>
           ))}
         </InfiniteScroll>
-        <Grid sx={{ width: '100%', mt: 4 }} item>
+        <Box sx={{ width: '100%', mt: 4 }}>
           <Divider textAlign="center">Can't find the right Jio? 🤔</Divider>
           <div
             style={{
@@ -98,8 +105,8 @@ export default function JioCardList() {
           >
             <CreateJioButton />
           </div>
-        </Grid>
-      </>
+        </Box>
+      </Box>
     );
   }, [data, error, jioSearchValues, loading, refresh]);
 
@@ -112,6 +119,7 @@ export default function JioCardList() {
     const searchParams = {} as GetJioListRequest;
     if (jioSearchValues.date) {
       searchParams.startDateTime = getDateTimeString(jioSearchValues.date, '00:00');
+      searchParams.endDateTime = getDateTimeString(jioSearchValues.date, '23:59');
     }
 
     if (jioSearchValues.gymId) {
