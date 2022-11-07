@@ -216,7 +216,7 @@ export class PostService {
         ? `🗓 ${moment(obj.startDateTime).format(
             'ddd, D MMM YYYY, h:mma',
           )}-${moment(obj.endDateTime).format('h:mma')}\n`
-        : '';
+        : '🗓 Any';
     const price = obj.type !== PostType.OTHER ? `💵 $${obj.price}/pass\n` : '';
     const openToClimbTogether = obj.openToClimbTogether
       ? `👋 Open to climb together\n`

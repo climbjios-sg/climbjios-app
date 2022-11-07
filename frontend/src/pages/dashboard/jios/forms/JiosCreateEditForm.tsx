@@ -19,16 +19,18 @@ import { Gym } from '../../../../@types/gym';
 // dayjs
 import { useSelector } from '../../../../store';
 import {
+  currentDateTimeZeroed,
   formatJioFormValues,
   JioCreateEditFormValues,
-  yupStartEndDateTimingObject,
+  yupDateTodayOrAfter,
 } from './utils';
-import { JIOTYPE_OPTIONS } from "../../../../config";
-import { addDays } from 'date-fns';
+import { JIOTYPE_OPTIONS } from '../../../../config';
+import { isEqual } from 'date-fns';
 import useRHFScrollToInputOnError from '../../../../hooks/useRHFScrollToInputOnError';
 import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
 import BackBar from '../../../../components/BackBar';
 import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
+import { zeroTime, dateToTimeString } from 'src/utils/formatTime';
 
 type Props = {
   onSubmit: (data: JioCreateEditFormValues) => Promise<void>;
@@ -52,7 +54,28 @@ export default function JiosCreateEditForm({
 
   const formSchema = Yup.object().shape({
     gymId: Yup.number().positive().integer().required('Gym is required.'),
-    ...yupStartEndDateTimingObject,
+    date: Yup.date().required('Date is required.').test(yupDateTodayOrAfter),
+    startTiming: Yup.string()
+      .required('Start time is required.')
+      .when('endTiming', (endTiming: string, schema) =>
+        schema.test({
+          name: 'startTiming',
+          message: 'Start time must be before end time.',
+          test: (value: string | undefined) => Boolean(value && value < endTiming),
+        })
+      )
+      // If date is today, then start time must be after current time
+      .when('date', {
+        is: (value: Date) => Boolean(value && isEqual(zeroTime(value), currentDateTimeZeroed)),
+        then: (schema) =>
+          schema.test({
+            name: 'startTiming',
+            message: 'Start time must be after current time.',
+            test: (value: string | undefined) =>
+              Boolean(value && value > dateToTimeString(new Date())),
+          }),
+      }),
+    endTiming: Yup.string().required('End time is required.'),
     type: Yup.string().required('Looking to buy or sell passes is required.'),
     price: Yup.number().when('type', {
       is: (jioType: JioCreateEditFormValues['type']) => jioType === 'other',
@@ -73,9 +96,9 @@ export default function JiosCreateEditForm({
   const initialFormValues = React.useMemo(
     () => ({
       gymId: currentJio?.gymId,
-      date: currentJio?.date || addDays(new Date(), 1),
-      startTiming: currentJio?.startTiming || '09:00',
-      endTiming: currentJio?.endTiming || '22:00',
+      date: currentJio?.date || null,
+      startTiming: currentJio?.startTiming,
+      endTiming: currentJio?.endTiming,
       type: currentJio?.type,
       numPasses: currentJio?.numPasses || 1,
       price: currentJio?.price,

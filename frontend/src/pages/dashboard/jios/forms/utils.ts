@@ -1,7 +1,6 @@
-import * as Yup from 'yup';
 import { isAfter, isEqual } from 'date-fns';
 import { Jio, JioRequest } from '../../../../@types/jio';
-import { dateToTimeString, getDateTimeString, zeroTime } from '../../../../utils/formatTime';
+import { getDateTimeString, zeroTime } from '../../../../utils/formatTime';
 
 // ----------------------------------------------------------------------
 
@@ -12,11 +11,11 @@ export interface JioCreateEditFormValues {
   gymId: Jio['gymId'];
   openToClimbTogether: Jio['openToClimbTogether'];
   optionalNote: Jio['optionalNote'];
-  date: Date;
+  date: Date | null;
   // Time in 09:00 format
-  startTiming: string;
+  startTiming?: string;
   // Time in 09:00 format
-  endTiming: string;
+  endTiming?: string;
 }
 
 export type JioSearchFormValues = Partial<
@@ -33,16 +32,23 @@ export const jioFormValuesToJioRequest = ({
   date,
   startTiming,
   endTiming,
-}: JioCreateEditFormValues): JioRequest => ({
-  type,
-  numPasses,
-  price,
-  gymId,
-  openToClimbTogether,
-  optionalNote,
-  startDateTime: getDateTimeString(date, startTiming),
-  endDateTime: getDateTimeString(date, endTiming),
-});
+}: JioCreateEditFormValues): JioRequest => {
+  const returnObj: JioRequest = {
+    type,
+    numPasses,
+    price,
+    gymId,
+    openToClimbTogether,
+    optionalNote,
+  };
+
+  if (date) {
+    returnObj.startDateTime = getDateTimeString(date, startTiming);
+    returnObj.endDateTime = getDateTimeString(date, endTiming);
+  }
+
+  return returnObj;
+};
 
 // formatJioFormValues sets default values when type === 'other'
 // type === 'other' means climber not buying/selling passes)
@@ -71,30 +77,4 @@ export const yupDateTodayOrAfter = {
         (isEqual(zeroTime(value), currentDateTimeZeroed) ||
           isAfter(zeroTime(value), currentDateTimeZeroed))
     ),
-};
-
-// Validates date, startTiming & endTiming
-export const yupStartEndDateTimingObject = {
-  date: Yup.date().required('Date is required.').test(yupDateTodayOrAfter),
-  startTiming: Yup.string()
-    .required('Start time is required.')
-    .when('endTiming', (endTiming: string, schema) =>
-      schema.test({
-        name: 'startTiming',
-        message: 'Start time must be before end time.',
-        test: (value: string | undefined) => Boolean(value && value < endTiming),
-      })
-    )
-    // If date is today, then start time must be after current time
-    .when('date', {
-      is: (value: Date) => Boolean(value && isEqual(zeroTime(value), currentDateTimeZeroed)),
-      then: (schema) =>
-        schema.test({
-          name: 'startTiming',
-          message: 'Start time must be after current time.',
-          test: (value: string | undefined) =>
-            Boolean(value && value > dateToTimeString(new Date())),
-        }),
-    }),
-  endTiming: Yup.string().required('End time is required.'),
 };
