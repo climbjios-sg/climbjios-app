@@ -31,14 +31,14 @@ export default class PatchPostDto {
   @IsNumber()
   gymId: number;
 
-  @IsOptional()
   @IsDateString()
+  @IsOptional()
   @DateIsAfterNow()
   @DateMatch(PatchPostDto, (dto) => dto.endDateTime, true)
   startDateTime: Date;
 
-  @IsOptional()
   @IsDateString()
+  @IsOptional()
   @DateIsAfterNow()
   @DateMatch(PatchPostDto, (dto) => dto.startDateTime, true)
   endDateTime: Date;

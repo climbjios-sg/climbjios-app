@@ -211,9 +211,12 @@ export class PostService {
     header = `<b>${header}</b>\n\n`;
 
     const gym = `📍 ${obj.gym.name}\n`;
-    const dateTime = `🗓 ${moment(obj.startDateTime).format(
-      'ddd, D MMM YYYY, h:mma',
-    )}-${moment(obj.endDateTime).format('h:mma')}\n`;
+    const dateTime =
+      obj.startDateTime && obj.endDateTime
+        ? `🗓 ${moment(obj.startDateTime).format(
+            'ddd, D MMM YYYY, h:mma',
+          )}-${moment(obj.endDateTime).format('h:mma')}\n`
+        : '🗓 Anytime\n';
     const price = obj.type !== PostType.OTHER ? `💵 $${obj.price}/pass\n` : '';
     const openToClimbTogether = obj.openToClimbTogether
       ? `👋 Open to climb together\n`

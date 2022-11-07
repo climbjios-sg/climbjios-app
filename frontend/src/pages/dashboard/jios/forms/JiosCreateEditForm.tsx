@@ -18,17 +18,14 @@ import { useForm } from 'react-hook-form';
 import { Gym } from '../../../../@types/gym';
 // dayjs
 import { useSelector } from '../../../../store';
-import {
-  formatJioFormValues,
-  JioCreateEditFormValues,
-  yupStartEndDateTimingObject,
-} from './utils';
-import { JIOTYPE_OPTIONS } from "../../../../config";
-import { addDays } from 'date-fns';
+import { currentDateTimeZeroed, formatJioFormValues, JioCreateEditFormValues } from './utils';
+import { JIOTYPE_OPTIONS } from '../../../../config';
+import { isEqual } from 'date-fns';
 import useRHFScrollToInputOnError from '../../../../hooks/useRHFScrollToInputOnError';
 import useDevWatchForm from 'src/hooks/dev/useDevWatchForm';
 import BackBar from '../../../../components/BackBar';
 import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
+import { zeroTime, dateToTimeString } from 'src/utils/formatTime';
 
 type Props = {
   onSubmit: (data: JioCreateEditFormValues) => Promise<void>;
@@ -52,7 +49,40 @@ export default function JiosCreateEditForm({
 
   const formSchema = Yup.object().shape({
     gymId: Yup.number().positive().integer().required('Gym is required.'),
-    ...yupStartEndDateTimingObject,
+    date: Yup.date().nullable(),
+    startTiming: Yup.string()
+      .nullable()
+      // If date exists, then start timing must be present
+      .when('date', {
+        is: (value: Date | undefined) => Boolean(value),
+        then: (schema) => schema.required('Start time is required.'),
+      })
+      // If date is today, then start time must be after current time
+      .when('date', {
+        is: (value: Date | undefined) =>
+          value ? isEqual(zeroTime(value), currentDateTimeZeroed) : false,
+        then: (schema) =>
+          schema.test({
+            name: 'startTiming',
+            message: 'Start time must be after current time.',
+            test: (value) => (value ? value > dateToTimeString(new Date()) : true),
+          }),
+      }),
+    endTiming: Yup.string()
+      .nullable()
+      // If date exists, then end timing must be present
+      .when('date', {
+        is: (value: Date | undefined) => Boolean(value),
+        then: (schema) => schema.required('End time is required.'),
+      })
+      .when('startTiming', (startTiming: string, schema) =>
+        schema.test({
+          name: 'endTiming',
+          message: 'End time must be after start time.',
+          // Check that end time is more than start time if start time exists
+          test: (value: string | undefined) => (value ? value > startTiming : true),
+        })
+      ),
     type: Yup.string().required('Looking to buy or sell passes is required.'),
     price: Yup.number().when('type', {
       is: (jioType: JioCreateEditFormValues['type']) => jioType === 'other',
@@ -73,9 +103,9 @@ export default function JiosCreateEditForm({
   const initialFormValues = React.useMemo(
     () => ({
       gymId: currentJio?.gymId,
-      date: currentJio?.date || addDays(new Date(), 1),
-      startTiming: currentJio?.startTiming || '09:00',
-      endTiming: currentJio?.endTiming || '22:00',
+      date: currentJio?.date || null,
+      startTiming: currentJio?.startTiming,
+      endTiming: currentJio?.endTiming,
       type: currentJio?.type,
       numPasses: currentJio?.numPasses || 1,
       price: currentJio?.price,
@@ -123,6 +153,8 @@ export default function JiosCreateEditForm({
       <BackBar title={title} />
       <FormProvider methods={methods} onSubmit={handleSubmit(submitForm)}>
         <Stack spacing={3} sx={{ px: '15px', mt: 11 }}>
+          <Typography variant="subtitle1">Are you looking to buy or sell passes?</Typography>
+          <RHFRadioGroup sx={{ mt: -1.5 }} name="type" options={JIOTYPE_OPTIONS} color="primary" />
           <Typography variant="subtitle1">Where are you climbing at?</Typography>
           <RHFSelect label="Select Gym" fullWidth name="gymId" defaultValue="">
             {/* Disabled Option for first option to not auto-render */}
@@ -135,36 +167,38 @@ export default function JiosCreateEditForm({
           </RHFSelect>
 
           <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
-            What date are you climbing on?
+            Which date are you climbing on? (Optional)
           </Typography>
           <RHFDatePicker name="date" label="Date" />
 
-          <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
-            What time are you climbing at?
-          </Typography>
-          <Stack justifyContent="space-evenly" direction="row" spacing={2} sx={{ mt: 3 }}>
-            <RHFTextField
-              size="medium"
-              type="time"
-              name="startTiming"
-              label="Start Time"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <RHFTextField
-              size="medium"
-              type="time"
-              name="endTiming"
-              label="End Time"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Stack>
-
-          <Typography variant="subtitle1">Are you looking to buy or sell passes?</Typography>
-          <RHFRadioGroup sx={{ mt: -1.5 }} name="type" options={JIOTYPE_OPTIONS} color="primary" />
+          {/* Display climbing time only when date is present */}
+          {formData.date && (
+            <>
+              <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
+                What time are you climbing at?
+              </Typography>
+              <Stack justifyContent="space-evenly" direction="row" spacing={2} sx={{ mt: 3 }}>
+                <RHFTextField
+                  size="medium"
+                  type="time"
+                  name="startTiming"
+                  label="Start Time"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <RHFTextField
+                  size="medium"
+                  type="time"
+                  name="endTiming"
+                  label="End Time"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Stack>
+            </>
+          )}
 
           {/* Display passes related data iff climber is buying or selling */}
           {formData.type && formData.type !== 'other' && (
