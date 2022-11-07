@@ -380,11 +380,13 @@ describe('Backend (e2e)', () => {
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
           .expect(200);
 
-        expect(body[0]).toEqual(
-          expect.objectContaining({
-            status: 'open',
-          }),
-        );
+        body.forEach((obj) => {
+          expect(obj).toEqual(
+            expect.objectContaining({
+              status: 'open',
+            }),
+          );
+        });
       });
 
       it('with search params - returns filtered posts', async () => {
@@ -393,11 +395,13 @@ describe('Backend (e2e)', () => {
           .set('Authorization', 'Bearer ' + TEST_USER_JWT)
           .expect(200);
 
-        expect(body[0]).toEqual(
-          expect.objectContaining({
-            type: 'buyer',
-          }),
-        );
+        body.forEach((obj) => {
+          expect(obj).toEqual(
+            expect.objectContaining({
+              type: 'buyer',
+            }),
+          );
+        });
       });
     });
 
