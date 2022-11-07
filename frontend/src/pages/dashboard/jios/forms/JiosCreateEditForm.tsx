@@ -55,7 +55,7 @@ export default function JiosCreateEditForm({
       // If date exists, then start timing must be present
       .when('date', {
         is: (value: Date | undefined) => Boolean(value),
-        then: (schema) => schema.required(),
+        then: (schema) => schema.required('Start time is required.'),
       })
       // If date is today, then start time must be after current time
       .when('date', {
@@ -73,7 +73,7 @@ export default function JiosCreateEditForm({
       // If date exists, then end timing must be present
       .when('date', {
         is: (value: Date | undefined) => Boolean(value),
-        then: (schema) => schema.required(),
+        then: (schema) => schema.required('End time is required.'),
       })
       .when('startTiming', (startTiming: string, schema) =>
         schema.test({
