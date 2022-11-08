@@ -125,7 +125,7 @@ export default function BetasList() {
     refreshDeps: [viewVersion, selectedGymGrade, selectedWall, selectedColor, selectedGym],
   });
 
-  const createBetaLink = PATH_DASHBOARD.general.betas.create(selectedGym || undefined);
+  const createBetaLink = PATH_DASHBOARD.general.betas.create(selectedGym);
 
   return (
     <>
