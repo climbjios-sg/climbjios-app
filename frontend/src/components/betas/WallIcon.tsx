@@ -1,4 +1,4 @@
-import { useTheme } from '@mui/material';
+import { SxProps, useTheme } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useMemo } from 'react';
 import { Color } from '../../@types/color';
@@ -9,9 +9,10 @@ import { displayBetaColor } from './utils';
 type WallIconProps = {
   wall: Wall['name'];
   color?: Color['name'];
+  sx?: SxProps;
 };
 
-export default function WallIcon({ color, wall }: WallIconProps) {
+export default function WallIcon({ color, wall, sx }: WallIconProps) {
   const theme = useTheme();
   const betaColor = displayBetaColor(color ? color.toLowerCase() : theme.palette.primary.main);
 
@@ -42,5 +43,5 @@ export default function WallIcon({ color, wall }: WallIconProps) {
     }
   }, [betaColor, wall]);
 
-  return <Stack sx={{ transform: 'translateY(2px)' }}>{renderedIcon}</Stack>;
+  return <Stack sx={sx}>{renderedIcon}</Stack>;
 }
