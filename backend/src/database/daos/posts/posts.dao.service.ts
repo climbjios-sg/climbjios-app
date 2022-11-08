@@ -83,7 +83,7 @@ export class PostsDaoService {
 
     // ---- Date time filter ---
     // By default, search for posts after current date
-    query.where('startDateTime', '>=', new Date());
+    query.where('endDateTime', '>=', new Date());
     // Intervals Problem:
     // where startDateTime is before endDateTime of post
     if (search.startDateTime) {
