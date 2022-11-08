@@ -1,11 +1,4 @@
-import {
-  IconButton,
-  TextField,
-  styled,
-  useTheme,
-  useScrollTrigger,
-  Slide,
-} from '@mui/material';
+import { IconButton, TextField, styled, useTheme, useScrollTrigger, Slide } from '@mui/material';
 import { Stack } from '@mui/system';
 import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -80,7 +73,7 @@ export default function JioSearch() {
         </Stack>
       </Slide>
       <Stack direction="row" spacing={1}>
-        <Stack sx={{ position: 'relative' }}>
+        <Stack sx={{ position: 'relative', cursor: 'pointer', '& input': { cursor: 'pointer' } }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <MobileDatePicker
               inputFormat="DD/MM/YYYY"

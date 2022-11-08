@@ -15,6 +15,7 @@ export function ReactSelectWithIcon({ options, onChange, icon, sx }: ReactSelect
       direction="row"
       alignItems="center"
       sx={{
+        cursor: 'pointer',
         border: 'solid 1px hsl(0, 0%, 80%)',
         borderRadius: 2,
         paddingLeft: 1,

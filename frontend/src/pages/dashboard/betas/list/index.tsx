@@ -163,6 +163,8 @@ export default function BetasList() {
                 sx={{
                   px: 3,
                   borderRadius: 1,
+                  background: 'white',
+                  '&:hover': { background: 'white' },
                 }}
                 color="primary"
                 component={Link}
