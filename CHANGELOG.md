@@ -4,9 +4,11 @@
 
 Featue
 - Create Jios without date
+- Clearable filters for Betas
 
 Fix
 - Jio search dates when Buying/Selling filter is turned on
+- Increase filter button click surface
 
 ## v1.1.0
 
