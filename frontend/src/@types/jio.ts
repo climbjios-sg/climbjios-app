@@ -11,8 +11,8 @@ export interface Jio {
   updatedAt: string;
   openToClimbTogether: boolean;
   isClosed: boolean;
-  startDateTime: string | null;
-  endDateTime: string | null;
+  startDateTime: string;
+  endDateTime: string;
   type: JioType;
   gym: Gym;
   numPasses: number;
