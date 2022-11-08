@@ -12,7 +12,7 @@ import useCustomSnackbar from 'src/hooks/useCustomSnackbar';
 import { useRequest } from 'ahooks';
 import Page404 from '../../../error/Page404';
 
-const jioToJioFormValues = (jio: Jio, disableDateTime = false): JioCreateEditFormValues => {
+const jioToJioFormValues = (jio: Jio, disableDateTime: boolean): JioCreateEditFormValues => {
   const retObj: JioCreateEditFormValues = {
     type: jio.type,
     numPasses: jio.numPasses,
@@ -87,7 +87,7 @@ export default function JiosEdit() {
       onSubmit={handleEdit}
       submitLabel="Submit"
       submitIcon={<Iconify icon={'eva:add-outline'} width={24} height={24} />}
-      defaultValues={jioToJioFormValues(data.data)}
+      defaultValues={jioToJioFormValues(data.data, disableDateTime)}
       disableDateTime={disableDateTime}
     />
   );
