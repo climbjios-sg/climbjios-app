@@ -40,7 +40,6 @@ export default function JiosCreate() {
   const { run: submitCreateJio } = useSafeRequest(createJio, {
     manual: true,
     onSuccess: (data) => {
-      console.log(data);
       let snackbarText = '';
       if (
         isJioAutofilledDateTime({
