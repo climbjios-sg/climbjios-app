@@ -2,18 +2,15 @@ import {
   IconButton,
   TextField,
   styled,
-  MenuItem,
   useTheme,
   useScrollTrigger,
   Slide,
-  Box,
 } from '@mui/material';
 import { Stack } from '@mui/system';
 import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Option } from 'src/@types';
 import { Jio } from 'src/@types/jio';
 import Iconify from 'src/components/Iconify';
 import { JIO_TYPE_BUY_SELL_OPTIONS } from 'src/config';
@@ -24,6 +21,7 @@ import { setJiosSearchForm } from 'src/store/reducers/jiosSearchForm';
 import { ReactSelectWithIcon } from 'src/components/inputs/SelectWithIcon';
 import SelectLabel from '../../../../../components/inputs/SelectLabel';
 import FilterSelect from 'src/components/inputs/FilterSelect';
+import { Gym } from 'src/@types/gym';
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   '& fieldset': { border: 'solid 1px hsl(0, 0%, 80%) !important', borderRadius: '16px' },
@@ -37,7 +35,7 @@ export default function JioSearch() {
   const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
-  const [gym, setGym] = useState<Option | null>(null);
+  const [gym, setGym] = useState<Gym['id'] | undefined>(undefined);
   const [date, setDate] = useState<Date | null>(null);
   const [jioType, setJioType] = useState<string | null>(null);
   const trigger = useScrollTrigger({
@@ -48,7 +46,7 @@ export default function JioSearch() {
   useEffect(() => {
     dispatch(
       setJiosSearchForm({
-        gymId: gym ? (gym?.value as Jio['gymId']) : undefined,
+        gymId: gym ? gym : undefined,
         date: date ? date : undefined,
         type: jioType ? (jioType as Jio['type']) : undefined,
       })
@@ -68,7 +66,7 @@ export default function JioSearch() {
             icon={<Iconify icon="eva:pin-outline" height={24} width={24} />}
             options={gyms.data}
             onChange={(option) => {
-              setGym(option);
+              setGym(option?.value);
             }}
           />
           <IconButton

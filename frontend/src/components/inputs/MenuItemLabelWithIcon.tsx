@@ -8,7 +8,7 @@ export interface MenuItemWithIconProps {
 
 export default function MenuItemWithIcon({ icon, text }: MenuItemWithIconProps) {
   return (
-    <Stack direction={'row'} spacing={1} alignItems="center">
+    <Stack direction={'row'} spacing={0.6} alignItems="center" sx={{ width: 100, overflow: 'hidden' }}>
       {icon}
       <span>{text}</span>
     </Stack>

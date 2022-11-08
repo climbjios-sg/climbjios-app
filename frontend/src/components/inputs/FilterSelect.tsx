@@ -39,7 +39,7 @@ export default function FilterSelect({
   options,
 }: FilterSelectProps) {
   return (
-    <Stack sx={{ position: 'relative', ...sx }}>
+    <Stack sx={{ position: 'relative', cursor: 'pointer', ...sx }}>
       <>
         <StyledTextField
           select

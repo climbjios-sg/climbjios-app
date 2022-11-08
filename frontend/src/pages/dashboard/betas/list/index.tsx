@@ -1,6 +1,5 @@
 import { Box, Button, IconButton, Paper, Slide, useScrollTrigger } from '@mui/material';
 import { Stack } from '@mui/system';
-import Select, { StylesConfig } from 'react-select';
 import { Link } from 'react-router-dom';
 import Iconify from 'src/components/Iconify';
 import { useSelector } from 'src/store';
@@ -28,29 +27,9 @@ import { ListBetasRequest } from 'src/@types/beta';
 import MenuItemWithIcon from 'src/components/inputs/MenuItemLabelWithIcon';
 import WallIcon from 'src/components/betas/WallIcon';
 
-const colorStyles: StylesConfig<any> = {
-  option: (styles, { data }) => ({ ...styles, ...dot(data.label) }),
-  singleValue: (styles, { data }) => ({ ...styles, ...dot(data.label) }),
-};
-
-const dot = (color = 'All') => ({
-  alignItems: 'center',
-  display: 'flex',
-
-  ':before': {
-    backgroundColor: displayBetaColor(color),
-    borderRadius: 10,
-    content: '" "',
-    display: 'block',
-    marginRight: 5,
-    height: 10,
-    width: 10,
-  },
-});
-
 export default function BetasList() {
   // Number of Betas to fetch per page
-  const [selectedGym, setSelectedGym] = useState<Gym['id'] | null>(null);
+  const [selectedGym, setSelectedGym] = useState<Gym['id'] | undefined>();
   const [selectedGymGrade, setSelectedGymGrade] = useState<GymGrade['id'] | null>(null);
   const [selectedWall, setSelectedWall] = useState<Wall['id'] | null>(null);
   const [selectedColor, setSelectedColor] = useState<Color['id'] | null>(null);
@@ -106,7 +85,7 @@ export default function BetasList() {
 
   // Reset selectedGymGrade to null when selected gym is null
   useEffect(() => {
-    if (selectedGym === null) {
+    if (selectedGym === undefined) {
       setSelectedGymGrade(null);
     }
   }, [selectedGym]);
@@ -173,7 +152,7 @@ export default function BetasList() {
               }}
             >
               <ReactSelectWithIcon
-                sx={{ ml: 1 }}
+                sx={{ ml: 1, width: '90%' }}
                 icon={<Iconify icon="eva:pin-outline" height={24} width={24} />}
                 options={gymOptions}
                 onChange={(option) => {
@@ -193,9 +172,13 @@ export default function BetasList() {
               </IconButton>
             </Box>
           </Slide>
-          <Stack direction="row" spacing={1} sx={{ pl: 1, pt: 1.5 }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ pl: 1, pt: 1.5, overflow: 'scroll', width: '100%' }}
+          >
             <FilterSelect
-              sx={{ width: 130 }}
+              sx={{ width: 110 }}
               value={selectedColor}
               options={colorOptions}
               onChange={(e) => {
@@ -211,7 +194,7 @@ export default function BetasList() {
             />
 
             <FilterSelect
-              sx={{ width: 130 }}
+              sx={{ width: selectedWall ? 120 : 100 }}
               value={selectedWall}
               options={wallOptions}
               onChange={(e) => {
@@ -225,31 +208,25 @@ export default function BetasList() {
                 text: 'Wall',
               }}
             />
-            {/* <Select
-              placeholder="Color"
-              options={colorOptions}
-              onChange={(option) => {
-                setSelectedColor(option?.value);
-              }}
-              styles={colorStyles}
-            />
-            <Select
-              placeholder="Wall"
-              options={wallOptions}
-              onChange={(option) => {
-                setSelectedWall(option?.value);
-              }}
-            /> */}
-            {/* Don't render grades when selected gym is null */}
-            {/* {selectedGym !== null && (
-              <Select
-                placeholder="Grade"
+
+            {/* Don't render grades when selected gym is undefined */}
+            {selectedGym !== undefined && (
+              <FilterSelect
+                sx={{ width: 110 }}
+                value={selectedGymGrade}
                 options={gymGradeOptions}
-                onChange={(option) => {
-                  setSelectedGymGrade(option?.value);
+                onChange={(e) => {
+                  setSelectedGymGrade(Number(e.target.value));
+                }}
+                onClear={() => {
+                  setSelectedGymGrade(null);
+                }}
+                labelProps={{
+                  icon: 'eva:bar-chart-2-outline',
+                  text: 'Grade',
                 }}
               />
-            )} */}
+            )}
           </Stack>
         </Paper>
       </FloatingContainer>
@@ -257,7 +234,7 @@ export default function BetasList() {
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          pt: 19,
+          pt: 16,
           pb: 12,
         }}
       >
