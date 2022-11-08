@@ -75,7 +75,7 @@ let PostsDaoService = PostsDaoService_1 = class PostsDaoService {
                 query.where('price', '<=', search.price);
             }
         }
-        query.where('startDateTime', '>=', new Date());
+        query.where('endDateTime', '>=', new Date());
         if (search.startDateTime) {
             query.where('endDateTime', '>=', new Date(search.startDateTime));
         }
