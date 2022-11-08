@@ -82,22 +82,15 @@ export class PostsDaoService {
     }
 
     // ---- Date time filter ---
-    // Always show posts with date = null (They belong to users who are selling their passes on anyday)
     // By default, search for posts after current date
-    query
-      .where('startDateTime', '>=', new Date())
-      .orWhere('startDateTime', null);
+    query.where('startDateTime', '>=', new Date());
     // Intervals Problem:
     // where startDateTime is before endDateTime of post
     if (search.startDateTime) {
-      query
-        .where('endDateTime', '>=', new Date(search.startDateTime))
-        .orWhere('endDateTime', null);
+      query.where('endDateTime', '>=', new Date(search.startDateTime));
     }
     if (search.endDateTime) {
-      query
-        .where('startDateTime', '<=', new Date(search.endDateTime))
-        .orWhere('startDateTime', null);
+      query.where('startDateTime', '<=', new Date(search.endDateTime));
     }
     // ---------------------------
 
