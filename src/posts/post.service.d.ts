@@ -24,6 +24,9 @@ export declare class PostService {
     private checkPostTypeAndNumPasses;
     private notifyMainGroupOnSuccessfulPost;
     private editTelegramMessage;
+    private formatDate;
+    private formatTime;
+    private isJioAutofilledDateTime;
     private formatAlertMessage;
     private formatAlertMessageInlineButton;
 }

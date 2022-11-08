@@ -75,18 +75,12 @@ let PostsDaoService = PostsDaoService_1 = class PostsDaoService {
                 query.where('price', '<=', search.price);
             }
         }
-        query
-            .where('startDateTime', '>=', new Date())
-            .orWhere('startDateTime', null);
+        query.where('startDateTime', '>=', new Date());
         if (search.startDateTime) {
-            query
-                .where('endDateTime', '>=', new Date(search.startDateTime))
-                .orWhere('endDateTime', null);
+            query.where('endDateTime', '>=', new Date(search.startDateTime));
         }
         if (search.endDateTime) {
-            query
-                .where('startDateTime', '<=', new Date(search.endDateTime))
-                .orWhere('startDateTime', null);
+            query.where('startDateTime', '<=', new Date(search.endDateTime));
         }
         return await query;
     }
