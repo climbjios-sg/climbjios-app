@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from '../../../../store';
 import { clearJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
+import { isJioAutofilledDateTime } from 'src/utils/formatTime';
 
 function invertJioTypeValues(
   values: Partial<
@@ -38,13 +39,23 @@ export default function JiosCreate() {
 
   const { run: submitCreateJio } = useSafeRequest(createJio, {
     manual: true,
-    onSuccess: () => {
-      enqueueSnackbar(
-        'Created your ClimbJio! Now wait for other climbers to message you on Telegram.',
-        {
-          autoHideDuration: 5000,
-        }
-      );
+    onSuccess: (data) => {
+      let snackbarText = '';
+      if (
+        isJioAutofilledDateTime({
+          startDateTime: new Date(data.data.startDateTime),
+          endDateTime: new Date(data.data.endDateTime),
+        })
+      ) {
+        snackbarText =
+          "Created your ClimbJio! We've set the date of the Jio as anytime from now till 2 months later, since you didn't specify one.";
+      } else {
+        snackbarText =
+          'Created your ClimbJio! Now wait for other climbers to message you on Telegram.';
+      }
+      enqueueSnackbar(snackbarText, {
+        autoHideDuration: 10000,
+      });
       dispatch(clearJiosSearchForm());
       navigateOut();
     },
