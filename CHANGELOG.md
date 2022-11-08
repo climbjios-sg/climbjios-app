@@ -2,7 +2,7 @@
 
 ## v1.2.0
 
-Featue
+Feature
 - Create Jios without date
 - Clearable filters for Betas
 
