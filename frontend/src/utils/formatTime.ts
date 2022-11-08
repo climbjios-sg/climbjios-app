@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { differenceInDays, format } from 'date-fns';
 
 // getLocaleDateTime returns a datetime object with the date set to the time specified
 // e.g. date = 13/10/2022, time = 12:00
@@ -26,24 +26,38 @@ export function formatDate(date: Date) {
   return format(new Date(date), 'dd MMMM yyyy');
 }
 
+// isAutofilledDateTime returns true
+// iff endDateTime - startDateTime > 0 days
+// When user doesn't fill up the date for the Jio, backend will auto set
+// endDateTime to be 2 months after current time
+// We use this behaviour to detect if the datetime is autofilled by backend
+export function isJioAutofilledDateTime({
+  startDateTime,
+  endDateTime,
+}: {
+  startDateTime: Date;
+  endDateTime: Date;
+}) {
+  // endDateTime - startDateTime > 0 days
+  // Note: Larger date must be on the left for differenceInDays
+  return differenceInDays(endDateTime, startDateTime) > 0;
+}
+
 // formatStartEndDate takes a start and end date ISO string, and converts it into a string display in UI
 // Note: Browser automatically display local timezone based on utc date string
 // e.g. Wed, 12 Dec, 9am-9pm
-export function formatStartEndDate(
-  startISOString: string | null,
-  endISOString: string | null
-): string {
-  if (!startISOString || !endISOString) {
-    return 'Anytime';
+export function formatStartEndDate(startISOString: string, endISOString: string): string {
+  const fDate = (date: Date) => format(date, 'E, d MMM'); // e.g. Wed, 12 Dec
+  const fTime = (date: Date) => format(date, 'h:mmaaa'); // e.g. 9:59pm
+
+  const startDateTime = new Date(startISOString);
+  const endDateTime = new Date(endISOString);
+
+  if (isJioAutofilledDateTime({ startDateTime, endDateTime })) {
+    return `Anytime until ${fDate(endDateTime)}`;
   }
 
-  const startDateTimeObject = new Date(startISOString);
-  const endDateTimeObject = new Date(endISOString);
-  const dateString = format(startDateTimeObject, 'E, d MMM'); // e.g. Wed, 12 Dec
-  const startTimeString = format(startDateTimeObject, 'h:mmaaa'); // e.g. 9:59am
-  const endTimeString = format(endDateTimeObject, 'h:mmaaa'); // e.g. 9:59pm
-  const displayDateTimeString = `${dateString}, ${startTimeString} - ${endTimeString}`;
-  return displayDateTimeString;
+  return `${fDate(startDateTime)}, ${fTime(startDateTime)} - ${fTime(endDateTime)}`;
 }
 
 export function isStartTimeEarlier(startDate: Date, endDate: Date): boolean {

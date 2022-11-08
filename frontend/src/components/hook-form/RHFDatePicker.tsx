@@ -2,7 +2,7 @@
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import { IconButton, Stack, TextField } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers';
+import { MobileDatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import Iconify from 'src/components/Iconify';
@@ -26,7 +26,7 @@ export default function RHFDatePicker({ name, label }: Props) {
       render={({ field: { ref, ...field }, fieldState: { error } }) => (
         <Stack sx={{ position: 'relative' }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
+            <MobileDatePicker
               inputRef={ref}
               disableOpenPicker
               minDate={new Date()}

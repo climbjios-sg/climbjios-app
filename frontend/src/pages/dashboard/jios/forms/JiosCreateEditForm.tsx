@@ -34,11 +34,13 @@ type Props = {
   title: string;
   onCancel: () => void;
   defaultValues?: Partial<JioCreateEditFormValues>;
+  disableDateTime?: boolean;
 };
 
 export default function JiosCreateEditForm({
   onSubmit,
   onCancel,
+  disableDateTime,
   defaultValues: currentJio,
   submitIcon,
   submitLabel,
@@ -166,37 +168,42 @@ export default function JiosCreateEditForm({
             ))}
           </RHFSelect>
 
-          <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
-            Which date are you climbing on? (Optional)
-          </Typography>
-          <RHFDatePicker name="date" label="Date" />
-
-          {/* Display climbing time only when date is present */}
-          {formData.date && (
+          {/* Hide date time field if disableDateTime is true */}
+          {!disableDateTime && (
             <>
               <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
-                What time are you climbing at?
+                Which date are you climbing on? (Optional)
               </Typography>
-              <Stack justifyContent="space-evenly" direction="row" spacing={2} sx={{ mt: 3 }}>
-                <RHFTextField
-                  size="medium"
-                  type="time"
-                  name="startTiming"
-                  label="Start Time"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <RHFTextField
-                  size="medium"
-                  type="time"
-                  name="endTiming"
-                  label="End Time"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Stack>
+              <RHFDatePicker name="date" label="Date" />
+
+              {/* Display climbing time only when date is present */}
+              {formData.date && (
+                <>
+                  <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
+                    What time are you climbing at?
+                  </Typography>
+                  <Stack justifyContent="space-evenly" direction="row" spacing={2} sx={{ mt: 3 }}>
+                    <RHFTextField
+                      size="medium"
+                      type="time"
+                      name="startTiming"
+                      label="Start Time"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                    <RHFTextField
+                      size="medium"
+                      type="time"
+                      name="endTiming"
+                      label="End Time"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </Stack>
+                </>
+              )}
             </>
           )}
 
@@ -258,6 +265,14 @@ export default function JiosCreateEditForm({
             placeholder=""
             fullWidth
           />
+
+          {disableDateTime && (
+            <Typography variant="body2" sx={{ mb: 2 }}>
+              Note: The date of this Jio cannot be modified because it wasn't specified when you
+              created it.
+            </Typography>
+          )}
+
           <Button
             className="jios-create-edit-submit"
             type="submit"
