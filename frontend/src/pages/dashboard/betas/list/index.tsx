@@ -22,7 +22,11 @@ import useGetBetas from 'src/hooks/services/useGetBetas';
 import { displayBetaColor } from 'src/components/betas/utils';
 import useGetGymList from 'src/hooks/services/options/useGetGymList';
 import FloatingContainer from 'src/components/FloatingContainer';
-import { SelectWithIcon } from '../../../../components/SelectWithIcon';
+import { ReactSelectWithIcon } from '../../../../components/inputs/SelectWithIcon';
+import FilterSelect from 'src/components/inputs/FilterSelect';
+import { ListBetasRequest } from 'src/@types/beta';
+import MenuItemWithIcon from 'src/components/inputs/MenuItemLabelWithIcon';
+import WallIcon from 'src/components/betas/WallIcon';
 
 const colorStyles: StylesConfig<any> = {
   option: (styles, { data }) => ({ ...styles, ...dot(data.label) }),
@@ -44,25 +48,12 @@ const dot = (color = 'All') => ({
   },
 });
 
-// Undefined stands for selecting all values
-const ALL_VALUES = undefined;
-type ALL_VALUES_TYPE = undefined;
-const getAllOption = () => ({ value: ALL_VALUES, label: 'All' });
-
-const addAllOption = (list: { value: number; label: string }[]) => [
-  // By default, if the value is undefined, we will fetch all data
-  getAllOption(),
-  ...list,
-];
-
 export default function BetasList() {
   // Number of Betas to fetch per page
-  const [selectedGym, setSelectedGym] = useState<Gym['id'] | ALL_VALUES_TYPE>(ALL_VALUES);
-  const [selectedGymGrade, setSelectedGymGrade] = useState<GymGrade['id'] | ALL_VALUES_TYPE>(
-    ALL_VALUES
-  );
-  const [selectedWall, setSelectedWall] = useState<Wall['id'] | ALL_VALUES_TYPE>(ALL_VALUES);
-  const [selectedColor, setSelectedColor] = useState<Color['id'] | ALL_VALUES_TYPE>(ALL_VALUES);
+  const [selectedGym, setSelectedGym] = useState<Gym['id'] | null>(null);
+  const [selectedGymGrade, setSelectedGymGrade] = useState<GymGrade['id'] | null>(null);
+  const [selectedWall, setSelectedWall] = useState<Wall['id'] | null>(null);
+  const [selectedColor, setSelectedColor] = useState<Color['id'] | null>(null);
   const errorSnackbar = useCustomSnackbar();
   // True iff user is scrolling
   const trigger = useScrollTrigger({
@@ -77,39 +68,74 @@ export default function BetasList() {
     selectedGym || 1 // Hack: Get gym grades of gym 1, if All gyms are selected. This gymGrades won't be render in that case. Doing this because of rule of hooks don't allow conditional hooks.
   );
   const gymOptions = useMemo(
-    () => addAllOption(gyms.map((gym) => ({ value: Number(gym.value), label: gym.label }))),
+    () => gyms.map((gym) => ({ value: Number(gym.value), label: gym.label })),
     [gyms]
   );
   const colorOptions = useMemo(
-    () => addAllOption(colors.map((color) => ({ value: color.id, label: color.name }))),
+    () =>
+      colors.map((color) => ({
+        value: color.id,
+        label: (
+          <MenuItemWithIcon
+            icon={
+              <Iconify
+                icon="akar-icons:circle-fill"
+                color={displayBetaColor(color.name.toLowerCase())}
+              />
+            }
+            text={color.name}
+          />
+        ),
+      })),
     [colors]
   );
-  const gymGradeOptions = useMemo(
-    () => addAllOption(gymGrades.map((gymGrade) => ({ value: gymGrade.id, label: gymGrade.name }))),
-    [gymGrades]
-  );
+
   const wallOptions = useMemo(
-    () => addAllOption(walls.map((wall) => ({ value: wall.id, label: wall.name }))),
+    () =>
+      walls.map((wall) => ({
+        value: wall.id,
+        label: <MenuItemWithIcon icon={<WallIcon wall={wall.name} />} text={wall.name} />,
+      })),
     [walls]
   );
 
-  // Reset selectedGymGrade to ALL_VALUES when selected gym is ALL_VALUES
+  const gymGradeOptions = useMemo(
+    () => gymGrades.map((gymGrade) => ({ value: gymGrade.id, label: gymGrade.name })),
+    [gymGrades]
+  );
+
+  // Reset selectedGymGrade to null when selected gym is null
   useEffect(() => {
-    if (selectedGym === ALL_VALUES) {
-      setSelectedGymGrade(ALL_VALUES);
+    if (selectedGym === null) {
+      setSelectedGymGrade(null);
     }
   }, [selectedGym]);
 
   const getTargetBetas = useCallback(
-    (page: number) =>
-      getBetas({
-        gymId: selectedGym,
-        gymGradeId: selectedGymGrade,
-        wallId: selectedWall,
-        colorId: selectedColor,
+    (page: number) => {
+      const request: ListBetasRequest = {
         page,
         pageSize: BETAS_PAGE_SIZE,
-      }),
+      };
+
+      if (selectedGym) {
+        request.gymId = selectedGym;
+      }
+
+      if (selectedGymGrade) {
+        request.gymGradeId = selectedGymGrade;
+      }
+
+      if (selectedWall) {
+        request.wallId = selectedWall;
+      }
+
+      if (selectedColor) {
+        request.colorId = selectedColor;
+      }
+
+      return getBetas(request);
+    },
     [getBetas, selectedColor, selectedGym, selectedGymGrade, selectedWall]
   );
 
@@ -120,7 +146,7 @@ export default function BetasList() {
     refreshDeps: [viewVersion, selectedGymGrade, selectedWall, selectedColor, selectedGym],
   });
 
-  const createBetaLink = PATH_DASHBOARD.general.betas.create(selectedGym);
+  const createBetaLink = PATH_DASHBOARD.general.betas.create(selectedGym || undefined);
 
   return (
     <>
@@ -133,7 +159,7 @@ export default function BetasList() {
             width: '100vw',
             maxWidth: 600,
             borderRadius: 0,
-            pb: 2,
+            pb: 1.5,
             pl: 1,
           }}
         >
@@ -146,7 +172,7 @@ export default function BetasList() {
                 width: '100%',
               }}
             >
-              <SelectWithIcon
+              <ReactSelectWithIcon
                 sx={{ ml: 1 }}
                 icon={<Iconify icon="eva:pin-outline" height={24} width={24} />}
                 options={gymOptions}
@@ -161,14 +187,45 @@ export default function BetasList() {
                 }}
                 color="primary"
                 component={Link}
-                to={PATH_DASHBOARD.general.betas.create(selectedGym)}
+                to={createBetaLink}
               >
                 <Iconify icon="bx:video-plus" />
               </IconButton>
             </Box>
           </Slide>
-          <Stack direction="row" spacing={2} sx={{ pl: 1, pt: 2 }}>
-            <Select
+          <Stack direction="row" spacing={1} sx={{ pl: 1, pt: 1.5 }}>
+            <FilterSelect
+              sx={{ width: 130 }}
+              value={selectedColor}
+              options={colorOptions}
+              onChange={(e) => {
+                setSelectedColor(Number(e.target.value));
+              }}
+              onClear={() => {
+                setSelectedColor(null);
+              }}
+              labelProps={{
+                icon: 'eva:color-palette-outline',
+                text: 'Color',
+              }}
+            />
+
+            <FilterSelect
+              sx={{ width: 130 }}
+              value={selectedWall}
+              options={wallOptions}
+              onChange={(e) => {
+                setSelectedWall(Number(e.target.value));
+              }}
+              onClear={() => {
+                setSelectedWall(null);
+              }}
+              labelProps={{
+                icon: 'tabler:wall',
+                text: 'Wall',
+              }}
+            />
+            {/* <Select
               placeholder="Color"
               options={colorOptions}
               onChange={(option) => {
@@ -182,9 +239,9 @@ export default function BetasList() {
               onChange={(option) => {
                 setSelectedWall(option?.value);
               }}
-            />
-            {/* Don't render grades when selected gym is all */}
-            {selectedGym !== ALL_VALUES && (
+            /> */}
+            {/* Don't render grades when selected gym is null */}
+            {/* {selectedGym !== null && (
               <Select
                 placeholder="Grade"
                 options={gymGradeOptions}
@@ -192,7 +249,7 @@ export default function BetasList() {
                   setSelectedGymGrade(option?.value);
                 }}
               />
-            )}
+            )} */}
           </Stack>
         </Paper>
       </FloatingContainer>

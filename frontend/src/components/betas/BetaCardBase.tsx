@@ -19,7 +19,7 @@ type Props = {
 
 // Memoizing content since it will be rendered in a infinite list
 const BetaCaseBase = React.memo(({ data, bottom }: Props) => (
-  <Card className='beta-card' sx={{ background: 'black', height: '100%' }}>
+  <Card className="beta-card" sx={{ background: 'black', height: '100%' }}>
     <Stack direction="column">
       <Box sx={{ position: 'relative', height: '100%' }}>
         <Stack
@@ -54,7 +54,9 @@ const BetaCaseBase = React.memo(({ data, bottom }: Props) => (
               color="white"
               variant="subtitle2"
             >{`@${data.creatorProfile.telegramHandle}`}</Typography>
-            <Typography color="white" variant="caption">{format(new Date(data.createdAt), 'd MMM')}</Typography>
+            <Typography color="white" variant="caption">
+              {format(new Date(data.createdAt), 'd MMM')}
+            </Typography>
           </Stack>
         </Stack>
         <Video
@@ -83,7 +85,11 @@ const BetaCaseBase = React.memo(({ data, bottom }: Props) => (
               {text}
             </Typography>
           ))}
-          <WallIcon color={data.color.name} wall={data.wall.name} />
+          <WallIcon
+            sx={{ transform: 'translateY(2px)' }}
+            color={data.color.name}
+            wall={data.wall.name}
+          />
         </Stack>
       </Box>
       {bottom}

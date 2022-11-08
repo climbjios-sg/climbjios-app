@@ -21,27 +21,9 @@ import useGetGymList from 'src/hooks/services/options/useGetGymList';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { useDispatch } from 'src/store';
 import { setJiosSearchForm } from 'src/store/reducers/jiosSearchForm';
-import { SelectWithIcon } from 'src/components/SelectWithIcon';
-
-interface LabelProps {
-  icon?: string;
-  text?: string;
-  iconColor?: string;
-}
-
-function Label({ icon = '', text = '', iconColor = '' }: LabelProps) {
-  return (
-    <Stack
-      sx={{ position: 'absolute', left: 10, top: 8 }}
-      direction="row"
-      alignItems="center"
-      spacing={0.6}
-    >
-      <Iconify icon={icon} width={20} height={20} color={iconColor} />
-      <span style={{ color: 'gray', marginLeft: 11 }}>{text}</span>
-    </Stack>
-  );
-}
+import { ReactSelectWithIcon } from 'src/components/inputs/SelectWithIcon';
+import SelectLabel from '../../../../../components/inputs/SelectLabel';
+import FilterSelect from 'src/components/inputs/FilterSelect';
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   '& fieldset': { border: 'solid 1px hsl(0, 0%, 80%) !important', borderRadius: '16px' },
@@ -81,7 +63,7 @@ export default function JioSearch() {
           alignItems="center"
           sx={{ width: '100%', display: trigger ? 'none' : 'flex', pt: 2 }}
         >
-          <SelectWithIcon
+          <ReactSelectWithIcon
             sx={{ width: '90%' }}
             icon={<Iconify icon="eva:pin-outline" height={24} width={24} />}
             options={gyms.data}
@@ -129,49 +111,24 @@ export default function JioSearch() {
               <Iconify icon="eva:close-outline" width={20} />
             </IconButton>
           )}
-          {!date && <Label icon="eva:calendar-outline" text="Date" />}
+          {!date && <SelectLabel icon="eva:calendar-outline" text="Date" />}
         </Stack>
-        <Stack sx={{ position: 'relative' }}>
-          <StyledTextField
-            select
-            size="small"
-            sx={{ width: 110 }}
-            value={jioType}
-            SelectProps={{
-              // Hide icon if jiotype is present
-              // Box is a placeholder
-              IconComponent: jioType ? Box : undefined,
-            }}
-            onChange={(e) => {
-              setJioType(e.target.value);
-            }}
-          >
-            {JIO_TYPE_BUY_SELL_OPTIONS.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </StyledTextField>
-          {jioType && (
-            <IconButton
-              sx={{
-                position: 'absolute',
-                right: 2,
-                height: '32px',
-                top: '4px',
-                background: 'white',
-              }}
-              onClick={() => {
-                setJioType(null);
-              }}
-            >
-              <Iconify icon="eva:close-outline" width={20} />
-            </IconButton>
-          )}
-          {!jioType && (
-            <Label icon="mingcute:coupon-fill" iconColor={theme.palette.grey[700]} text="Type" />
-          )}
-        </Stack>
+        <FilterSelect
+          sx={{ width: 108 }}
+          value={jioType}
+          options={JIO_TYPE_BUY_SELL_OPTIONS}
+          onChange={(e) => {
+            setJioType(e.target.value);
+          }}
+          onClear={() => {
+            setJioType(null);
+          }}
+          labelProps={{
+            icon: 'mingcute:coupon-fill',
+            iconColor: theme.palette.grey[700],
+            text: 'Type',
+          }}
+        />
       </Stack>
     </Stack>
   );
