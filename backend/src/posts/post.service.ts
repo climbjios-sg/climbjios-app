@@ -8,8 +8,8 @@ import { PostStatus, PostType } from '../utils/types';
 import { TelegramService } from '../utils/telegram/telegram.service';
 import { PostModel } from '../database/models/post.model';
 import { ConstantsService } from '../utils/constants/constants.service';
-import * as moment from 'moment';
 import { LoggerService } from '../utils/logger/logger.service';
+import { addMonths, differenceInDays, format } from 'date-fns';
 
 @Injectable()
 export class PostService {
@@ -38,6 +38,13 @@ export class PostService {
     const gym = await this.gymsDaoService.findById(body.gymId);
     if (!gym) {
       throw new HttpException('Invalid gym id!', 400);
+    }
+
+    // If start or end datetime is absent, then set
+    // startDateTime = now, and endDateTime = 2 months later
+    if (!body.startDateTime || !body.endDateTime) {
+      body.startDateTime = new Date();
+      body.endDateTime = addMonths(body.startDateTime, 2);
     }
 
     return this.postsDaoService
@@ -85,13 +92,7 @@ export class PostService {
     const startDateTime = new Date(body.startDateTime ?? post.startDateTime);
     const endDateTime = new Date(body.endDateTime ?? post.endDateTime);
 
-    if (startDateTime.toDateString() !== endDateTime.toDateString()) {
-      // both start and end datetimes must be on same day
-      return new HttpException(
-        'startDateTime and endDateTime should fall on the same day!',
-        400,
-      );
-    } else if (startDateTime > endDateTime) {
+    if (startDateTime > endDateTime) {
       // start comes before end datetime
       return new HttpException(
         'startDateTime should be before endDateTime!',
@@ -192,6 +193,31 @@ export class PostService {
       });
   }
 
+  private formatDate(date: Date) {
+    return format(date, 'E, d MMM yyyy'); // e.g. Wed, 12 Dec 2022
+  }
+
+  private formatTime(dateTime: Date) {
+    return format(dateTime, 'h:mmaaa'); // e.g. 9:59am
+  }
+
+  // isAutofilledDateTime returns true
+  // iff endDateTime - startDateTime > 0 days
+  // When user doesn't fill up the date for the Jio, backend will auto set
+  // endDateTime to be 2 months after current time
+  // We use this behaviour to detect if the datetime is autofilled by backend
+  private isJioAutofilledDateTime({
+    startDateTime,
+    endDateTime,
+  }: {
+    startDateTime: Date;
+    endDateTime: Date;
+  }) {
+    // endDateTime - startDateTime > 0 days
+    // Note: Larger date must be on the left for differenceInDays
+    return differenceInDays(endDateTime, startDateTime) > 0;
+  }
+
   private formatAlertMessage(obj: PostModel) {
     let header;
     switch (obj.type) {
@@ -211,9 +237,21 @@ export class PostService {
     header = `<b>${header}</b>\n\n`;
 
     const gym = `📍 ${obj.gym.name}\n`;
-    const dateTime = `🗓 ${moment(obj.startDateTime).format(
-      'ddd, D MMM YYYY, h:mma',
-    )}-${moment(obj.endDateTime).format('h:mma')}\n`;
+
+    let dateTime = '';
+    if (
+      this.isJioAutofilledDateTime({
+        startDateTime: obj.startDateTime,
+        endDateTime: obj.endDateTime,
+      })
+    ) {
+      dateTime = `🗓 Anytime until ${this.formatDate(obj.endDateTime)}\n`;
+    } else {
+      dateTime = `🗓 ${this.formatDate(obj.startDateTime)}, ${this.formatTime(
+        obj.startDateTime,
+      )}-${this.formatTime(obj.endDateTime)}\n`;
+    }
+
     const price = obj.type !== PostType.OTHER ? `💵 $${obj.price}/pass\n` : '';
     const openToClimbTogether = obj.openToClimbTogether
       ? `👋 Open to climb together\n`

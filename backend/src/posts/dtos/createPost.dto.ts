@@ -34,12 +34,12 @@ export default class CreatePostDto {
   gymId: number;
 
   @IsDateString()
-  @IsDefined()
   @DateIsAfterNow()
+  @IsOptional()
   startDateTime: Date;
 
   @IsDateString()
-  @IsDefined()
+  @IsOptional()
   @DateIsAfterNow()
   @DateMatch(CreatePostDto, (dto) => dto.startDateTime)
   @DateIsAfter(CreatePostDto, (dto) => dto.startDateTime)

@@ -23,16 +23,18 @@ export interface Jio {
 
 // Generic request and response types
 
-export type JioRequest = Pick<
-  Jio,
-  | 'type'
-  | 'numPasses'
-  | 'price'
-  | 'gymId'
-  | 'startDateTime'
-  | 'endDateTime'
-  | 'openToClimbTogether'
-  | 'optionalNote'
+export type JioRequest = Partial<
+  Pick<
+    Jio,
+    | 'type'
+    | 'numPasses'
+    | 'price'
+    | 'gymId'
+    | 'startDateTime'
+    | 'endDateTime'
+    | 'openToClimbTogether'
+    | 'optionalNote'
+  >
 >;
 export type JioResponse = Jio;
 

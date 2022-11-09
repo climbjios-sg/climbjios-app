@@ -20,6 +20,12 @@ import Header from './partials/Header';
 import Footer from './partials/Footer';
 import { paths } from './constants';
 
+import TagManager from 'react-gtm-module';
+
+if (import.meta.env.VITE_REACT_APP_GTM_ID) {
+  TagManager.initialize({ gtmId: import.meta.env.VITE_REACT_APP_GTM_ID });
+}
+
 function App() {
 
   const location = useLocation();

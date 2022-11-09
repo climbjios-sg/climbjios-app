@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v1.2.0
+
+Feature
+- Create Jios without date
+- Clearable filters for Betas
+- Add Avatar modal
+
+Fix
+- Display expired jios bug when Jio filters are turned on
+- Increase filter button click surface
+
+Chore
+- Add google tags to landing page
+
 ## v1.1.0
 
 Feature

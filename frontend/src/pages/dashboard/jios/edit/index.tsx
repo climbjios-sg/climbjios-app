@@ -6,25 +6,33 @@ import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import { useSnackbar } from 'notistack';
 import { getJio, updateJio } from 'src/services/jios';
 import { Jio } from 'src/@types/jio';
-import { dateToTimeString } from '../../../../utils/formatTime';
-import { PATH_DASHBOARD } from '../../../../routes/paths';
-import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
+import { dateToTimeString, isJioAutofilledDateTime } from 'src/utils/formatTime';
+import { PATH_DASHBOARD } from 'src/routes/paths';
+import useCustomSnackbar from 'src/hooks/useCustomSnackbar';
 import { useRequest } from 'ahooks';
 import Page404 from '../../../error/Page404';
 
-const jioToJioFormValues = (jio: Jio): JioCreateEditFormValues => ({
-  type: jio.type,
-  numPasses: jio.numPasses,
-  price: jio.price,
-  gymId: jio.gym.id,
-  openToClimbTogether: jio.openToClimbTogether,
-  optionalNote: jio.optionalNote,
-  date: new Date(jio.startDateTime),
-  // Time in 09:00 format
-  startTiming: dateToTimeString(new Date(jio.startDateTime)),
-  // Time in 09:00 format
-  endTiming: dateToTimeString(new Date(jio.endDateTime)),
-});
+const jioToJioFormValues = (jio: Jio, disableDateTime: boolean): JioCreateEditFormValues => {
+  const retObj: JioCreateEditFormValues = {
+    type: jio.type,
+    numPasses: jio.numPasses,
+    price: jio.price,
+    gymId: jio.gym.id,
+    openToClimbTogether: jio.openToClimbTogether,
+    optionalNote: jio.optionalNote,
+    date: null,
+  };
+
+  if (!disableDateTime) {
+    retObj.date = new Date(jio.startDateTime);
+    // Time in 09:00 format
+    retObj.startTiming = dateToTimeString(new Date(jio.startDateTime));
+    // Time in 09:00 format
+    retObj.endTiming = dateToTimeString(new Date(jio.endDateTime));
+  }
+
+  return retObj;
+};
 
 export default function JiosEdit() {
   const { id } = useParams();
@@ -66,6 +74,12 @@ export default function JiosEdit() {
     return <Page404 />;
   }
 
+  // Disable date time field if difference in days is > 0
+  // Means user didn't fill up the datetime and it's auto set by backend
+  const disableDateTime = isJioAutofilledDateTime({
+    startDateTime: new Date(data.data.startDateTime),
+    endDateTime: new Date(data.data.endDateTime),
+  });
   return (
     <JiosCreateEditForm
       title="Edit Jio"
@@ -73,7 +87,8 @@ export default function JiosEdit() {
       onSubmit={handleEdit}
       submitLabel="Submit"
       submitIcon={<Iconify icon={'eva:add-outline'} width={24} height={24} />}
-      defaultValues={jioToJioFormValues(data.data)}
+      defaultValues={jioToJioFormValues(data.data, disableDateTime)}
+      disableDateTime={disableDateTime}
     />
   );
 }

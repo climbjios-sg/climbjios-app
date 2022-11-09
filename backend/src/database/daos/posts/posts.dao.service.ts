@@ -58,41 +58,42 @@ export class PostsDaoService {
       .orderBy('gymId', 'ASC')
       .withGraphFetched(PostsDaoService.allGraphs);
 
-    // No filters set
-    if (!Object.keys(search).length) {
-      return await query
-        .where('endDateTime', '>=', new Date())
-        .where('status', PostStatus.OPEN);
+    query.where('status', PostStatus.OPEN);
+
+    if (search.type) {
+      query.where('type', search.type);
     }
-    Object.entries(search).forEach(([key, value]) => {
-      if (key === 'numPasses') {
-        query.where(key, '>=', value);
-      } else if (key === 'price') {
-        if (search.type === PostType.SELLER) {
-          query.where(key, '>=', value);
-        } else if (search.type === PostType.BUYER) {
-          query.where(key, '<=', value);
-        }
-      } else if (key === 'startDateTime') {
-        // Intervals Problem:
-        // where startDateTime is before endDateTime of post
-        query.where('endDateTime', '>=', new Date(value));
-      } else if (key === 'endDateTime') {
-        // where endDateTime is after startDateTime of post
-        query.where('startDateTime', '<=', new Date(value));
-      } else if (key === 'type') {
-        if (value === PostType.SELLER) {
-          query.where('type', PostType.SELLER);
-        } else if (value === PostType.BUYER) {
-          query.where('type', PostType.BUYER);
-        } else {
-          // PostType.OTHERS: return posts that have 'open to climb with others'
-          query.where('openToClimbTogether', true);
-        }
-      } else {
-        query.where(key, value);
+
+    if (search.numPasses) {
+      query.where('numPasses', '>=', search.numPasses);
+    }
+
+    if (search.gymId) {
+      query.where('gymId', search.gymId);
+    }
+
+    // ---- Price filter ---
+    if (search.price) {
+      if (search.type === PostType.SELLER) {
+        query.where('price', '>=', search.price);
+      } else if (search.type === PostType.BUYER) {
+        query.where('price', '<=', search.price);
       }
-    });
+    }
+
+    // ---- Date time filter ---
+    // By default, search for posts after current date
+    query.where('endDateTime', '>=', new Date());
+    // Intervals Problem:
+    // where startDateTime is before endDateTime of post
+    if (search.startDateTime) {
+      query.where('endDateTime', '>=', new Date(search.startDateTime));
+    }
+    if (search.endDateTime) {
+      query.where('startDateTime', '<=', new Date(search.endDateTime));
+    }
+    // ---------------------------
+
     return await query;
   }
 

@@ -6,7 +6,6 @@ import {
   IsDateString,
   IsOptional,
   IsIn,
-  IsBoolean,
 } from 'class-validator';
 import { PostType } from '../../utils/types';
 
@@ -14,18 +13,6 @@ export default class SearchPostDto {
   @IsOptional()
   @IsIn(Object.values(PostType))
   type: PostType;
-
-  @IsOptional()
-  @Transform((val) => parseInt(val.value))
-  @IsInt()
-  @Min(0)
-  numPasses: number;
-
-  @IsOptional()
-  @Transform((val) => parseFloat(val.value))
-  @IsNumber()
-  @Min(1)
-  price: number;
 
   @IsOptional()
   @Transform((val) => parseInt(val.value))
@@ -39,4 +26,16 @@ export default class SearchPostDto {
   @IsOptional()
   @IsDateString()
   endDateTime: Date;
+
+  @IsOptional()
+  @Transform((val) => parseInt(val.value))
+  @IsInt()
+  @Min(0)
+  numPasses: number;
+
+  @IsOptional()
+  @Transform((val) => parseFloat(val.value))
+  @IsNumber()
+  @Min(1)
+  price: number;
 }
