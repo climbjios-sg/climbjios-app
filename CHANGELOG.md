@@ -5,6 +5,7 @@
 Feature
 - Create Jios without date
 - Clearable filters for Betas
+- Add Avatar modal
 
 Fix
 - Jio search dates when Buying/Selling filter is turned on
