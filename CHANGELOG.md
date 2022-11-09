@@ -8,7 +8,7 @@ Feature
 - Add Avatar modal
 
 Fix
-- Jio search dates when Buying/Selling filter is turned on
+- Display expired jios bug when Jio filters are turned on
 - Increase filter button click surface
 
 Chore
