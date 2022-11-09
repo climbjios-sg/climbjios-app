@@ -72,10 +72,10 @@ function Cta({title}) {
             </div>
 
             <a
-              className="btn text-white bg-primary shrink-0 font-bold"
+              className="btn text-white bg-primary shrink-0 font-bold w-48"
               href={externalUrls.appUrl}
             >
-              Sign Up Now
+              Go To App
             </a>
           </div>
         </div>
