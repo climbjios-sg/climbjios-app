@@ -11,6 +11,9 @@ Fix
 - Jio search dates when Buying/Selling filter is turned on
 - Increase filter button click surface
 
+Chore
+- Add google tags to landing page
+
 ## v1.1.0
 
 Feature
