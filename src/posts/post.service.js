@@ -67,10 +67,7 @@ let PostService = class PostService {
         this.checkPostTypeAndNumPasses(postType, numPasses);
         const startDateTime = new Date((_c = body.startDateTime) !== null && _c !== void 0 ? _c : post.startDateTime);
         const endDateTime = new Date((_d = body.endDateTime) !== null && _d !== void 0 ? _d : post.endDateTime);
-        if (startDateTime.toDateString() !== endDateTime.toDateString()) {
-            return new common_1.HttpException('startDateTime and endDateTime should fall on the same day!', 400);
-        }
-        else if (startDateTime > endDateTime) {
+        if (startDateTime > endDateTime) {
             return new common_1.HttpException('startDateTime should be before endDateTime!', 400);
         }
         const isClosed = (_e = body.isClosed) !== null && _e !== void 0 ? _e : post.isClosed;
