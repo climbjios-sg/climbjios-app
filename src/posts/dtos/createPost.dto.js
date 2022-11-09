@@ -40,13 +40,13 @@ __decorate([
 ], CreatePostDto.prototype, "gymId", void 0);
 __decorate([
     (0, class_validator_1.IsDateString)(),
-    (0, class_validator_1.IsDefined)(),
     (0, DateIsAfterNow_1.DateIsAfterNow)(),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Date)
 ], CreatePostDto.prototype, "startDateTime", void 0);
 __decorate([
     (0, class_validator_1.IsDateString)(),
-    (0, class_validator_1.IsDefined)(),
+    (0, class_validator_1.IsOptional)(),
     (0, DateIsAfterNow_1.DateIsAfterNow)(),
     (0, DateMatch_1.DateMatch)(CreatePostDto, (dto) => dto.startDateTime),
     (0, DateIsAfter_1.DateIsAfter)(CreatePostDto, (dto) => dto.startDateTime),

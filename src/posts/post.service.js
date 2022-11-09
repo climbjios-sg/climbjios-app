@@ -16,8 +16,8 @@ const posts_dao_service_1 = require("../database/daos/posts/posts.dao.service");
 const types_1 = require("../utils/types");
 const telegram_service_1 = require("../utils/telegram/telegram.service");
 const constants_service_1 = require("../utils/constants/constants.service");
-const moment = require("moment");
 const logger_service_1 = require("../utils/logger/logger.service");
+const date_fns_1 = require("date-fns");
 let PostService = class PostService {
     constructor(postsDaoService, gymsDaoService, telegramService, constantsService, loggerService) {
         this.postsDaoService = postsDaoService;
@@ -34,6 +34,10 @@ let PostService = class PostService {
         const gym = await this.gymsDaoService.findById(body.gymId);
         if (!gym) {
             throw new common_1.HttpException('Invalid gym id!', 400);
+        }
+        if (!body.startDateTime || !body.endDateTime) {
+            body.startDateTime = new Date();
+            body.endDateTime = (0, date_fns_1.addMonths)(body.startDateTime, 2);
         }
         return this.postsDaoService
             .create(Object.assign(Object.assign({ creatorId }, body), { status: types_1.PostStatus.OPEN }))
@@ -63,10 +67,7 @@ let PostService = class PostService {
         this.checkPostTypeAndNumPasses(postType, numPasses);
         const startDateTime = new Date((_c = body.startDateTime) !== null && _c !== void 0 ? _c : post.startDateTime);
         const endDateTime = new Date((_d = body.endDateTime) !== null && _d !== void 0 ? _d : post.endDateTime);
-        if (startDateTime.toDateString() !== endDateTime.toDateString()) {
-            return new common_1.HttpException('startDateTime and endDateTime should fall on the same day!', 400);
-        }
-        else if (startDateTime > endDateTime) {
+        if (startDateTime > endDateTime) {
             return new common_1.HttpException('startDateTime should be before endDateTime!', 400);
         }
         const isClosed = (_e = body.isClosed) !== null && _e !== void 0 ? _e : post.isClosed;
@@ -119,6 +120,15 @@ let PostService = class PostService {
             this.loggerService.log(e);
         });
     }
+    formatDate(date) {
+        return (0, date_fns_1.format)(date, 'E, d MMM yyyy');
+    }
+    formatTime(dateTime) {
+        return (0, date_fns_1.format)(dateTime, 'h:mmaaa');
+    }
+    isJioAutofilledDateTime({ startDateTime, endDateTime, }) {
+        return (0, date_fns_1.differenceInDays)(endDateTime, startDateTime) > 0;
+    }
     formatAlertMessage(obj) {
         let header;
         switch (obj.type) {
@@ -136,7 +146,16 @@ let PostService = class PostService {
         }
         header = `<b>${header}</b>\n\n`;
         const gym = `📍 ${obj.gym.name}\n`;
-        const dateTime = `🗓 ${moment(obj.startDateTime).format('ddd, D MMM YYYY, h:mma')}-${moment(obj.endDateTime).format('h:mma')}\n`;
+        let dateTime = '';
+        if (this.isJioAutofilledDateTime({
+            startDateTime: obj.startDateTime,
+            endDateTime: obj.endDateTime,
+        })) {
+            dateTime = `🗓 Anytime until ${this.formatDate(obj.endDateTime)}\n`;
+        }
+        else {
+            dateTime = `🗓 ${this.formatDate(obj.startDateTime)}, ${this.formatTime(obj.startDateTime)}-${this.formatTime(obj.endDateTime)}\n`;
+        }
         const price = obj.type !== types_1.PostType.OTHER ? `💵 $${obj.price}/pass\n` : '';
         const openToClimbTogether = obj.openToClimbTogether
             ? `👋 Open to climb together\n`
