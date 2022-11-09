@@ -28,10 +28,10 @@ function HeroHome() {
               </p>
               {/* CTA form */}
               <a
-                className="btn text-white bg-primary shrink-0 mt-8 font-bold"
+                className="btn text-white bg-primary shrink-0 mt-8 font-bold w-48 h-14"
                 href={externalUrls.appUrl}
               >
-                Sign Up Now
+                Go To App
               </a>
             </div>
 
