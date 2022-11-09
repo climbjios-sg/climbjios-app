@@ -92,13 +92,7 @@ export class PostService {
     const startDateTime = new Date(body.startDateTime ?? post.startDateTime);
     const endDateTime = new Date(body.endDateTime ?? post.endDateTime);
 
-    if (startDateTime.toDateString() !== endDateTime.toDateString()) {
-      // both start and end datetimes must be on same day
-      return new HttpException(
-        'startDateTime and endDateTime should fall on the same day!',
-        400,
-      );
-    } else if (startDateTime > endDateTime) {
+    if (startDateTime > endDateTime) {
       // start comes before end datetime
       return new HttpException(
         'startDateTime should be before endDateTime!',
