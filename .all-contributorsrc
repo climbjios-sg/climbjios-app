@@ -21,6 +21,22 @@
         "research",
         "video"
       ]
+    },
+    {
+      "login": "chownces",
+      "name": "En Rong",
+      "avatar_url": "https://avatars.githubusercontent.com/u/53928333?v=4",
+      "profile": "https://github.com/chownces",
+      "contributions": [
+        "code",
+        "design",
+        "bug",
+        "review",
+        "test",
+        "ideas",
+        "data",
+        "security"
+      ]
     }
   ],
   "contributorsPerLine": 7,
