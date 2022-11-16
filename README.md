@@ -46,7 +46,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tbody>
     <tr>
       <td align="center"><a href="http://therizhao.com"><img src="https://avatars.githubusercontent.com/u/24352004?v=4?s=100" width="100px;" alt="Wang Ri Zhao"/><br /><sub><b>Wang Ri Zhao</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=therizhao" title="Code">💻</a></td>
-      <td align="center"><a href="https://github.com/CrownKira"><img src="https://avatars.githubusercontent.com/u/24221801?v=4?s=100" width="100px;" alt="KarWi"/><br /><sub><b>KarWi</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=CrownKira" title="Code">💻</a> <a href="#design-CrownKira" title="Design">🎨</a></td>
+      <td align="center"><a href="https://github.com/CrownKira"><img src="https://avatars.githubusercontent.com/u/24221801?v=4?s=100" width="100px;" alt="KarWi"/><br /><sub><b>KarWi</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=CrownKira" title="Code">💻</a> <a href="#design-CrownKira" title="Design">🎨</a> <a href="https://github.com/climbjios-sg/climbjios-app/issues?q=author%3ACrownKira" title="Bug reports">🐛</a> <a href="https://github.com/climbjios-sg/climbjios-app/pulls?q=is%3Apr+reviewed-by%3ACrownKira" title="Reviewed Pull Requests">👀</a> <a href="#ideas-CrownKira" title="Ideas, Planning, & Feedback">🤔</a> <a href="#tool-CrownKira" title="Tools">🔧</a> <a href="#mentoring-CrownKira" title="Mentoring">🧑‍🏫</a> <a href="#example-CrownKira" title="Examples">💡</a></td>
     </tr>
   </tbody>
 </table>
