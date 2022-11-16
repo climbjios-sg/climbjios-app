@@ -22,7 +22,13 @@
       "profile": "https://github.com/chownces",
       "contributions": [
         "code",
-        "design"
+        "design",
+        "bug",
+        "review",
+        "test",
+        "ideas",
+        "data",
+        "security"
       ]
     }
   ],
