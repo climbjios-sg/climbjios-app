@@ -46,7 +46,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tbody>
     <tr>
       <td align="center"><a href="http://therizhao.com"><img src="https://avatars.githubusercontent.com/u/24352004?v=4?s=100" width="100px;" alt="Wang Ri Zhao"/><br /><sub><b>Wang Ri Zhao</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=therizhao" title="Code">💻</a></td>
-      <td align="center"><a href="https://github.com/Artemis-Hunt"><img src="https://avatars.githubusercontent.com/u/62279011?v=4?s=100" width="100px;" alt="Artemis-Hunt"/><br /><sub><b>Artemis-Hunt</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=Artemis-Hunt" title="Code">💻</a> <a href="#design-Artemis-Hunt" title="Design">🎨</a></td>
+      <td align="center"><a href="https://github.com/Artemis-Hunt"><img src="https://avatars.githubusercontent.com/u/62279011?v=4?s=100" width="100px;" alt="Artemis-Hunt"/><br /><sub><b>Artemis-Hunt</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=Artemis-Hunt" title="Code">💻</a> <a href="#design-Artemis-Hunt" title="Design">🎨</a> <a href="#business-Artemis-Hunt" title="Business development">💼</a> <a href="#talk-Artemis-Hunt" title="Talks">📢</a> <a href="#promotion-Artemis-Hunt" title="Promotion">📣</a> <a href="#eventOrganizing-Artemis-Hunt" title="Event Organizing">📋</a> <a href="#video-Artemis-Hunt" title="Videos">📹</a></td>
     </tr>
   </tbody>
 </table>
