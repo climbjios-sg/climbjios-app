@@ -51,6 +51,21 @@
         "promotion",
         "eventOrganizing"
       ]
+    },
+    {
+      "login": "Artemis-Hunt",
+      "name": "Artemis-Hunt",
+      "avatar_url": "https://avatars.githubusercontent.com/u/62279011?v=4",
+      "profile": "https://github.com/Artemis-Hunt",
+      "contributions": [
+        "code",
+        "design",
+        "business",
+        "talk",
+        "promotion",
+        "eventOrganizing",
+        "video"
+      ]
     }
   ],
   "contributorsPerLine": 7,
