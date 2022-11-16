@@ -66,6 +66,22 @@
         "eventOrganizing",
         "video"
       ]
+    },
+    {
+      "login": "CrownKira",
+      "name": "KarWi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/24221801?v=4",
+      "profile": "https://github.com/CrownKira",
+      "contributions": [
+        "code",
+        "design",
+        "bug",
+        "review",
+        "ideas",
+        "tool",
+        "mentoring",
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,
