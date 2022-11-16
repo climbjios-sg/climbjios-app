@@ -12,7 +12,30 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/24352004?v=4",
       "profile": "http://therizhao.com",
       "contributions": [
-        "code"
+        "code",
+        "design",
+        "projectManagement",
+        "business",
+        "content",
+        "promotion",
+        "research",
+        "video"
+      ]
+    },
+    {
+      "login": "chownces",
+      "name": "En Rong",
+      "avatar_url": "https://avatars.githubusercontent.com/u/53928333?v=4",
+      "profile": "https://github.com/chownces",
+      "contributions": [
+        "code",
+        "design",
+        "bug",
+        "review",
+        "test",
+        "ideas",
+        "data",
+        "security"
       ]
     },
     {
