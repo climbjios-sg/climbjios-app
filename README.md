@@ -1,6 +1,6 @@
 # ClimbJios
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Hello folks! Welcome to the ClimbJios repo. To start contributing, read through this guide.
@@ -46,6 +46,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tbody>
     <tr>
       <td align="center"><a href="http://therizhao.com"><img src="https://avatars.githubusercontent.com/u/24352004?v=4?s=100" width="100px;" alt="Wang Ri Zhao"/><br /><sub><b>Wang Ri Zhao</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=therizhao" title="Code">💻</a></td>
+      <td align="center"><a href="https://github.com/chownces"><img src="https://avatars.githubusercontent.com/u/53928333?v=4?s=100" width="100px;" alt="En Rong"/><br /><sub><b>En Rong</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=chownces" title="Code">💻</a> <a href="#design-chownces" title="Design">🎨</a></td>
     </tr>
   </tbody>
 </table>
