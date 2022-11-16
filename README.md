@@ -45,7 +45,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href="http://therizhao.com"><img src="https://avatars.githubusercontent.com/u/24352004?v=4?s=100" width="100px;" alt="Wang Ri Zhao"/><br /><sub><b>Wang Ri Zhao</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=therizhao" title="Code">💻</a> <a href="#design-therizhao" title="Design">🎨</a></td>
+      <td align="center"><a href="http://therizhao.com"><img src="https://avatars.githubusercontent.com/u/24352004?v=4?s=100" width="100px;" alt="Wang Ri Zhao"/><br /><sub><b>Wang Ri Zhao</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=therizhao" title="Code">💻</a> <a href="#design-therizhao" title="Design">🎨</a> <a href="#projectManagement-therizhao" title="Project Management">📆</a> <a href="#business-therizhao" title="Business development">💼</a> <a href="#content-therizhao" title="Content">🖋</a> <a href="#promotion-therizhao" title="Promotion">📣</a> <a href="#research-therizhao" title="Research">🔬</a> <a href="#video-therizhao" title="Videos">📹</a></td>
     </tr>
   </tbody>
 </table>
