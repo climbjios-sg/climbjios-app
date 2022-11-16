@@ -37,6 +37,20 @@
         "data",
         "security"
       ]
+    },
+    {
+      "login": "kwokieee",
+      "name": "Bryan Kwok",
+      "avatar_url": "https://avatars.githubusercontent.com/u/69179233?v=4",
+      "profile": "https://github.com/kwokieee",
+      "contributions": [
+        "code",
+        "design",
+        "data",
+        "review",
+        "promotion",
+        "eventOrganizing"
+      ]
     }
   ],
   "contributorsPerLine": 7,
