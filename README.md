@@ -46,7 +46,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tbody>
     <tr>
       <td align="center"><a href="http://therizhao.com"><img src="https://avatars.githubusercontent.com/u/24352004?v=4?s=100" width="100px;" alt="Wang Ri Zhao"/><br /><sub><b>Wang Ri Zhao</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=therizhao" title="Code">💻</a></td>
-      <td align="center"><a href="https://github.com/kwokieee"><img src="https://avatars.githubusercontent.com/u/69179233?v=4?s=100" width="100px;" alt="Bryan Kwok"/><br /><sub><b>Bryan Kwok</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=kwokieee" title="Code">💻</a> <a href="#design-kwokieee" title="Design">🎨</a></td>
+      <td align="center"><a href="https://github.com/kwokieee"><img src="https://avatars.githubusercontent.com/u/69179233?v=4?s=100" width="100px;" alt="Bryan Kwok"/><br /><sub><b>Bryan Kwok</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=kwokieee" title="Code">💻</a> <a href="#design-kwokieee" title="Design">🎨</a> <a href="#data-kwokieee" title="Data">🔣</a> <a href="https://github.com/climbjios-sg/climbjios-app/pulls?q=is%3Apr+reviewed-by%3Akwokieee" title="Reviewed Pull Requests">👀</a> <a href="#promotion-kwokieee" title="Promotion">📣</a> <a href="#eventOrganizing-kwokieee" title="Event Organizing">📋</a></td>
     </tr>
   </tbody>
 </table>
