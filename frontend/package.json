@@ -5,9 +5,9 @@
   "description": "The social network for climbers.",
   "private": true,
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "eject": "react-scripts eject",
+    "start": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview",
     "lint": "eslint --ext .ts,.tsx ./src",
     "lint:fix": "eslint --fix --ext .ts,.tsx ./src",
     "clear-all": "rm -rf build node_modules",
@@ -161,6 +161,7 @@
     "@types/react-slick": "^0.23.10",
     "@typescript-eslint/eslint-plugin": "^5.30.3",
     "@typescript-eslint/parser": "^5.30.3",
+    "@vitejs/plugin-react": "^2.2.0",
     "eslint": "^8.19.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
@@ -175,7 +176,10 @@
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.7.1",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "vite": "^3.2.4",
+    "vite-plugin-svgr": "^2.2.2",
+    "vite-tsconfig-paths": "^3.5.2"
   },
   "overrides": {
     "@svgr/webpack": "^6.2.1"

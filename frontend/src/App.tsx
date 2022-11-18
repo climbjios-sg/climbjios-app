@@ -17,8 +17,8 @@ interface Props {
   authProvider: AuthProvider;
 }
 
-if (process.env.REACT_APP_GTM_ID) {
-  TagManager.initialize({ gtmId: process.env.REACT_APP_GTM_ID });
+if (import.meta.env.VITE_GTM_ID) {
+  TagManager.initialize({ gtmId: import.meta.env.VITE_GTM_ID });
 }
 
 export default function App({ authProvider }: Props) {

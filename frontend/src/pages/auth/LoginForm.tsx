@@ -21,8 +21,8 @@ export default function LoginForm() {
             Recommended for smoother onboarding
           </Typography> */}
           <TelegramLoginButton
-            dataAuthUrl={`${process.env.REACT_APP_HOST_API_KEY}${BE_API.auth.telegramRedirect}`}
-            botName={`${process.env.REACT_APP_TELEGRAM_OAUTH_BOT_USERNAME}`}
+            dataAuthUrl={`${import.meta.env.VITE_HOST_API_KEY}${BE_API.auth.telegramRedirect}`}
+            botName={`${import.meta.env.VITE_TELEGRAM_OAUTH_BOT_USERNAME}`}
           />
         </Box>
         {/* NOTE: Disable other login options for now */}
@@ -38,7 +38,7 @@ export default function LoginForm() {
             startIcon={
               <Iconify icon={'ant-design:google-outlined'} width={24} height={24} sx={{ mx: 1 }} />
             }
-            href={`${process.env.REACT_APP_HOST_API_KEY}${BE_API.auth.google}`}
+            href={`${import.meta.env.VITE_HOST_API_KEY}${BE_API.auth.google}`}
           >
             <Typography variant="button">Continue with Google</Typography>
           </Button>

@@ -12,9 +12,9 @@ import { DEFAULT_AUTH_PROVIDER, isDebug } from './config';
 
 // ----------------------------------------------------------------------
 
-if (process.env.REACT_APP_SENTRY_DSN) {
+if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
-    dsn: process.env.REACT_APP_SENTRY_DSN,
+    dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [new BrowserTracing()],
 
     // Set tracesSampleRate to 1.0 to capture 100%

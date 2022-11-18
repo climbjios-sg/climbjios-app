@@ -51,7 +51,7 @@ registerRoute(
     // Return true to signal that we want to use the handler.
     return true;
   },
-  createHandlerBoundToURL(process.env.PUBLIC_URL + '/index.html')
+  createHandlerBoundToURL(import.meta.env.PUBLIC_URL + '/index.html')
 );
 
 // An example runtime caching route for requests that aren't handled by the
@@ -111,7 +111,7 @@ async function cacheKeyWillBeUsed({request, mode}: { request: any, mode: any}) {
   'pronouns'
 ].forEach(endpoint => {
   registerRoute(
-    new RegExp(`${process.env.REACT_APP_HOST_API_KEY}/v1/${endpoint}`),
+    new RegExp(`${import.meta.env.VITE_HOST_API_KEY}/v1/${endpoint}`),
     new NetworkFirst({
       networkTimeoutSeconds: 3,
       cacheName: CacheName.API,
