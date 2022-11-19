@@ -119,7 +119,6 @@
     "react-router-dom": "^6.3.0",
     "react-select": "^5.5.2",
     "react-slick": "^0.29.0",
-    "react-telegram-login": "^1.1.2",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",
