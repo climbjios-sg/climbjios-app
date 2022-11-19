@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import { registerSW } from 'virtual:pwa-register';
 import { useSnackbar } from 'notistack';
 import LoadingScreen from "src/components/LoadingScreen";
 
@@ -31,17 +31,8 @@ const ServiceWorker: React.FC = () => {
 
   // Register service worker
   useEffect(() => {
-    serviceWorkerRegistration.register({
-      onUpdate: (registration) => {
-        setIsUpdating(true);
-        if (registration && registration.waiting) {
-          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-        }
-        window.location.reload();
-        setIsUpdating(false);
-      }
-    });
-  }, [closeSnackbar, enqueueSnackbar]);
+    registerSW();
+  })
 
   return isUpdating
     ? <LoadingScreen />

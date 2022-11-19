@@ -2,8 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "ESNext",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "types": ["vite/client", "vite-plugin-svgr/client"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext", "WebWorker"],
+    "types": ["vite/client", "vite-plugin-svgr/client", "vite-plugin-pwa/client"],
     "strict": true,
     "noEmit": true,
     "allowJs": true,
@@ -22,6 +22,6 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "public/service-worker.ts"],
   "exclude": ["node_modules"]
 }
