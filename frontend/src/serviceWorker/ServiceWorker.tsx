@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { registerSW } from 'virtual:pwa-register';
 import { useSnackbar } from 'notistack';
-import LoadingScreen from "src/components/LoadingScreen";
 
 const ServiceWorker: React.FC = () => {
   const { enqueueSnackbar, closeSnackbar, } = useSnackbar();
-  const [isUpdating, setIsUpdating] = useState(false);
 
   // Notify if user is offline, and update them when they are back online
   useEffect(() => {
@@ -34,9 +32,7 @@ const ServiceWorker: React.FC = () => {
     registerSW();
   })
 
-  return isUpdating
-    ? <LoadingScreen />
-    : <></>;
+  return <></>;
 }
 
 export default ServiceWorker;
