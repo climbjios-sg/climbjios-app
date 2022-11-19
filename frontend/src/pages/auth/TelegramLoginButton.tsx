@@ -17,7 +17,7 @@ export default function TelegramLoginButton({ dataAuthUrl, botName }: TelegramLo
     script.setAttribute('data-auth-url', dataAuthUrl);
     script.setAttribute('data-request-access', 'write');
     if (boxRefCurrent) {
-      boxRef.current.appendChild(script);
+      boxRefCurrent.appendChild(script);
     }
     return () => {
       if (boxRefCurrent) {
