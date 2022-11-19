@@ -117,7 +117,6 @@
     "react-redux": "^8.0.2",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "^5.0.0",
     "react-select": "^5.5.2",
     "react-slick": "^0.29.0",
     "react-telegram-login": "^1.1.2",
@@ -178,6 +177,7 @@
     "prettier": "^2.7.1",
     "typescript": "^4.7.4",
     "vite": "^3.2.4",
+    "vite-plugin-checker": "^0.5.1",
     "vite-plugin-svgr": "^2.2.2",
     "vite-tsconfig-paths": "^3.5.2"
   },
