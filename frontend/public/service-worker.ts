@@ -17,6 +17,7 @@ import { CacheName } from '../src/@types/cache';
 
 declare const self: ServiceWorkerGlobalScope;
 
+self.skipWaiting()
 clientsClaim();
 
 // Delete old assets from previous versions that are no longer necessary
