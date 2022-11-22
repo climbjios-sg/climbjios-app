@@ -12,6 +12,7 @@ import MotionLazyContainer from './components/animate/MotionLazyContainer';
 import { ProfileProvider } from './contexts/auth/ProfileContext';
 import { AuthProvider } from './@types/auth';
 import ServiceWorker from './serviceWorker/ServiceWorker';
+import { MixpanelProvider } from './contexts/mixpanel/MixpanelContext';
 
 interface Props {
   authProvider: AuthProvider;
@@ -23,17 +24,19 @@ if (process.env.REACT_APP_GTM_ID) {
 
 export default function App({ authProvider }: Props) {
   return (
-    <ProfileProvider authProvider={authProvider}>
-      <MotionLazyContainer>
-        <ThemeProvider>
-          <NotistackProvider>
-            <ProgressBarStyle />
-            <ScrollToTop />
-            <Router />
-            <ServiceWorker />
-          </NotistackProvider>
-        </ThemeProvider>
-      </MotionLazyContainer>
-    </ProfileProvider>
+    <MixpanelProvider>
+      <ProfileProvider authProvider={authProvider}>
+        <MotionLazyContainer>
+          <ThemeProvider>
+            <NotistackProvider>
+              <ProgressBarStyle />
+              <ScrollToTop />
+              <Router />
+              <ServiceWorker />
+            </NotistackProvider>
+          </ThemeProvider>
+        </MotionLazyContainer>
+      </ProfileProvider>
+    </MixpanelProvider>
   );
 }

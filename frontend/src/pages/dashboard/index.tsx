@@ -21,6 +21,7 @@ import Betas from './betas';
 import { listColors } from '../../store/reducers/colors';
 import { listWalls } from '../../store/reducers/walls';
 import MessageBarWithStore from './MessageBarWithStore';
+import { useMixpanel } from '../../contexts/mixpanel/MixpanelContext';
 
 interface BottomTab {
   path: string;
@@ -94,6 +95,7 @@ export default function Dashboard() {
   const trigger = useScrollTrigger({
     target: document.getElementById('root') || undefined,
   });
+  const mixpanel = useMixpanel();
 
   // TODO: Check and remove if no one using the redux states
   useEffect(() => {
@@ -101,6 +103,10 @@ export default function Dashboard() {
     dispatch(listColors());
     dispatch(listWalls());
   }, [dispatch]);
+
+  useEffect(() => {
+    mixpanel.track('accessed dashboard');
+  }, [mixpanel]);
 
   return (
     <Page title="ClimbJios - The social network for climbers.">

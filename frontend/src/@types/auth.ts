@@ -1,7 +1,7 @@
 import { User } from './user';
 
 export type AuthProvider = {
-  login: (params?: unknown) => Promise<void>;
+  login: (params?: unknown) => Promise<AuthProviderId>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
   checkOnboarded: () => Promise<void>;
@@ -10,3 +10,5 @@ export type AuthProvider = {
 };
 
 export type AuthProviderType = 'jwt';
+
+export type AuthProviderId = string;

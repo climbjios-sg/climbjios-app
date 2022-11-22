@@ -3,6 +3,7 @@ import { NavigateOptions, useNavigate } from 'react-router';
 import useAuthProvider from './useAuthProvider';
 import { PATH_ONBOARDING } from '../../routes/paths';
 import { JwtTokenSet } from 'src/@types/token';
+import { useMixpanel } from 'src/contexts/mixpanel/MixpanelContext';
 
 type Login = (
   tokens: JwtTokenSet,
@@ -34,14 +35,16 @@ type Login = (
 const useLogin = (): Login => {
   const authProvider = useAuthProvider();
   const navigate = useNavigate();
+  const mixpanel = useMixpanel();
 
   const callLogin: Login = useCallback(
     async (tokens, redirectTo = PATH_ONBOARDING.root, redirectOptions) => {
-      await authProvider.login(tokens);
+      const authProviderId = await authProvider.login(tokens);
+      mixpanel.identify(authProviderId);
 
       navigate(redirectTo, redirectOptions);
     },
-    [authProvider, navigate]
+    [authProvider, navigate, mixpanel]
   );
 
   return callLogin;
