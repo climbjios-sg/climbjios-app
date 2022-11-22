@@ -1,4 +1,5 @@
-import { AuthProvider } from 'src/@types/auth';
+import jwt_decode from 'jwt-decode';
+import { AuthProvider, AuthProviderId } from 'src/@types/auth';
 import { CacheName } from 'src/@types/cache';
 import { PATH_AUTH } from 'src/routes/paths';
 import { refreshAccessToken, checkValidity as refreshSessionTokens } from 'src/services/token';
@@ -10,9 +11,15 @@ interface Session {
   refreshToken: string;
 }
 
+interface JwtPayload {
+  id: AuthProviderId;
+  iat: number;
+  exp: number;
+}
+
 const isPublicUrl = (url: string) => [PATH_AUTH.root].includes(url);
 const isTokenExpired = (accessToken: string, offset = 0) =>
-  Date.now() >= JSON.parse(atob(accessToken.split('.')[1])).exp * 1000 + offset;
+  Date.now() >= jwt_decode<JwtPayload>(accessToken).exp * 1000 + offset;
 const getSession = (): Session | null => {
   const accessToken = localStorage.getItem(ACCESS_TOKEN);
   const refreshToken = localStorage.getItem(REFRESH_TOKEN);
@@ -40,7 +47,7 @@ const deleteCache = (name: CacheName) =>
     .then((cache) => cache.keys().then((requests) => requests.map((req) => cache.delete(req))));
 
 export const jwtAuthProvider: AuthProvider = {
-  login: async (params) => {
+  login: async (params): Promise<AuthProviderId> => {
     const { refreshToken, accessToken } = params as Session;
 
     if (refreshToken && accessToken) {
@@ -48,6 +55,7 @@ export const jwtAuthProvider: AuthProvider = {
         refreshToken,
         accessToken,
       });
+      return jwt_decode<JwtPayload>(accessToken).id;
     } else {
       const session = getSession();
       if (session === null) {
@@ -63,6 +71,7 @@ export const jwtAuthProvider: AuthProvider = {
       }
 
       setSession(response.data);
+      return jwt_decode<JwtPayload>(response.data.accessToken).id;
     }
   },
   logout: async () => {
