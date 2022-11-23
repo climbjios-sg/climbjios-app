@@ -53,8 +53,8 @@ export default function Video({ sx, cloudflareVideoUid, videoUrl, thumbnailSrc }
             '& div': { paddingTop: '0 !important', position: 'static !important' },
           }}
         >
-          {/* preload property auto fetches first few video segments if user has good internet */}
-          <Stream streamRef={streamRef} src={cloudflareVideoUid} muted controls preload="auto" />
+          {/* preload property fetches tiny bit of video and image */}
+          <Stream streamRef={streamRef} src={cloudflareVideoUid} muted controls preload="metadata" />
         </Box>
       );
     }
