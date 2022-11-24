@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v1.2.1
+
+Fix
+- Change video preload='auto' to 'metatdata'
+
 ## v1.2.0
 
 Feature
