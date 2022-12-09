@@ -40,7 +40,7 @@ export default function PublicProfile({ data }: PublicProfileProps) {
     return <Page404 />;
   }
 
-  const { user, isShowFloatingButton, backTo } = state;
+  const { user, backTo } = state;
   return (
     <Box
       sx={{
@@ -61,23 +61,21 @@ export default function PublicProfile({ data }: PublicProfileProps) {
         }
         betasTab={<ProfileBetas creatorId={user.userId} />}
       />
-      {isShowFloatingButton && (
-        <FloatingBottomCard>
-          <Button
-            sx={{ marginBottom: 3 }}
-            size="large"
-            variant="contained"
-            color="secondary"
-            startIcon={<Iconify icon={'jam:telegram'} />}
-            fullWidth
-            disableElevation
-            href={`https://t.me/${user.telegramHandle}`}
-            {...outgoingLinkProps}
-          >
-            <Typography variant="button">Message on Telegram</Typography>
-          </Button>
-        </FloatingBottomCard>
-      )}
+      <FloatingBottomCard>
+        <Button
+          sx={{ marginBottom: 3 }}
+          size="large"
+          variant="contained"
+          color="secondary"
+          startIcon={<Iconify icon={'jam:telegram'} />}
+          fullWidth
+          disableElevation
+          href={`https://t.me/${user.telegramHandle}`}
+          {...outgoingLinkProps}
+        >
+          <Typography variant="button">Message on Telegram</Typography>
+        </Button>
+      </FloatingBottomCard>
     </Box>
   );
 }

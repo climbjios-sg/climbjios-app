@@ -1,9 +1,7 @@
-import { Button, Link, Skeleton, Stack, Typography } from '@mui/material';
+import { Skeleton, Stack, Typography } from '@mui/material';
 import { User } from 'src/@types/user';
 import { PronounName } from 'src/@types/pronoun';
 import NameAvatar from '../NameAvatar';
-import Iconify from '../Iconify';
-import useGetIdentity from 'src/hooks/auth/useGetIdentity';
 
 type ProfileHeaderProps = {
   user: User;
@@ -11,10 +9,8 @@ type ProfileHeaderProps = {
 };
 
 export default function ProfileHeader({ user, loading = false }: ProfileHeaderProps) {
-  const { identity: loggedInUser } = useGetIdentity();
-  const isLookingAtOwnProfile = user.userId === loggedInUser.userId
   return (
-    <Stack direction="row" alignItems={{ xs: isLookingAtOwnProfile ? "center" : "flex-start", sm: "center" }}>
+    <Stack direction="row" alignItems={"center"}>
       {loading ? (
         <Skeleton variant='circular' sx={{ width: 60, height: 60 }} />
       ) : (
@@ -30,7 +26,9 @@ export default function ProfileHeader({ user, loading = false }: ProfileHeaderPr
           }}
         />
       )}
-      <Stack direction={{ xs: "column", sm: "row" }} justifyContent="space-between" alignItems={{ xs: isLookingAtOwnProfile ? "center" : "flex-start", sm: "center" }} flexWrap="wrap" width={isLookingAtOwnProfile ? "auto" : "100%"}>
+      <Stack direction={{ xs: "column", sm: "row" }} 
+        justifyContent="space-between" alignItems={"center"} 
+        flexWrap="wrap" width={"100%"}>
         <Stack direction="column">
           {loading ? (
             <Skeleton width={150} sx={{ ml: 3 }} />
@@ -51,11 +49,6 @@ export default function ProfileHeader({ user, loading = false }: ProfileHeaderPr
             </>
           )}
         </Stack>
-        {!isLookingAtOwnProfile && <Link href={`https://t.me/${user.telegramHandle}`} underline="none" target="_blank" rel="noopener noreferrer">
-          <Button variant="outlined" style={{ margin: '5px 0' }}>
-            <Iconify icon={'jam:telegram'} color={'#2aabee'} />
-          </Button>
-        </Link>}
       </Stack>
     </Stack>
   );
