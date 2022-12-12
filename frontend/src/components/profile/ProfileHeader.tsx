@@ -10,7 +10,7 @@ type ProfileHeaderProps = {
 
 export default function ProfileHeader({ user, loading = false }: ProfileHeaderProps) {
   return (
-    <Stack direction="row" alignItems={"center"}>
+    <Stack direction="row" alignItems="center">
       {loading ? (
         <Skeleton variant='circular' sx={{ width: 60, height: 60 }} />
       ) : (
@@ -27,8 +27,8 @@ export default function ProfileHeader({ user, loading = false }: ProfileHeaderPr
         />
       )}
       <Stack direction={{ xs: "column", sm: "row" }} 
-        justifyContent="space-between" alignItems={"center"} 
-        flexWrap="wrap" width={"100%"}>
+        justifyContent="space-between" alignItems="center"
+        flexWrap="wrap" width="100%">
         <Stack direction="column">
           {loading ? (
             <Skeleton width={150} sx={{ ml: 3 }} />
