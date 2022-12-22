@@ -1,4 +1,3 @@
-import React from 'react';
 import { Stack, Typography } from '@mui/material';
 // components
 import { RHFTextField } from '../../components/hook-form';
