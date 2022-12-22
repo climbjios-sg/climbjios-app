@@ -25,6 +25,7 @@ export const UsernameForm = () => {
         }}
         required
       />
+      <input hidden type="text"/>
     </Stack>
   );
 };
