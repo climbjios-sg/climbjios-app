@@ -247,8 +247,13 @@ export default function Onboarding() {
     setActiveStep((currentStep) => currentStep - 1);
   };
 
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    handleClickDoneButton()
+  }
+
   return (
-    <FormProvider methods={methods}>
+    <FormProvider onSubmit={handleOnSubmit} methods={methods}>
       <Page title="Onboarding: Fill in your details">
         <Container maxWidth="sm" sx={{ my: 3 }}>
           <Stack spacing={1.5} justifyContent="center" alignItems="center">
@@ -256,34 +261,34 @@ export default function Onboarding() {
             {renderTitle(activeStep)}
             <Card sx={{ width: '100%', p: 3 }}>
               <Stack spacing={1.5}>
-                {renderForm(activeStep)}
-                <Separator />
-                {isComplete && (
-                  <Typography textAlign="center" sx={{ pb: 1 }}>
-                    By clicking submit, you agree to our{' '}
-                    <StyledA {...outgoingLinkProps} href={PATH_LANDING.general.terms}>
-                      terms
-                    </StyledA>{' '}
-                    &{' '}
-                    <StyledA {...outgoingLinkProps} href={PATH_LANDING.general.privacyPolicy}>
-                      privacy policy
-                    </StyledA>
-                    .
-                  </Typography>
-                )}
-                <Button
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  disableElevation
-                  onClick={handleClickDoneButton}
-                  disabled={loadingSubmit}
-                >
-                  <Typography variant="button">
-                    {getButtonText(activeStep, activeValues)}
-                  </Typography>
-                </Button>
+                  {renderForm(activeStep)}
+                  <Separator />
+                  {isComplete && (
+                    <Typography textAlign="center" sx={{ pb: 1 }}>
+                      By clicking submit, you agree to our{' '}
+                      <StyledA {...outgoingLinkProps} href={PATH_LANDING.general.terms}>
+                        terms
+                      </StyledA>{' '}
+                      &{' '}
+                      <StyledA {...outgoingLinkProps} href={PATH_LANDING.general.privacyPolicy}>
+                        privacy policy
+                      </StyledA>
+                      .
+                    </Typography>
+                  )}
+                  <Button
+                    type="submit"
+                    size="large"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    disableElevation
+                    disabled={loadingSubmit}
+                  >
+                    <Typography variant="button">
+                      {getButtonText(activeStep, activeValues)}
+                    </Typography>
+                  </Button>
                 {activeStep > 1 && (
                   <Button size="medium" fullWidth onClick={handleClickBackButton}>
                     Back
