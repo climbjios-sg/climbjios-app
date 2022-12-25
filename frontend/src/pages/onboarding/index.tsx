@@ -175,7 +175,7 @@ export default function Onboarding() {
 
   const methods = useForm<OnboardingFormValues>({
     resolver: yupResolver(formSchema),
-    mode: 'onSubmit',
+    mode: 'onChange',
   });
   const { handleSubmit, trigger, watch, getValues } = methods;
   const activeSchema = useMemo(() => getActiveSchema(activeStep), [activeStep]);
