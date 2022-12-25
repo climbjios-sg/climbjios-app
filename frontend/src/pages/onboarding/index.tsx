@@ -68,10 +68,10 @@ const onboardingSteps: OnboardingStep[] = [
     dirtyButtonText: 'Next',
     schema: {
       name: Yup.string()
+        .required('Name is required.')
         .min(MIN_NAME_LEN, NAME_LEN_ERROR)
         .max(MAX_NAME_LEN, NAME_LEN_ERROR)
-        .matches(REGEX_NAME, NAME_REGEX_ERROR)
-        .required('Name is required.'),
+        .matches(REGEX_NAME, NAME_REGEX_ERROR),
     },
   },
   {
