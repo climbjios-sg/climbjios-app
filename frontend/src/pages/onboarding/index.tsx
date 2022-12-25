@@ -68,10 +68,10 @@ const onboardingSteps: OnboardingStep[] = [
     dirtyButtonText: 'Next',
     schema: {
       name: Yup.string()
-        .required('Name is required.')
         .min(MIN_NAME_LEN, NAME_LEN_ERROR)
         .max(MAX_NAME_LEN, NAME_LEN_ERROR)
-        .matches(REGEX_NAME, NAME_REGEX_ERROR),
+        .matches(REGEX_NAME, NAME_REGEX_ERROR)
+        .required('Name is required.'),
     },
   },
   {
@@ -248,9 +248,9 @@ export default function Onboarding() {
   };
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    handleClickDoneButton()
-  }
+    e.preventDefault();
+    handleClickDoneButton();
+  };
 
   return (
     <FormProvider onSubmit={handleOnSubmit} methods={methods}>
@@ -261,34 +261,34 @@ export default function Onboarding() {
             {renderTitle(activeStep)}
             <Card sx={{ width: '100%', p: 3 }}>
               <Stack spacing={1.5}>
-                  {renderForm(activeStep)}
-                  <Separator />
-                  {isComplete && (
-                    <Typography textAlign="center" sx={{ pb: 1 }}>
-                      By clicking submit, you agree to our{' '}
-                      <StyledA {...outgoingLinkProps} href={PATH_LANDING.general.terms}>
-                        terms
-                      </StyledA>{' '}
-                      &{' '}
-                      <StyledA {...outgoingLinkProps} href={PATH_LANDING.general.privacyPolicy}>
-                        privacy policy
-                      </StyledA>
-                      .
-                    </Typography>
-                  )}
-                  <Button
-                    type="submit"
-                    size="large"
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    disableElevation
-                    disabled={loadingSubmit}
-                  >
-                    <Typography variant="button">
-                      {getButtonText(activeStep, activeValues)}
-                    </Typography>
-                  </Button>
+                {renderForm(activeStep)}
+                <Separator />
+                {isComplete && (
+                  <Typography textAlign="center" sx={{ pb: 1 }}>
+                    By clicking submit, you agree to our{' '}
+                    <StyledA {...outgoingLinkProps} href={PATH_LANDING.general.terms}>
+                      terms
+                    </StyledA>{' '}
+                    &{' '}
+                    <StyledA {...outgoingLinkProps} href={PATH_LANDING.general.privacyPolicy}>
+                      privacy policy
+                    </StyledA>
+                    .
+                  </Typography>
+                )}
+                <Button
+                  type="submit"
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  disableElevation
+                  disabled={loadingSubmit}
+                >
+                  <Typography variant="button">
+                    {getButtonText(activeStep, activeValues)}
+                  </Typography>
+                </Button>
                 {activeStep > 1 && (
                   <Button size="medium" fullWidth onClick={handleClickBackButton}>
                     Back
