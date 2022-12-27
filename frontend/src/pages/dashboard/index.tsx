@@ -15,6 +15,7 @@ import { useLocation, Link, useRoutes, Navigate } from 'react-router-dom';
 import Iconify from '../../components/Iconify';
 import Profile from './profile';
 import Jios from './jios';
+import Gyms from './gyms';
 import { listGyms } from '../../store/reducers/gyms';
 import { useDispatch } from '../../store';
 import Betas from './betas';
@@ -62,6 +63,13 @@ const DASHBOARD_TABS = [
     label: 'Jios',
     icon: <Iconify icon={'eva:people-outline'} width={20} height={20} />,
     element: <Jios />,
+  },
+  {
+    path: 'gyms/*',
+    to: 'gyms',
+    label: 'Gyms',
+    icon: <Iconify icon={'eva:pin-outline'} width={20} height={20} />,
+    element: <Gyms />,
   },
   {
     path: 'betas/*',
