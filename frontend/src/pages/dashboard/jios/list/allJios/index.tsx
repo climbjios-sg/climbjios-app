@@ -88,7 +88,7 @@ export default function JioCardList() {
           scrollableTarget="root"
         >
           {data.map((jio) => (
-            <Box key={jio.id} sx={{ width: '100%', mt: 2 }}>
+            <Box key={jio.id} sx={{ width: '100%', mt: 2, mb: 2 }}>
               <JioCard data={jio} />
             </Box>
           ))}
