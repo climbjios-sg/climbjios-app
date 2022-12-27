@@ -1,16 +1,20 @@
-import { InputAdornment, SxProps, TextField } from '@mui/material';
+import { InputAdornment, SxProps, TextField, TextFieldProps } from '@mui/material';
 import { Stack } from '@mui/system';
 import Iconify from 'src/components/Iconify';
 
 export interface TextInputProps {
   icon?: string;
-  text?: string;
   iconColor?: string;
-  sx?: SxProps;
-  // children: never[]
+  text?: string;
+  // sx?: SxProps;
 }
 
-export default function TextInput({ icon = '', text = '', iconColor = '', sx }: TextInputProps) {
+export default function TextInput({
+  icon = '',
+  text = '',
+  iconColor = '',
+  ...other
+}: TextInputProps & TextFieldProps) {
   return (
     // <Stack
     //   sx={{
@@ -29,7 +33,9 @@ export default function TextInput({ icon = '', text = '', iconColor = '', sx }: 
     <TextField
       fullWidth
       label={text}
-      helperText={text}
+      // helperText={text}
+      // placeholder={text}
+      {...other}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
