@@ -5,14 +5,16 @@ import { Tab, Tabs, Box, Paper, Stack, useScrollTrigger, Slide } from '@mui/mate
 import JioCardList from '../jios/list/allJios';
 import { useSearchParams } from 'react-router-dom';
 import useAddToHomeScreen from 'src/hooks/useAddToHomeScreen';
-import GymSearch from './search';
+import GymSearch from './GymSearch';
 import GymCard from './list/GymCard';
 import FloatingContainer from '../../../components/FloatingContainer';
+import GymCardsList from './GymCardsList';
 
 export default function Gyms() {
   useAddToHomeScreen();
 
   const dummyGym = {
+    id: 1,
     name: 'BlocHead',
     logoUrl: 'https://static.wixstatic.com/media/8b92f2_1fb25d945b3f45f0bc807b642fa98b26~mv2.png/v1/fill/w_102,h_102,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/8b92f2_1fb25d945b3f45f0bc807b642fa98b26~mv2.png',
     gymOutlets: [
@@ -49,9 +51,10 @@ export default function Gyms() {
         </Paper>
       </FloatingContainer>
       {/* Open Jios Tab */}
-      <Box sx={{ height: 75 }} />
+      <Box sx={{ height: 65 }} />
       {/* <JioCardList /> */}
-      <GymCard data={dummyGym} />
+      {/* <GymCard data={dummyGym} /> */}
+      <GymCardsList/>
     </Box>
   );
 }

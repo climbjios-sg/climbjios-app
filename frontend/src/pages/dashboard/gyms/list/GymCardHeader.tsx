@@ -11,11 +11,13 @@ interface GymCardHeaderProps {
 }
 
 export default function GymCardHeader({ data }: GymCardHeaderProps) {
+  const logoSize = 60
+
   const GymAvatar = () => {
     if (data.logoUrl) {
-      return <Avatar src={data.logoUrl} alt={data.name} sx={{width: 30, height: 30}}/>;
+      return <Avatar src={data.logoUrl} alt={data.name} sx={{width: logoSize, height: logoSize}}/>;
     } else {
-      return <Iconify icon={'eva:pin-outline'} width={30} height={30} />;
+      return <Iconify icon={'eva:pin-outline'} width={logoSize} height={logoSize} />;
     }
   };
 

@@ -1,4 +1,5 @@
 export interface GymCardData {
+  id: number;
   name: string;
   logoUrl?: string | undefined;
   gymOutlets: GymOutletData[];

@@ -14,7 +14,7 @@ export default function GymSearch() {
         alignItems="center"
         sx={{ width: '100%', display: trigger ? 'none' : 'flex', pt: 1.5 }}
       >
-        <TextInput icon="ic:outline-search" />
+        <TextInput icon="ic:outline-search" placeholder="Enter a gym name" size="small"/>
       </Stack>
     </Stack>
   );
