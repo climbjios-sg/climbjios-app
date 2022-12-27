@@ -37,6 +37,7 @@ export default function TextInput({ icon = '', text = '', iconColor = '', sx }: 
           </InputAdornment>
         ),
       }}
+      //https://github.com/mui/material-ui/issues/13570#issuecomment-1127952241
       sx={{
         '& fieldset': { borderRadius: '30px' },
       }}
