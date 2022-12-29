@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { Grid, Button, Divider, Box } from '@mui/material';
 import useVersion from 'src/hooks/ui/useVersion';
-import JioCard from 'src/components/jios/JioCard';
 import JioCardLoader from 'src/components/jios/JioCardLoader';
 import EmptyJiosContent from 'src/components/jios/EmptyJiosContent';
 import EmptyContent from 'src/components/EmptyContent';
@@ -10,11 +9,54 @@ import { useDispatch, useSelector } from 'src/store';
 import { listJios } from 'src/store/reducers/jios';
 import { getDateTimeString } from 'src/utils/formatTime';
 import { GetJioListRequest } from 'src/@types/jio';
-import CreateJioButton from 'src/components/jios/CreateJioButton';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import InfiniteScrollHelper from 'src/components/InfiniteScrollHelper';
 import useRefresh from 'src/hooks/ui/useRefresh';
-import GymCard from './list/GymCard';
+import GymCard from './GymCard';
+import Iconify from 'src/components/Iconify';
+
+const dummyData = [
+  {
+    id: 1,
+    name: 'BlocHead',
+    logoUrl:
+      'https://static.wixstatic.com/media/8b92f2_1fb25d945b3f45f0bc807b642fa98b26~mv2.png/v1/fill/w_102,h_102,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/8b92f2_1fb25d945b3f45f0bc807b642fa98b26~mv2.png',
+    gymOutlets: [
+      {
+        isClosed: false,
+        gymId: 123,
+        name: 'BlocHead Bedok',
+        address: 'Bedok North Road',
+      },
+      {
+        isClosed: false,
+        gymId: 321,
+        name: 'BlocHead Aljunied',
+        address: 'Aljunied Address',
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: 'BoulderRealm',
+    logoUrl:
+      'https://static.wixstatic.com/media/8b92f2_1fb25d945b3f45f0bc807b642fa98b26~mv2.png/v1/fill/w_102,h_102,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/8b92f2_1fb25d945b3f45f0bc807b642fa98b26~mv2.png',
+    gymOutlets: [
+      {
+        isClosed: false,
+        gymId: 123,
+        name: 'BlocHead Bedok',
+        address: 'Bedok North Road',
+      },
+      {
+        isClosed: false,
+        gymId: 321,
+        name: 'BlocHead Aljunied',
+        address: 'Aljunied Address',
+      },
+    ],
+  },
+];
 
 export default function JioCardList() {
   const dispatch = useDispatch();
@@ -23,47 +65,6 @@ export default function JioCardList() {
   const jioSearchValues = useSelector((state) => state.jioSearchForm.data);
 
   const { data, error, loading } = useSelector((state) => state.jios);
-
-  const dummyData = [
-    {
-      id: 1,
-      name: 'BlocHead',
-      logoUrl: 'https://static.wixstatic.com/media/8b92f2_1fb25d945b3f45f0bc807b642fa98b26~mv2.png/v1/fill/w_102,h_102,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/8b92f2_1fb25d945b3f45f0bc807b642fa98b26~mv2.png',
-      gymOutlets: [
-        {
-          isClosed: false,
-          gymId: 123,
-          name: 'BlocHead Bedok',
-          address: 'Bedok North Road',
-        },
-        {
-          isClosed: false,
-          gymId: 321,
-          name: 'BlocHead Aljunied',
-          address: 'Aljunied Address',
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'BoulderRealm',
-      logoUrl: 'https://static.wixstatic.com/media/8b92f2_1fb25d945b3f45f0bc807b642fa98b26~mv2.png/v1/fill/w_102,h_102,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/8b92f2_1fb25d945b3f45f0bc807b642fa98b26~mv2.png',
-      gymOutlets: [
-        {
-          isClosed: false,
-          gymId: 123,
-          name: 'BlocHead Bedok',
-          address: 'Bedok North Road',
-        },
-        {
-          isClosed: false,
-          gymId: 321,
-          name: 'BlocHead Aljunied',
-          address: 'Aljunied Address',
-        },
-      ],
-    }
-  ]
 
   const displayedData = React.useMemo(() => {
     if (error) {
@@ -131,13 +132,13 @@ export default function JioCardList() {
           scrollableTarget="root"
         >
           {dummyData.map((gym) => (
-            <Box key={gym.id} sx={{ width: '100%', mt: 2, mb: 2}}>
+            <Box key={gym.id} sx={{ width: '100%', mt: 2, mb: 2 }}>
               <GymCard data={gym} />
             </Box>
           ))}
         </InfiniteScroll>
         <Box sx={{ width: '100%', mt: 4 }}>
-          <Divider textAlign="center">Can't find the right Jio? 🤔</Divider>
+          <Divider textAlign="center">Can't find a gym? 🤔</Divider>
           <div
             style={{
               display: 'flex',
@@ -146,7 +147,14 @@ export default function JioCardList() {
               marginTop: 25,
             }}
           >
-            <CreateJioButton />
+            <Button
+              size="large"
+              startIcon={<Iconify icon={'eva:plus-outline'} color="white" />}
+              variant="contained"
+              fullWidth
+            >
+              (unimplimented) Report missing gym
+            </Button>
           </div>
         </Box>
       </Box>
