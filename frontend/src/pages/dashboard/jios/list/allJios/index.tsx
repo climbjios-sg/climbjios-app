@@ -17,7 +17,7 @@ import useRefresh from 'src/hooks/ui/useRefresh';
 
 export default function JioCardList() {
   const dispatch = useDispatch();
-  const version = useVersion();
+  const version = useVersion(); //version is updated when user pulls to refresh. when version number changes, listjios (below) is called to update jio list
   const refresh = useRefresh();
   const jioSearchValues = useSelector((state) => state.jioSearchForm.data);
 
