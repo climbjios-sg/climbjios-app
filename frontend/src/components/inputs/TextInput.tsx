@@ -1,5 +1,4 @@
-import { InputAdornment, SxProps, TextField, TextFieldProps } from '@mui/material';
-import { Stack } from '@mui/system';
+import { InputAdornment, TextField, TextFieldProps } from '@mui/material';
 import Iconify from 'src/components/Iconify';
 
 export interface TextInputProps {

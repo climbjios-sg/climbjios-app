@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, Stack, Typography } from '@mui/material';
+import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
 // import { IconStyle } from 'src/utils/common';
 // import { Jio } from 'src/@types/jio';
 // import palette from 'src/theme/palette';
@@ -20,7 +20,7 @@ export default function GymCard({ data }: GymCardProps) {
     <Card>
       <GymCardHeader data={data} />
       {/* <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}> */}
-      <CardContent sx={{pt:0}}>
+      <CardContent sx={{ pt: 0 }}>
         {data.gymOutlets.map((gymOutlet: GymOutletData) => (
           <Box key={gymOutlet.gymId} sx={{ width: '100%', mt: 2 }}>
             <Stack direction="row">
