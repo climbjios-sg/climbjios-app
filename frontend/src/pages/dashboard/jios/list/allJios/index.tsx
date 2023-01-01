@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { Grid, Button, Divider, Box } from '@mui/material';
 import useVersion from 'src/hooks/ui/useVersion';
 import JioCard from 'src/components/jios/JioCard';
@@ -15,46 +15,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import InfiniteScrollHelper from 'src/components/InfiniteScrollHelper';
 import useRefresh from 'src/hooks/ui/useRefresh';
 
-//https://stackoverflow.com/a/59843241/7577786
-const usePrevious = (value: any, initialValue: never[]) => {
-  const ref = useRef(initialValue);
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-};
-
-const useEffectDebugger = (
-  effectHook: React.EffectCallback,
-  dependencies: React.DependencyList = [],
-  dependencyNames: string[] = []
-) => {
-  const previousDeps = usePrevious(dependencies, []);
-
-  const changedDeps = dependencies.reduce((accum: any, dependency: any, index: number) => {
-    if (dependency !== previousDeps[index]) {
-      const keyName = dependencyNames[index] || String(index);
-      return {
-        ...accum,
-        [keyName]: {
-          before: previousDeps[index],
-          after: dependency,
-        },
-      };
-    }
-
-    return accum;
-  }, {});
-
-  if (Object.keys(changedDeps as any[]).length) {
-    console.log('[use-effect-debugger] ', changedDeps);
-  }
-
-  // useEffect(effectHook, [effectHook, ...dependencies]);
-  useEffect(effectHook, dependencies);
-  // useLayoutEffect(effectHook, dependencies);
-};
-
 export default function JioCardList() {
   const dispatch = useDispatch();
   const version = useVersion(); //version is updated when user pulls to refresh. when version number changes, listjios (below) is called to update jio list
@@ -62,13 +22,7 @@ export default function JioCardList() {
   const jioSearchValues = useSelector((state) => state.jioSearchForm.data);
 
   const { data, error, loading } = useSelector((state) => state.jios);
-  console.log('==========RENDER ALL JIOS LIST============');
-  console.log(`loading: ${loading}`);
-  console.log(`version: ${version}`);
-  console.log(`jios count: ${data.length}`);
-
   const displayedData = React.useMemo(() => {
-    console.log(`---USEMEMO: UPDATE VIEW---`);
     if (error) {
       return (
         <Grid sx={{ width: '100%', mt: 2 }} item>
@@ -156,41 +110,28 @@ export default function JioCardList() {
     );
   }, [data, error, jioSearchValues, loading, refresh]);
 
-  const firstUpdate = useRef(true);
-  useEffectDebugger(
-    // useEffect(
-    () => {
-      // if (firstUpdate.current && data.length > 0) {
-      //   firstUpdate.current = false;
-      //   return;
-      // }
+  useEffect(() => {
+    if (!jioSearchValues) {
+      dispatch(listJios({}));
+      return;
+    }
 
-      console.log(`---USEFFECT: UPDATE JIOS LIST---`);
+    const searchParams = {} as GetJioListRequest;
+    if (jioSearchValues.date) {
+      searchParams.startDateTime = getDateTimeString(jioSearchValues.date, '00:00');
+      searchParams.endDateTime = getDateTimeString(jioSearchValues.date, '23:59');
+    }
 
-      if (!jioSearchValues) {
-        dispatch(listJios({}));
-        return;
-      }
+    if (jioSearchValues.gymId) {
+      searchParams.gymId = jioSearchValues.gymId;
+    }
 
-      const searchParams = {} as GetJioListRequest;
-      if (jioSearchValues.date) {
-        searchParams.startDateTime = getDateTimeString(jioSearchValues.date, '00:00');
-        searchParams.endDateTime = getDateTimeString(jioSearchValues.date, '23:59');
-      }
+    if (jioSearchValues.type) {
+      searchParams.type = jioSearchValues.type;
+    }
 
-      if (jioSearchValues.gymId) {
-        searchParams.gymId = jioSearchValues.gymId;
-      }
-
-      if (jioSearchValues.type) {
-        searchParams.type = jioSearchValues.type;
-      }
-
-      dispatch(listJios(searchParams));
-    },
-    [version, dispatch, jioSearchValues],
-    ['version', 'dispatch', 'jioSearchValues']
-  );
+    dispatch(listJios(searchParams));
+  }, [version, dispatch, jioSearchValues]);
 
   return <Grid container>{displayedData}</Grid>;
 }
