@@ -6,8 +6,6 @@ import {
 } from 'react-redux';
 import { CLEAR_STATE } from './actions/clearActions';
 import _rootReducer from './reducers';
-// @ts-ignore
-// import logger from 'redux-logger'
 
 const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
   if (action.type === CLEAR_STATE) {
@@ -19,7 +17,6 @@ const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
 
 export const store = configureStore({
   reducer: rootReducer,
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
 
 export type RootState = ReturnType<typeof _rootReducer>;
