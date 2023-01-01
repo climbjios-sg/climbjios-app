@@ -3,9 +3,12 @@ import useAddToHomeScreen from 'src/hooks/useAddToHomeScreen';
 import GymSearch from './GymSearch';
 import FloatingContainer from '../../../components/FloatingContainer';
 import GymCardsList from './list/GymCardsList';
+import { useState } from 'react';
 
 export default function Gyms() {
   useAddToHomeScreen();
+
+  const [searchString, setSearchString] = useState('');
 
   return (
     <Box sx={{ pt: 2, pb: 20, minHeight: '100vh', maxWidth: 600, margin: '0 auto' }}>
@@ -21,11 +24,12 @@ export default function Gyms() {
             borderRadius: 0,
           }}
         >
-          <GymSearch />
+          <GymSearch searchString={searchString} setSearchString={setSearchString} />
+          {/* <TestComp/> */}
         </Paper>
       </FloatingContainer>
       <Box sx={{ height: 65 }} />
-      <GymCardsList/>
+      <GymCardsList searchString={searchString}/>
     </Box>
   );
 }

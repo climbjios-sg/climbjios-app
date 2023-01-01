@@ -1,5 +1,5 @@
 export interface GymCardData {
-  id: number;
+  id: string;
   name: string;
   logoUrl?: string | undefined;
   gymOutlets: GymOutletData[];
@@ -7,7 +7,7 @@ export interface GymCardData {
 
 export interface GymOutletData {
   isClosed: boolean;
-  gymId: number;
+  gymId: string;
   name: string;
   address: string;
 }
