@@ -26,25 +26,29 @@ export default function ProfileHeader({ user, loading = false }: ProfileHeaderPr
           }}
         />
       )}
-      <Stack direction="column">
-        {loading ? (
-          <Skeleton width={150} sx={{ ml: 3 }} />
-        ) : (
-          <>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography variant="subtitle1">{user.name}</Typography>
-              {user.pronoun && user.pronoun.name !== PronounName.PreferNotToSay && (
-                <Typography
-                  sx={{ color: 'text.secondary' }}
-                  variant="body2"
-                >{`(${user.pronoun.name})`}</Typography>
-              )}
-            </Stack>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              {`@${user.telegramHandle}`}
-            </Typography>
-          </>
-        )}
+      <Stack direction={{ xs: "column", sm: "row" }} 
+        justifyContent="space-between" alignItems="center"
+        flexWrap="wrap" width="100%">
+        <Stack direction="column">
+          {loading ? (
+            <Skeleton width={150} sx={{ ml: 3 }} />
+          ) : (
+            <>
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Typography variant="subtitle1">{user.name}</Typography>
+                {user.pronoun && user.pronoun.name !== PronounName.PreferNotToSay && (
+                  <Typography
+                    sx={{ color: 'text.secondary' }}
+                    variant="body2"
+                  >{`(${user.pronoun.name})`}</Typography>
+                )}
+              </Stack>
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                {`@${user.telegramHandle}`}
+              </Typography>
+            </>
+          )}
+        </Stack>
       </Stack>
     </Stack>
   );
