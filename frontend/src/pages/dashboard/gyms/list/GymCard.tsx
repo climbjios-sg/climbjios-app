@@ -15,13 +15,13 @@ interface GymCardProps {
   data: GymCardData;
 }
 
-export default function GymCard({ data }: GymCardProps) {
+export default function GymCard({ data: itemData }: GymCardProps) {
   return (
     <Card>
-      <GymCardHeader data={data} />
+      <GymCardHeader data={itemData} />
       {/* <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}> */}
       <CardContent sx={{ pt: 0 }}>
-        {data.gymOutlets.map((gymOutlet: GymOutletData) => (
+        {itemData.gymOutlets.map((gymOutlet: GymOutletData) => (
           <Box key={gymOutlet.gymId} sx={{ width: '100%', mt: 2 }}>
             <Stack direction="row">
               <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />
