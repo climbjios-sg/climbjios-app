@@ -2,7 +2,7 @@ import { IconButton, TextField, styled, useTheme, useScrollTrigger, Slide } from
 import { Stack } from '@mui/system';
 import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Jio } from 'src/@types/jio';
 import Iconify from 'src/components/Iconify';
@@ -36,7 +36,12 @@ export default function JioSearch() {
   });
 
   // Update jio search form
+  const firstUpdate = useRef(true);
   useEffect(() => {
+    // if (firstUpdate.current) {
+    //   firstUpdate.current = false;
+    //   return;
+    // }
     dispatch(
       setJiosSearchForm({
         gymId: gym ? gym : undefined,
