@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 
 import EmptyContent from 'src/components/EmptyContent';
-import { ListItemComponentProps } from './CustomInfiniteScroll';
 
 export const ErrorComponent = () => (
   <Grid sx={{ width: '100%', mt: 2 }} item>
