@@ -11,10 +11,6 @@ export interface FetchMoreItemsResult<T> {
   nextId?: string;
 }
 
-export interface ListItemComponentProps<T> {
-  data: T;
-}
-
 interface BasicListItem {
   id: string;
 }
@@ -22,35 +18,42 @@ interface BasicListItem {
 export interface ListViewProps<T> {
   fetchMoreItemsCallback: (nextId?: string) => Promise<FetchMoreItemsResult<T & BasicListItem>>;
   reloadDeps: any;
+  // listItemComponent: ({ itemData }: ListItemComponentProps<T>) => React.ReactNode;
+  listItemComponent: ({ data }: { data: T }) => JSX.Element;
+  // listItemComponent: React.ReactNode;
+  subComponents?: SubComponentProps<T>;
+}
+
+export interface SubComponentProps<T> {
   errorComponent?: React.ComponentType;
   loadingComponent?: React.ComponentType;
   noContentComponent?: React.ComponentType;
-  // listItemComponent: ({ itemData }: ListItemComponentProps<T>) => React.ReactNode;
-  listItemComponent: ({ data }: ListItemComponentProps<T>) => JSX.Element;
-  // listItemComponent: React.ReactNode;
   noMoreComponent?: React.ComponentType;
   scrollForMoreComponent?: React.ComponentType;
   loadingMoreComponent?: React.ComponentType;
 }
 
+// https://ahooks.js.org/hooks/use-infinite-scroll#scrolling-to-automatically-load
 export default function CustomInfiniteScroll<T>({
-  // scrollableParentRef,
   fetchMoreItemsCallback,
   reloadDeps = [],
-  errorComponent: ErrorComponent = Defaults.ErrorComponent,
-  loadingComponent: LoadingComponent = Defaults.LoadingComponent,
-  noContentComponent: NoContentComponent = Defaults.NoContentComponent,
-  listItemComponent: ListItemComponent = Defaults.ListItemComponent,
-  noMoreComponent: NoMoreComponent = Defaults.NoMoreComponent,
-  scrollForMoreComponent: ScrollForMoreComponent = Defaults.ScrollForMoreComponent,
-  loadingMoreComponent: LoadingMoreComponent = Defaults.LoadingMoreComponent,
+  listItemComponent: ListItemComponent,
+  subComponents,
 }: ListViewProps<T>) {
+  const {
+    errorComponent: ErrorComponent = Defaults.ErrorComponent,
+    loadingComponent: LoadingComponent = Defaults.LoadingComponent,
+    noContentComponent: NoContentComponent = Defaults.NoContentComponent,
+    noMoreComponent: NoMoreComponent = Defaults.NoMoreComponent,
+    scrollForMoreComponent: ScrollForMoreComponent = Defaults.ScrollForMoreComponent,
+    loadingMoreComponent: LoadingMoreComponent = Defaults.LoadingMoreComponent,
+  } = subComponents ?? {};
+
   const ref = useRef(null);
   // const ref = useRef<HTMLDivElement>(null);
 
   let error: any;
   const { data, loading, reload, loadMore, loadingMore, noMore } = useInfiniteScroll(
-    // const { data, loading, reload, loadingMore, noMore } = useInfiniteScroll(
     (d) => fetchMoreItemsCallback(d?.nextId),
     {
       target: ref,
@@ -58,7 +61,7 @@ export default function CustomInfiniteScroll<T>({
       onError: (e) => {
         error = e;
       },
-      reloadDeps: [reloadDeps]
+      reloadDeps: [reloadDeps],
     }
   );
 
@@ -127,6 +130,7 @@ export default function CustomInfiniteScroll<T>({
     loading,
     loadingMore,
     noMore,
+    loadMore,
     reload,
     ErrorComponent,
     ListItemComponent,

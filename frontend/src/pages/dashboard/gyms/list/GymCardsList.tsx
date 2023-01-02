@@ -35,8 +35,10 @@ export default function GymsCardList({ searchString }: { searchString: string })
     <CustomInfiniteScroll
       fetchMoreItemsCallback={moreItems}
       reloadDeps={searchString}
-      loadingComponent={LoadingComponent}
       listItemComponent={GymCard}
+      subComponents={{
+        loadingComponent: LoadingComponent
+      }}
     />
   );
 }
