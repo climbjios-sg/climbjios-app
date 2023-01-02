@@ -24,11 +24,11 @@ export default function Gyms() {
             borderRadius: 0,
           }}
         >
-          <GymSearch searchString={searchString} setSearchString={setSearchString} />
+          <GymSearch setSearchString={setSearchString} />
           {/* <TestComp/> */}
         </Paper>
       </FloatingContainer>
-      <Box sx={{ height: 65 }} />
+      <Box sx={{ height: 60 }} />
       <GymCardsList searchString={searchString}/>
     </Box>
   );
