@@ -6,8 +6,6 @@ import {
   Divider,
   Card,
   CardHeader,
-  CardContent,
-  Typography,
   Skeleton,
   Button,
 } from '@mui/material';
@@ -52,12 +50,12 @@ export const NoContentComponent = () => (
   </Grid>
 );
 
-export const ListItemComponent = ({ }) => (
-  <Card>
-    <CardHeader title={<Typography variant="h5">Default placeholder title</Typography>} />
-    <CardContent sx={{ pt: 0 }}>Default placeholder content</CardContent>
-  </Card>
-);
+// export const ListItemComponent = ({ }) => (
+//   <Card>
+//     <CardHeader title={<Typography variant="h5">Default placeholder title</Typography>} />
+//     <CardContent sx={{ pt: 0 }}>Default placeholder content</CardContent>
+//   </Card>
+// );
 
 export const NoMoreComponent = () => (
   <Box sx={{ width: '100%', mt: 4, pb: 8 }}>
