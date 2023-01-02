@@ -1,10 +1,11 @@
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Grid, Box } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useInfiniteScroll } from 'ahooks';
+import { useInfiniteScroll, useRequest, useSessionStorageState } from 'ahooks';
 
 import InfiniteScrollHelper from 'src/components/InfiniteScrollHelper';
 import * as Defaults from './CustomInfiniteScrollDefaults';
+// import { Data, InfiniteScrollOptions, Service } from 'ahooks/lib/useInfiniteScroll/types';
 
 export interface FetchMoreItemsResult<T> {
   list: T[];
@@ -21,10 +22,10 @@ export interface ListViewProps<T> {
   // listItemComponent: ({ itemData }: ListItemComponentProps<T>) => React.ReactNode;
   listItemComponent: ({ data }: { data: T }) => JSX.Element;
   // listItemComponent: React.ReactNode;
-  subComponents?: SubComponentProps<T>;
+  subComponents?: SubComponentProps;
 }
 
-export interface SubComponentProps<T> {
+export interface SubComponentProps {
   errorComponent?: React.ComponentType;
   loadingComponent?: React.ComponentType;
   noContentComponent?: React.ComponentType;
@@ -50,11 +51,50 @@ export default function CustomInfiniteScroll<T>({
   } = subComponents ?? {};
 
   const ref = useRef(null);
+
+  const firstUpdate = useRef(true);
+
   // const ref = useRef<HTMLDivElement>(null);
 
+  // function useCustomInfiniteScroll<T extends Data>(
+  //   service: Service<T>,
+  //   options: InfiniteScrollOptions<T>
+  // ) {
+  //   return useInfiniteScroll(
+  //     (d) =>
+  //       useRequest(() => service(d?.nextId), {
+  //         cacheKey: 'test',
+  //         manual: true,
+  //       }).runAsync(),
+  //     {
+  //       ...options,
+  //     }
+  //   );
+  // }
+
   let error: any;
+
+  // const [cachedList, setCachedList] = useSessionStorageState<T[]>('test', {
+  //   defaultValue: [],
+  // });
+
+  // const [nextId, setNextId] = useState(undefined);
+
+  const nextId = useRef(undefined);
+
+  const { runAsync } = useRequest(() => fetchMoreItemsCallback(nextId.current), {
+    cacheKey: 'test',
+    staleTime: 1000*60*60*10,
+    manual: true,
+  });
+
   const { data, loading, reload, loadMore, loadingMore, noMore } = useInfiniteScroll(
-    (d) => fetchMoreItemsCallback(d?.nextId),
+    // (d) => fetchMoreItemsCallback(d?.nextId),
+    (d) => {
+      // setNextId(d?.nextId)
+      nextId.current = d?.nextId;
+      return runAsync();
+    },
     {
       target: ref,
       isNoMore: (d) => d?.nextId === undefined,
@@ -62,11 +102,50 @@ export default function CustomInfiniteScroll<T>({
         error = e;
       },
       reloadDeps: [reloadDeps],
+      // manual: true,
     }
   );
 
+  // if (firstUpdate.current) {
+  //   firstUpdate.current = false;
+  //   if (cachedList.length === 0) {
+  //     console.log('initial load');
+  //     loadMore();
+  //   }
+  // }
+
+  // const { data, loading, reload, loadMore, loadingMore, noMore } = useInfiniteScroll(
+  //   (d) =>
+  //     useRequest(() => fetchMoreItemsCallback(d?.nextId), {
+  //       cacheKey: 'test',
+  //       manual: true,
+  //     }).runAsync(),
+  //   {
+  //     target: ref,
+  //     isNoMore: (d) => d?.nextId === undefined,
+  //     onError: (e) => {
+  //       error = e;
+  //     },
+  //     reloadDeps: [reloadDeps],
+  //   }
+  // );
+
+  // const { data, loading, reload, loadMore, loadingMore, noMore } = useCustomInfiniteScroll(
+  //   (d) => fetchMoreItemsCallback(d?.nextId),
+  //   {
+  //     target: ref,
+  //     isNoMore: (d) => d?.nextId === undefined,
+  //     onError: (e) => {
+  //       error = e;
+  //     },
+  //     reloadDeps: [reloadDeps],
+  //   }
+  // );
+
   const displayedData = useMemo(() => {
     const itemsList = data?.list ?? [];
+    // setCachedList(itemsList);
+    // loadMore();
 
     if (error) {
       return <ErrorComponent />;

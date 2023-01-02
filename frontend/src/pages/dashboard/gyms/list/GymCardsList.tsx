@@ -6,19 +6,19 @@ import { dummyGymsList } from './dummy';
 import { GymCardData } from './types/gymCard';
 
 function moreItems(nextId?: string): Promise<FetchMoreItemsResult<GymCardData>> {
+  console.log('===MORE ITEMS=== nextId: '+nextId?.toString())
+
   const listSize = 3;
   const sliceStart = parseInt(nextId ?? '0');
   const sliceEnd = sliceStart + listSize;
 
   const slice = dummyGymsList.slice(sliceStart, sliceEnd);
 
-  console.log(slice);
-
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
         list: slice,
-        nextId: sliceEnd >= dummyGymsList.length - 1 ? undefined : (sliceEnd + 1).toString(),
+        nextId: sliceEnd >= dummyGymsList.length - 1 ? undefined : (sliceEnd).toString(),
       });
     }, 1000);
   });
