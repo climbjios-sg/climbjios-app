@@ -1,3 +1,4 @@
+import { BetaLikesDaoModule } from './../database/daos/betaLikes/betaLikes.dao.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -54,6 +55,7 @@ import { RefreshTokensDaoModule } from '../database/daos/refreshTokens/refreshTo
     PronounsDaoModule,
     UserProfileDaoModule,
     GymGradesDaoModule,
+    BetaLikesDaoModule,
     ColorsDaoModule,
     WallsDaoModule,
     BetasDaoModule,

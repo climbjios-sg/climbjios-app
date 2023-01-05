@@ -1,3 +1,4 @@
+import { BetaLikeModel } from './betaLike.model';
 import { Model } from 'objection';
 import { BaseModel } from './base.model';
 import { ColorModel } from './color.model';
@@ -16,6 +17,8 @@ export class BetaModel extends BaseModel {
   readonly wallId: number;
   readonly cloudflareVideoUid: string;
   readonly count: string;
+  // Represents userIds of users who like this beta
+  readonly userIdsWhoLiked: string[];
 
   thumbnailUrl: string;
 
@@ -63,6 +66,15 @@ export class BetaModel extends BaseModel {
       join: {
         from: 'betas.gymGradeId',
         to: 'gymGrades.id',
+      },
+    },
+    userIdsWhoLiked: {
+      relation: Model.HasManyRelation,
+      modelClass: BetaLikeModel,
+      filter: (query) => query.select('userId'),
+      join: {
+        from: 'betas.id',
+        to: 'betaLikes.betaId',
       },
     },
   });

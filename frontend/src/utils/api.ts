@@ -25,7 +25,10 @@ export const BE_API = {
   },
   betas: {
     root: '/v1/betas',
-    beta: (id: string) => `/v1/betas/${id}`,
+    beta: {
+      root: (id: string) => `/v1/betas/${id}`,
+      like: (id: string) => `/v1/betas/${id}/like`,
+    },
     creator: (creatorId: string) => `/v1/betas/creator/${creatorId}`,
     uploadVideoUrl: '/v1/betas/videoUploadUrl',
   },

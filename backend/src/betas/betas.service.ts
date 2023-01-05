@@ -1,3 +1,4 @@
+import { BetaLikesDaoService } from './../database/daos/betaLikes/betaLikes.dao.service';
 import { BetasDaoService } from './../database/daos/betas/betas.dao.service';
 import { HttpService } from '@nestjs/axios';
 import { HttpException, Injectable } from '@nestjs/common';
@@ -12,6 +13,7 @@ export class BetasService {
     private readonly constantsService: ConstantsService,
     private readonly httpService: HttpService,
     private readonly betaDaoService: BetasDaoService,
+    private readonly betaLikesDaoService: BetaLikesDaoService,
   ) {}
 
   async createBeta(creatorId: string, body: CreateBetaDto) {
@@ -81,6 +83,14 @@ export class BetasService {
     );
 
     return res;
+  }
+
+  async likeBeta(userId: string, betaId: string) {
+    try {
+      return this.betaLikesDaoService.create(betaId, userId);
+    } catch (error) {
+      throw new HttpException('Failed', 500);
+    }
   }
 
   async getVideoUploadUrl() {
