@@ -73,8 +73,6 @@ export default function GrowableScroll<T>({
     loadingMoreComponent: LoadingMoreComponent = Defaults.LoadingMoreComponent,
   } = subComponents ?? {};
   const firstUpdate = useRef(true);
-  const firstFetch = useRef(true);
-
   const [cachedData, setCachedData] = useSessionStorageState<CachedData<T>>(
     `${cacheName}-scrollCache`,
     {
@@ -88,7 +86,6 @@ export default function GrowableScroll<T>({
     loading: fetchLoading,
   } = useRequest(fetchMoreItemsCallback, {
     onSuccess: (data) => {
-      firstFetch.current = false;
       setCachedData({
         list: concat(cachedData.list, data.list),
         nextId: data.nextId,
@@ -98,12 +95,12 @@ export default function GrowableScroll<T>({
     manual: true,
   });
 
+  const firstFetch = cachedData.list.length === 0
   const noMore = cachedData.nextId === undefined;
-  const loading = fetchLoading && firstFetch.current;
-  const loadingMore = fetchLoading && !firstFetch.current;
+  const loading = fetchLoading && firstFetch;
+  const loadingMore = fetchLoading && !firstFetch;
 
   const handleReload = useCallback(() => {
-    firstFetch.current = true;
     setCachedData({
       list: [],
       nextId: undefined,
@@ -111,20 +108,6 @@ export default function GrowableScroll<T>({
     });
     run(undefined);
   }, [setCachedData, run]);
-
-  const handleScroll = (e: MouseEvent) => {
-    console.log(e.screenY);
-    console.log(e.y);
-    console.log(e.pageY);
-    console.log(e.clientY);
-    console.log(e.offsetY);
-    console.log(e.movementY);
-    setCachedData({
-      list: cachedData.list,
-      nextId: cachedData.nextId,
-      scrollY: e.screenY,
-    });
-  };
 
   //custom implementation of auto reload of useInfiniteScroll when reloadDeps changes
   useEffect(() => {
@@ -163,8 +146,6 @@ export default function GrowableScroll<T>({
           next={() => run(cachedData.nextId)}
           hasMore={!noMore}
           loader={null}
-          // Scroll position?
-          onScroll={handleScroll}
           // Pull to refresh props
           pullDownToRefresh
           refreshFunction={handleReload}
