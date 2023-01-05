@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Grid, Box } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useInfiniteScroll, useSessionStorageState } from 'ahooks';
@@ -55,7 +55,10 @@ export default function CustomInfiniteScroll<T>({
 
   renderCounter.current = renderCounter.current + 1;
 
-  console.log('render: ' + renderCounter.current.toString());
+  console.log(
+    '----------------------------------------------------render: ' +
+      renderCounter.current.toString()
+  );
 
   const ref = useRef(null);
   const firstUpdate = useRef(true);
@@ -74,12 +77,21 @@ export default function CustomInfiniteScroll<T>({
   console.log('cached list: ');
   console.log(cachedList.toString());
   console.log('cachedNextId: ');
-  console.log(cachedNextId?.toString());
+  console.log(cachedNextId);
+  // setCachedNextId('asdfasdf')
+  // console.log('cachedNextId: ');
+  // console.log(cachedNextId);
+  // setCachedNextId('ngirnbirjng')
+  // console.log('cachedNextId: ');
+  // console.log(cachedNextId);
+  // setCachedNextId('13451234oy85')
 
   const { data, loading, reload, loadMore, loadingMore, noMore } = useInfiniteScroll(
     (d) => {
       const nId = d ? d.nextId : cachedNextId;
       console.log('run useInfiniteScroll: nId: ' + (nId ? nId.toString() : 'undefined'));
+      console.log('d.nextId: ' + d ? d?.nextId : 'undefined');
+      console.log('cachedNextId: ' + cachedNextId ?? 'undefined');
       if (firstFetch.current) {
         console.log('is firstFetch');
         firstFetch.current = false;
@@ -112,13 +124,29 @@ export default function CustomInfiniteScroll<T>({
         console.log(e);
         setError(e);
       },
-      reloadDeps: [reloadDeps],
+      // reloadDeps: [reloadDeps],
       manual: true,
     }
   );
 
   console.log('data: ');
   console.log(data);
+
+  const handleReload = useCallback(() => {
+    setCachedList([]);
+    setCachedNextId(undefined);
+    console.log('cachedNextId: ' + cachedNextId ?? 'undefined');
+    reload();
+  }, [setCachedList, setCachedNextId, reload]);
+
+  //custom implementation of auto reload of useInfiniteScroll when reloadDeps changes
+  useEffect(() => {
+    //useEffect is always triggered at the start; so use this to prevent triggering reload at the start
+    console.log('CUSTOM RELOAD');
+    if (!firstUpdate.current) {
+      handleReload();
+    }
+  }, [reloadDeps, handleReload]);
 
   useEffect(() => {
     if (data) {
