@@ -51,18 +51,9 @@ export default function CustomInfiniteScroll<T>({
     scrollForMoreComponent: ScrollForMoreComponent = Defaults.ScrollForMoreComponent,
     loadingMoreComponent: LoadingMoreComponent = Defaults.LoadingMoreComponent,
   } = subComponents ?? {};
-  const renderCounter = useRef(0);
-  renderCounter.current = renderCounter.current + 1;
-  console.log(
-    '----------------------------------------------------render: ' +
-      renderCounter.current.toString()
-  );
-
   const ref = useRef(null);
   // const ref = useRef<HTMLDivElement>(null);
   const firstUpdate = useRef(true);
-  const fetchCount = useRef(0);
-  const shouldLoadMoreAgain = useRef(false)
 
   const [shouldReload, setShouldReload] = useState(false);
 
@@ -74,114 +65,21 @@ export default function CustomInfiniteScroll<T>({
     defaultValue: undefined,
   });
 
-  // const sessionStorageGet = (value: string | null) => {
-  //   console.log('value: ');
-  //   console.log(value);
-  //   if (value === 'undefined') {
-  //     return undefined;
-  //   } else if (value) {
-  //     return JSON.parse(value);
-  //   } else {
-  //     return undefined;
-  //   }
-  // };
-
-  // const cachedList = sessionStorageGet(sessionStorage.getItem('test-list'));
-  // const setCachedList = useCallback((list: (T & BasicListItem)[]) => {
-  //   sessionStorage.setItem('test-list', JSON.stringify(list));
-  // }, []);
-  // const cachedNextId = sessionStorageGet(sessionStorage.getItem('test-nextId'));
-  // const setCachedNextId = useCallback((nextId: string | undefined) => {
-  //   sessionStorage.setItem('test-nextId', JSON.stringify(nextId));
-  // }, []);
-
-  console.log('cached list: ');
-  console.log(cachedList.toString());
-  console.log('cachedNextId: ');
-  console.log(cachedNextId);
-
-  const { data, loading, reload, loadMore, loadingMore, noMore } = useInfiniteScroll(
-    (d) => {
-      fetchCount.current = fetchCount.current + 1;
-      const nId = d ? d.nextId : cachedNextId;
-      console.log('run useInfiniteScroll');
-      if (d) {
-        console.log('use nextId from d');
-      } else if (cachedNextId) {
-        console.log('use nextId from cache');
-        console.log('cachedNextId: ' + cachedNextId ?? 'undefined');
-      } else {
-        console.log('use undefined');
-      }
-      // console.log('d.nextId: ' + d ? d?.nextId : 'undefined');
-      // console.log('cachedNextId: ' + cachedNextId ?? 'undefined');
-      console.log('nId: ' + nId ?? 'undefined');
-      //on first fetch, is cachedList is avail, return Promise of cached list so useInfiniteScroll knows of the cached list
-      //since you are scrolling down, and there is a nextId, it will trigger another loadMore
-      if (fetchCount.current === 1) {
-        if (cachedList.length !== 0) {
-          shouldLoadMoreAgain.current = true
-          return new Promise<FetchMoreItemsResult<BasicListItem & T>>((resolve) => {
-            resolve({ list: cachedList, nextId: cachedNextId });
-          });
-        }
-      }
-
-      // if (fetchCount.current === 2) {
-      //   console.log('is second fetch');
-      //   return fetchMoreItemsCallback(nId).then((value) => {
-      //     value.list = concat(cachedList, value.list);
-      //     console.log('full fetch result: ' + value.toString());
-      //     return value;
-      //   });
-      // } else {
-      //   return fetchMoreItemsCallback(nId);
-      // }
-      return fetchMoreItemsCallback(nId);
-    },
+  const { loading, reload, loadMore, loadingMore, noMore } = useInfiniteScroll(
+    (d) => fetchMoreItemsCallback(cachedNextId),
     // (d) => fetchMoreItemsCallback(d?.nextId),
     {
       target: ref,
-      isNoMore: (d) => {
-        console.log('check isNoMore');
-        console.log('d: ');
-        console.log(d);
-        console.log('cachedNextId: ');
-        console.log(cachedNextId);
-        if (fetchCount.current === 0) {
-          if (cachedNextId === undefined) {
-            console.log('isNoMore true');
-            return true;
-          } else {
-            console.log('isNoMore false');
-            return false;
-          }
-        } else if (d?.nextId === undefined) {
-          console.log('isNoMore true');
-          return true;
-        } else {
-          console.log('isNoMore false');
-          return false;
-        }
-      },
+      isNoMore: (d) => cachedNextId === undefined,
       onSuccess: (data) => {
-        console.log('===ON SUCESS===');
-        console.log(data);
         setCachedNextId(data.nextId);
-        if (shouldLoadMoreAgain.current) {
-          shouldLoadMoreAgain.current = false
-          loadMore()
-        } else {
-
         setCachedList(concat(cachedList, data.list));
-        }
       },
       onError: (e) => {
         console.log('error: ');
         console.log(e);
         setError(e);
       },
-      // reloadDeps: [reloadDeps],
       manual: true,
     }
   );
@@ -190,9 +88,6 @@ export default function CustomInfiniteScroll<T>({
     setShouldReload(false);
     reload();
   }
-
-  console.log('data: ');
-  console.log(data);
 
   const handleReload = useCallback(() => {
     console.log('CUSTOM RELOAD');
@@ -215,44 +110,6 @@ export default function CustomInfiniteScroll<T>({
   }, [reloadDeps, handleReload]);
 
   const displayedData = useMemo(() => {
-    console.log('--------useMemo--------');
-    let itemsList: (T & BasicListItem)[] = [];
-    // if (firstUpdate.current) {
-    //   console.log('is firstUpdate')
-    //   firstUpdate.current = false;
-    //   if (cachedList.length === 0) {
-    //     console.log('cachedList empty, call initial load')
-    //     reload();
-    //   } else {
-    //     console.log('cachedList not empty, use it')
-    //     itemsList = cachedList;
-    //   }
-    // } else {
-    //   console.log('not firstUpdate')
-    //   itemsList = data?.list ?? [];
-    //   // setCachedNextId(data?.nextId);
-    // }
-
-    //on first render, check for cached list, if empty, call reload to load new data
-    if (firstUpdate.current) {
-      console.log('is firstUpdate');
-      if (cachedList.length === 0) {
-        console.log('cachedList empty, call initial load');
-        handleReload();
-      } else {
-        console.log('cached list avail, use it');
-        itemsList = cachedList;
-      }
-      //if not first render, don't use cached list
-    } else {
-      itemsList = data ? data.list : [];
-    }
-
-    // itemsList = cachedList
-
-    console.log('itemsList: ');
-    console.log(itemsList);
-
     if (error) {
       return <ErrorComponent />;
     }
@@ -261,7 +118,7 @@ export default function CustomInfiniteScroll<T>({
       return <LoadingComponent />;
     }
 
-    if (itemsList.length === 0) {
+    if (cachedList.length === 0) {
       return (
         <div>
           <button onClick={handleReload}>Load</button>
@@ -284,7 +141,7 @@ export default function CustomInfiniteScroll<T>({
             // Note: We are using this component just for pull-to-refresh
             // No pagination is implemented
             // Pagination related props are stubs
-            dataLength={itemsList.length}
+            dataLength={cachedList.length}
             next={loadMore}
             hasMore={!noMore}
             loader={null}
@@ -302,7 +159,7 @@ export default function CustomInfiniteScroll<T>({
             }
             scrollableTarget="root"
           >
-            {itemsList.map((data) => (
+            {cachedList.map((data) => (
               <Box key={data.id} sx={{ width: '100%', mt: 2, mb: 2 }}>
                 {/* ListItemComponent({itemData}) */}
                 <ListItemComponent data={data} />
@@ -315,9 +172,7 @@ export default function CustomInfiniteScroll<T>({
       </div>
     );
   }, [
-    // itemsList,
     cachedList,
-    data,
     error,
     loading,
     loadingMore,
