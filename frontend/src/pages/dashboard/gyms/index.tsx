@@ -29,7 +29,7 @@ export default function Gyms() {
         </Paper>
       </FloatingContainer>
       <Box sx={{ height: 60 }} />
-      <GymCardsList searchString={searchString}/>
+      <GymCardsList searchString={searchString} />
     </Box>
   );
 }
