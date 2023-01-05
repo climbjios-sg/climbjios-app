@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Grid, Box } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
+// import { useInfiniteScroll } from 'ahooks';
 import { useInfiniteScroll, useSessionStorageState } from 'ahooks';
 
 import InfiniteScrollHelper from 'src/components/InfiniteScrollHelper';
@@ -50,21 +51,20 @@ export default function CustomInfiniteScroll<T>({
     scrollForMoreComponent: ScrollForMoreComponent = Defaults.ScrollForMoreComponent,
     loadingMoreComponent: LoadingMoreComponent = Defaults.LoadingMoreComponent,
   } = subComponents ?? {};
-
   const renderCounter = useRef(0);
-
   renderCounter.current = renderCounter.current + 1;
-
   console.log(
     '----------------------------------------------------render: ' +
       renderCounter.current.toString()
   );
 
   const ref = useRef(null);
-  const firstUpdate = useRef(true);
-  const firstFetch = useRef(true);
-
   // const ref = useRef<HTMLDivElement>(null);
+  const firstUpdate = useRef(true);
+  const fetchCount = useRef(0);
+  const shouldLoadMoreAgain = useRef(false)
+
+  const [shouldReload, setShouldReload] = useState(false);
 
   const [error, setError] = useState<Error | undefined>(undefined);
   const [cachedList, setCachedList] = useSessionStorageState<(T & BasicListItem)[]>('test-list', {
@@ -74,39 +74,70 @@ export default function CustomInfiniteScroll<T>({
     defaultValue: undefined,
   });
 
+  // const sessionStorageGet = (value: string | null) => {
+  //   console.log('value: ');
+  //   console.log(value);
+  //   if (value === 'undefined') {
+  //     return undefined;
+  //   } else if (value) {
+  //     return JSON.parse(value);
+  //   } else {
+  //     return undefined;
+  //   }
+  // };
+
+  // const cachedList = sessionStorageGet(sessionStorage.getItem('test-list'));
+  // const setCachedList = useCallback((list: (T & BasicListItem)[]) => {
+  //   sessionStorage.setItem('test-list', JSON.stringify(list));
+  // }, []);
+  // const cachedNextId = sessionStorageGet(sessionStorage.getItem('test-nextId'));
+  // const setCachedNextId = useCallback((nextId: string | undefined) => {
+  //   sessionStorage.setItem('test-nextId', JSON.stringify(nextId));
+  // }, []);
+
   console.log('cached list: ');
   console.log(cachedList.toString());
   console.log('cachedNextId: ');
   console.log(cachedNextId);
-  // setCachedNextId('asdfasdf')
-  // console.log('cachedNextId: ');
-  // console.log(cachedNextId);
-  // setCachedNextId('ngirnbirjng')
-  // console.log('cachedNextId: ');
-  // console.log(cachedNextId);
-  // setCachedNextId('13451234oy85')
 
   const { data, loading, reload, loadMore, loadingMore, noMore } = useInfiniteScroll(
     (d) => {
+      fetchCount.current = fetchCount.current + 1;
       const nId = d ? d.nextId : cachedNextId;
-      console.log('run useInfiniteScroll: nId: ' + (nId ? nId.toString() : 'undefined'));
-      console.log('d.nextId: ' + d ? d?.nextId : 'undefined');
-      console.log('cachedNextId: ' + cachedNextId ?? 'undefined');
-      if (firstFetch.current) {
-        console.log('is firstFetch');
-        firstFetch.current = false;
-        return fetchMoreItemsCallback(nId).then((value) => {
-          setCachedNextId(value.nextId);
-          value.list = concat(cachedList, value.list);
-          console.log('full fetch result: ' + value.toString());
-          return value;
-        });
+      console.log('run useInfiniteScroll');
+      if (d) {
+        console.log('use nextId from d');
+      } else if (cachedNextId) {
+        console.log('use nextId from cache');
+        console.log('cachedNextId: ' + cachedNextId ?? 'undefined');
       } else {
-        return fetchMoreItemsCallback(nId).then((value) => {
-          setCachedNextId(value.nextId);
-          return value;
-        });
+        console.log('use undefined');
       }
+      // console.log('d.nextId: ' + d ? d?.nextId : 'undefined');
+      // console.log('cachedNextId: ' + cachedNextId ?? 'undefined');
+      console.log('nId: ' + nId ?? 'undefined');
+      //on first fetch, is cachedList is avail, return Promise of cached list so useInfiniteScroll knows of the cached list
+      //since you are scrolling down, and there is a nextId, it will trigger another loadMore
+      if (fetchCount.current === 1) {
+        if (cachedList.length !== 0) {
+          shouldLoadMoreAgain.current = true
+          return new Promise<FetchMoreItemsResult<BasicListItem & T>>((resolve) => {
+            resolve({ list: cachedList, nextId: cachedNextId });
+          });
+        }
+      }
+
+      // if (fetchCount.current === 2) {
+      //   console.log('is second fetch');
+      //   return fetchMoreItemsCallback(nId).then((value) => {
+      //     value.list = concat(cachedList, value.list);
+      //     console.log('full fetch result: ' + value.toString());
+      //     return value;
+      //   });
+      // } else {
+      //   return fetchMoreItemsCallback(nId);
+      // }
+      return fetchMoreItemsCallback(nId);
     },
     // (d) => fetchMoreItemsCallback(d?.nextId),
     {
@@ -117,7 +148,33 @@ export default function CustomInfiniteScroll<T>({
         console.log(d);
         console.log('cachedNextId: ');
         console.log(cachedNextId);
-        return d?.nextId === undefined && cachedNextId === undefined;
+        if (fetchCount.current === 0) {
+          if (cachedNextId === undefined) {
+            console.log('isNoMore true');
+            return true;
+          } else {
+            console.log('isNoMore false');
+            return false;
+          }
+        } else if (d?.nextId === undefined) {
+          console.log('isNoMore true');
+          return true;
+        } else {
+          console.log('isNoMore false');
+          return false;
+        }
+      },
+      onSuccess: (data) => {
+        console.log('===ON SUCESS===');
+        console.log(data);
+        setCachedNextId(data.nextId);
+        if (shouldLoadMoreAgain.current) {
+          shouldLoadMoreAgain.current = false
+          loadMore()
+        } else {
+
+        setCachedList(concat(cachedList, data.list));
+        }
       },
       onError: (e) => {
         console.log('error: ');
@@ -129,39 +186,33 @@ export default function CustomInfiniteScroll<T>({
     }
   );
 
+  if (shouldReload) {
+    setShouldReload(false);
+    reload();
+  }
+
   console.log('data: ');
   console.log(data);
 
   const handleReload = useCallback(() => {
+    console.log('CUSTOM RELOAD');
     setCachedList([]);
     setCachedNextId(undefined);
-    console.log('cachedNextId: ' + cachedNextId ?? 'undefined');
-    reload();
-  }, [setCachedList, setCachedNextId, reload]);
+    // console.log('cachedNextId: ' + cachedNextId ?? 'undefined');
+    setShouldReload(true);
+    // reload();
+  }, [setCachedList, setCachedNextId]);
 
   //custom implementation of auto reload of useInfiniteScroll when reloadDeps changes
   useEffect(() => {
     //useEffect is always triggered at the start; so use this to prevent triggering reload at the start
-    console.log('CUSTOM RELOAD');
     if (!firstUpdate.current) {
+      console.log('AUTO CUSTOM RELOAD');
       handleReload();
+    } else {
+      firstUpdate.current = false;
     }
   }, [reloadDeps, handleReload]);
-
-  useEffect(() => {
-    if (data) {
-      setCachedNextId(data?.nextId);
-      // console.log('itemsList: ' + itemsList.toString());
-
-      setCachedList(data ? data.list : []);
-
-      console.log('-setCachedList-');
-      console.log('data: ');
-      console.log(data);
-    }
-    // console.log('cachedList: ')
-    // console.log(cachedList)
-  }, [data, setCachedList, setCachedNextId]);
 
   const displayedData = useMemo(() => {
     console.log('--------useMemo--------');
@@ -182,22 +233,22 @@ export default function CustomInfiniteScroll<T>({
     //   // setCachedNextId(data?.nextId);
     // }
 
+    //on first render, check for cached list, if empty, call reload to load new data
     if (firstUpdate.current) {
       console.log('is firstUpdate');
-      firstUpdate.current = false;
       if (cachedList.length === 0) {
         console.log('cachedList empty, call initial load');
-        reload();
+        handleReload();
+      } else {
+        console.log('cached list avail, use it');
+        itemsList = cachedList;
       }
-    }
-
-    if (cachedList.length > 0) {
-      console.log('cached list avail, use it');
-      itemsList = cachedList;
+      //if not first render, don't use cached list
     } else {
-      console.log('no cached list, use data');
       itemsList = data ? data.list : [];
     }
+
+    // itemsList = cachedList
 
     console.log('itemsList: ');
     console.log(itemsList);
@@ -213,7 +264,7 @@ export default function CustomInfiniteScroll<T>({
     if (itemsList.length === 0) {
       return (
         <div>
-          <button onClick={reload}>Load</button>
+          <button onClick={handleReload}>Load</button>
           <NoContentComponent />
         </div>
       );
@@ -239,7 +290,7 @@ export default function CustomInfiniteScroll<T>({
             loader={null}
             // Pull to refresh props
             pullDownToRefresh
-            refreshFunction={reload}
+            refreshFunction={handleReload}
             pullDownToRefreshThreshold={50}
             pullDownToRefreshContent={
               <InfiniteScrollHelper sx={{ mb: 2 }}>
@@ -272,7 +323,7 @@ export default function CustomInfiniteScroll<T>({
     loadingMore,
     noMore,
     loadMore,
-    reload,
+    handleReload,
     ErrorComponent,
     ListItemComponent,
     LoadingComponent,
@@ -284,14 +335,8 @@ export default function CustomInfiniteScroll<T>({
 
   return (
     <Grid container>
-      <button
-        onClick={() => {
-          setCachedList([]);
-          setCachedNextId(undefined);
-        }}
-      >
-        clear cache
-      </button>
+      <button onClick={handleReload}>clear cache</button>
+      <p>{cachedNextId}</p>
       {displayedData}
     </Grid>
   );
