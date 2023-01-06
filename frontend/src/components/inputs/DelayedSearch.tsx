@@ -10,7 +10,7 @@ type DelayedSearchProps = {
   TextFieldProps;
 
 export default function DelayedSearch({
-  initialValue='',
+  initialValue = '',
   setSearchString,
   delay = 750,
   ...others
@@ -37,7 +37,12 @@ export default function DelayedSearch({
     }, delay);
   }
 
+  function handleOnClear() {
+    setInputValue('')
+    setSearchString('')
+  }
+
   return (
-    <TextInput icon="ic:outline-search" value={inputValue} onChange={handleOnChange} {...others} />
+    <TextInput icon="ic:outline-search" value={inputValue} onChange={handleOnChange} onClear={handleOnClear} {...others} />
   );
 }
