@@ -157,12 +157,12 @@ export default function GrowableScroll<T>({
   ) : (
     <div style={{ overflow: 'visible', height: 600, width: '100%' }}>
       <FloatingContainer>
-        <button onClick={() => document.getElementById('root')?.scrollTo(0, 400)}>{a}</button>
+        {/* <button onClick={() => document.getElementById('root')?.scrollTo(0, 400)}>{a}</button>
         <button onClick={() => {setCachedData({
           list: [],
           nextId: undefined,
           scrollY: undefined
-        })}}>clear</button>
+        })}}>clear</button> */}
       </FloatingContainer>
       <Box
         sx={{
