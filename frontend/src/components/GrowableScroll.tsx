@@ -6,7 +6,6 @@ import { useRequest, useSessionStorageState } from 'ahooks';
 import InfiniteScrollHelper from 'src/components/InfiniteScrollHelper';
 import * as Defaults from './GrowableScrollDefaults';
 import { concat } from 'lodash';
-import FloatingContainer from './FloatingContainer';
 
 interface CachedData<T> {
   list: (BasicListItem & T)[];
@@ -116,7 +115,7 @@ export default function GrowableScroll<T>({
         document.getElementById('root')?.scrollTo(0, cachedData.scrollY ?? 0);
       }
     }
-  }, [handleReload, cachedData]);
+  }, [handleReload, cachedData, clearItems]);
 
   //custom implementation of auto reload of useInfiniteScroll when reloadDeps changes
   useEffect(() => {
