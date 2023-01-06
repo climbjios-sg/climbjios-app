@@ -52,9 +52,9 @@ export interface SubComponentProps {
  * Create a scrollable list that can continuously retrieve data from the callback provided
  * @param {any} reloadDeps i don't actually really know how to do this dynamically but
 maybe put all dependencies like seach params into an object and pass it as this prop
-* @param {boolean} clearItems defaults to true. Pass false to prevent reloading of
+ * @param {boolean} clearItems defaults to true. Pass false to prevent reloading of
 items whenever this component is rebuilt, as well as retaining scroll position
-* @param {string} cacheName is still necessary as the data is stored in a session cache even
+ * @param {string} cacheName is still necessary as the data is stored in a session cache even
 if it is cleared upon re-render
  */
 export default function GrowableScroll<T>({
