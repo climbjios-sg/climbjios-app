@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { Grid, Box } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useRequest, useSessionStorageState } from 'ahooks';
@@ -87,9 +87,9 @@ export default function GrowableScroll<T>({
   } = useRequest(fetchMoreItemsCallback, {
     onSuccess: (data) => {
       setCachedData({
+        ...cachedData,
         list: concat(cachedData.list, data.list),
         nextId: data.nextId,
-        scrollY: cachedData.scrollY,
       });
     },
     manual: true,
@@ -103,47 +103,31 @@ export default function GrowableScroll<T>({
   const handleReload = useCallback(() => {
     setCachedData({
       list: [],
-      nextId: undefined,
-      scrollY: undefined,
     });
     run(undefined);
   }, [setCachedData, run]);
 
   //call reload to load data on the very first run
-  useEffect(()=>{
-    if (firstUpdate.current && cachedData.list.length === 0) {
-      handleReload();
+  useEffect(() => {
+    if (firstUpdate.current) {
+      if (cachedData.list.length === 0) {
+        handleReload();
+      } else if (!clearItems) {
+        document.getElementById('root')?.scrollTo(0, cachedData.scrollY ?? 0);
+      }
     }
-  }, [handleReload, cachedData.list.length])
+  }, [handleReload, cachedData]);
 
   //custom implementation of auto reload of useInfiniteScroll when reloadDeps changes
   useEffect(() => {
     //useEffect is always triggered at the start; so use this to prevent triggering reload at the start
     if (!firstUpdate.current || clearItems) {
       handleReload();
-    } else {
+    }
+    if (firstUpdate.current) {
       firstUpdate.current = false;
     }
   }, [reloadDeps, handleReload, clearItems]);
-
-  const [a, setA] = useState(0);
-
-  const listenToScroll = () => {
-    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-
-    console.log(document.body.scrollTop || document.documentElement.scrollTop);
-
-    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-
-    const scrolled = winScroll / height;
-
-    setA(scrolled);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', listenToScroll, { passive: true });
-    return () => window.removeEventListener('scroll', listenToScroll);
-  }, []);
 
   //removed useMemo as it was causing a whole multiverse of typing errors
   //of which attempts to solve just led me in an infinite rabbit hole of
@@ -156,14 +140,6 @@ export default function GrowableScroll<T>({
     NoContentComponent
   ) : (
     <div style={{ overflow: 'visible', height: 600, width: '100%' }}>
-      <FloatingContainer>
-        {/* <button onClick={() => document.getElementById('root')?.scrollTo(0, 400)}>{a}</button>
-        <button onClick={() => {setCachedData({
-          list: [],
-          nextId: undefined,
-          scrollY: undefined
-        })}}>clear</button> */}
-      </FloatingContainer>
       <Box
         sx={{
           width: '100%',
@@ -177,8 +153,13 @@ export default function GrowableScroll<T>({
           next={() => run(cachedData.nextId)}
           hasMore={!noMore}
           loader={null}
-          //
-          onScroll={() => console.log(window.scrollY)}
+          // Remembering scroll position
+          onScroll={() =>
+            setCachedData({
+              ...cachedData,
+              scrollY: document.getElementById('root')?.scrollTop,
+            })
+          }
           // Pull to refresh props
           pullDownToRefresh
           refreshFunction={handleReload}
