@@ -33,6 +33,7 @@ export default function GymsCardList({ searchString }: { searchString: string })
     <GrowableScroll
       fetchMoreItemsCallback={moreItems}
       cacheName='GymCards'
+      clearItems={false}
       reloadDeps={searchString}
       listItemComponent={GymCard}
       subComponents={{

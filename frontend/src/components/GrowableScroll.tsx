@@ -53,7 +53,7 @@ export interface SubComponentProps {
  * @param {any} reloadDeps i don't actually really know how to do this dynamically but
 maybe put all dependencies like seach params into an object and pass it as this prop
 * @param {boolean} clearItems defaults to true. Pass false to prevent reloading of
-items whenever this component is rebuilt (TODO: retain scroll position as well)
+items whenever this component is rebuilt, as well as retaining scroll position
  */
 export default function GrowableScroll<T>({
   fetchMoreItemsCallback,
