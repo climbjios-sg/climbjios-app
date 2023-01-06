@@ -54,6 +54,8 @@ export interface SubComponentProps {
 maybe put all dependencies like seach params into an object and pass it as this prop
 * @param {boolean} clearItems defaults to true. Pass false to prevent reloading of
 items whenever this component is rebuilt, as well as retaining scroll position
+* @param {string} cacheName is still necessary as the data is stored in a session cache even
+if it is cleared upon re-render
  */
 export default function GrowableScroll<T>({
   fetchMoreItemsCallback,
