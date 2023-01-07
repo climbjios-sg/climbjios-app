@@ -102,6 +102,7 @@ export default function EditProfileForm() {
 
   const methods = useForm<EditProfileFormValues>({
     resolver: yupResolver(UserSchema),
+    mode: "onChange",
     defaultValues,
   });
 
