@@ -247,8 +247,13 @@ export default function Onboarding() {
     setActiveStep((currentStep) => currentStep - 1);
   };
 
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleClickDoneButton();
+  };
+
   return (
-    <FormProvider methods={methods}>
+    <FormProvider onSubmit={handleOnSubmit} methods={methods}>
       <Page title="Onboarding: Fill in your details">
         <Container maxWidth="sm" sx={{ my: 3 }}>
           <Stack spacing={1.5} justifyContent="center" alignItems="center">
@@ -272,12 +277,12 @@ export default function Onboarding() {
                   </Typography>
                 )}
                 <Button
+                  type="submit"
                   size="large"
                   variant="contained"
                   color="primary"
                   fullWidth
                   disableElevation
-                  onClick={handleClickDoneButton}
                   disabled={loadingSubmit}
                 >
                   <Typography variant="button">
