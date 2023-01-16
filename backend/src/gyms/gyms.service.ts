@@ -1,12 +1,14 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { GymsDaoService } from '../database/daos/gyms/gyms.dao.service';
 import { GymGradesDaoService } from '../database/daos/gymGrades/gymGrades.dao.service';
+import { GymsSearchDaoService } from 'src/database/daos/gymsSearch/gymsSearch.dao.service';
 
 @Injectable()
 export class GymsService {
   constructor(
     private readonly gymsDaoService: GymsDaoService,
     private readonly gymGradesDaoService: GymGradesDaoService,
+    private readonly gymsSearchDaoService: GymsSearchDaoService,
   ) {}
 
   getAll() {
@@ -19,5 +21,9 @@ export class GymsService {
       throw new HttpException('Invalid gym id!', 400);
     }
     return this.gymGradesDaoService.findByGymId(gymId);
+  }
+
+  searchGyms(substring: string) {
+    return this.gymsSearchDaoService.searchGyms(substring);
   }
 }

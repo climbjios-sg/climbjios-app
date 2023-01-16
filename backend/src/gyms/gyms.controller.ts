@@ -14,4 +14,9 @@ export class GymsController {
   getGrades(@Param('id') id: number) {
     return this.gymsService.getGrades(id);
   }
+
+  @Get('search/:substring')
+  searchGyms(@Param('substring') substring: string) {
+    return this.gymsService.searchGyms(substring);
+  }
 }

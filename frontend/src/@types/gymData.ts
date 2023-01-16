@@ -1,10 +1,6 @@
-import { Model } from 'objection';
-import { BaseModel } from './base.model';
-import { GymGroupModel } from './gymGroup.model';
+import { OptionResponse } from '.';
 
-export class GymModel extends BaseModel {
-  static tableName = 'gyms';
-
+export interface GymData extends OptionResponse {
   readonly name: string;
   readonly shortName: string;
   readonly permanentlyClosed: boolean;
@@ -31,16 +27,8 @@ export class GymModel extends BaseModel {
   readonly saturdayClosing: string;
   readonly sundayOpening: string;
   readonly sundayClosing: string;
-
-  static relationMappings = () => ({
-    gymGroup: {
-      relation: Model.BelongsToOneRelation,
-      modelClass: GymGroupModel,
-      filter: (query) => query.select('*'),
-      join: {
-        from: 'gym_groups.id',
-        to: 'gyms.gymGroupId',
-      },
-    },
-  });
 }
+
+export type GymDataRequest = Partial<GymData>;
+
+export type GymDataResponse = GymData;
