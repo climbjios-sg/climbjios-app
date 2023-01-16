@@ -82,6 +82,15 @@
         "mentoring",
         "example"
       ]
+    },
+    {
+      "login": "nathantew14",
+      "name": "nathantew14",
+      "avatar_url": "https://avatars.githubusercontent.com/u/40333518?v=4",
+      "profile": "https://github.com/nathantew14",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
