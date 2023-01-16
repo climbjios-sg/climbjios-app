@@ -1,7 +1,7 @@
 # ClimbJios
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Hello folks! Welcome to the ClimbJios repo. We are the largest community for climbing in Singapore (and hopefully beyond!).
@@ -55,6 +55,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/CrownKira"><img src="https://avatars.githubusercontent.com/u/24221801?v=4?s=100" width="100px;" alt="KarWi"/><br /><sub><b>KarWi</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=CrownKira" title="Code">💻</a> <a href="#design-CrownKira" title="Design">🎨</a> <a href="https://github.com/climbjios-sg/climbjios-app/issues?q=author%3ACrownKira" title="Bug reports">🐛</a> <a href="https://github.com/climbjios-sg/climbjios-app/pulls?q=is%3Apr+reviewed-by%3ACrownKira" title="Reviewed Pull Requests">👀</a> <a href="#ideas-CrownKira" title="Ideas, Planning, & Feedback">🤔</a> <a href="#tool-CrownKira" title="Tools">🔧</a> <a href="#mentoring-CrownKira" title="Mentoring">🧑‍🏫</a> <a href="#example-CrownKira" title="Examples">💡</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://lczm.github.io"><img src="https://avatars.githubusercontent.com/u/39303703?v=4?s=100" width="100px;" alt="zooming"/><br /><sub><b>zooming</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=lczm" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/nathantew14"><img src="https://avatars.githubusercontent.com/u/40333518?v=4?s=100" width="100px;" alt="nathantew14"/><br /><sub><b>nathantew14</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=nathantew14" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/hongshaoyang"><img src="https://avatars.githubusercontent.com/u/19281800?v=4?s=100" width="100px;" alt="Shao Yang Hong"/><br /><sub><b>Shao Yang Hong</b></sub></a><br /><a href="https://github.com/climbjios-sg/climbjios-app/commits?author=hongshaoyang" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
