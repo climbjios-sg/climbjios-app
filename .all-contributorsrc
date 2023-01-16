@@ -82,6 +82,15 @@
         "mentoring",
         "example"
       ]
+    },
+    {
+      "login": "lczm",
+      "name": "zooming",
+      "avatar_url": "https://avatars.githubusercontent.com/u/39303703?v=4",
+      "profile": "http://lczm.github.io",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
