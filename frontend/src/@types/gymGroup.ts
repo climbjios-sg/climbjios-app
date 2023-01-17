@@ -1,12 +1,12 @@
 import { OptionResponse } from '.';
-import { GymData } from './gymData';
+import { GymPreviewData } from './gymData';
 
 export interface GymGroup extends OptionResponse {
+  id: number;
   name: string;
+  iconUrl?: string;
   permanentlyClosed: boolean;
-  outlets: GymData[]
+  gymOutlets: GymPreviewData[]
 }
-
-export type GymGroupRequest = Partial<GymGroup>;
 
 export type GymsSearchResponse = GymGroup[];

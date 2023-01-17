@@ -93,6 +93,10 @@ export default function GrowableScroll<T>({
         nextId: data.nextId,
       });
     },
+    onError(e, params) {
+      console.log('ERROR CAUGHT')
+      console.log(e)
+    },
     manual: true,
   });
 
@@ -132,7 +136,7 @@ export default function GrowableScroll<T>({
 
   //removed useMemo as it was causing a whole multiverse of typing errors
   //of which attempts to solve just led me in an infinite rabbit hole of
-  //re-visiting the same stackoverflow threads and repeadtedly changing the code
+  //re-visiting the same stackoverflow threads and repeatedly changing the code
   const DisplayedData: JSX.Element = error ? (
     ErrorComponent
   ) : loading ? (
@@ -140,53 +144,61 @@ export default function GrowableScroll<T>({
   ) : cachedData.list.length === 0 ? (
     NoContentComponent
   ) : (
-    <div style={{ overflow: 'visible', height: 600, width: '100%' }}>
-      <Box
-        sx={{
-          width: '100%',
-          '& infinite-scroll-component__outerdiv': {
-            width: '100%',
-          },
-        }}
-      >
-        <InfiniteScroll
-          dataLength={cachedData.list.length}
-          next={() => run(cachedData.nextId)}
-          hasMore={!noMore}
-          loader={null}
-          // Remembering scroll position
-          onScroll={() =>
-            setCachedData({
-              ...cachedData,
-              scrollY: document.getElementById('root')?.scrollTop,
-            })
-          }
-          // Pull to refresh props
-          pullDownToRefresh
-          refreshFunction={handleReload}
-          pullDownToRefreshThreshold={50}
-          pullDownToRefreshContent={
-            <InfiniteScrollHelper sx={{ mb: 2 }}>&#8595; Pull down to refresh</InfiniteScrollHelper>
-          }
-          releaseToRefreshContent={
-            <InfiniteScrollHelper sx={{ mb: 2 }}>&#8593; Release to refresh</InfiniteScrollHelper>
-          }
-          scrollableTarget="root"
-        >
-          {cachedData.list.map((data) => (
-            <Box key={data.id} sx={{ width: '100%', mt: 2, mb: 2 }}>
-              {ListItemComponent({ data })}
-              {/* <ListItemComponent data={data} /> */}
-            </Box>
-          ))}
-        </InfiniteScroll>
-        {!noMore && (loadingMore ? LoadingMoreComponent : ScrollForMoreComponent)}
-        {noMore && NoMoreComponent}
-      </Box>
+    <div>
+      {cachedData.list.map((data) => (
+        <Box key={data.id} sx={{ width: '100%', mt: 2, mb: 2 }}>
+          {ListItemComponent({ data })}
+          {/* <ListItemComponent data={data} /> */}
+        </Box>
+      ))}
     </div>
   );
 
   //https://stackoverflow.com/a/72399362/7577786 can use '!!' for some error when
   //using useMemo but you end up with other erros along the way...
-  return <Grid container>{DisplayedData}</Grid>;
+  return (
+    <Grid container>
+      <div style={{ overflow: 'visible', height: 600, width: '100%' }}>
+        <Box
+          sx={{
+            width: '100%',
+            '& infinite-scroll-component__outerdiv': {
+              width: '100%',
+            },
+          }}
+        >
+          <InfiniteScroll
+            dataLength={cachedData.list.length}
+            next={() => run(cachedData.nextId)}
+            hasMore={!noMore}
+            loader={null}
+            // Remembering scroll position
+            onScroll={() =>
+              setCachedData({
+                ...cachedData,
+                scrollY: document.getElementById('root')?.scrollTop,
+              })
+            }
+            // Pull to refresh props
+            pullDownToRefresh
+            refreshFunction={handleReload}
+            pullDownToRefreshThreshold={50}
+            pullDownToRefreshContent={
+              <InfiniteScrollHelper sx={{ mb: 2 }}>
+                &#8595; Pull down to refresh
+              </InfiniteScrollHelper>
+            }
+            releaseToRefreshContent={
+              <InfiniteScrollHelper sx={{ mb: 2 }}>&#8593; Release to refresh</InfiniteScrollHelper>
+            }
+            scrollableTarget="root"
+          >
+            {DisplayedData}
+          </InfiniteScroll>
+          {!noMore && (loadingMore ? LoadingMoreComponent : ScrollForMoreComponent)}
+          {noMore && NoMoreComponent}
+        </Box>
+      </div>
+    </Grid>
+  );
 }

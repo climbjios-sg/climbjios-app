@@ -9,7 +9,7 @@ export async function up(knex: Knex): Promise<void> {
         .references('id')
         .inTable('gym_groups')
         .defaultTo(1);
-      table.string('iconURL');
+      table.string('iconUrl');
       table.string('address');
       table.string('area');
       table.string('passSharing');
@@ -547,7 +547,7 @@ export async function up(knex: Knex): Promise<void> {
 export async function down(knex: Knex): Promise<void> {
   return knex.schema.table('gyms', (table) => {
     table.dropColumn('gymGroupID');
-    table.dropColumn('iconURL');
+    table.dropColumn('iconUrl');
     table.dropColumn('address');
     table.dropColumn('area');
     table.dropColumn('passSharing');

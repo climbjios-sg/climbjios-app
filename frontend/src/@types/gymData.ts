@@ -1,11 +1,12 @@
-import { OptionResponse } from '.';
+// import { OptionResponse } from '.';
 
-export interface GymData extends OptionResponse {
+export interface GymData {
+  readonly id: number;
   readonly name: string;
   readonly shortName: string;
   readonly permanentlyClosed: boolean;
   readonly gymGroupId: number;
-  readonly iconURL: string;
+  readonly iconUrl?: string;
   readonly address: string;
   readonly area: string;
   readonly passSharing: string;
@@ -29,6 +30,4 @@ export interface GymData extends OptionResponse {
   readonly sundayClosing: string;
 }
 
-export type GymDataRequest = Partial<GymData>;
-
-export type GymDataResponse = GymData;
+export type GymPreviewData = Pick<GymData, 'id' | 'name' | 'permanentlyClosed' | 'address' | 'iconUrl'>;
