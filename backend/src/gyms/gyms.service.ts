@@ -1,6 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { GymsDaoService } from '../database/daos/gyms/gyms.dao.service';
 import { GymGradesDaoService } from '../database/daos/gymGrades/gymGrades.dao.service';
+// idk why this keeps being automatically changed to an absolute import
 import { GymsSearchDaoService } from 'src/database/daos/gymsSearch/gymsSearch.dao.service';
 
 @Injectable()
