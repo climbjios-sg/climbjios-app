@@ -7,4 +7,5 @@ export const getGymGrades = (id: string) => authorizedAxios.get<GymGrade[]>(BE_A
 
 export const getGymList = () => authorizedAxios.get<GymResponse[]>(BE_API.gyms.root);
 
-export const searchGyms = () => authorizedAxios.get<GymsSearchResponse>(BE_API.gyms.search);
+export const searchGyms = (substring?: string) =>
+  authorizedAxios.get<GymsSearchResponse>(BE_API.gyms.search(substring));

@@ -30,4 +30,4 @@ export interface GymData {
   readonly sundayClosing: string;
 }
 
-export type GymPreviewData = Pick<GymData, 'id' | 'name' | 'permanentlyClosed' | 'address' | 'iconUrl'>;
+export type GymPreviewData = Pick<GymData, 'id' | 'name' | 'permanentlyClosed' | 'address' | 'area' | 'iconUrl'>;

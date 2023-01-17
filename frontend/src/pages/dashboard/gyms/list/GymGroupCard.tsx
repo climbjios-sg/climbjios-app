@@ -52,6 +52,7 @@ export default function GymGroupCard({ data: itemData }: GymGroupCardProps) {
                 >
                   {gymOutlet.address}
                 </Link>
+                <Typography variant="body2">{gymOutlet.area ? `(${gymOutlet.area})` : '' }</Typography>
               </Stack>
             </Stack>
           </Box>

@@ -21,16 +21,80 @@ export class GymsSearchDaoService {
   // }
 
   async searchGyms(substring?: string) {
+    // const tmp = await this.gymModel
+    //   .query()
+    //   .where('address', 'ilike', `%${substring}%`)
+    //   .orWhere('name', 'ilike', `%${substring}%`);
+    // console.log(tmp.length);
+
     const gymGroups = await this.gymGroupModel
       .query()
+      .modify((qb) => {
+        if (substring) {
+          qb.whereExists(
+            this.gymGroupModel
+              .relatedQuery('gymOutlets')
+              .where('name', 'ilike', `%${substring}%`),
+          ).orWhereExists(
+            this.gymGroupModel
+              .relatedQuery('gymOutlets')
+              .where('address', 'ilike', `%${substring}%`),
+          ).orWhereExists(
+            this.gymGroupModel
+              .relatedQuery('gymOutlets')
+              .where('area', 'ilike', `%${substring}%`),
+          );
+          // qb.whereExists(
+          //   this.gymModel
+          //     .relatedQuery('gymOutlets')
+          //     .where('address', 'ilike', `%${substring}%`)
+          //     .orWhere('name', 'ilike', `%${substring}%`),
+          // );
+        }
+      })
       .orderBy('name', 'ASC');
+
+    // await this.gymGroupModel
+    //   .query()
+    //   .whereExists(
+    //     this.gymGroupModel
+    //       .relatedQuery('gymOutlets')
+    //       .where('name', 'ilike', `%${substring}%`),
+    //   )
+    //   .orWhereExists(
+    //     this.gymGroupModel
+    //       .relatedQuery('gymOutlets')
+    //       .where('address', 'ilike', `%${substring}%`),
+    //   )
+    //   .orderBy('name', 'ASC');
+
+    // await this.gymGroupModel
+    //   .query()
+    //   .whereExists(
+    //     this.gymGroupModel
+    //       .relatedQuery('gymOutlets')
+    //       .where('address', 'ilike', `%${substring}%`)
+    //       .orWhere('name', 'ilike', `%${substring}%`),
+    //   )
+    //   .orderBy('name', 'ASC');
+
     return await Promise.all(
       gymGroups.map(async (gymGroup) => ({
         ...gymGroup,
         gymOutlets: await this.gymModel
           .query()
-          .select('id', 'name', 'permanentlyClosed', 'iconUrl', 'address')
-          .where('gymGroupId', '=', gymGroup.id),
+          .select('id', 'name', 'permanentlyClosed', 'iconUrl', 'address', 'area')
+          .where('gymGroupId', '=', gymGroup.id)
+          // .modify((qb) => {
+          //   if (substring) {
+          //     qb.where((builder) => {
+          //       builder
+          //         .where('name', 'ilike', `%${substring}%`)
+          //         .orWhere('address', 'ilike', `%${substring}%`)
+          //         .orWhere('area', 'ilike', `%${substring}%`);
+          //     });
+          //   }
+          // }),
       })),
     );
   }
