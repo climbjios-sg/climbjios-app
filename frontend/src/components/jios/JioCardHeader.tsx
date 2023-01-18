@@ -23,35 +23,35 @@ export default function JioCardHeader({
         component: Link,
         ...makeUserProfileLinkProps({ user: data.creatorProfile }),
       };
-
+  console.log(data)
   return (
     <CardHeader
       avatar={
-        <div className='jio-card-avatar'>
-        <Stack
-          sx={{
-            textDecoration: 'none',
-            color: 'inherit',
-          }}
-          spacing={1}
-          direction="row"
-          alignItems="center"
-          {...linkProps}
-        >
-          <NameAvatar
-            name={data.creatorProfile.telegramHandle}
-            src={data.creatorProfile.profilePictureUrl || undefined}
+        <div className="jio-card-avatar">
+          <Stack
             sx={{
-              width: 40,
-              height: 40,
-              zIndex: 11,
-              mx: 'auto',
+              textDecoration: 'none',
+              color: 'inherit',
             }}
-          />
-          {!isUsernameHidden && (
-            <Typography variant="h6">{`@${data.creatorProfile.telegramHandle}`}</Typography>
-          )}
-        </Stack>
+            spacing={1}
+            direction="row"
+            alignItems="center"
+            {...linkProps}
+          >
+            <NameAvatar
+              name={data.creatorProfile.telegramHandle}
+              src={data.creatorProfile.profilePictureUrl || undefined}
+              sx={{
+                width: 40,
+                height: 40,
+                zIndex: 11,
+                mx: 'auto',
+              }}
+            />
+            {!isUsernameHidden && (
+              <Typography variant="h6">{`@${data.creatorProfile.telegramHandle}`}</Typography>
+            )}
+          </Stack>
         </div>
       }
       action={

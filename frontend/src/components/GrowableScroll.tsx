@@ -196,7 +196,7 @@ export default function GrowableScroll<T>({
             {DisplayedData}
           </InfiniteScroll>
           {!noMore && (loadingMore ? LoadingMoreComponent : ScrollForMoreComponent)}
-          {noMore && NoMoreComponent}
+          {(noMore && !loading) && NoMoreComponent}
         </Box>
       </div>
     </Grid>

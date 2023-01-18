@@ -54,6 +54,11 @@ export default function Router() {
       element: <UserPublicProfile />,
     },
     {
+      path: 'gyms/:gymId',
+      element: <GymDetailsPage />,
+      loader: () => {console.log('LOADER')}
+    },
+    {
       path: '404',
       element: <Page404 />,
     },
@@ -85,6 +90,9 @@ const Dashboard = Loadable(lazy(() => import('../pages/dashboard')));
 
 // USER PUBLIC PROFILE
 const UserPublicProfile = Loadable(lazy(() => import('../pages/publicProfile')));
+
+// GYM PUBLIC PROFILE
+const GymDetailsPage = Loadable(lazy(() => import('../pages/gymDetailsPage/GymDetailsPage')));
 
 // LANDING
 const Page404 = Loadable(lazy(() => import('../pages/error/Page404')));
