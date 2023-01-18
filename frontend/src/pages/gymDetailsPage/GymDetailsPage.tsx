@@ -14,12 +14,14 @@ import { Stack } from '@mui/system';
 import Page404 from '../error/Page404';
 import { getGymDetails } from 'src/services/gyms';
 
-export async function gymDetailsLoader({ params }: { params: Params }) {
+export function gymDetailsLoader({ params }: { params: Params }) {
   const gymId = parseInt(params.gymId ?? '');
+  if (!gymId) {
+    return undefined;
+  }
   console.log('LOADER');
   console.log(gymId);
-  const gymDetails = await getGymDetails(gymId)
-  console.log(gymDetails)
+  return getGymDetails(gymId);
 }
 
 export default function GymDetailsPage() {
@@ -27,14 +29,15 @@ export default function GymDetailsPage() {
   console.log(location);
   //   const gymId = parseInt(location.pathname.replace('/gyms/', ''));
 
-  useLoaderData();
+  const gymDetails = useLoaderData();
 
-  const { state } = location;
-  if (!state || !state.user) {
+  console.log(gymDetails);
+
+  if (!gymDetails) {
     return <Page404 />;
   }
 
-  const { user, backTo } = state;
+  const { user, backTo } = location.state;
   return (
     <Box
       sx={{
