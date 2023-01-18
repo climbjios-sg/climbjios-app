@@ -10,6 +10,11 @@ export class GymsController {
     return this.gymsService.getAll();
   }
 
+  @Get(':id')
+  getGymDetails(@Param('id') id: number) {
+    return this.gymsService.getGymDetails(id);
+  }
+
   @Get(':id/grades')
   getGrades(@Param('id') id: number) {
     return this.gymsService.getGrades(id);

@@ -2,7 +2,7 @@
 import { Box, Typography, Button } from '@mui/material';
 import Iconify from '../../components/Iconify';
 // hooks
-import { useLoaderData, useLocation } from 'react-router';
+import { Params, useLoaderData, useLocation } from 'react-router';
 // components
 import FloatingBottomCard from 'src/components/FloatingBottomCard';
 import BioCard from '../../components/profile/BioCard';
@@ -12,15 +12,24 @@ import ProfileHeaderAndTabs from '../../components/profile/ProfileHeaderAndTabs'
 import { outgoingLinkProps } from '../../utils/common';
 import { Stack } from '@mui/system';
 import Page404 from '../error/Page404';
+import { getGymDetails } from 'src/services/gyms';
+
+export async function gymDetailsLoader({ params }: { params: Params }) {
+  const gymId = parseInt(params.gymId ?? '');
+  console.log('LOADER');
+  console.log(gymId);
+  const gymDetails = await getGymDetails(gymId)
+  console.log(gymDetails)
+}
 
 export default function GymDetailsPage() {
   const location = useLocation();
   console.log(location);
-  const gymId = parseInt(location.pathname.replace('/gyms/', ''));
+  //   const gymId = parseInt(location.pathname.replace('/gyms/', ''));
 
   useLoaderData();
 
-  const state = location.state;
+  const { state } = location;
   if (!state || !state.user) {
     return <Page404 />;
   }

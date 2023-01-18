@@ -9,3 +9,6 @@ export const getGymList = () => authorizedAxios.get<GymResponse[]>(BE_API.gyms.r
 
 export const searchGyms = (substring?: string) =>
   authorizedAxios.get<GymsSearchResponse>(BE_API.gyms.search(substring));
+
+export const getGymDetails = (id: number) =>
+  authorizedAxios.get<GymsSearchResponse>(BE_API.gyms.details(id));

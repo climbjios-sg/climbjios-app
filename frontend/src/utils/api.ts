@@ -18,6 +18,7 @@ export const BE_API = {
     root: '/v1/gyms',
     grades: (id: string) => `/v1/gyms/${id}/grades`,
     search: (substring?: string) => `v1/gyms/search/${substring}`,
+    details: (id: number) => `/v1/gyms/${id}`,
   },
   posts: {
     root: '/v1/posts',

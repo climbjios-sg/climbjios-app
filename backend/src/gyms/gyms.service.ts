@@ -27,4 +27,8 @@ export class GymsService {
   searchGyms(substring: string) {
     return this.gymsSearchDaoService.searchGyms(substring);
   }
+
+  getGymDetails(id: number) {
+    return this.gymsDaoService.findById(id);
+  }
 }
