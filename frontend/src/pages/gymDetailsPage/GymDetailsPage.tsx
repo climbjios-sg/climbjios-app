@@ -1,77 +1,55 @@
 // @mui
-import { Box, Typography, Button } from '@mui/material';
-import Iconify from '../../components/Iconify';
-// hooks
-import { Params, useLoaderData, useLocation } from 'react-router';
-// components
-import FloatingBottomCard from 'src/components/FloatingBottomCard';
-import BioCard from '../../components/profile/BioCard';
-// types
-import ProfileBetas from '../../components/profile/ProfileBetas';
-import ProfileHeaderAndTabs from '../../components/profile/ProfileHeaderAndTabs';
-import { outgoingLinkProps } from '../../utils/common';
+import { Tabs, Tab } from '@mui/material';
 import { Stack } from '@mui/system';
+import { Params, useLoaderData } from 'react-router';
 import Page404 from '../error/Page404';
 import { getGymDetails } from 'src/services/gyms';
+import { GymData } from 'src/@types/gymData';
+import { AxiosResponse } from 'axios';
+import GymPageHeader from './GymPageHeader';
+import { capitalCase } from 'change-case';
+import { useState } from 'react';
 
-export function gymDetailsLoader({ params }: { params: Params }) {
+export function gymDetailsLoader({
+  params,
+}: {
+  params: Params;
+}): Promise<AxiosResponse<GymData, any>> | undefined {
   const gymId = parseInt(params.gymId ?? '');
   if (!gymId) {
     return undefined;
   }
-  console.log('LOADER');
-  console.log(gymId);
   return getGymDetails(gymId);
 }
 
 export default function GymDetailsPage() {
-  const location = useLocation();
-  console.log(location);
-
-  const gymDetails = useLoaderData();
-
-  console.log(gymDetails);
+  const gymDetails = (useLoaderData() as AxiosResponse<GymData, any>).data;
+  const [currentTab, changeTab] = useState(0);
 
   if (!gymDetails) {
     return <Page404 />;
   }
 
-  const { user, backTo } = location.state;
+  const tabs = [{ label: 'about' }, { label: 'betas' }];
+
   return (
-    <Box
-      sx={{
-        pb: 25,
-        width: '100vw',
-        maxWidth: 600,
-        margin: '0 auto',
-      }}
-    >
-      <ProfileHeaderAndTabs
-        showBack
-        backTo={backTo}
-        user={user}
-        aboutTab={
-          <Stack sx={{ px: 2 }}>
-            <BioCard data={user} />
-          </Stack>
-        }
-        betasTab={<ProfileBetas creatorId={user.userId} />}
-      />
-      <FloatingBottomCard>
-        <Button
-          sx={{ marginBottom: 3 }}
-          size="large"
-          variant="contained"
-          color="secondary"
-          startIcon={<Iconify icon={'jam:telegram'} />}
-          fullWidth
-          disableElevation
-          href={`https://t.me/${user.telegramHandle}`}
-          {...outgoingLinkProps}
-        >
-          <Typography variant="button">Message on Telegram</Typography>
-        </Button>
-      </FloatingBottomCard>
-    </Box>
+    <Stack spacing={2} direction="column">
+      {GymPageHeader(gymDetails)}
+
+      <Tabs
+        allowScrollButtonsMobile
+        variant="scrollable"
+        scrollButtons="auto"
+        value={currentTab}
+        onChange={(_e, v) => {
+          changeTab(v);
+        }}
+      >
+        {tabs.map((tab, index) => (
+          <Tab disableRipple key={index} value={index} label={capitalCase(tab.label)} />
+        ))}
+      </Tabs>
+      {tabs[currentTab].label}
+    </Stack>
   );
 }

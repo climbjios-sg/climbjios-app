@@ -12,7 +12,7 @@ export default function GymGroupCardHeader({ data }: GymGroupCardHeaderProps) {
   const GymAvatar = () => {
     if (data.iconUrl) {
       return (
-        <Avatar src={data.iconUrl} alt={data.name} sx={{ width: logoSize, height: logoSize }} />
+        <Avatar src={data.iconUrl} alt={data.name} sx={{ mr: -1, width: logoSize, height: logoSize }} />
       );
     } else {
       return <div/>
