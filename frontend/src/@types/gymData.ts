@@ -7,6 +7,7 @@ export interface GymData {
   readonly permanentlyClosed: boolean;
   readonly gymGroupId: number;
   readonly iconUrl?: string;
+  readonly bannerUrl?: string;
   readonly address: string;
   readonly area: string;
   readonly passSharing: string;
