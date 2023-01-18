@@ -35,15 +35,17 @@ export class GymsSearchDaoService {
             this.gymGroupModel
               .relatedQuery('gymOutlets')
               .where('name', 'ilike', `%${substring}%`),
-          ).orWhereExists(
-            this.gymGroupModel
-              .relatedQuery('gymOutlets')
-              .where('address', 'ilike', `%${substring}%`),
-          ).orWhereExists(
-            this.gymGroupModel
-              .relatedQuery('gymOutlets')
-              .where('area', 'ilike', `%${substring}%`),
-          );
+          )
+            .orWhereExists(
+              this.gymGroupModel
+                .relatedQuery('gymOutlets')
+                .where('address', 'ilike', `%${substring}%`),
+            )
+            .orWhereExists(
+              this.gymGroupModel
+                .relatedQuery('gymOutlets')
+                .where('area', 'ilike', `%${substring}%`),
+            );
           // qb.whereExists(
           //   this.gymModel
           //     .relatedQuery('gymOutlets')
@@ -78,23 +80,32 @@ export class GymsSearchDaoService {
     //   )
     //   .orderBy('name', 'ASC');
 
+    // console.log(gymGroups);
+
     return await Promise.all(
       gymGroups.map(async (gymGroup) => ({
         ...gymGroup,
         gymOutlets: await this.gymModel
           .query()
-          .select('id', 'name', 'permanentlyClosed', 'iconUrl', 'address', 'area')
-          .where('gymGroupId', '=', gymGroup.id)
-          // .modify((qb) => {
-          //   if (substring) {
-          //     qb.where((builder) => {
-          //       builder
-          //         .where('name', 'ilike', `%${substring}%`)
-          //         .orWhere('address', 'ilike', `%${substring}%`)
-          //         .orWhere('area', 'ilike', `%${substring}%`);
-          //     });
-          //   }
-          // }),
+          .select(
+            'id',
+            'name',
+            'permanentlyClosed',
+            'iconUrl',
+            'address',
+            'area',
+          )
+          .where('gymGroupId', '=', gymGroup.id),
+        // .modify((qb) => {
+        //   if (substring) {
+        //     qb.where((builder) => {
+        //       builder
+        //         .where('name', 'ilike', `%${substring}%`)
+        //         .orWhere('address', 'ilike', `%${substring}%`)
+        //         .orWhere('area', 'ilike', `%${substring}%`);
+        //     });
+        //   }
+        // }),
       })),
     );
   }

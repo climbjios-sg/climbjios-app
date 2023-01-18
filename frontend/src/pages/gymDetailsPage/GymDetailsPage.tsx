@@ -27,7 +27,6 @@ export function gymDetailsLoader({ params }: { params: Params }) {
 export default function GymDetailsPage() {
   const location = useLocation();
   console.log(location);
-  //   const gymId = parseInt(location.pathname.replace('/gyms/', ''));
 
   const gymDetails = useLoaderData();
 

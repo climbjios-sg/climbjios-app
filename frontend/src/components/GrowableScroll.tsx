@@ -94,7 +94,7 @@ export default function GrowableScroll<T>({
       });
     },
     onError(e, params) {
-      console.log('ERROR CAUGHT')
+      console.log('GROWABLE LIST USEREQUEST CAUGHT ERROR')
       console.log(e)
     },
     manual: true,

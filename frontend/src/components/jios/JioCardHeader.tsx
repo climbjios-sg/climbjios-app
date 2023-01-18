@@ -23,7 +23,6 @@ export default function JioCardHeader({
         component: Link,
         ...makeUserProfileLinkProps({ user: data.creatorProfile }),
       };
-  console.log(data)
   return (
     <CardHeader
       avatar={
