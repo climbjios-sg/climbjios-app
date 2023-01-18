@@ -1,17 +1,25 @@
 import { Suspense, lazy, ElementType } from 'react';
-import { Navigate, useRoutes, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, createBrowserRouter } from 'react-router-dom';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 import CustomGuard from 'src/components/guards/CustomGuard';
 import NoTelegramUsernamePage from 'src/pages/error/NoTelegramUsernameError';
+import { isDebug } from 'src/config';
+import { gymDetailsLoader } from '../pages/gymDetailsPage/GymDetailsPage';
 
 // ----------------------------------------------------------------------
 
 const Loadable = (Component: ElementType) => (props: any) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { pathname } = useLocation();
+  const { pathname, search, state } = useLocation();
 
   const isDashboard = pathname.includes('/dashboard');
+
+  if (isDebug) {
+    console.log(
+      `Route: ${pathname}${search}, State: ${JSON.stringify(state)}`
+    );
+  }
 
   return (
     <Suspense fallback={<LoadingScreen isDashboard={isDashboard} />}>
@@ -20,63 +28,63 @@ const Loadable = (Component: ElementType) => (props: any) => {
   );
 };
 
-export default function Router() {
-  return useRoutes([
-    {
-      path: 'login',
-      element: (
-        <CustomGuard notAuthenticated>
-          <Login />
-        </CustomGuard>
-      ),
-    },
-    // Onboarding Routes
-    {
-      path: 'onboarding',
-      element: (
-        <CustomGuard authenticated notOnboarded>
-          <Onboarding />
-        </CustomGuard>
-      ),
-    },
-    // Dashboard Routes
-    {
-      path: 'dashboard/*',
-      element: (
-        <CustomGuard authenticated onboarded>
-          <Dashboard />
-        </CustomGuard>
-      ),
-    },
-    // Public Profile Routes
-    {
-      path: 'climber/:userId',
-      element: <UserPublicProfile />,
-    },
-    {
-      path: 'gyms/:gymId',
-      element: <GymDetailsPage />,
-      loader: () => {console.log('LOADER')}
-    },
-    {
-      path: '404',
-      element: <Page404 />,
-    },
-    {
-      path: '/updateTelegramUsername',
-      element: <NoTelegramUsernamePage />,
-    },
-    {
-      path: 'jios/:id',
-      element: <JioPage />,
-    },
-    {
-      path: 'authRedirect',
-      element: <AutoLogin />,
-    },
-    { path: '*', element: <Navigate to="/login" replace /> },
-  ]);
-}
+// export default function Router() {
+//   return useRoutes([
+//     {
+//       path: 'login',
+//       element: (
+//         <CustomGuard notAuthenticated>
+//           <Login />
+//         </CustomGuard>
+//       ),
+//     },
+//     // Onboarding Routes
+//     {
+//       path: 'onboarding',
+//       element: (
+//         <CustomGuard authenticated notOnboarded>
+//           <Onboarding />
+//         </CustomGuard>
+//       ),
+//     },
+//     // Dashboard Routes
+//     {
+//       path: 'dashboard/*',
+//       element: (
+//         <CustomGuard authenticated onboarded>
+//           <Dashboard />
+//         </CustomGuard>
+//       ),
+//     },
+//     // Public Profile Routes
+//     {
+//       path: 'climber/:userId',
+//       element: <UserPublicProfile />,
+//     },
+//     {
+//       path: 'gyms/:gymId',
+//       element: <GymDetailsPage />,
+//       loader: () => {console.log('LOADER')}
+//     },
+//     {
+//       path: '404',
+//       element: <Page404 />,
+//     },
+//     {
+//       path: '/updateTelegramUsername',
+//       element: <NoTelegramUsernamePage />,
+//     },
+//     {
+//       path: 'jios/:id',
+//       element: <JioPage />,
+//     },
+//     {
+//       path: 'authRedirect',
+//       element: <AutoLogin />,
+//     },
+//     { path: '*', element: <Navigate to="/login" replace /> },
+//   ]);
+// }
 
 // AUTHENTICATION
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
@@ -98,3 +106,61 @@ const GymDetailsPage = Loadable(lazy(() => import('../pages/gymDetailsPage/GymDe
 const Page404 = Loadable(lazy(() => import('../pages/error/Page404')));
 
 const JioPage = Loadable(lazy(() => import('../pages/jio')));
+
+const router = createBrowserRouter([
+  {
+    path: 'login',
+    element: (
+      <CustomGuard notAuthenticated>
+        <Login />
+      </CustomGuard>
+    ),
+  },
+  // Onboarding Routes
+  {
+    path: 'onboarding',
+    element: (
+      <CustomGuard authenticated notOnboarded>
+        <Onboarding />
+      </CustomGuard>
+    ),
+  },
+  // Dashboard Routes
+  {
+    path: 'dashboard/*',
+    element: (
+      <CustomGuard authenticated onboarded>
+        <Dashboard />
+      </CustomGuard>
+    ),
+  },
+  // Public Profile Routes
+  {
+    path: 'climber/:userId',
+    element: <UserPublicProfile />,
+  },
+  {
+    path: 'gyms/:gymId',
+    element: <GymDetailsPage />,
+    loader: gymDetailsLoader,
+  },
+  {
+    path: '404',
+    element: <Page404 />,
+  },
+  {
+    path: '/updateTelegramUsername',
+    element: <NoTelegramUsernamePage />,
+  },
+  {
+    path: 'jios/:id',
+    element: <JioPage />,
+  },
+  {
+    path: 'authRedirect',
+    element: <AutoLogin />,
+  },
+  { path: '*', element: <Navigate to="/login" replace /> },
+]);
+
+export default router;

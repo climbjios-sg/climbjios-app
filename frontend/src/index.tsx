@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, useLocation } from 'react-router-dom';
+// import { BrowserRouter, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -8,7 +8,8 @@ import { Provider } from 'react-redux';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { authProviderFactory } from './authProviders';
-import { DEFAULT_AUTH_PROVIDER, isDebug } from './config';
+// import { DEFAULT_AUTH_PROVIDER, isDebug } from './config';
+import { DEFAULT_AUTH_PROVIDER } from './config';
 
 // ----------------------------------------------------------------------
 
@@ -24,16 +25,16 @@ if (import.meta.env.VITE_SENTRY_DSN) {
   });
 }
 
-const DebugRouter = ({ children }: React.PropsWithChildren<unknown>) => {
-  const location = useLocation();
-  if (isDebug) {
-    console.log(
-      `Route: ${location.pathname}${location.search}, State: ${JSON.stringify(location.state)}`
-    );
-  }
+// const DebugRouter = ({ children }: React.PropsWithChildren<unknown>) => {
+//   const location = useLocation();
+//   if (isDebug) {
+//     console.log(
+//       `Route: ${location.pathname}${location.search}, State: ${JSON.stringify(location.state)}`
+//     );
+//   }
 
-  return <>{children}</>;
-};
+//   return <>{children}</>;
+// };
 
 const renderRoot = async () => {
   const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -42,11 +43,11 @@ const renderRoot = async () => {
   root.render(
     <HelmetProvider>
       <Provider store={store}>
-        <BrowserRouter>
-          <DebugRouter>
+        {/* <BrowserRouter> */}
+          {/* <DebugRouter> */}
             <App authProvider={authProvider} />
-          </DebugRouter>
-        </BrowserRouter>
+          {/* </DebugRouter> */}
+        {/* </BrowserRouter> */}
       </Provider>
     </HelmetProvider>
   );
