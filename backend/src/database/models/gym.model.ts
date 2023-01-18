@@ -9,7 +9,8 @@ export class GymModel extends BaseModel {
   readonly shortName: string;
   readonly permanentlyClosed: boolean;
   readonly gymGroupId: number;
-  readonly iconURL: string;
+  readonly iconUrl: string;
+  readonly bannerUrl: string;
   readonly address: string;
   readonly area: string;
   readonly passSharing: string;

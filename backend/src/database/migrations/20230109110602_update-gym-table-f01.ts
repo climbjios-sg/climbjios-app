@@ -9,7 +9,8 @@ export async function up(knex: Knex): Promise<void> {
         .references('id')
         .inTable('gym_groups')
         .defaultTo(1);
-      table.string('iconUrl');
+      table.text('iconUrl');
+      table.text('bannerUrl');
       table.string('address');
       table.string('area');
       table.string('passSharing');
@@ -218,6 +219,8 @@ export async function up(knex: Knex): Promise<void> {
       {
         name: 'Boulder+ (The Chevrons)',
         shortName: 'B+ (Chevrons)',
+        iconUrl: 'https://scontent.fsin11-1.fna.fbcdn.net/v/t39.30808-6/298556559_505562444905064_2943248931061676068_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=pA13xBU43-8AX_BvgJx&_nc_oc=AQmKWi1K0fcW58mV7F10uvSkLg6d2N7c2qDEZsCONl6uVNZQY0KLokb3uYbnh2YczoM&_nc_ht=scontent.fsin11-1.fna&oh=00_AfBah3StDAlwNyaT46cExfQOkmKwMS441ksVr2jNTizxZQ&oe=63CD4E78',
+        bannerUrl: 'https://static.wixstatic.com/media/04ac92_ab3411c5de584541aa237c4cf2a82093~mv2.jpg/v1/fill/w_2880,h_1196,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/04ac92_ab3411c5de584541aa237c4cf2a82093~mv2.jpg',
         permanentlyClosed: false,
         id: 13,
         gymGroupId: 6,
@@ -548,6 +551,7 @@ export async function down(knex: Knex): Promise<void> {
   return knex.schema.table('gyms', (table) => {
     table.dropColumn('gymGroupID');
     table.dropColumn('iconUrl');
+    table.dropColumn('bannerUrl');
     table.dropColumn('address');
     table.dropColumn('area');
     table.dropColumn('passSharing');
