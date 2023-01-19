@@ -1,5 +1,5 @@
 // @mui
-import { Tabs, Tab } from '@mui/material';
+import { Tabs, Tab, Box } from '@mui/material';
 import { Stack } from '@mui/system';
 import { Params, useLoaderData } from 'react-router';
 import Page404 from '../error/Page404';
@@ -9,6 +9,8 @@ import { AxiosResponse } from 'axios';
 import GymPageHeader from './GymPageHeader';
 import { capitalCase } from 'change-case';
 import { useState } from 'react';
+import GymBetas from './GymBetas';
+import GymAbout from './GymAbout';
 
 export function gymDetailsLoader({
   params,
@@ -30,26 +32,33 @@ export default function GymDetailsPage() {
     return <Page404 />;
   }
 
-  const tabs = [{ label: 'about' }, { label: 'betas' }];
+  const tabs = [
+    {
+      label: 'about',
+      component: <GymAbout gymDetails={gymDetails} />,
+    },
+    { label: 'betas', component: <GymBetas gymId={gymDetails.id} /> },
+  ];
 
   return (
-    <Stack spacing={2} direction="column">
+    <Stack direction="column">
       {GymPageHeader(gymDetails)}
-
-      <Tabs
-        allowScrollButtonsMobile
-        variant="scrollable"
-        scrollButtons="auto"
-        value={currentTab}
-        onChange={(_e, v) => {
-          changeTab(v);
-        }}
-      >
-        {tabs.map((tab, index) => (
-          <Tab disableRipple key={index} value={index} label={capitalCase(tab.label)} />
-        ))}
-      </Tabs>
-      {tabs[currentTab].label}
+      <Box display="flex" justifyContent="center" width="100%">
+        <Tabs
+          allowScrollButtonsMobile
+          variant="scrollable"
+          scrollButtons="auto"
+          value={currentTab}
+          onChange={(_e, v) => {
+            changeTab(v);
+          }}
+        >
+          {tabs.map((tab, index) => (
+            <Tab disableRipple key={index} value={index} label={capitalCase(tab.label)} />
+          ))}
+        </Tabs>
+      </Box>
+      {tabs[currentTab].component}
     </Stack>
   );
 }
