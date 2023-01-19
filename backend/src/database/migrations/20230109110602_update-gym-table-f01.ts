@@ -42,12 +42,14 @@ export async function up(knex: Knex): Promise<void> {
         id: 1,
         gymGroupId: 18,
         area: 'Expo',
-        address: '5 Changi Business Park Central 1, #02-14/15/16, Singapore 486038',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        address:
+          '5 Changi Business Park Central 1, #02-14/15/16, Singapore 486038',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Ark Bloc',
@@ -57,11 +59,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 1,
         area: 'Punggol/Tampines',
         address: 'Ark Bloc Punggol, 6 Tebing Lane, #01-05, Singapore 828835',
-        passSharing: 'Passholder does not need to present; Account passes shared on the spot',
+        passSharing:
+          'Passholder does not need to present; Account passes shared on the spot',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'b8A',
@@ -70,12 +73,14 @@ export async function up(knex: Knex): Promise<void> {
         id: 3,
         gymGroupId: 2,
         area: 'Tampines West',
-        address: '03-06, 6 Tampines Street 92, yo:HA Commercial @ Tampines, Singapore 528893',
-        passSharing: 'Passholder does not need to present; Account passes shared on the spot',
+        address:
+          '03-06, 6 Tampines Street 92, yo:HA Commercial @ Tampines, Singapore 528893',
+        passSharing:
+          'Passholder does not need to present; Account passes shared on the spot',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'BFF Climb (Bukit Timah)',
@@ -85,11 +90,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 3,
         area: 'King Albert Park',
         address: '896 Dunearn Rd, #02-01D, Singapore 589472',
-        passSharing: 'Passholder does not need to present; Account passes shared on the spot',
+        passSharing:
+          'Passholder does not need to present; Account passes shared on the spot',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'BFF Climb (Bendemeer)',
@@ -99,11 +105,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 3,
         area: 'Bendemeer',
         address: 'CT Hub, 2 Kallang Avenue, #01-20, Singapore 339407',
-        passSharing: 'Passholder does not need to present; Account passes shared on the spot',
+        passSharing:
+          'Passholder does not need to present; Account passes shared on the spot',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: true
+        autoBelay: true,
       },
       {
         name: 'boruda',
@@ -113,11 +120,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 4,
         area: 'Labrador Park',
         address: '991A Alexandra Rd, Singapore 119969',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Boulder Movement (Bugis)',
@@ -127,11 +135,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 5,
         area: 'Bugis',
         address: '201 Victoria Street #05-07, Bugis+, Singapore 188067',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Boulder Movement (Downtown)',
@@ -141,11 +150,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 5,
         area: 'Downtown',
         address: '6A Shenton Way #B1-03 Downtown Gallery, 068815',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Boulder Movement (Suntec)',
@@ -154,12 +164,14 @@ export async function up(knex: Knex): Promise<void> {
         id: 9,
         gymGroupId: 5,
         area: 'Suntec',
-        address: '3 Temasek Boulevard, #01-484/85/86, Suntec City Mall (North Wing), Tower One, Singapore 038983',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        address:
+          '3 Temasek Boulevard, #01-484/85/86, Suntec City Mall (North Wing), Tower One, Singapore 038983',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Boulder Movement (Tai Seng)',
@@ -169,11 +181,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 5,
         area: 'Tai Seng',
         address: '18 Tai Seng St, #01-09, Singapore 539775',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Boulder Movement (Rochor)',
@@ -183,11 +196,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 5,
         area: 'Rochor',
         address: '2 Serangoon Rd, #02-12 Tekka Place, Singapore 218227',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Boulder+ (Aperia Mall)',
@@ -201,7 +215,7 @@ export async function up(knex: Knex): Promise<void> {
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Boulder+ (The Chevrons)',
@@ -212,10 +226,14 @@ export async function up(knex: Knex): Promise<void> {
         area: 'Jurong East',
         address: '48 Boon Lay Way, 04-01 The Chevrons, Singapore 609961',
         passSharing: 'Passholder must be present and checked in',
+        iconUrl:
+          'https://scontent.fsin11-1.fna.fbcdn.net/v/t39.30808-6/298556559_505562444905064_2943248931061676068_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=pA13xBU43-8AX_BvgJx&_nc_oc=AQmKWi1K0fcW58mV7F10uvSkLg6d2N7c2qDEZsCONl6uVNZQY0KLokb3uYbnh2YczoM&_nc_ht=scontent.fsin11-1.fna&oh=00_AfBah3StDAlwNyaT46cExfQOkmKwMS441ksVr2jNTizxZQ&oe=63CD4E78',
+        bannerUrl:
+          'https://static.wixstatic.com/media/04ac92_ab3411c5de584541aa237c4cf2a82093~mv2.jpg/v1/fill/w_2880,h_1196,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/04ac92_ab3411c5de584541aa237c4cf2a82093~mv2.jpg',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Boulder Planet (Sembawang)',
@@ -224,12 +242,14 @@ export async function up(knex: Knex): Promise<void> {
         id: 14,
         gymGroupId: 4,
         area: 'Canberra (Sembwanag Mall)',
-        address: '604 Sembawang Road, Sembawang Shopping Centre, #B1, 22/23, 758459',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        address:
+          '604 Sembawang Road, Sembawang Shopping Centre, #B1, 22/23, 758459',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Boulder World (SingPost)',
@@ -238,12 +258,13 @@ export async function up(knex: Knex): Promise<void> {
         id: 15,
         gymGroupId: 7,
         area: 'Paya Lebar',
-        address: '10 Eunos Rd 8, #01-205 SingPost Centre (Enrichment Zone, Singapore 408600',
+        address:
+          '10 Eunos Rd 8, #01-205 SingPost Centre (Enrichment Zone, Singapore 408600',
         passSharing: 'Passholder must be present and checked in',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Boulder World (Paragon)',
@@ -252,12 +273,13 @@ export async function up(knex: Knex): Promise<void> {
         id: 16,
         gymGroupId: 7,
         area: 'Orchard',
-        address: '290 Orchard Rd, #06-25/26, Paragon Shopping Centre, Singapore 238859',
+        address:
+          '290 Orchard Rd, #06-25/26, Paragon Shopping Centre, Singapore 238859',
         passSharing: 'Passholder must be present and checked in',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Climb Central (Katong)',
@@ -271,7 +293,7 @@ export async function up(knex: Knex): Promise<void> {
         lead: true,
         boulder: false,
         topRope: true,
-        autoBelay: true
+        autoBelay: true,
       },
       {
         name: 'Climb Central (Novena)',
@@ -285,7 +307,7 @@ export async function up(knex: Knex): Promise<void> {
         lead: false,
         boulder: true,
         topRope: true,
-        autoBelay: true
+        autoBelay: true,
       },
       {
         name: 'Climb Central (Sports Hub)',
@@ -299,7 +321,7 @@ export async function up(knex: Knex): Promise<void> {
         lead: true,
         boulder: true,
         topRope: true,
-        autoBelay: true
+        autoBelay: true,
       },
       {
         name: 'Climb Central (Funan)',
@@ -308,12 +330,13 @@ export async function up(knex: Knex): Promise<void> {
         id: 20,
         gymGroupId: 8,
         area: 'City Hall',
-        address: 'Funan Mall, 107 North Bridge Road, #B2-19/21, Singapore 179105',
+        address:
+          'Funan Mall, 107 North Bridge Road, #B2-19/21, Singapore 179105',
         passSharing: 'Passholder must be present and checked in',
         lead: true,
         boulder: true,
         topRope: true,
-        autoBelay: true
+        autoBelay: true,
       },
       {
         name: 'FitBloc (Depot Heights)',
@@ -322,12 +345,14 @@ export async function up(knex: Knex): Promise<void> {
         id: 21,
         gymGroupId: 9,
         area: 'Redhill/Telok Blangah',
-        address: '108 Depot Rd, #02-01 Depot Heights Shopping Centre, Singapore 100108',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        address:
+          '108 Depot Rd, #02-01 Depot Heights Shopping Centre, Singapore 100108',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: true
+        autoBelay: true,
       },
       {
         name: 'FitBloc (Kent Ridge)',
@@ -337,11 +362,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 9,
         area: 'Kent Ridge',
         address: '87 Science Park Dr, #03-02 The Oasis, Singapore 118260',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: true
+        autoBelay: true,
       },
       {
         name: 'Ground Up',
@@ -350,12 +376,13 @@ export async function up(knex: Knex): Promise<void> {
         id: 23,
         gymGroupId: 10,
         area: 'Farrer Park',
-        address: '60 Tessensohn Road, CSC@Tessensohn, Level 2, Singapore 217664',
+        address:
+          '60 Tessensohn Road, CSC@Tessensohn, Level 2, Singapore 217664',
         passSharing: '',
         lead: true,
         boulder: true,
         topRope: true,
-        autoBelay: true
+        autoBelay: true,
       },
       {
         name: 'Kinetics',
@@ -365,11 +392,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 11,
         area: 'Farrer Park',
         address: '511 Serangoon Rd, Singapore 218153',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Lighthouse',
@@ -379,11 +407,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 12,
         area: 'Pasir Panjang',
         address: '44 Pasir Panjang Road #B-02, 118504',
-        passSharing: 'Passholder does not need to present; Account passes shared on the spot',
+        passSharing:
+          'Passholder does not need to present; Account passes shared on the spot',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Origin Boulder',
@@ -392,12 +421,14 @@ export async function up(knex: Knex): Promise<void> {
         id: 26,
         gymGroupId: 13,
         area: 'Telok Ayer',
-        address: '18 Cross Street, Cross Street Exchange B1-117 & B1-118, 048423',
-        passSharing: 'Passholder does not need to present; Account passes shared on the spot',
+        address:
+          '18 Cross Street, Cross Street Exchange B1-117 & B1-118, 048423',
+        passSharing:
+          'Passholder does not need to present; Account passes shared on the spot',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'OYEYO',
@@ -407,11 +438,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 14,
         area: 'Little India',
         address: '148 Mackenzie Rd, Singapore 228724',
-        passSharing: 'Passholder does not need to present; Account passes shared on the spot',
+        passSharing:
+          'Passholder does not need to present; Account passes shared on the spot',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Project Send',
@@ -421,11 +453,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 15,
         area: 'Esplanade',
         address: '8 Raffles Ave., #02-29 Esplanade Mall, Singapore 039802',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'T-Hall',
@@ -439,7 +472,7 @@ export async function up(knex: Knex): Promise<void> {
         lead: true,
         boulder: true,
         topRope: true,
-        autoBelay: true
+        autoBelay: true,
       },
       {
         name: 'The Rock School (Our Tampines Hub)',
@@ -449,11 +482,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 17,
         area: 'Tampines',
         address: 'Our Tampines Hub, 1 Tampines Walk, #02-81, Singapore 528523',
-        passSharing: 'Passholder does not need to present; Account passes shared on the spot',
+        passSharing:
+          'Passholder does not need to present; Account passes shared on the spot',
         lead: true,
         boulder: true,
         topRope: true,
-        autoBelay: true
+        autoBelay: true,
       },
       {
         name: 'Upwall',
@@ -463,11 +497,12 @@ export async function up(knex: Knex): Promise<void> {
         gymGroupId: 18,
         area: 'Downtown East',
         address: '1 Pasir Ris Close, E!Hub@Downtown East, #01-105, 519599',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: true,
         boulder: true,
         topRope: true,
-        autoBelay: true
+        autoBelay: true,
       },
       {
         name: 'Z-Vertigo',
@@ -476,13 +511,14 @@ export async function up(knex: Knex): Promise<void> {
         id: 32,
         gymGroupId: 19,
         area: 'Beauty World ',
-        address: '170 Upper Bukit Timah Rd, B2-20B Z-Vertigo Boulder Gym, 588179',
-        passSharing: 'Passholder does not need to present; Account passes shared on the spot',
-        bannerUrl: 'Monday to Thursday:12pm - 10pm',
+        address:
+          '170 Upper Bukit Timah Rd, B2-20B Z-Vertigo Boulder Gym, 588179',
+        passSharing:
+          'Passholder does not need to present; Account passes shared on the spot',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
+        autoBelay: false,
       },
       {
         name: 'Boulder Planet (Tai Seng)',
@@ -491,13 +527,15 @@ export async function up(knex: Knex): Promise<void> {
         id: 33,
         gymGroupId: 4,
         area: 'Tai Seng',
-        address: '601 MacPherson Rd, #02-07 Grantral Mall @ MacPherson, Singapore 368242',
-        passSharing: 'Passholder does not need to be present but accounts have to be linked beforehand',
+        address:
+          '601 MacPherson Rd, #02-07 Grantral Mall @ MacPherson, Singapore 368242',
+        passSharing:
+          'Passholder does not need to be present but accounts have to be linked beforehand',
         lead: false,
         boulder: true,
         topRope: false,
-        autoBelay: false
-      }
+        autoBelay: false,
+      },
     ];
 
     await Promise.all(
