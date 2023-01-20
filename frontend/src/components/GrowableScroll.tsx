@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { Grid, Box } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useRequest, useSessionStorageState } from 'ahooks';
+import { useRequest, useSessionStorageState, clearCache } from 'ahooks';
 
 import InfiniteScrollHelper from 'src/components/InfiniteScrollHelper';
 import * as Defaults from './GrowableScrollDefaults';
 import { concat } from 'lodash';
+import useCustomSnackbar from 'src/hooks/useCustomSnackbar';
 
 interface CachedData<T> {
   list: (BasicListItem & T)[];
@@ -74,78 +75,58 @@ export default function GrowableScroll<T>({
     loadingMoreComponent: LoadingMoreComponent = Defaults.LoadingMoreComponent,
   } = subComponents ?? {};
   const firstUpdate = useRef(true);
-  const [cachedData, setCachedData] = useSessionStorageState<CachedData<T>>(
-    `${cacheName}-scrollCache`,
+  const errorSnackbar = useCustomSnackbar();
+
+  const {
+    data,
+    error,
+    refresh,
+    mutate,
+    loading: fetchLoading,
+  } = useRequest<CachedData<T>, any>(
+    () => {
+      console.log('useRequest called');
+      return fetchMoreItemsCallback(undefined);
+    },
     {
-      defaultValue: { list: [], nextId: undefined, scrollY: undefined },
+      onError: () => {
+        errorSnackbar.enqueueError('Failed to load data.');
+      },
+      cacheKey: cacheName,
+      staleTime: 5 * 60 * 1000,
+      refreshDeps: [reloadDeps],
     }
   );
 
-  const {
-    run,
-    error,
-    loading: fetchLoading,
-  } = useRequest(fetchMoreItemsCallback, {
-    onSuccess: (data) => {
-      setCachedData({
-        ...cachedData,
-        list: concat(cachedData.list, data.list),
-        nextId: data.nextId,
-      });
-    },
-    onError(e, params) {
-      console.log('GROWABLE LIST USEREQUEST CAUGHT ERROR')
-      console.log(e)
-    },
-    manual: true,
-  });
+  console.log(data);
 
-  const firstFetch = cachedData.list.length === 0;
-  const noMore = cachedData.nextId === undefined;
-  const loading = fetchLoading && firstFetch;
-  const loadingMore = fetchLoading && !firstFetch;
-
-  const handleReload = useCallback(() => {
-    setCachedData({
-      list: [],
-    });
-    run(undefined);
-  }, [setCachedData, run]);
-
-  //call reload to load data on the very first run
   useEffect(() => {
-    if (firstUpdate.current) {
-      if (cachedData.list.length === 0) {
-        handleReload();
-      } else if (!clearItems) {
-        document.getElementById('root')?.scrollTo(0, cachedData.scrollY ?? 0);
-      }
-    }
-  }, [handleReload, cachedData, clearItems]);
-
-  //custom implementation of auto reload of useInfiniteScroll when reloadDeps changes
-  useEffect(() => {
-    //useEffect is always triggered at the start; so use this to prevent triggering reload at the start
-    if (!firstUpdate.current || clearItems) {
-      handleReload();
-    }
     if (firstUpdate.current) {
       firstUpdate.current = false;
+      if (data) {
+        document.getElementById('root')?.scrollTo(0, data.scrollY ?? 0);
+      }
     }
-  }, [reloadDeps, handleReload, clearItems]);
+  });
+
+  const firstFetch = !data;
+  const noMore = data ? data.nextId === undefined : false;
+  const loading = fetchLoading && firstFetch;
+  const loadingMore = fetchLoading && !firstFetch;
+  const noData = data ? data.list.length === 0 : false;
 
   //removed useMemo as it was causing a whole multiverse of typing errors
   //of which attempts to solve just led me in an infinite rabbit hole of
   //re-visiting the same stackoverflow threads and repeatedly changing the code
   const DisplayedData: JSX.Element = error ? (
     ErrorComponent
-  ) : loading ? (
+  ) : fetchLoading ? (
     LoadingComponent
-  ) : cachedData.list.length === 0 ? (
+  ) : noData ? (
     NoContentComponent
   ) : (
     <div>
-      {cachedData.list.map((data) => (
+      {data!.list.map((data) => (
         <Box key={data.id} sx={{ width: '100%', mt: 2, mb: 2 }}>
           {ListItemComponent({ data })}
           {/* <ListItemComponent data={data} /> */}
@@ -168,20 +149,29 @@ export default function GrowableScroll<T>({
           }}
         >
           <InfiniteScroll
-            dataLength={cachedData.list.length}
-            next={() => run(cachedData.nextId)}
+            dataLength={data ? data.list.length : 0}
+            next={async () => {
+              const newData = await fetchMoreItemsCallback(data?.nextId);
+              mutate((oldData) => ({
+                ...oldData,
+                list: oldData ? concat(oldData.list, newData.list) : newData.list,
+                nextId: newData.nextId,
+              }));
+            }}
             hasMore={!noMore}
             loader={null}
             // Remembering scroll position
-            onScroll={() =>
-              setCachedData({
-                ...cachedData,
+            onScroll={() => {
+              console.log('onScroll');
+              mutate((oldData) => ({
+                ...oldData,
+                list: oldData ? oldData.list : [],
                 scrollY: document.getElementById('root')?.scrollTop,
-              })
-            }
+              }));
+            }}
             // Pull to refresh props
             pullDownToRefresh
-            refreshFunction={handleReload}
+            refreshFunction={refresh}
             pullDownToRefreshThreshold={50}
             pullDownToRefreshContent={
               <InfiniteScrollHelper sx={{ mb: 2 }}>
@@ -196,7 +186,7 @@ export default function GrowableScroll<T>({
             {DisplayedData}
           </InfiniteScroll>
           {!noMore && (loadingMore ? LoadingMoreComponent : ScrollForMoreComponent)}
-          {(noMore && !loading) && NoMoreComponent}
+          {noMore && !loading && NoMoreComponent}
         </Box>
       </div>
     </Grid>
