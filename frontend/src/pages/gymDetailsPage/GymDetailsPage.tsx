@@ -35,14 +35,7 @@ export default function GymDetailsPage() {
   const tabs = [
     {
       label: 'about',
-      // component: <GymAbout gymDetails={gymDetails} />,
-      component: (
-        <div>
-          <GymAbout gymDetails={gymDetails} />
-          <GymAbout gymDetails={gymDetails} />
-          <GymAbout gymDetails={gymDetails} />
-        </div>
-      ),
+      component: <GymAbout gymDetails={gymDetails} />,
     },
     { label: 'betas', component: <GymBetas gymId={gymDetails.id} /> },
   ];
