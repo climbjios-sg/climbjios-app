@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Grid, Box } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useRequest } from 'ahooks';
+import { clearCache, useRequest } from 'ahooks';
 
 import InfiniteScrollHelper from 'src/components/InfiniteScrollHelper';
 import * as Defaults from './GrowableScrollDefaults';
@@ -85,6 +85,19 @@ export default function GrowableScroll<T>({
     refreshDeps: [reloadDeps],
   });
 
+  const handleReload = useCallback(() => {
+    clearCache(cacheName);
+    refresh();
+  }, [refresh, cacheName]);
+
+  //custom implementation of auto reload of useInfiniteScroll when reloadDeps changes
+  useEffect(() => {
+    //useEffect is always triggered at the start; so use this to prevent triggering reload at the start
+    if (updateCounter.current !== 0) {
+      handleReload();
+    }
+  }, [reloadDeps, handleReload, updateCounter]);
+
   //delayed setting of scroll position because it always gets offset after the first set for some reason
   useEffect(() => {
     if (updateCounter.current === 1) {
@@ -164,7 +177,7 @@ export default function GrowableScroll<T>({
               }
               // Pull to refresh props
               pullDownToRefresh
-              refreshFunction={refresh}
+              refreshFunction={handleReload}
               pullDownToRefreshThreshold={50}
               pullDownToRefreshContent={
                 <InfiniteScrollHelper sx={{ mb: 2 }}>
@@ -193,7 +206,7 @@ export default function GrowableScroll<T>({
       data,
       mutate,
       fetchMoreItemsCallback,
-      refresh,
+      handleReload,
       DisplayedData,
       LoadingMoreComponent,
       ScrollForMoreComponent,
