@@ -6,6 +6,7 @@ import CustomGuard from 'src/components/guards/CustomGuard';
 import NoTelegramUsernamePage from 'src/pages/error/NoTelegramUsernameError';
 import { isDebug } from 'src/config';
 import { gymDetailsLoader } from '../pages/gymDetailsPage/GymDetailsPage';
+import ScrollToTop from 'src/components/ScrollToTop';
 
 // ----------------------------------------------------------------------
 
@@ -16,75 +17,16 @@ const Loadable = (Component: ElementType) => (props: any) => {
   const isDashboard = pathname.includes('/dashboard');
 
   if (isDebug) {
-    console.log(
-      `Route: ${pathname}${search}, State: ${JSON.stringify(state)}`
-    );
+    console.log(`Route: ${pathname}${search}, State: ${JSON.stringify(state)}`);
   }
 
   return (
     <Suspense fallback={<LoadingScreen isDashboard={isDashboard} />}>
+      <ScrollToTop />
       <Component {...props} />
     </Suspense>
   );
 };
-
-// export default function Router() {
-//   return useRoutes([
-//     {
-//       path: 'login',
-//       element: (
-//         <CustomGuard notAuthenticated>
-//           <Login />
-//         </CustomGuard>
-//       ),
-//     },
-//     // Onboarding Routes
-//     {
-//       path: 'onboarding',
-//       element: (
-//         <CustomGuard authenticated notOnboarded>
-//           <Onboarding />
-//         </CustomGuard>
-//       ),
-//     },
-//     // Dashboard Routes
-//     {
-//       path: 'dashboard/*',
-//       element: (
-//         <CustomGuard authenticated onboarded>
-//           <Dashboard />
-//         </CustomGuard>
-//       ),
-//     },
-//     // Public Profile Routes
-//     {
-//       path: 'climber/:userId',
-//       element: <UserPublicProfile />,
-//     },
-//     {
-//       path: 'gyms/:gymId',
-//       element: <GymDetailsPage />,
-//       loader: () => {console.log('LOADER')}
-//     },
-//     {
-//       path: '404',
-//       element: <Page404 />,
-//     },
-//     {
-//       path: '/updateTelegramUsername',
-//       element: <NoTelegramUsernamePage />,
-//     },
-//     {
-//       path: 'jios/:id',
-//       element: <JioPage />,
-//     },
-//     {
-//       path: 'authRedirect',
-//       element: <AutoLogin />,
-//     },
-//     { path: '*', element: <Navigate to="/login" replace /> },
-//   ]);
-// }
 
 // AUTHENTICATION
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
@@ -107,7 +49,7 @@ const Page404 = Loadable(lazy(() => import('../pages/error/Page404')));
 
 const JioPage = Loadable(lazy(() => import('../pages/jio')));
 
-const router = createBrowserRouter([
+export default createBrowserRouter([
   {
     path: 'login',
     element: (
@@ -163,4 +105,3 @@ const router = createBrowserRouter([
   { path: '*', element: <Navigate to="/login" replace /> },
 ]);
 
-export default router;
