@@ -13,9 +13,9 @@ import ScrollToTop from 'src/components/ScrollToTop';
 const Loadable = (Component: ElementType) => (props: any) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { pathname, search, state } = useLocation();
-
   const isDashboard = pathname.includes('/dashboard');
 
+  //from DebugRouter
   if (isDebug) {
     console.log(`Route: ${pathname}${search}, State: ${JSON.stringify(state)}`);
   }
@@ -104,4 +104,3 @@ export default createBrowserRouter([
   },
   { path: '*', element: <Navigate to="/login" replace /> },
 ]);
-
