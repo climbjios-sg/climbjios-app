@@ -118,7 +118,7 @@ export class UserProfileModel extends BaseModel {
         'getObject',
         {
           Bucket: process.env.AWS_S3_BUCKET_NAME,
-          Key: `${this.userId}/${S3UploadType.PROFILE_PICTURE}`,
+          Key: `users/${this.userId}/${S3UploadType.PROFILE_PICTURE}`,
           Expires: 60, // 1 minute
         },
       );
