@@ -94,7 +94,6 @@ export class GymsSearchDaoService {
           .select(
             'id',
             'name',
-            'iconUrl',
             'address',
             'area',
           )
