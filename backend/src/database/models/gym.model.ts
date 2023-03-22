@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { Model, QueryContext } from 'objection';
-import { S3UploadType } from 'src/utils/types';
+import { S3UploadType } from '../../utils/types';
 import { BaseModel } from './base.model';
 import { GymGroupModel } from './gymGroup.model';
 
