@@ -1,9 +1,10 @@
 // @mui
-import { Card, Typography, Link } from '@mui/material';
-import { Stack } from '@mui/system';
+import { Card, Typography, Link, Dialog, DialogTitle, List, ListItem } from '@mui/material';
+import { Stack, SxProps } from '@mui/system';
 import { GymData } from 'src/@types/gymData';
 import { IconStyle } from 'src/utils/common';
 import palette from 'src/theme/palette';
+import { useState } from 'react';
 
 type typographyVariant =
   | 'button'
@@ -28,18 +29,22 @@ const IconTextRow = ({
   text,
   headerText,
   headerVariant,
+  sx,
 }: {
   icon: JSX.Element;
   textVariant: typographyVariant;
   text: string;
   headerText?: string;
   headerVariant?: typographyVariant;
+  sx?: SxProps;
 }) => (
   <Stack direction="row" alignItems="center">
     {icon}
     <Stack>
       {headerText && <Typography variant={headerVariant}>{headerText}</Typography>}
-      <Typography variant={textVariant}>{text}</Typography>
+      <Typography sx={sx} variant={textVariant}>
+        {text}
+      </Typography>
     </Stack>
   </Stack>
 );
@@ -58,6 +63,10 @@ export default function GymAbout({ gymDetails }: { gymDetails: GymData }) {
   if (gymDetails.lead) {
     climbingTypes.push('lead');
   }
+
+  const instagramHandle = gymDetails.socialUrl.split('.com/')[1].split('?')[0];
+
+  const [operatingHoursDialogOpen, setOperatingHoursDialogOpen] = useState(false);
 
   return (
     <Stack padding={2}>
@@ -79,6 +88,33 @@ export default function GymAbout({ gymDetails }: { gymDetails: GymData }) {
               />
             </Link>
           </Stack>
+          <Link target="_blank" href={gymDetails.socialUrl}>
+            <IconTextRow
+              icon={<IconStyle icon={'mdi:instagram'} color="#d62976" />}
+              textVariant="body2"
+              text={`@${instagramHandle}`}
+              sx={{ textDecoration: 'underline' }}
+            />
+          </Link>
+          <Link style={{ cursor: 'pointer' }} onClick={() => setOperatingHoursDialogOpen(true)}>
+            <IconTextRow
+              icon={<IconStyle icon={'mdi:shop-hours-outline'} />}
+              textVariant="body2"
+              text={gymDetails.openNow}
+              sx={{ textDecoration: 'underline' }}
+            />
+          </Link>
+          <Dialog
+            open={operatingHoursDialogOpen}
+            onClose={() => setOperatingHoursDialogOpen(false)}
+          >
+            <DialogTitle>Operating Hours</DialogTitle>
+            <List>
+              {gymDetails.operatingHours.map((hours, index) => (
+                <ListItem key={index}>{hours}</ListItem>
+              ))}
+            </List>
+          </Dialog>
           <IconTextRow
             icon={
               <IconStyle icon={'mdi:checkbox-multiple-outline'} color={palette.light.grey[700]} />

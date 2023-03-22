@@ -15,20 +15,9 @@ export interface GymData {
   readonly autoBelay: boolean;
   readonly topRope: boolean;
   readonly lead: boolean;
-  readonly mondayOpening: string;
-  readonly mondayClosing: string;
-  readonly tuedayOpening: string;
-  readonly tuedayClosing: string;
-  readonly wednesdayOpening: string;
-  readonly wednesdayClosing: string;
-  readonly thursdayOpening: string;
-  readonly thursdayClosing: string;
-  readonly fridayOpening: string;
-  readonly fridayClosing: string;
-  readonly saturdayOpening: string;
-  readonly saturdayClosing: string;
-  readonly sundayOpening: string;
-  readonly sundayClosing: string;
+  readonly socialUrl: string;
+  readonly openNow: string;
+  readonly operatingHours: string[];
 }
 
 export type GymPreviewData = Pick<GymData, 'id' | 'name' | 'permanentlyClosed' | 'address' | 'area' | 'iconUrl'>;
