@@ -1,8 +1,8 @@
-import { Model } from 'objection';
-import { BaseModel } from './base.model';
 import * as AWS from 'aws-sdk';
+import { Model, QueryContext } from 'objection';
+import { S3UploadType } from 'src/utils/types';
+import { BaseModel } from './base.model';
 import { GymGroupModel } from './gymGroup.model';
-import { S3UploadType } from '../../utils/types';
 
 export class GymModel extends BaseModel {
   static tableName = 'gyms';
@@ -21,6 +21,9 @@ export class GymModel extends BaseModel {
   readonly autoBelay: boolean;
   readonly topRope: boolean;
   readonly lead: boolean;
+  readonly socialUrl: string;
+  openNow: string;
+  operatingHours: string[];
 
   // readonly mondayOpening: string;
   // readonly mondayClosing: string;
@@ -49,25 +52,19 @@ export class GymModel extends BaseModel {
     },
   });
 
-  $afterFind = (context) => {
+  $afterFind = (context: QueryContext) => {
     const result = super.$afterFind(context);
 
-    this.bannerUrl = GymModel.s3Instance.getSignedUrl(
-      'getObject',
-      {
-        Bucket: process.env.AWS_S3_BUCKET_NAME,
-        Key: `gyms/${this.id}/banner/${S3UploadType.BANNER_PICTURE}`,
-        Expires: 60, // 1 minute
-      },
-    );
-    this.iconUrl = GymModel.s3Instance.getSignedUrl(
-      'getObject',
-      {
-        Bucket: process.env.AWS_S3_BUCKET_NAME,
-        Key: `gyms/${this.id}/icon/${S3UploadType.ICON_PICTURE}`,
-        Expires: 60, // 1 minute
-      },
-    );
+    this.bannerUrl = GymModel.s3Instance.getSignedUrl('getObject', {
+      Bucket: process.env.AWS_S3_BUCKET_NAME,
+      Key: `gyms/${this.id}/banner/${S3UploadType.BANNER_PICTURE}`,
+      Expires: 60, // 1 minute
+    });
+    this.iconUrl = GymModel.s3Instance.getSignedUrl('getObject', {
+      Bucket: process.env.AWS_S3_BUCKET_NAME,
+      Key: `gyms/${this.id}/icon/${S3UploadType.ICON_PICTURE}`,
+      Expires: 60, // 1 minute
+    });
 
     return result;
   };
