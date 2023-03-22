@@ -30,6 +30,8 @@ export class GymsSearchDaoService {
     const gymGroups = await this.gymGroupModel
       .query()
       .modify((qb) => {
+        //if a substring is given when searching, modify the query to only match gym groups with outlets
+        //that have name, address or area that match the substring
         if (substring) {
           qb.whereExists(
             this.gymGroupModel
@@ -82,6 +84,8 @@ export class GymsSearchDaoService {
 
     // console.log(gymGroups);
 
+    //after finding the gym groups that have outlets that match the above criteria,
+    //retrieve all outlets from the found gym groups
     return await Promise.all(
       gymGroups.map(async (gymGroup) => ({
         ...gymGroup,
@@ -90,12 +94,12 @@ export class GymsSearchDaoService {
           .select(
             'id',
             'name',
-            'permanentlyClosed',
             'iconUrl',
             'address',
             'area',
           )
-          .where('gymGroupId', '=', gymGroup.id),
+          .where('gymGroupId', '=', gymGroup.id)
+          .andWhere('permanentlyClosed', '=', 'false'),
         // .modify((qb) => {
         //   if (substring) {
         //     qb.where((builder) => {
