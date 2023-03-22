@@ -12,9 +12,11 @@ export default function GymPageHeader(gymDetails: GymData) {
   return (
     <div
       style={{
-        //shamelessly copy pasted from the CSS in figma
+        //shamelessly copy pasted from the CSS in figma (and stackoverflow)
         backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("${gymDetails.bannerUrl}")`,
-        backgroundSize: 'auto 100%',
+        // backgroundSize: '100% auto',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat'
       }}
     >
       <Toolbar sx={{ ml: -2, background: 'transparent' }}>
