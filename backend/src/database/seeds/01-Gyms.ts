@@ -198,10 +198,6 @@ export async function seed(knex: Knex): Promise<void> {
       area: 'Jurong East',
       address: '48 Boon Lay Way, 04-01 The Chevrons, Singapore 609961',
       passSharing: 'Passholder must be present and checked in',
-      iconUrl:
-        'https://scontent.fsin11-1.fna.fbcdn.net/v/t39.30808-6/298556559_505562444905064_2943248931061676068_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=pA13xBU43-8AX_BvgJx&_nc_oc=AQmKWi1K0fcW58mV7F10uvSkLg6d2N7c2qDEZsCONl6uVNZQY0KLokb3uYbnh2YczoM&_nc_ht=scontent.fsin11-1.fna&oh=00_AfBah3StDAlwNyaT46cExfQOkmKwMS441ksVr2jNTizxZQ&oe=63CD4E78',
-      bannerUrl:
-        'https://static.wixstatic.com/media/04ac92_ab3411c5de584541aa237c4cf2a82093~mv2.jpg/v1/fill/w_2880,h_1196,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/04ac92_ab3411c5de584541aa237c4cf2a82093~mv2.jpg',
       lead: false,
       boulder: true,
       topRope: false,

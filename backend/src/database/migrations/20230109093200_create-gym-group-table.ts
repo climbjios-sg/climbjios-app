@@ -39,7 +39,7 @@ export async function up(knex: Knex): Promise<void> {
           name: 'FitBloc',
           permanentlyClosed: false,
         },
-        { name: 'Ground Up', permanentlyClosed: false, iconUrl: 'https://static.wixstatic.com/media/8b92f2_1fb25d945b3f45f0bc807b642fa98b26~mv2.png/v1/fill/w_102,h_102,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/8b92f2_1fb25d945b3f45f0bc807b642fa98b26~mv2.png' },
+        { name: 'Ground Up', permanentlyClosed: false },
         { name: 'Kinetics', permanentlyClosed: false },
         {
           name: 'Lighthouse',
