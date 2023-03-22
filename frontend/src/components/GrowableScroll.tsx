@@ -66,7 +66,7 @@ export default function GrowableScroll<T>({
     scrollForMoreComponent: ScrollForMoreComponent = Defaults.ScrollForMoreComponent,
     loadingMoreComponent: LoadingMoreComponent = Defaults.LoadingMoreComponent,
   } = subComponents ?? {};
-  const updateCounter = useRef(0);
+  const lifetimeUpdateCounter = useRef(0);
   const errorSnackbar = useCustomSnackbar();
 
   const {
@@ -84,28 +84,28 @@ export default function GrowableScroll<T>({
     staleTime: staleTime,
     refreshDeps: [reloadDeps],
   });
-
   const handleReload = useCallback(() => {
     clearCache(cacheName);
     refresh();
+    document.getElementById('root')?.scrollTo(0, 0);
   }, [refresh, cacheName]);
 
   //custom implementation of auto reload of useInfiniteScroll when reloadDeps changes
   useEffect(() => {
     //useEffect is always triggered at the start; so use this to prevent triggering reload at the start
-    if (updateCounter.current !== 0) {
+    if (lifetimeUpdateCounter.current !== 0) {
       handleReload();
     }
-  }, [reloadDeps, handleReload, updateCounter]);
+  }, [reloadDeps, handleReload, lifetimeUpdateCounter]);
 
   //delayed setting of scroll position because it always gets offset after the first set for some reason
   useEffect(() => {
-    if (updateCounter.current === 1) {
+    if (lifetimeUpdateCounter.current === 1) {
       if (data?.scrollY && cacheName) {
         document.getElementById('root')?.scrollTo(0, data.scrollY);
       }
     }
-    updateCounter.current += 1;
+    lifetimeUpdateCounter.current += 1;
   });
 
   const firstFetch = !data;
