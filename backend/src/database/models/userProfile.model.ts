@@ -1,4 +1,4 @@
-import { Model } from 'objection';
+import { Model, QueryContext } from 'objection';
 import { BaseModel } from './base.model';
 import { BoulderingGradeModel } from './boulderingGrade.model';
 import { PronounModel } from './pronoun.model';
@@ -110,7 +110,7 @@ export class UserProfileModel extends BaseModel {
     },
   });
 
-  $afterFind = (context) => {
+  $afterFind = (context: QueryContext) => {
     const result = super.$afterFind(context);
 
     if (this.hasProfilePicture) {
