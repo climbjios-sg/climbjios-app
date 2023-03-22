@@ -16,6 +16,7 @@ export interface GymData {
   readonly topRope: boolean;
   readonly lead: boolean;
   readonly socialUrl: string;
+  readonly website: string;
   readonly openNow: string;
   readonly operatingHours: string[];
 }

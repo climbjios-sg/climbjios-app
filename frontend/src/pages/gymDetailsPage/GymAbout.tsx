@@ -96,6 +96,14 @@ export default function GymAbout({ gymDetails }: { gymDetails: GymData }) {
               sx={{ textDecoration: 'underline' }}
             />
           </Link>
+          <Link target="_blank" href={gymDetails.website}>
+            <IconTextRow
+              icon={<IconStyle icon={'mdi:search-globe'} />}
+              textVariant="body2"
+              text="Website"
+              sx={{ textDecoration: 'underline' }}
+            />
+          </Link>
           <Link style={{ cursor: 'pointer' }} onClick={() => setOperatingHoursDialogOpen(true)}>
             <IconTextRow
               icon={<IconStyle icon={'mdi:shop-hours-outline'} />}
