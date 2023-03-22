@@ -16,7 +16,8 @@ export default function GymPageHeader(gymDetails: GymData) {
         backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("${gymDetails.bannerUrl}")`,
         // backgroundSize: '100% auto',
         backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: '50%, 50%'
       }}
     >
       <Toolbar sx={{ ml: -2, background: 'transparent' }}>
