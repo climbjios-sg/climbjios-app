@@ -3,7 +3,6 @@ import { Toolbar, IconButton, Typography, Avatar } from '@mui/material';
 import { Stack } from '@mui/system';
 import Iconify from '../../components/Iconify';
 import { GymData } from 'src/@types/gymData';
-import { IconStyle } from 'src/utils/common';
 import { useNavigate } from 'react-router';
 
 export default function GymPageHeader(gymDetails: GymData) {
@@ -37,15 +36,11 @@ export default function GymPageHeader(gymDetails: GymData) {
         spacing={1}
         sx={{ color: 'white' }}
       >
-        {gymDetails.iconUrl ? (
-          <Avatar
-            src={gymDetails.iconUrl}
-            alt={gymDetails.name}
-            sx={{ ml: 2, width: logoSize, height: logoSize }}
-          />
-        ) : (
-          <IconStyle icon={'eva:pin-outline'} sx={{ width: logoSize, height: logoSize }} />
-        )}
+        <Avatar
+          src={gymDetails.iconUrl}
+          alt={gymDetails.name}
+          sx={{ ml: 2, width: logoSize, height: logoSize, backgroundColor: 'white' }}
+        />
         <Stack sx={{ pl: 2, pb: 2 }}>
           <Typography variant="h2">{gymDetails.name}</Typography>
         </Stack>
