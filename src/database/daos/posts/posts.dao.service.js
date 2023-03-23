@@ -53,8 +53,8 @@ let PostsDaoService = PostsDaoService_1 = class PostsDaoService {
     async getUpcomingPosts(search) {
         const query = this.postModel
             .query()
+            .orderByRaw('end_date_time::date ASC')
             .orderBy('startDateTime', 'ASC')
-            .orderBy('endDateTime', 'ASC')
             .orderBy('gymId', 'ASC')
             .withGraphFetched(PostsDaoService_1.allGraphs);
         query.where('status', types_1.PostStatus.OPEN);
