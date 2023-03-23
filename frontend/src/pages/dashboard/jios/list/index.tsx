@@ -8,17 +8,13 @@ import { useSearchParams } from 'react-router-dom';
 import useAddToHomeScreen from 'src/hooks/useAddToHomeScreen';
 import JioSearch from './search';
 import FloatingContainer from '../../../../components/FloatingContainer';
+import { TabValue } from './tabValue';
 
 const StyledTab = styled(Tab)({
   '&.MuiButtonBase-root': {
     marginRight: 16,
   },
 });
-
-export enum TabValue {
-  AllJios = 'All Jios',
-  MyJios = 'My Jios',
-}
 
 export default function JiosList() {
   const [searchParams] = useSearchParams();

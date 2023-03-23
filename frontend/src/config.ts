@@ -5,13 +5,13 @@ import { Jio } from 'src/@types/jio';
 
 // API
 
-export const HOST_API = process.env.REACT_APP_HOST_API_KEY || '';
+export const HOST_API = import.meta.env.VITE_HOST_API_KEY || '';
 
 // UTILS
 
-export const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+export const isDevelopment = import.meta.env.DEV;
 
-export const isDebug = process.env.REACT_APP_DEBUG === 'true';
+export const isDebug = import.meta.env.VITE_DEBUG === 'true';
 
 export const VERSION = packageJson.version;
 

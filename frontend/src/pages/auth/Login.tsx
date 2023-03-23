@@ -55,7 +55,7 @@ export default function Login() {
                   Sign in to ClimbJios
                 </Typography>
                 <Typography sx={{ color: 'text.secondary' }}>
-                  The social network for climbers.
+                  The community for climbers.
                 </Typography>
               </Box>
             </Stack>
