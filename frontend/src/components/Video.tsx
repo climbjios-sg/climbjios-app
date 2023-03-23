@@ -96,11 +96,7 @@ export default function Video({ sx, cloudflareVideoUid, videoUrl, thumbnailSrc }
       />
       <Image ratio="9/16" src={thumbnailSrc} />
       <Modal
-        open
-        sx={{
-          // Controlling open and close logic with display so that video will preload even when modal is closed
-          display: open ? 'block' : 'none',
-        }}
+        open={open}
         onClose={() => setOpen(false)}
       >
         <>
