@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import useTallyUserResearchPopup from 'src/components/TallyUserResearchPopup';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/utils/jwt';
 import useCustomSnackbar from '../useCustomSnackbar';
 import useRedirectPath from '../useRedirectPath';
@@ -13,6 +14,7 @@ const useAutoLogin = () => {
   const [searchParams] = useSearchParams();
   const { enqueueError } = useCustomSnackbar();
   const { redirectPath, clearRedirectPath } = useRedirectPath();
+  const openPopup = useTallyUserResearchPopup();
 
   useEffect(() => {
     const callLogin = async () => {
@@ -39,7 +41,9 @@ const useAutoLogin = () => {
     };
 
     callLogin();
+    openPopup()
   }, [
+    openPopup,
     clearRedirectPath,
     enqueueError,
     login,
