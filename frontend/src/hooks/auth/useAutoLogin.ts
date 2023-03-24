@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import useTallyUserResearchPopup from 'src/components/TallyUserResearchPopup';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/utils/jwt';
 import useCustomSnackbar from '../useCustomSnackbar';
+import useLocalStorage from '../useLocalStorage';
 import useRedirectPath from '../useRedirectPath';
 import useLogin from './useLogin';
 
@@ -14,7 +14,9 @@ const useAutoLogin = () => {
   const [searchParams] = useSearchParams();
   const { enqueueError } = useCustomSnackbar();
   const { redirectPath, clearRedirectPath } = useRedirectPath();
-  const openPopup = useTallyUserResearchPopup();
+
+  //for tally user research
+  const { setValueInLocalStorage: setJustLoggedIn } = useLocalStorage('justLoggedIn', false);
 
   useEffect(() => {
     const callLogin = async () => {
@@ -41,9 +43,8 @@ const useAutoLogin = () => {
     };
 
     callLogin();
-    openPopup()
+    setJustLoggedIn(true);
   }, [
-    openPopup,
     clearRedirectPath,
     enqueueError,
     login,
