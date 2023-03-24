@@ -60,7 +60,7 @@ const useCheckNotOnboarded = (): CheckNotOnboarded => {
       }
     },
 
-    [authProvider, enqueueSnackbar, navigate]
+    [authProvider, justLoggedIn, setJustLoggedIn, openPopup, enqueueSnackbar, navigate]
   );
 
   return checkNotOnboarded;

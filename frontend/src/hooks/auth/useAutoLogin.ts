@@ -48,6 +48,7 @@ const useAutoLogin = () => {
     clearRedirectPath,
     enqueueError,
     login,
+    setJustLoggedIn,
     redirectPath?.options,
     redirectPath?.to,
     searchParams,
