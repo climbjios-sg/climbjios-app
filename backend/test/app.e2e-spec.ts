@@ -260,9 +260,7 @@ describe('Backend (e2e)', () => {
 
       expect(body.length).toBeGreaterThan(0);
       expect(body).toEqual(
-        expect.arrayContaining([
-          { id: 1, name: 'Arête (By Upwall)', permanentlyClosed: false },
-        ]),
+        expect.arrayContaining([{ id: 1, name: 'Arête (By Upwall)' }]),
       );
     });
 
