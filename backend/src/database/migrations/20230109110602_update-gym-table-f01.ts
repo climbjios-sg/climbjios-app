@@ -586,7 +586,7 @@ export async function up(knex: Knex): Promise<void> {
       name: 'Climb@T3',
       shortName: 'Climb@T3',
       permanentlyClosed: false,
-      id: 34,
+      id: 39,
       gymGroupId: 17,
       area: 'Changi Airport',
       address: 'Changi Airport Terminal 3, #B3-01/02 Singapore',
