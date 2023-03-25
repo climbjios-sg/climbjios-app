@@ -34,7 +34,8 @@ export class GymsSearchDaoService {
             );
         }
       })
-      .orderBy('name', 'ASC');
+      .orderBy('name', 'ASC')
+      .select('id', 'name');
 
     //after finding the gym groups that have outlets that match the above criteria,
     //retrieve all outlets from the found gym groups
@@ -44,12 +45,7 @@ export class GymsSearchDaoService {
         gymOutlets: await this.gymModel
           .query()
           .context({ getUrls: true })
-          .select(
-            'id',
-            'name',
-            'address',
-            'area',
-          )
+          .select('id', 'name', 'address', 'area')
           .where('gymGroupId', '=', gymGroup.id)
           .andWhere('permanentlyClosed', '=', 'false'),
       })),

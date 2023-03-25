@@ -260,7 +260,78 @@ describe('Backend (e2e)', () => {
 
       expect(body.length).toBeGreaterThan(0);
       expect(body).toEqual(
-        expect.arrayContaining([{ id: 1, name: 'Arête (By Upwall)' }]),
+        expect.arrayContaining([
+          { id: 1, name: 'Arête (By Upwall)' },
+          {
+            name: 'Boulder Planet (Sembawang)',
+            id: 14,
+          },
+          {
+            name: 'Boulder World (SingPost)',
+            id: 15,
+          },
+          {
+            name: 'Boulder World (Paragon)',
+            id: 16,
+          },
+        ]),
+      );
+    });
+
+    it('/:id? (GET)', async () => {
+      const { body } = await request(app.getHttpServer())
+        .get(`${prefix}/1`)
+        .set('Authorization', 'Bearer ' + TEST_USER_JWT)
+        .expect(200);
+
+      expect(body.length).toBeGreaterThan(0);
+      expect(body).toEqual(
+        expect.arrayContaining([
+          {
+            name: 'Arête (By Upwall)',
+            shortName: 'Arête',
+            permanentlyClosed: false,
+            id: 1,
+            gymGroupId: 18,
+            area: 'Expo',
+            address:
+              '5 Changi Business Park Central 1, #02-14/15/16, Singapore 486038',
+            passSharing:
+              'Passholder does not need to be present but accounts have to be linked beforehand',
+            socialUrl: 'https://instagram.com/arete.climbing?igshid=NDk5N2NlZjQ=',
+            website: 'https://upwallclimbing.sg/',
+            lead: false,
+            boulder: true,
+            topRope: false,
+            autoBelay: false,
+          }
+        ]),
+      );
+    });
+
+    it('/search/:substring? (GET)', async () => {
+      const { body } = await request(app.getHttpServer())
+        .get(`${prefix}/search/chevrons`)
+        .set('Authorization', 'Bearer ' + TEST_USER_JWT)
+        .expect(200);
+
+      expect(body.length).toBeGreaterThan(0);
+      expect(body).toEqual(
+        expect.arrayContaining([
+          {
+            name: 'Boulder+ (Aperia Mall)',
+            id: 12,
+            area: 'Lavender',
+            address:
+              '12 Kallang Ave, #03-17, The Aperia Mall, Singapore 339511',
+          },
+          {
+            name: 'Boulder+ (The Chevrons)',
+            id: 13,
+            area: 'Jurong East',
+            address: '48 Boon Lay Way, 04-01 The Chevrons, Singapore 609961',
+          },
+        ]),
       );
     });
 
