@@ -55,6 +55,10 @@ export class GymModel extends BaseModel {
   $afterFind = (context: QueryContext) => {
     const result = super.$afterFind(context);
 
+    if (!context.getUrls) {
+      return
+    }
+
     this.bannerUrl = GymModel.s3Instance.getSignedUrl('getObject', {
       Bucket: process.env.AWS_S3_BUCKET_NAME,
       Key: `gyms/${this.id}/banner/${S3UploadType.BANNER_PICTURE}`,

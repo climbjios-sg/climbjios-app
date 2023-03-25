@@ -7,10 +7,11 @@ export class GymsDaoService {
   constructor(@Inject('GymModel') private gymModel: ModelClass<GymModel>) {}
 
   getAll() {
-    const a = this.gymModel
+    return this.gymModel
       .query()
+      .context({ getUrls: false })
       .where('permanentlyClosed', '=', false)
-      .select(['id', 'name', 'iconUrl'])
+      .select(['id', 'name'])
       .orderBy('name', 'ASC');
   }
 

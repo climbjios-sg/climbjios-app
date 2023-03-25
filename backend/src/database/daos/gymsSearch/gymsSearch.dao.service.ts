@@ -91,6 +91,7 @@ export class GymsSearchDaoService {
         ...gymGroup,
         gymOutlets: await this.gymModel
           .query()
+          .context({ getUrls: true })
           .select(
             'id',
             'name',
