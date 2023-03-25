@@ -32,7 +32,10 @@ export class GymsService {
   }
 
   async getGymDetails(id: number) {
-    const result = await this.gymsDaoService.findById(id);
+    const result = await this.gymsDaoService.findById(id); 
+    if (!result) {
+      throw new HttpException('Invalid gym id!', 400);
+    }
 
     const { openNow, operatingHours } = await scrapeOperatingHours(result.name);
     result.openNow = openNow;
