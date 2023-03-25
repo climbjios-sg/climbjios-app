@@ -10,23 +10,7 @@ export class GymsSearchDaoService {
     @Inject('GymModel') private gymModel: ModelClass<GymModel>,
   ) {}
 
-  // getAll() {
-  //   return this.gymModel
-  //     .query()
-  //     .orderBy('name', 'ASC');
-  // }
-
-  // findById(id: number) {
-  //   return this.gymModel.query().findById(id);
-  // }
-
   async searchGyms(substring?: string) {
-    // const tmp = await this.gymModel
-    //   .query()
-    //   .where('address', 'ilike', `%${substring}%`)
-    //   .orWhere('name', 'ilike', `%${substring}%`);
-    // console.log(tmp.length);
-
     const gymGroups = await this.gymGroupModel
       .query()
       .modify((qb) => {
@@ -48,41 +32,9 @@ export class GymsSearchDaoService {
                 .relatedQuery('gymOutlets')
                 .where('area', 'ilike', `%${substring}%`),
             );
-          // qb.whereExists(
-          //   this.gymModel
-          //     .relatedQuery('gymOutlets')
-          //     .where('address', 'ilike', `%${substring}%`)
-          //     .orWhere('name', 'ilike', `%${substring}%`),
-          // );
         }
       })
       .orderBy('name', 'ASC');
-
-    // await this.gymGroupModel
-    //   .query()
-    //   .whereExists(
-    //     this.gymGroupModel
-    //       .relatedQuery('gymOutlets')
-    //       .where('name', 'ilike', `%${substring}%`),
-    //   )
-    //   .orWhereExists(
-    //     this.gymGroupModel
-    //       .relatedQuery('gymOutlets')
-    //       .where('address', 'ilike', `%${substring}%`),
-    //   )
-    //   .orderBy('name', 'ASC');
-
-    // await this.gymGroupModel
-    //   .query()
-    //   .whereExists(
-    //     this.gymGroupModel
-    //       .relatedQuery('gymOutlets')
-    //       .where('address', 'ilike', `%${substring}%`)
-    //       .orWhere('name', 'ilike', `%${substring}%`),
-    //   )
-    //   .orderBy('name', 'ASC');
-
-    // console.log(gymGroups);
 
     //after finding the gym groups that have outlets that match the above criteria,
     //retrieve all outlets from the found gym groups
@@ -100,16 +52,6 @@ export class GymsSearchDaoService {
           )
           .where('gymGroupId', '=', gymGroup.id)
           .andWhere('permanentlyClosed', '=', 'false'),
-        // .modify((qb) => {
-        //   if (substring) {
-        //     qb.where((builder) => {
-        //       builder
-        //         .where('name', 'ilike', `%${substring}%`)
-        //         .orWhere('address', 'ilike', `%${substring}%`)
-        //         .orWhere('area', 'ilike', `%${substring}%`);
-        //     });
-        //   }
-        // }),
       })),
     );
   }
