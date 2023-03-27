@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/utils/jwt';
 import useCustomSnackbar from '../useCustomSnackbar';
+import useLocalStorage from '../useLocalStorage';
 import useRedirectPath from '../useRedirectPath';
 import useLogin from './useLogin';
 
@@ -13,6 +14,9 @@ const useAutoLogin = () => {
   const [searchParams] = useSearchParams();
   const { enqueueError } = useCustomSnackbar();
   const { redirectPath, clearRedirectPath } = useRedirectPath();
+
+  //for tally user research
+  const { setValueInLocalStorage: setJustLoggedIn } = useLocalStorage('justLoggedIn', false);
 
   useEffect(() => {
     const callLogin = async () => {
@@ -39,10 +43,12 @@ const useAutoLogin = () => {
     };
 
     callLogin();
+    setJustLoggedIn(true);
   }, [
     clearRedirectPath,
     enqueueError,
     login,
+    setJustLoggedIn,
     redirectPath?.options,
     redirectPath?.to,
     searchParams,
