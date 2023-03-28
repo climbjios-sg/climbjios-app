@@ -4,7 +4,7 @@ import { PATH_AUTH } from 'src/routes/paths';
 import { refreshAccessToken, checkValidity as refreshSessionTokens } from 'src/services/token';
 import { getUser } from 'src/services/users';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/utils/jwt';
-
+import mixpanel_actions from 'src/mixpanel';
 interface Session {
   accessToken: string;
   refreshToken: string;
@@ -107,6 +107,8 @@ export const jwtAuthProvider: AuthProvider = {
     if (!userIdentity.name) {
       throw new Error();
     }
+    mixpanel_actions.identify(userIdentity.userId);
+    mixpanel_actions.people.set(userIdentity);
   },
   getIdentity: async () => {
     const response = await getUser();

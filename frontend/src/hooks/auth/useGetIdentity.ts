@@ -3,6 +3,7 @@ import { getUser } from 'src/services/users';
 import useSafeRequest from '../services/useSafeRequest';
 import { User } from 'src/@types/user';
 import { PronounName } from 'src/@types/pronoun';
+import mixpanel_actions from 'src/mixpanel/index';
 
 const defaultUser: User = {
   userId: '',
@@ -43,6 +44,10 @@ const useGetIdentity = () => {
     cacheKey: CacheKey.User,
   });
 
+  if (data?.data) {
+    mixpanel_actions.identify(data.data.userId);
+    mixpanel_actions.people.set(data.data);
+  }
   return {
     identity: data?.data ?? defaultUser,
     loading,
