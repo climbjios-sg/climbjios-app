@@ -27,6 +27,9 @@ $ yarn start:dev:cronjob
 
 # production mode
 $ yarn start:prod
+
+# call endpoint
+$ curl localhost:4000/v1/
 ```
 
 <!-- ## Test

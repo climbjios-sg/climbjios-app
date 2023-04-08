@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useMemo } from 'react';
+import { ReactElement, useState, useMemo } from 'react';
 
 // @mui
 import { Container, Typography, Button, Card, Stack } from '@mui/material';
@@ -68,10 +68,10 @@ const onboardingSteps: OnboardingStep[] = [
     dirtyButtonText: 'Next',
     schema: {
       name: Yup.string()
+        .required('Name is required.')
         .min(MIN_NAME_LEN, NAME_LEN_ERROR)
         .max(MAX_NAME_LEN, NAME_LEN_ERROR)
-        .matches(REGEX_NAME, NAME_REGEX_ERROR)
-        .required('Name is required.'),
+        .matches(REGEX_NAME, NAME_REGEX_ERROR),
     },
   },
   {
@@ -175,7 +175,7 @@ export default function Onboarding() {
 
   const methods = useForm<OnboardingFormValues>({
     resolver: yupResolver(formSchema),
-    mode: 'onSubmit',
+    mode: 'onChange',
   });
   const { handleSubmit, trigger, watch, getValues } = methods;
   const activeSchema = useMemo(() => getActiveSchema(activeStep), [activeStep]);

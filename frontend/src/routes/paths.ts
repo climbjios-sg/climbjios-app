@@ -1,4 +1,4 @@
-import { TabValue } from '../pages/dashboard/jios/list';
+import { TabValue } from '../pages/dashboard/jios/list/tabValue';
 
 function path(root: string, sublink: string) {
   return `${root}${sublink}`;
@@ -15,9 +15,9 @@ export const PATH_LANDING = {
   root: ROOTS_LANDING,
   general: {
     privacyPolicy: path(ROOTS_LANDING, '/privacy-policy'),
-    terms: path(ROOTS_LANDING, '/terms')
-  }
-}
+    terms: path(ROOTS_LANDING, '/terms'),
+  },
+};
 
 export const PATH_AUTH = {
   root: ROOTS_AUTH,

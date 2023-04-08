@@ -52,10 +52,10 @@ export default function EditProfileForm() {
 
   const UserSchema = Yup.object().shape({
     name: Yup.string()
+      .required('Name is required.')
       .min(MIN_NAME_LEN, NAME_LEN_ERROR)
       .max(MAX_NAME_LEN, NAME_LEN_ERROR)
-      .matches(REGEX_NAME, NAME_REGEX_ERROR)
-      .required('Name is required.'),
+      .matches(REGEX_NAME, NAME_REGEX_ERROR),
     height: Yup.number().positive().integer().min(MIN_HEIGHT).max(MAX_HEIGHT).optional(),
     reach: Yup.number().positive().integer().min(MIN_REACH).max(MAX_REACH).optional(),
     pronounId: Yup.number().optional(),
@@ -102,6 +102,7 @@ export default function EditProfileForm() {
 
   const methods = useForm<EditProfileFormValues>({
     resolver: yupResolver(UserSchema),
+    mode: "onChange",
     defaultValues,
   });
 
