@@ -56,7 +56,7 @@ export class GymModel extends BaseModel {
     const result = super.$afterFind(context);
 
     if (!context.getUrls) {
-      return
+      return;
     }
 
     this.bannerUrl = GymModel.s3Instance.getSignedUrl('getObject', {
