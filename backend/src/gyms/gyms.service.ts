@@ -32,7 +32,7 @@ export class GymsService {
   }
 
   async getGymDetails(id: number) {
-    const result = await this.gymsDaoService.findById(id); 
+    const result = await this.gymsDaoService.findById(id);
     if (!result) {
       throw new HttpException('Invalid gym id!', 400);
     }
@@ -66,12 +66,17 @@ async function scrapeOperatingHours(name: string): Promise<OperatingHours> {
   let user_agent = selectRandom();
   let header = {
     'User-Agent': `${user_agent}`,
+    // got "unexepcted end of file" with error code 400 after changing to Yarn 1x
+    // fixed according to https://stackoverflow.com/a/74735197/7577786
+    'Accept-Encoding': 'gzip,deflate,compress',
   };
 
-  const { data } = await axios
-    .get(`https://www.google.com/search?q=${name}&gl=sg&hl=en`, {
+  const { data } = await axios.get(
+    `https://www.google.com/search?q=${name}&gl=sg&hl=en`,
+    {
       headers: header,
-    });
+    },
+  );
   let $ = cheerio.load(data);
   let openNow = $('.JjSWRd').text();
   let hours: string[] = [];

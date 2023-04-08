@@ -16,6 +16,7 @@ export class GymsDaoService {
   }
 
   findById(id: number) {
-    return this.gymModel.query().findById(id);
+    // had to explicitly pass true for getUrls after changing to Yarn 1x
+    return this.gymModel.query().context({ getUrls: true }).findById(id);
   }
 }
