@@ -33,8 +33,6 @@ jobs:
         uses: actions/setup-node@v2-beta
         with:
           node-version: '16'
-      - name: upgrade yarn
-        run: npm install yarn -g
       - name: Install dependencies
         run: cd backend; yarn -v; yarn policies set-version; yarn -v; yarn install --frozen-lockfile;
       - name: Run tests
