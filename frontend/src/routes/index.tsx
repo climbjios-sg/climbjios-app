@@ -85,6 +85,7 @@ export default createBrowserRouter([
     path: 'gyms/:gymId',
     element: <GymDetailsPage />,
     loader: gymDetailsLoader,
+    errorElement: <Page404 />,
   },
   {
     path: '404',
