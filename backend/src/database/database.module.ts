@@ -18,6 +18,7 @@ import { UserProfileFavouriteGymModel } from './models/userProfileFavouriteGym.m
 import { BetaModel } from './models/beta.model';
 import { RefreshTokenModel } from './models/refreshToken.model';
 import { GymGroupModel } from './models/gymGroup.model';
+import { PassModel } from './models/gymPass.model';
 
 const models = [
   GymModel,
@@ -32,6 +33,7 @@ const models = [
   UserProfileFavouriteGymModel,
   GymGradeModel,
   GymGroupModel,
+  PassModel,
   ColorModel,
   WallModel,
   BetaModel,

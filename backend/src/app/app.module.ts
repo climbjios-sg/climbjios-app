@@ -35,6 +35,7 @@ import { WallsDaoModule } from '../database/daos/walls/walls.dao.module';
 import { WallsModule } from '../walls/walls.module';
 import { LoggerModule } from '../utils/logger/logger.module';
 import { RefreshTokensDaoModule } from '../database/daos/refreshTokens/refreshTokens.dao.module';
+import { PassesDaoModule } from '../database/daos/passes/passes.dao.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { RefreshTokensDaoModule } from '../database/daos/refreshTokens/refreshTo
     UserProfileDaoModule,
     GymGradesDaoModule,
     GymsSearchDaoModule,
+    PassesDaoModule,
     ColorsDaoModule,
     WallsDaoModule,
     BetasDaoModule,
