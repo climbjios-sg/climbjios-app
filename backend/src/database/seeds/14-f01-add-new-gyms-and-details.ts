@@ -589,10 +589,10 @@ export async function seed(knex: Knex): Promise<void> {
   // with all items in the data array, 8 tests pass before error is thrown
   // if i only use 3, 28 pass before error is thrown
   // i suspect it is due to Promise.all causing all the queries to be run in parallel, as described here
-  // https://stackoverflow.com/a/48069213/7577786 in the first comment: 
+  // https://stackoverflow.com/a/48069213/7577786 in the first comment:
   // This is because Promise.all() executes all queries in parallel. To fix this, all promises must be resolved one after another. You can do this with code in this stackoverflow question
   // https://stackoverflow.com/questions/24586110/resolve-promises-one-after-another-i-e-in-sequence
-  
+
   // await Promise.all(
   //   data.map(async (row) => {
   //     return knex('gyms').insert(row).where('gyms.id', row.id).onConflict('id').merge();
@@ -602,7 +602,11 @@ export async function seed(knex: Knex): Promise<void> {
 
   // for loop supposedly doesn't make all the queries execute in parralel like Promise.all does
   for (const row of data) {
-    await knex('gyms').insert(row).where('gyms.id', row.id).onConflict('id').merge()
+    await knex('gyms')
+      .insert(row)
+      .where('gyms.id', row.id)
+      .onConflict('id')
+      .merge();
   }
 
   // this works too as only one query is made/connection is opened
@@ -612,7 +616,6 @@ export async function seed(knex: Knex): Promise<void> {
   // data.forEach(async (row) => {
   //   await knex('gyms').insert(row).where('gyms.id', row.id).onConflict('id').merge()
   // })
-
 
   await knex('gyms').update({ gymGroupId: 20 }).whereLike('name', 'Camp5%');
 }

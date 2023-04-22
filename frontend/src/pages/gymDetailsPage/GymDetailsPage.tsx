@@ -10,7 +10,7 @@ import GymPageHeader from './GymPageHeader';
 import { capitalCase } from 'change-case';
 import GymBetas from './GymBetasTab';
 import GymAboutTab from './GymAboutTab';
-import GymPassesTab from './GymPassesTab';
+import GymPassesTab from './GymPassesTab/GymPassesTab';
 import useTabs from 'src/hooks/ui/useTabs';
 
 export function gymDetailsLoader({

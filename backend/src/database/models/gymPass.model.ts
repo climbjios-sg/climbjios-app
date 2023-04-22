@@ -3,7 +3,7 @@ import { BaseModel } from './base.model';
 export class PassModel extends BaseModel {
   static tableName = 'passes';
 
-  readonly id: string
+  readonly id: string;
   readonly passGroupId: number;
   readonly passName: string;
   readonly numberOfPasses: number;

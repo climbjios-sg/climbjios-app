@@ -17,7 +17,10 @@ export class PassesDaoService {
       .query()
       .findById(id)
       .select(['passGroupId', 'gymGroupId']);
-    const {passGroupId: gymGroupPassGroupId} = await this.gymGroupModel.query().findById(gymGroupId).select(['passGroupId'])
+    const { passGroupId: gymGroupPassGroupId } = await this.gymGroupModel
+      .query()
+      .findById(gymGroupId)
+      .select(['passGroupId']);
     return {
       gymOutletPasses: await this.passModel
         .query()
