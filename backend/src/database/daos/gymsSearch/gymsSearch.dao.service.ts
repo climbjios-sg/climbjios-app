@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ModelClass } from 'objection';
-import { GymGroupModel } from 'src/database/models/gymGroup.model';
+import { GymGroupModel } from '../../../database/models/gymGroup.model';
 import { GymModel } from '../../models/gym.model';
 
 @Injectable()

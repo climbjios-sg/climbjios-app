@@ -1,12 +1,14 @@
 import { Model } from 'objection';
 import { BaseModel } from './base.model';
 import { GymModel } from './gym.model';
+import { PassModel } from './gymPass.model';
 
 export class GymGroupModel extends BaseModel {
-  static tableName = 'gym_groups';
+  static tableName = 'gymGroups';
 
   readonly name: string;
   readonly permanentlyClosed: boolean;
+  readonly passGroupId: number;
 
   static relationMappings = () => ({
     gymOutlets: {
@@ -14,7 +16,7 @@ export class GymGroupModel extends BaseModel {
       modelClass: GymModel,
       filter: (query) => query.select('id', 'name', 'address', 'iconURL'),
       join: {
-        from: 'gym_groups.id',
+        from: 'gymGroups.id',
         to: 'gyms.gymGroupId',
       },
     },

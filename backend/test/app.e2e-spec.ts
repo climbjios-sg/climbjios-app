@@ -122,6 +122,10 @@ describe('Backend (e2e)', () => {
       .accessToken;
   });
 
+  afterEach(async () => {
+    await app.close();
+  });
+
   describe('AppController (e2e)', () => {
     it('/ (GET)', () => {
       return request(app.getHttpServer())
@@ -298,6 +302,60 @@ describe('Backend (e2e)', () => {
           boulder: true,
           topRope: false,
           autoBelay: false,
+        }),
+      );
+    });
+
+    it('/:id/passes (GET)', async () => {
+      const { body } = await request(app.getHttpServer())
+        .get(`${prefix}/${4}/passes`)
+        .set('Authorization', 'Bearer ' + TEST_USER_JWT)
+        .expect(200);
+
+      expect(body).toEqual(
+        expect.objectContaining({
+          gymOutletPasses: expect.arrayContaining([
+            expect.objectContaining({
+              id: 26,
+              passGroupId: 5,
+              passName: 'Adult Entry',
+              numberOfPasses: 1,
+              price: 23.76,
+              discountedPrice: null,
+              paymentFrequency: '',
+              initiationFee: null,
+              discountedInitiationFee: null,
+              freezingFee: null,
+              ageRestriction: '',
+              sharingPolicy: '',
+              timeRestriction: '',
+              validityPeriod: '',
+              infoUrl: 'https://bffclimb.com/rates/',
+              remarks: '',
+            }),
+          ]),
+
+          gymGroupPasses: expect.arrayContaining([
+            expect.objectContaining({
+              id: 21,
+              passGroupId: 4,
+              passName: 'Youth Entry',
+              numberOfPasses: 1,
+              price: 17.28,
+              discountedPrice: null,
+              paymentFrequency: '',
+              initiationFee: null,
+              discountedInitiationFee: null,
+              freezingFee: null,
+              ageRestriction: '< 19',
+              sharingPolicy: '',
+              timeRestriction:
+                'Weekday 9.30am - 6pm, excluding Public Holidays',
+              validityPeriod: '',
+              infoUrl: 'https://bffclimb.com/rates/',
+              remarks: '',
+            }),
+          ]),
         }),
       );
     });

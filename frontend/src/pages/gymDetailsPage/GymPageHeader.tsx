@@ -2,10 +2,10 @@
 import { Toolbar, IconButton, Typography, Avatar } from '@mui/material';
 import { Stack } from '@mui/system';
 import Iconify from '../../components/Iconify';
-import { GymData } from 'src/@types/gymData';
+import { GymDetails } from 'src/@types/gymDetails';
 import { useNavigate } from 'react-router';
 
-export default function GymPageHeader(gymDetails: GymData) {
+export default function GymPageHeader(gymDetails: GymDetails) {
   const navigate = useNavigate();
   const logoSize = 70;
 

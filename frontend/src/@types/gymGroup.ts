@@ -1,5 +1,5 @@
 import { OptionResponse } from '.';
-import { GymPreviewData } from './gymData';
+import { GymPreviewData } from './gymDetails';
 
 export interface GymGroup extends OptionResponse {
   id: number;

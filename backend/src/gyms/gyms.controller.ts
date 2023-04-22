@@ -10,6 +10,11 @@ export class GymsController {
     return this.gymsService.getGrades(id);
   }
 
+  @Get(':id/passes')
+  getPasses(@Param('id') id: number) {
+    return this.gymsService.getPasses(id);
+  }
+
   @Get('search/:substring?')
   searchGyms(@Param('substring') substring?: string) {
     return this.gymsService.searchGyms(substring);

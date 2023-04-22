@@ -4,19 +4,20 @@ import { Stack } from '@mui/system';
 import { Params, useLoaderData } from 'react-router';
 import Page404 from '../error/Page404';
 import { getGymDetails } from 'src/services/gyms';
-import { GymData } from 'src/@types/gymData';
+import { GymDetails } from 'src/@types/gymDetails';
 import { AxiosResponse } from 'axios';
 import GymPageHeader from './GymPageHeader';
 import { capitalCase } from 'change-case';
-import GymBetas from './GymBetas';
-import GymAbout from './GymAbout';
+import GymBetas from './GymBetasTab';
+import GymAboutTab from './GymAboutTab';
+import GymPassesTab from './GymPassesTab';
 import useTabs from 'src/hooks/ui/useTabs';
 
 export function gymDetailsLoader({
   params,
 }: {
   params: Params;
-}): Promise<AxiosResponse<GymData, any>> | undefined {
+}): Promise<AxiosResponse<GymDetails, any>> | undefined {
   const gymId = parseInt(params.gymId ?? '');
   if (!gymId) {
     return undefined;
@@ -25,7 +26,7 @@ export function gymDetailsLoader({
 }
 
 export default function GymDetailsPage() {
-  const gymDetails = (useLoaderData() as AxiosResponse<GymData, any>).data;
+  const gymDetails = (useLoaderData() as AxiosResponse<GymDetails, any>).data;
   const { currentTab, onChangeTab } = useTabs(0);
 
   if (!gymDetails) {
@@ -35,9 +36,10 @@ export default function GymDetailsPage() {
   const tabs = [
     {
       label: 'about',
-      component: <GymAbout gymDetails={gymDetails} />,
+      component: <GymAboutTab gymDetails={gymDetails} />,
     },
     { label: 'betas', component: <GymBetas gymId={gymDetails.id} /> },
+    { label: 'passes', component: <GymPassesTab gymId={gymDetails.id} /> },
   ];
 
   return (

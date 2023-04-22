@@ -1,8 +1,9 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { GymsDaoService } from '../database/daos/gyms/gyms.dao.service';
 import { GymGradesDaoService } from '../database/daos/gymGrades/gymGrades.dao.service';
-// idk why this keeps being automatically changed to an absolute import
+// idk why this keeps being automatically changed to an absolute import which causes erros
 import { GymsSearchDaoService } from '../database/daos/gymsSearch/gymsSearch.dao.service';
+import { PassesDaoService } from '../database/daos/passes/passes.dao.service';
 
 import axios from 'axios';
 import * as cheerio from 'cheerio';
@@ -13,6 +14,7 @@ export class GymsService {
     private readonly gymsDaoService: GymsDaoService,
     private readonly gymGradesDaoService: GymGradesDaoService,
     private readonly gymsSearchDaoService: GymsSearchDaoService,
+    private readonly passesDaoService: PassesDaoService,
   ) {}
 
   getAll() {
@@ -20,11 +22,19 @@ export class GymsService {
   }
 
   async getGrades(gymId: number) {
-    const gym = await this.gymsDaoService.findById(gymId);
+    const gym = await this.gymsDaoService.findByGymId(gymId);
     if (!gym) {
       throw new HttpException('Invalid gym id!', 400);
     }
     return this.gymGradesDaoService.findByGymId(gymId);
+  }
+
+  async getPasses(gymId: number) {
+    const gym = await this.gymsDaoService.findByGymId(gymId);
+    if (!gym) {
+      throw new HttpException('Invalid gym id!', 400);
+    }
+    return this.passesDaoService.findByGymId(gymId);
   }
 
   searchGyms(substring: string) {
@@ -32,9 +42,9 @@ export class GymsService {
   }
 
   async getGymDetails(id: number) {
-    const result = await this.gymsDaoService.findById(id);
+    const result = await this.gymsDaoService.findByGymId(id);
     if (!result) {
-      throw new HttpException('Invalid gym id!', 400);
+      throw new HttpException('Invalid gym id!', 404);
     }
 
     const { openNow, operatingHours } = await scrapeOperatingHours(result.name);

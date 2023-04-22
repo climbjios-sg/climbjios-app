@@ -1,12 +1,9 @@
 import { Knex } from 'knex';
 
 export async function seed(knex: Knex): Promise<void> {
-  // Deletes ALL existing entries and reset primary key
   await knex.raw('TRUNCATE TABLE gym_groups RESTART IDENTITY CASCADE');
 
-  // Inserts seed entries
-  // When inserting new entries, create a new entry at the end of the list, otherwise the records referencing gym_id foreign key will get messed up
-  await knex('gym_groups').insert([
+  await knex('gymGroups').insert([
     { name: 'Ark Bloc', permanentlyClosed: false },
     { name: 'b8A', permanentlyClosed: false },
     {

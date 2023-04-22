@@ -15,7 +15,7 @@ export class GymsDaoService {
       .orderBy('name', 'ASC');
   }
 
-  findById(id: number) {
+  findByGymId(id: number) {
     // had to explicitly pass true for getUrls after changing to Yarn 1x
     return this.gymModel.query().context({ getUrls: true }).findById(id);
   }

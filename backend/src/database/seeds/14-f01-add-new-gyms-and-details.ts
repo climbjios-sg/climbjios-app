@@ -1,24 +1,6 @@
 import { Knex } from 'knex';
 
-export async function up(knex: Knex): Promise<void> {
-  await knex.schema.table('gyms', (table) => {
-    table
-      .integer('gymGroupId')
-      .notNullable()
-      .references('id')
-      .inTable('gym_groups')
-      .defaultTo(1);
-    table.string('address');
-    table.string('area');
-    table.string('passSharing');
-    table.boolean('boulder');
-    table.boolean('autoBelay');
-    table.boolean('topRope');
-    table.boolean('lead');
-    table.string('socialUrl');
-    table.string('website');
-  });
-
+export async function seed(knex: Knex): Promise<void> {
   const data = [
     {
       name: 'Arête (By Upwall)',
@@ -601,26 +583,36 @@ export async function up(knex: Knex): Promise<void> {
     },
   ];
 
-  await Promise.all(
-    data.map((row) => {
-      return knex('gyms').update(row).where('id', row.id);
-    }),
-  );
+  // calling an insert on every row causes an error to be thrown when the e2e test is run:
+  // error: sorry, too many clients already
+  // seed 15-f01-add-gyms-passes also causes this
+  // with all items in the data array, 8 tests pass before error is thrown
+  // if i only use 3, 28 pass before error is thrown
+  // i suspect it is due to Promise.all causing all the queries to be run in parallel, as described here
+  // https://stackoverflow.com/a/48069213/7577786 in the first comment: 
+  // This is because Promise.all() executes all queries in parallel. To fix this, all promises must be resolved one after another. You can do this with code in this stackoverflow question
+  // https://stackoverflow.com/questions/24586110/resolve-promises-one-after-another-i-e-in-sequence
+  
+  // await Promise.all(
+  //   data.map(async (row) => {
+  //     return knex('gyms').insert(row).where('gyms.id', row.id).onConflict('id').merge();
+  //     // await knex('gyms').insert(row).where('gyms.id', row.id).onConflict('id').merge();
+  //   }),
+  // );
+
+  // for loop supposedly doesn't make all the queries execute in parralel like Promise.all does
+  for (const row of data) {
+    await knex('gyms').insert(row).where('gyms.id', row.id).onConflict('id').merge()
+  }
+
+  // this works too as only one query is made/connection is opened
+  // await knex('gyms').insert(data).onConflict('id').merge();
+
+  // forEach, however, doesn't work
+  // data.forEach(async (row) => {
+  //   await knex('gyms').insert(row).where('gyms.id', row.id).onConflict('id').merge()
+  // })
+
 
   await knex('gyms').update({ gymGroupId: 20 }).whereLike('name', 'Camp5%');
-}
-
-export async function down(knex: Knex): Promise<void> {
-  return knex.schema.table('gyms', (table) => {
-    table.dropColumn('gymGroupID');
-    table.dropColumn('address');
-    table.dropColumn('area');
-    table.dropColumn('passSharing');
-    table.dropColumn('boulder');
-    table.dropColumn('autoBelay');
-    table.dropColumn('topRope');
-    table.dropColumn('lead');
-    table.dropColumn('socialUrl');
-    table.dropColumn('website');
-  });
 }

@@ -29,7 +29,7 @@ export default function GymGroupCard({ data: itemData }: GymGroupCardProps) {
     <Card>
       <GymGroupCardHeader data={itemData} />
       {/* <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}> */}
-      <CardContent>
+      <CardContent sx={{ pt: 1 }}>
         {itemData.gymOutlets.map((gymOutlet: GymGroupCardOutletData) => (
           <CardActionArea
             key={gymOutlet.id}

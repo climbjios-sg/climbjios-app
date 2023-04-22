@@ -35,7 +35,7 @@ export class PostService {
 
     this.checkPostTypeAndNumPasses(body.type, body.numPasses);
 
-    const gym = await this.gymsDaoService.findById(body.gymId);
+    const gym = await this.gymsDaoService.findByGymId(body.gymId);
     if (!gym) {
       throw new HttpException('Invalid gym id!', 400);
     }

@@ -1,6 +1,4 @@
-// import { OptionResponse } from '.';
-
-export interface GymData {
+export interface GymDetails {
   readonly id: number;
   readonly name: string;
   readonly shortName: string;
@@ -21,4 +19,4 @@ export interface GymData {
   readonly operatingHours: string[];
 }
 
-export type GymPreviewData = Pick<GymData, 'id' | 'name' | 'permanentlyClosed' | 'address' | 'area' | 'iconUrl'>;
+export type GymPreviewData = Pick<GymDetails, 'id' | 'name' | 'permanentlyClosed' | 'address' | 'area' | 'iconUrl'>;

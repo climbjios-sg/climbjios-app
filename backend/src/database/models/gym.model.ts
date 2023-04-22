@@ -3,6 +3,7 @@ import { Model, QueryContext } from 'objection';
 import { S3UploadType } from '../../utils/types';
 import { BaseModel } from './base.model';
 import { GymGroupModel } from './gymGroup.model';
+import { PassModel } from './gymPass.model';
 
 export class GymModel extends BaseModel {
   static tableName = 'gyms';
@@ -12,6 +13,7 @@ export class GymModel extends BaseModel {
   readonly shortName: string;
   readonly permanentlyClosed: boolean;
   readonly gymGroupId: number;
+  readonly passGroupId: number;
   iconUrl: string;
   bannerUrl: string;
   readonly address: string;
@@ -25,29 +27,23 @@ export class GymModel extends BaseModel {
   openNow: string;
   operatingHours: string[];
 
-  // readonly mondayOpening: string;
-  // readonly mondayClosing: string;
-  // readonly tuedayOpening: string;
-  // readonly tuedayClosing: string;
-  // readonly wednesdayOpening: string;
-  // readonly wednesdayClosing: string;
-  // readonly thursdayOpening: string;
-  // readonly thursdayClosing: string;
-  // readonly fridayOpening: string;
-  // readonly fridayClosing: string;
-  // readonly saturdayOpening: string;
-  // readonly saturdayClosing: string;
-  // readonly sundayOpening: string;
-  // readonly sundayClosing: string;
-
   static relationMappings = () => ({
     gymGroup: {
       relation: Model.BelongsToOneRelation,
       modelClass: GymGroupModel,
       filter: (query) => query.select('*'),
       join: {
-        from: 'gym_groups.id',
+        from: 'gymGroups.id',
         to: 'gyms.gymGroupId',
+      },
+    },
+    passGroup: {
+      relation: Model.HasManyRelation,
+      modelClass: PassModel,
+      filter: (query) => query.select('*'),
+      join: {
+        from: 'pass_groups.passGroupId',
+        to: 'gyms.passGroupId',
       },
     },
   });
