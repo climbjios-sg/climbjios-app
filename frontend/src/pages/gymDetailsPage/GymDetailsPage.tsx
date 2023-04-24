@@ -27,7 +27,7 @@ export function gymDetailsLoader({
 
 export default function GymDetailsPage() {
   const gymDetails = (useLoaderData() as AxiosResponse<GymDetails, any>).data;
-  const { currentTab, onChangeTab } = useTabs(0);
+  const { currentTab, onChangeTab } = useTabs<number>(0);
 
   if (!gymDetails) {
     return <Page404 />;
@@ -58,12 +58,14 @@ export default function GymDetailsPage() {
           ))}
         </Tabs>
       </Box>
-      <Card sx={{ padding: 1, pl: 2, pr: 2, ml: 2, mr: 2 }}>
-        <Typography fontSize={10}>
-          ❗️ Disclaimer: the information here is collected manually, and is not guaranteed to be
-          accurate or exhaustive. Do refer to the gyms' websites for full details.
-        </Typography>
-      </Card>
+      {currentTab !== 1 && (
+        <Card sx={{ padding: 1, pl: 2, pr: 2, ml: 2, mr: 2, mt: 1 }}>
+          <Typography fontSize={10}>
+            ❗️ Disclaimer: the information here is collected manually, and is not guaranteed to be
+            accurate or exhaustive. Do refer to the gyms' websites for full details.
+          </Typography>
+        </Card>
+      )}
       {tabs[currentTab].component}
     </Stack>
   );
