@@ -1,5 +1,5 @@
 // @mui
-import { Tabs, Tab, Box } from '@mui/material';
+import { Tabs, Tab, Box, Card, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { Params, useLoaderData } from 'react-router';
 import Page404 from '../error/Page404';
@@ -58,6 +58,12 @@ export default function GymDetailsPage() {
           ))}
         </Tabs>
       </Box>
+      <Card sx={{ padding: 1, pl: 2, pr: 2, ml: 2, mr: 2 }}>
+        <Typography fontSize={10}>
+          ❗️ Disclaimer: the information here is collected manually, and is not guaranteed to be
+          accurate or exhaustive. Do refer to the gyms' websites for full details.
+        </Typography>
+      </Card>
       {tabs[currentTab].component}
     </Stack>
   );
