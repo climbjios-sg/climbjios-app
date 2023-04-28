@@ -73,7 +73,7 @@ export async function seed(knex: Knex): Promise<void> {
       remarks: '',
     },
     {
-      passName: 'Adult Supervision',
+      passName: 'Supervising Adult',
       passGroupId: 1,
       numberOfPasses: 1,
       price: 10,
