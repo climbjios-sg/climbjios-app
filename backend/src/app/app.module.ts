@@ -30,10 +30,12 @@ import { ColorsModule } from '../colors/colors.module';
 import { BetasDaoModule } from '../database/daos/betas/betas.dao.module';
 import { ColorsDaoModule } from '../database/daos/colors/colors.dao.module';
 import { GymGradesDaoModule } from '../database/daos/gymGrades/gymGrades.dao.module';
+import { GymsSearchDaoModule } from '../database/daos/gymsSearch/gymsSearch.dao.module';
 import { WallsDaoModule } from '../database/daos/walls/walls.dao.module';
 import { WallsModule } from '../walls/walls.module';
 import { LoggerModule } from '../utils/logger/logger.module';
 import { RefreshTokensDaoModule } from '../database/daos/refreshTokens/refreshTokens.dao.module';
+import { PassesDaoModule } from '../database/daos/passes/passes.dao.module';
 
 @Module({
   imports: [
@@ -54,6 +56,8 @@ import { RefreshTokensDaoModule } from '../database/daos/refreshTokens/refreshTo
     PronounsDaoModule,
     UserProfileDaoModule,
     GymGradesDaoModule,
+    GymsSearchDaoModule,
+    PassesDaoModule,
     ColorsDaoModule,
     WallsDaoModule,
     BetasDaoModule,

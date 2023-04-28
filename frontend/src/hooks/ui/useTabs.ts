@@ -2,12 +2,12 @@ import { useState } from 'react';
 
 // ----------------------------------------------------------------------
 
-export default function useTabs(defaultValues?: string) {
-  const [currentTab, setCurrentTab] = useState(defaultValues || '');
+  export default function useTabs<T extends string | number>(defaultValues: T) {
+  const [currentTab, setCurrentTab] = useState(defaultValues);
 
   return {
     currentTab,
-    onChangeTab: (event: React.SyntheticEvent<Element, Event>, newValue: string) => {
+    onChangeTab: (_event: React.SyntheticEvent<Element, Event>, newValue: T) => {
       setCurrentTab(newValue);
     },
     setCurrentTab,
