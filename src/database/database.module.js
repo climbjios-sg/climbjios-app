@@ -26,6 +26,8 @@ const userProfile_model_1 = require("./models/userProfile.model");
 const userProfileFavouriteGym_model_1 = require("./models/userProfileFavouriteGym.model");
 const beta_model_1 = require("./models/beta.model");
 const refreshToken_model_1 = require("./models/refreshToken.model");
+const gymGroup_model_1 = require("./models/gymGroup.model");
+const gymPass_model_1 = require("./models/gymPass.model");
 const models = [
     gym_model_1.GymModel,
     post_model_1.PostModel,
@@ -38,6 +40,8 @@ const models = [
     userProfile_model_1.UserProfileModel,
     userProfileFavouriteGym_model_1.UserProfileFavouriteGymModel,
     gymGrade_model_1.GymGradeModel,
+    gymGroup_model_1.GymGroupModel,
+    gymPass_model_1.PassModel,
     color_model_1.ColorModel,
     wall_model_1.WallModel,
     beta_model_1.BetaModel,

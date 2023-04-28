@@ -23,7 +23,7 @@ export declare class UserController {
         sncsCertification?: import("../database/models/sncsCertification.model").SncsCertificationModel;
         favouriteGyms?: import("../database/models/gym.model").GymModel[];
         profilePictureUrl: string;
-        $afterFind: (context: any) => void | Promise<any>;
+        $afterFind: (context: import("objection").QueryContext) => void | Promise<any>;
         id: string;
         createdAt: Date;
         updatedAt: Date;

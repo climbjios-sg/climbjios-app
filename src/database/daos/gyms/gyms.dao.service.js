@@ -21,11 +21,13 @@ let GymsDaoService = class GymsDaoService {
     getAll() {
         return this.gymModel
             .query()
-            .select(['id', 'name', 'permanentlyClosed'])
+            .context({ getUrls: false })
+            .where('permanentlyClosed', '=', false)
+            .select(['id', 'name'])
             .orderBy('name', 'ASC');
     }
-    findById(id) {
-        return this.gymModel.query().findById(id);
+    findByGymId(id) {
+        return this.gymModel.query().context({ getUrls: true }).findById(id);
     }
 };
 GymsDaoService = __decorate([

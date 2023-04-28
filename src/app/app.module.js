@@ -39,10 +39,12 @@ const colors_module_1 = require("../colors/colors.module");
 const betas_dao_module_1 = require("../database/daos/betas/betas.dao.module");
 const colors_dao_module_1 = require("../database/daos/colors/colors.dao.module");
 const gymGrades_dao_module_1 = require("../database/daos/gymGrades/gymGrades.dao.module");
+const gymsSearch_dao_module_1 = require("../database/daos/gymsSearch/gymsSearch.dao.module");
 const walls_dao_module_1 = require("../database/daos/walls/walls.dao.module");
 const walls_module_1 = require("../walls/walls.module");
 const logger_module_1 = require("../utils/logger/logger.module");
 const refreshTokens_dao_module_1 = require("../database/daos/refreshTokens/refreshTokens.dao.module");
+const passes_dao_module_1 = require("../database/daos/passes/passes.dao.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -63,6 +65,8 @@ AppModule = __decorate([
             pronouns_dao_module_1.PronounsDaoModule,
             userProfile_dao_module_1.UserProfileDaoModule,
             gymGrades_dao_module_1.GymGradesDaoModule,
+            gymsSearch_dao_module_1.GymsSearchDaoModule,
+            passes_dao_module_1.PassesDaoModule,
             colors_dao_module_1.ColorsDaoModule,
             walls_dao_module_1.WallsDaoModule,
             betas_dao_module_1.BetasDaoModule,

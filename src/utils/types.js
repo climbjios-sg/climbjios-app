@@ -21,5 +21,7 @@ var PostStatus;
 var S3UploadType;
 (function (S3UploadType) {
     S3UploadType["PROFILE_PICTURE"] = "profile_picture";
+    S3UploadType["BANNER_PICTURE"] = "banner_picture";
+    S3UploadType["ICON_PICTURE"] = "icon_picture";
 })(S3UploadType = exports.S3UploadType || (exports.S3UploadType = {}));
 //# sourceMappingURL=types.js.map
