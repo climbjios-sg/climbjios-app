@@ -1,5 +1,14 @@
 // @mui
-import { Card, Typography, Link, Dialog, DialogTitle, List, ListItem } from '@mui/material';
+import {
+  Card,
+  Typography,
+  Link,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  List,
+  ListItem,
+} from '@mui/material';
 import { GymDetails } from 'src/@types/gymDetails';
 import { IconStyle } from 'src/utils/common';
 import IconTextRow from 'src/components/gymDetailsPage/IconTextRow';
@@ -78,12 +87,19 @@ export default function GymAboutTab({ gymDetails }: { gymDetails: GymDetails }) 
             open={operatingHoursDialogOpen}
             onClose={() => setOperatingHoursDialogOpen(false)}
           >
-            <DialogTitle>Operating Hours</DialogTitle>
-            <List>
-              {gymDetails.operatingHours.map((hours, index) => (
-                <ListItem key={index}>{hours}</ListItem>
-              ))}
-            </List>
+            <DialogTitle>
+              Operating Hours
+              <Typography variant="subtitle2" fontSize={10}>
+                Sourced from Google
+              </Typography>
+            </DialogTitle>
+            <DialogContent>
+              <List>
+                {gymDetails.operatingHours.map((hours, index) => (
+                  <ListItem key={index}>{hours}</ListItem>
+                ))}
+              </List>
+            </DialogContent>
           </Dialog>
           {climbingTypes.length > 0 && (
             <IconTextRow
