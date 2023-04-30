@@ -9,7 +9,6 @@ import {
   useScrollTrigger,
   Slide,
   Badge,
-  IconButton,
 } from '@mui/material';
 // components
 import Page from '../../components/Page';
@@ -30,6 +29,7 @@ interface BottomTab {
   to: string;
   label: string;
   icon: React.ReactElement;
+  onClick?: () => void;
 }
 
 interface BottomTabsProps {
@@ -52,19 +52,14 @@ function BottomTabs({ tabs }: BottomTabsProps) {
           icon={tab.icon}
           value={tab.to}
           component={Link}
+          onClick={() => tab.onClick && tab.onClick()}
         />
       ))}
     </BottomNavigation>
   );
 }
 
-function GymsTabIcon({
-  invisible,
-  handleOnClick,
-}: {
-  invisible: boolean;
-  handleOnClick: () => void;
-}) {
+function GymsTabIcon({ invisible }: { invisible: boolean }) {
   // return <Iconify icon={'eva:pin-outline'} width={20} height={20} />
   return (
     <Badge
@@ -79,9 +74,7 @@ function GymsTabIcon({
         },
       }}
     >
-      <IconButton sx={{ padding: 0 }} onClick={(_e) => handleOnClick()} color="inherit">
-        <Iconify icon={'eva:pin-outline'} width={20} height={20} color="inherit" />
-      </IconButton>
+      <Iconify icon={'eva:pin-outline'} width={20} height={20} color="inherit" />
     </Badge>
   );
 }
@@ -93,6 +86,8 @@ export default function Dashboard() {
     target: document.getElementById('root') || undefined,
   });
   const [tappedGym, setTappedGym] = useState(false);
+
+  console.log(tappedGym);
 
   const DASHBOARD_TABS = [
     {
@@ -106,10 +101,9 @@ export default function Dashboard() {
       path: 'gyms/*',
       to: 'gyms',
       label: 'Gyms',
-      icon: (
-        <GymsTabIcon invisible={tappedGym} handleOnClick={() => !tappedGym && setTappedGym(true)} />
-      ),
+      icon: <GymsTabIcon invisible={tappedGym} />,
       element: <Gyms />,
+      onClick: () => !tappedGym && setTappedGym(true),
     },
     {
       path: 'betas/*',
