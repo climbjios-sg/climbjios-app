@@ -68,6 +68,7 @@ export default function JioCardList() {
         }}
       >
         <InfiniteScroll
+          style={{ overflow: 'visible' }}
           // Note: We are using this comoponent just for pull-to-refresh
           // No pagination is implemented
           // Pagination related props are stubs
