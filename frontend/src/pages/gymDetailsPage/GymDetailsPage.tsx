@@ -43,7 +43,7 @@ export default function GymDetailsPage() {
   ];
 
   return (
-    <Stack direction="column">
+    <Stack>
       {GymPageHeader(gymDetails)}
       <Box display="flex" justifyContent="center" width="100%">
         <Tabs

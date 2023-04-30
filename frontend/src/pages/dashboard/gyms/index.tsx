@@ -27,7 +27,6 @@ export default function Gyms() {
           }}
         >
           <GymSearch initialValue={searchString} setSearchString={setSearchString} />
-          {/* <TestComp/> */}
         </Paper>
       </FloatingContainer>
       <Box sx={{ height: 50 }} />
