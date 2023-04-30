@@ -8,7 +8,9 @@ import { useSessionStorageState } from 'ahooks';
 export default function Gyms() {
   useAddToHomeScreen();
 
-  const [searchString, setSearchString] = useSessionStorageState('GymCardsSearch', { defaultValue: '' });
+  const [searchString, setSearchString] = useSessionStorageState('GymCardsSearch', {
+    defaultValue: '',
+  });
 
   return (
     <Box sx={{ pt: 2, pb: 20, minHeight: '100vh', maxWidth: 600, margin: '0 auto' }}>
@@ -28,7 +30,7 @@ export default function Gyms() {
           {/* <TestComp/> */}
         </Paper>
       </FloatingContainer>
-      <Box sx={{ height: 60 }} />
+      <Box sx={{ height: 50 }} />
       <GymCardsList searchString={searchString} />
     </Box>
   );

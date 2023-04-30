@@ -1,5 +1,5 @@
 // @mui
-import { Stack, Typography, Box, Link } from '@mui/material';
+import { Stack, Typography, Box, CardActionArea } from '@mui/material';
 import { IconStyle } from 'src/utils/common';
 import IconTextRow from 'src/components/gymDetailsPage/IconTextRow';
 import TextIconLabel from 'src/components/TextIconLabel';
@@ -84,7 +84,7 @@ const PassCard = (data: GymPass) => {
   );
 
   return (
-    <Link target="_blank" href={data.infoUrl}>
+    <CardActionArea target="_blank" href={data.infoUrl} sx={{ pt: 1.5, pb: 1.5 }}>
       <Stack direction="row" spacing={1.5}>
         {mainIcon}
         <Stack direction="column">
@@ -127,7 +127,7 @@ const PassCard = (data: GymPass) => {
           )}
         </Stack>
       </Stack>
-    </Link>
+    </CardActionArea>
   );
 };
 
