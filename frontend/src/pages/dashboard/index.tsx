@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
 import {
   Container,
@@ -8,6 +8,8 @@ import {
   useTheme,
   useScrollTrigger,
   Slide,
+  Badge,
+  IconButton,
 } from '@mui/material';
 // components
 import Page from '../../components/Page';
@@ -56,45 +58,33 @@ function BottomTabs({ tabs }: BottomTabsProps) {
   );
 }
 
-const DASHBOARD_TABS = [
-  {
-    path: 'jios/*',
-    to: 'jios',
-    label: 'Jios',
-    icon: <Iconify icon={'eva:people-outline'} width={20} height={20} />,
-    element: <Jios />,
-  },
-  {
-    path: 'gyms/*',
-    to: 'gyms',
-    label: 'Gyms',
-    icon: <Iconify icon={'eva:pin-outline'} width={20} height={20} />,
-    element: <Gyms />,
-  },
-  {
-    path: 'betas/*',
-    to: 'betas',
-    label: 'Betas',
-    icon: <Iconify icon={'akar-icons:video'} width={20} height={20} />,
-    element: <Betas />,
-  },
-  {
-    path: 'profile/*',
-    to: 'profile',
-    label: 'Profile',
-    icon: <Iconify icon={'eva:person-outline'} width={20} height={20} />,
-    element: <Profile />,
-  },
-];
-
-const DashboardRouter = () =>
-  useRoutes([
-    ...DASHBOARD_TABS.map((tab) => ({
-      path: tab.path,
-      element: tab.element,
-    })),
-    { path: '*', element: <Navigate to="jios" replace /> },
-  ]);
+function GymsTabIcon({
+  invisible,
+  handleOnClick,
+}: {
+  invisible: boolean;
+  handleOnClick: () => void;
+}) {
+  // return <Iconify icon={'eva:pin-outline'} width={20} height={20} />
+  return (
+    <Badge
+      invisible={invisible}
+      badgeContent="New!"
+      sx={{
+        '& .MuiBadge-badge': {
+          right: -12,
+          top: -2,
+          color: 'white',
+          backgroundColor: 'red',
+        },
+      }}
+    >
+      <IconButton sx={{ padding: 0 }} onClick={(_e) => handleOnClick()} color="inherit">
+        <Iconify icon={'eva:pin-outline'} width={20} height={20} color="inherit" />
+      </IconButton>
+    </Badge>
+  );
+}
 
 export default function Dashboard() {
   const theme = useTheme();
@@ -102,6 +92,49 @@ export default function Dashboard() {
   const trigger = useScrollTrigger({
     target: document.getElementById('root') || undefined,
   });
+  const [tappedGym, setTappedGym] = useState(false);
+
+  const DASHBOARD_TABS = [
+    {
+      path: 'jios/*',
+      to: 'jios',
+      label: 'Jios',
+      icon: <Iconify icon={'eva:people-outline'} width={20} height={20} />,
+      element: <Jios />,
+    },
+    {
+      path: 'gyms/*',
+      to: 'gyms',
+      label: 'Gyms',
+      icon: (
+        <GymsTabIcon invisible={tappedGym} handleOnClick={() => !tappedGym && setTappedGym(true)} />
+      ),
+      element: <Gyms />,
+    },
+    {
+      path: 'betas/*',
+      to: 'betas',
+      label: 'Betas',
+      icon: <Iconify icon={'akar-icons:video'} width={20} height={20} />,
+      element: <Betas />,
+    },
+    {
+      path: 'profile/*',
+      to: 'profile',
+      label: 'Profile',
+      icon: <Iconify icon={'eva:person-outline'} width={20} height={20} />,
+      element: <Profile />,
+    },
+  ];
+
+  const DashboardRouter = () =>
+    useRoutes([
+      ...DASHBOARD_TABS.map((tab) => ({
+        path: tab.path,
+        element: tab.element,
+      })),
+      { path: '*', element: <Navigate to="jios" replace /> },
+    ]);
 
   // TODO: Check and remove if no one using the redux states
   useEffect(() => {
