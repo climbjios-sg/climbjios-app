@@ -146,57 +146,55 @@ export default function GrowableScroll<T>({
   return useMemo(
     () => (
       <Grid container>
-        <div style={{ overflow: 'visible', height: 600, width: '100%' }}>
-          <Box
+        {/* <div style={{ overflow: 'visible', height: 600, width: '100%' }}> */}
+        {/* <Box
             sx={{
               width: '100%',
               '& infinite-scroll-component__outerdiv': {
                 width: '100%',
               },
+              overflowX: 'visible',
             }}
-          >
-            <InfiniteScroll
-              dataLength={data ? data.list.length : 0}
-              next={async () => {
-                const newData = await fetchMoreItemsCallback(data?.nextId);
-                mutate((oldData) => ({
-                  ...oldData,
-                  list: oldData ? concat(oldData.list, newData.list) : newData.list,
-                  nextId: newData.nextId,
-                }));
-              }}
-              hasMore={!noMore}
-              loader={null}
-              // Remembering scroll position
-              onScroll={() =>
-                mutate((oldData) => ({
-                  ...oldData,
-                  list: oldData ? oldData.list : [],
-                  scrollY: document.getElementById('root')?.scrollTop,
-                }))
-              }
-              // Pull to refresh props
-              pullDownToRefresh
-              refreshFunction={handleReload}
-              pullDownToRefreshThreshold={50}
-              pullDownToRefreshContent={
-                <InfiniteScrollHelper sx={{ mb: 2 }}>
-                  &#8595; Pull down to refresh
-                </InfiniteScrollHelper>
-              }
-              releaseToRefreshContent={
-                <InfiniteScrollHelper sx={{ mb: 2 }}>
-                  &#8593; Release to refresh
-                </InfiniteScrollHelper>
-              }
-              scrollableTarget="root"
-            >
-              {DisplayedData}
-            </InfiniteScroll>
-            {!noMore && (loadingMore ? LoadingMoreComponent : ScrollForMoreComponent)}
-            {noMore && !loading && NoMoreComponent}
-          </Box>
-        </div>
+          > */}
+        <InfiniteScroll
+          style={{ overflow: 'visible' }}
+          dataLength={data ? data.list.length : 0}
+          next={async () => {
+            const newData = await fetchMoreItemsCallback(data?.nextId);
+            mutate((oldData) => ({
+              ...oldData,
+              list: oldData ? concat(oldData.list, newData.list) : newData.list,
+              nextId: newData.nextId,
+            }));
+          }}
+          hasMore={!noMore}
+          loader={null}
+          // Remembering scroll position
+          onScroll={() =>
+            mutate((oldData) => ({
+              ...oldData,
+              list: oldData ? oldData.list : [],
+              scrollY: document.getElementById('root')?.scrollTop,
+            }))
+          }
+          // Pull to refresh props
+          pullDownToRefresh
+          refreshFunction={handleReload}
+          pullDownToRefreshThreshold={50}
+          pullDownToRefreshContent={
+            <InfiniteScrollHelper sx={{ mb: 2 }}>&#8595; Pull down to refresh</InfiniteScrollHelper>
+          }
+          releaseToRefreshContent={
+            <InfiniteScrollHelper sx={{ mb: 2 }}>&#8593; Release to refresh</InfiniteScrollHelper>
+          }
+          scrollableTarget="root"
+        >
+          {DisplayedData}
+        </InfiniteScroll>
+        {!noMore && (loadingMore ? LoadingMoreComponent : ScrollForMoreComponent)}
+        {noMore && !loading && NoMoreComponent}
+        {/* </Box> */}
+        {/* </div> */}
       </Grid>
     ),
     [
