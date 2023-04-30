@@ -39,7 +39,7 @@ export default function GymDetailsPage() {
       component: <GymAboutTab gymDetails={gymDetails} />,
     },
     { label: 'betas', component: <GymBetas gymId={gymDetails.id} /> },
-    { label: 'passes', component: <GymPassesTab gymId={gymDetails.id} /> },
+    { label: 'rates', component: <GymPassesTab gymId={gymDetails.id} /> },
   ];
 
   return (
