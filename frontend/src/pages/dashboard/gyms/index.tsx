@@ -2,7 +2,7 @@ import { Box, Paper } from '@mui/material';
 import useAddToHomeScreen from 'src/hooks/useAddToHomeScreen';
 import GymSearch from './GymSearch';
 import FloatingContainer from '../../../components/FloatingContainer';
-import GymCardsList from './list/GymGroupCardsList';
+import GymGroupCardsList from './list/GymGroupCardsList';
 import { useSessionStorageState } from 'ahooks';
 
 export default function Gyms() {
@@ -30,7 +30,7 @@ export default function Gyms() {
         </Paper>
       </FloatingContainer>
       <Box sx={{ height: 50 }} />
-      <GymCardsList searchString={searchString} />
+      <GymGroupCardsList searchString={searchString} />
     </Box>
   );
 }
