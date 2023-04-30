@@ -14,7 +14,7 @@ export default function GymSearch({
         <DelayedSearch
           initialValue={initialValue}
           setSearchString={setSearchString}
-          placeholder="Enter a gym name"
+          placeholder="Search for gym name or address"
           size="small"
         />
       </Stack>
