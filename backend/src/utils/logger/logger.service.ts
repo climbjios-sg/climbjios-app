@@ -23,7 +23,7 @@ export class LoggerService {
       message += data;
     }
 
-    this.constantsService.NODE_ENV !== 'test' && console.log(message);
+    this.constantsService.NODE_ENV !== 'test' && console.log(data); // idk why but the JSON.stringified message is missing A LOT of details
     return this.telegramService.sendViaAlertsBot(message);
   }
 
