@@ -1,5 +1,5 @@
 // @mui
-import { IconButton, Typography, Avatar } from '@mui/material';
+import { IconButton, Typography, Avatar, useTheme } from '@mui/material';
 import { Stack } from '@mui/system';
 import Iconify from '../../components/Iconify';
 import { GymDetails } from 'src/@types/gymDetails';
@@ -9,6 +9,7 @@ import FloatingContainer from 'src/components/FloatingContainer';
 export default function GymPageHeader(gymDetails: GymDetails) {
   const navigate = useNavigate();
   const logoSize = 70;
+  const theme = useTheme()
 
   return (
     <div
@@ -40,7 +41,7 @@ export default function GymPageHeader(gymDetails: GymDetails) {
             navigate(-1);
           }}
         >
-          <Avatar sx={{ backgroundColor: 'darkgrey' }}>
+          <Avatar sx={{ backgroundColor: theme.palette.primary.light }}>
             <Iconify sx={{ width: 40, height: 40 }} icon="ic:round-chevron-left" color="white" />
           </Avatar>
         </IconButton>
