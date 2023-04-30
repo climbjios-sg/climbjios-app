@@ -5,7 +5,7 @@ import PassCard from './PassCard';
 import ExceptLastDivider from 'src/components/ExceptLastDivider';
 
 const PassesCard = ({ title, data }: { title: string; data: GymPass[] }) => (
-  <Card sx={{ padding: 2, pl: 3, pb: 1, boxShadow: '3px 3px 10px -4px' }}>
+  <Card sx={{ padding: 2, pl: 3, pb: 1 }}>
     <Stack spacing={2}>
       <Typography variant="h5">{title}</Typography>
       <Stack>

@@ -34,7 +34,7 @@ export default function GymGroupCard({ data: itemData }: GymGroupCardProps) {
   const iconSize = 25;
 
   return (
-    <Card sx={{ padding: 2, pl: 3, pb: 1, boxShadow: '3px 3px 10px -4px' }}>
+    <Card sx={{ padding: 2, pl: 3, pb: 1 }}>
       <Typography variant="h5">{itemData.name}</Typography>
       {itemData.gymOutlets.map((gymOutlet: GymGroupCardOutletData, index) => (
         <Stack key={gymOutlet.id}>
