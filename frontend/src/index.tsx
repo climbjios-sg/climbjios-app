@@ -29,7 +29,6 @@ const renderRoot = async () => {
 
   root.render(
     <HelmetProvider>
-      <style>{'body { background-color: #F4F6F8; }'}</style>
       <Provider store={store}>
         <App authProvider={authProvider} />
       </Provider>
