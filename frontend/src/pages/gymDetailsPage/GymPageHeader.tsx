@@ -1,13 +1,15 @@
 // @mui
-import { Toolbar, IconButton, Typography, Avatar } from '@mui/material';
+import { IconButton, Typography, Avatar, useTheme } from '@mui/material';
 import { Stack } from '@mui/system';
 import Iconify from '../../components/Iconify';
 import { GymDetails } from 'src/@types/gymDetails';
 import { useNavigate } from 'react-router';
+import FloatingContainer from 'src/components/FloatingContainer';
 
 export default function GymPageHeader(gymDetails: GymDetails) {
   const navigate = useNavigate();
   const logoSize = 70;
+  const theme = useTheme()
 
   return (
     <div
@@ -17,10 +19,10 @@ export default function GymPageHeader(gymDetails: GymDetails) {
         // backgroundSize: '100% auto',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        backgroundPosition: '50%, 50%'
+        backgroundPosition: '50%, 50%',
       }}
     >
-      <Toolbar sx={{ ml: -2, background: 'transparent' }}>
+      {/* <Toolbar sx={{ mt: '56px', ml: -2, background: 'transparent' }}>
         <IconButton
           sx={{ mr: 1 }}
           color="primary"
@@ -30,9 +32,22 @@ export default function GymPageHeader(gymDetails: GymDetails) {
         >
           <Iconify sx={{ width: 40, height: 40 }} icon="ic:round-chevron-left" color="white" />
         </IconButton>
-      </Toolbar>
+      </Toolbar> */}
+      <FloatingContainer>
+        <IconButton
+          sx={{ mr: 1 }}
+          color="primary"
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          <Avatar sx={{ backgroundColor: theme.palette.primary.light }}>
+            <Iconify sx={{ width: 40, height: 40 }} icon="ic:round-chevron-left" color="white" />
+          </Avatar>
+        </IconButton>
+      </FloatingContainer>
       <Stack
-        height={200}
+        height={225}
         direction="column"
         justifyContent="flex-end"
         alignItems="flex-start"
@@ -44,6 +59,7 @@ export default function GymPageHeader(gymDetails: GymDetails) {
           alt={gymDetails.name}
           sx={{ ml: 2, width: logoSize, height: logoSize, backgroundColor: 'white' }}
         />
+
         <Stack sx={{ pl: 2, pb: 2 }}>
           <Typography variant="h2">{gymDetails.name}</Typography>
         </Stack>

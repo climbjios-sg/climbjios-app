@@ -70,7 +70,7 @@ export default function JiosList() {
         </FloatingContainer>
         {/* Open Jios Tab */}
         <TabPanel value={TabValue.AllJios}>
-          <Box sx={{ height: 160 }} />
+          <Box sx={{ height: 158 }} />
           <JioCardList />
         </TabPanel>
         {/* My Jios Tab */}

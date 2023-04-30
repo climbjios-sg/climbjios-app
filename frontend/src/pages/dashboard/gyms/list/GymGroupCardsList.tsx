@@ -11,22 +11,25 @@ export default function GymGroupCardsList({ searchString }: { searchString: stri
     const gymsSearchResult = (await searchGyms(searchString)).data;
 
     const gymGroupList = gymsSearchResult.map((v) => {
-      const gymOutletsList = v.gymOutlets.map((outlet) => ({ ...outlet, id: outlet.id.toString() }));
+      const gymOutletsList = v.gymOutlets.map((outlet) => ({
+        ...outlet,
+        id: outlet.id.toString(),
+      }));
       return {
         ...v,
         id: v.id.toString(),
         gymOutlets: gymOutletsList,
       };
     });
-  
+
     return { list: gymGroupList, nextId: undefined };
 
     // const listSize = 3;
     // const sliceStart = parseInt(nextId ?? '0');
     // const sliceEnd = sliceStart + listSize;
-  
+
     // const slice = dummyGymsList.slice(sliceStart, sliceEnd);
-  
+
     // return new Promise((resolve) => {
     //   setTimeout(() => {
     //     resolve({

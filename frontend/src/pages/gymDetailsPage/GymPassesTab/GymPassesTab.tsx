@@ -37,7 +37,9 @@ export default function GymPassesTab({ gymId }: { gymId: number }) {
           <PassesCard title="Multi-Gym Passes" data={gymGroupPasses} />
         </Stack>
       ) : (
-        <PassesCard title="Gym Passes" data={gymOutletPasses} />
+        <Stack padding={2} spacing={2}>
+          <PassesCard title="Gym Passes" data={gymOutletPasses} />
+        </Stack>
       )}
     </div>
   );
