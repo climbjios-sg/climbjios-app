@@ -87,8 +87,6 @@ export default function Dashboard() {
   });
   const [tappedGym, setTappedGym] = useState(false);
 
-  console.log(tappedGym);
-
   const DASHBOARD_TABS = [
     {
       path: 'jios/*',
