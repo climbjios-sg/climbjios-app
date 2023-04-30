@@ -46,7 +46,7 @@ export default function GymPageHeader(gymDetails: GymDetails) {
         </IconButton>
       </FloatingContainer>
       <Stack
-        height={250}
+        height={225}
         direction="column"
         justifyContent="flex-end"
         alignItems="flex-start"
