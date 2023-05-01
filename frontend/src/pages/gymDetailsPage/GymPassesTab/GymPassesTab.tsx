@@ -24,7 +24,7 @@ export default function GymPassesTab({ gymId }: { gymId: number }) {
   const { gymOutletPasses, gymGroupPasses } = data!;
 
   if (gymOutletPasses.length === 0 && gymGroupPasses.length === 0) {
-    return <Card sx={{ padding: 2, pl: 3 }}>We've got no data for this gym yet!</Card>;
+    return <Card sx={{ margin: 2, padding: 2, pl: 3 }}>We've got no data for this gym yet!</Card>;
   }
 
   return (

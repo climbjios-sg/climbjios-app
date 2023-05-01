@@ -2721,7 +2721,7 @@ export async function seed(knex: Knex): Promise<void> {
       remarks: '',
     },
     {
-      passName: '3-Month Subscription (Opening Promo)',
+      passName: '3-Month Subscription',
       passGroupId: 26,
       numberOfPasses: 0,
       price: 300,
@@ -2889,7 +2889,7 @@ export async function seed(knex: Knex): Promise<void> {
     { id: 29, passGroupId: 24 },
     { id: 30, passGroupId: 25 },
     { id: 32, passGroupId: 26 },
-    { id: 34, passGroupId: 27 },
+    { id: 39, passGroupId: 27 },
   ];
 
   // await Promise.all(
