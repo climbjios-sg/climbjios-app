@@ -149,7 +149,6 @@ export default function GrowableScroll<T>({
         {/* <div style={{ overflow: 'visible', height: 600, width: '100%' }}> */}
         <Box
           sx={{
-            overflow: 'visible',
             width: '100%',
             '& infinite-scroll-component__outerdiv': {
               width: '100%',
