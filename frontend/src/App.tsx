@@ -4,7 +4,6 @@ import Router from './routes';
 // theme
 import ThemeProvider from './theme';
 // components
-import ScrollToTop from './components/ScrollToTop';
 import { ProgressBarStyle } from './components/ProgressBar';
 import NotistackProvider from './components/NotistackProvider';
 import MotionLazyContainer from './components/animate/MotionLazyContainer';
@@ -12,6 +11,7 @@ import MotionLazyContainer from './components/animate/MotionLazyContainer';
 import { ProfileProvider } from './contexts/auth/ProfileContext';
 import { AuthProvider } from './@types/auth';
 import ServiceWorker from './serviceWorker/ServiceWorker';
+import { RouterProvider } from 'react-router-dom';
 
 interface Props {
   authProvider: AuthProvider;
@@ -28,8 +28,7 @@ export default function App({ authProvider }: Props) {
         <ThemeProvider>
           <NotistackProvider>
             <ProgressBarStyle />
-            <ScrollToTop />
-            <Router />
+            <RouterProvider router={Router} />
             <ServiceWorker />
           </NotistackProvider>
         </ThemeProvider>

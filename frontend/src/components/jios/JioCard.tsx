@@ -15,10 +15,19 @@ interface JioCardProps {
   isUsernameHidden?: boolean;
 }
 
-export default function JioCard({ data, isHeaderLinkDisabled = false, isUsernameHidden = false, isButtonDisabled = false }: JioCardProps) {
+export default function JioCard({
+  data,
+  isHeaderLinkDisabled = false,
+  isUsernameHidden = false,
+  isButtonDisabled = false,
+}: JioCardProps) {
   return (
     <Card>
-      <JioCardHeader data={data} isUsernameHidden={isUsernameHidden} isLinkDisabled={isHeaderLinkDisabled} />
+      <JioCardHeader
+        data={data}
+        isUsernameHidden={isUsernameHidden}
+        isLinkDisabled={isHeaderLinkDisabled}
+      />
       <Stack spacing={1.5} sx={{ px: 3, pb: 3, pt: 2 }}>
         <Stack direction="row">
           <IconStyle icon={'eva:pin-outline'} color={palette.light.grey[700]} />

@@ -50,6 +50,7 @@ export default function ProfileHeaderAndTabs({
           top: 0,
           background: 'white',
           width: showBack ? 'auto' : '100%',
+          left: 0,
         }}
       >
         {showBack && <BackBar position="static" disableHideOnScroll to={backTo} />}

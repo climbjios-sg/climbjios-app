@@ -8,6 +8,7 @@ import {
   useTheme,
   useScrollTrigger,
   Slide,
+  Badge,
 } from '@mui/material';
 // components
 import Page from '../../components/Page';
@@ -15,18 +16,21 @@ import { useLocation, Link, useRoutes, Navigate } from 'react-router-dom';
 import Iconify from '../../components/Iconify';
 import Profile from './profile';
 import Jios from './jios';
+import Gyms from './gyms';
 import { listGyms } from '../../store/reducers/gyms';
 import { useDispatch } from '../../store';
 import Betas from './betas';
 import { listColors } from '../../store/reducers/colors';
 import { listWalls } from '../../store/reducers/walls';
 import MessageBarWithStore from './MessageBarWithStore';
+import useLocalStorage from 'src/hooks/useLocalStorage';
 
 interface BottomTab {
   path: string;
   to: string;
   label: string;
   icon: React.ReactElement;
+  onClick?: () => void;
 }
 
 interface BottomTabsProps {
@@ -49,39 +53,36 @@ function BottomTabs({ tabs }: BottomTabsProps) {
           icon={tab.icon}
           value={tab.to}
           component={Link}
+          onClick={() => tab.onClick && tab.onClick()}
         />
       ))}
     </BottomNavigation>
   );
 }
 
-const DASHBOARD_TABS = [
-  {
-    path: 'jios/*',
-    to: 'jios',
-    label: 'Jios',
-    icon: <Iconify icon={'eva:people-outline'} width={20} height={20} />,
-    element: <Jios />,
-  },
-  {
-    path: 'betas/*',
-    to: 'betas',
-    label: 'Betas',
-    icon: <Iconify icon={'akar-icons:video'} width={20} height={20} />,
-    element: <Betas />,
-  },
-  {
-    path: 'profile/*',
-    to: 'profile',
-    label: 'Profile',
-    icon: <Iconify icon={'eva:person-outline'} width={20} height={20} />,
-    element: <Profile />,
-  },
-];
+function GymsTabIcon({ invisible }: { invisible: boolean }) {
+  // return <Iconify icon={'eva:pin-outline'} width={20} height={20} />
+  return (
+    <Badge
+      invisible={invisible}
+      badgeContent="New!"
+      sx={{
+        '& .MuiBadge-badge': {
+          right: -12,
+          top: -2,
+          color: 'white',
+          backgroundColor: 'red',
+        },
+      }}
+    >
+      <Iconify icon={'eva:pin-outline'} width={20} height={20} color="inherit" />
+    </Badge>
+  );
+}
 
-const DashboardRouter = () =>
+const DashboardRouter = ({ dashboardTabs }: { dashboardTabs: (BottomTab & { element: any })[] }) =>
   useRoutes([
-    ...DASHBOARD_TABS.map((tab) => ({
+    ...dashboardTabs.map((tab) => ({
       path: tab.path,
       element: tab.element,
     })),
@@ -94,6 +95,42 @@ export default function Dashboard() {
   const trigger = useScrollTrigger({
     target: document.getElementById('root') || undefined,
   });
+  const { value: openedGymTab, setValueInLocalStorage: setOpenedGymTab } = useLocalStorage(
+    'openedGymTab',
+    false
+  );
+
+  const DASHBOARD_TABS = [
+    {
+      path: 'jios/*',
+      to: 'jios',
+      label: 'Jios',
+      icon: <Iconify icon={'eva:people-outline'} width={20} height={20} />,
+      element: <Jios />,
+    },
+    {
+      path: 'gyms/*',
+      to: 'gyms',
+      label: 'Gyms',
+      icon: <GymsTabIcon invisible={openedGymTab} />,
+      element: <Gyms />,
+      onClick: () => !openedGymTab && setOpenedGymTab(true),
+    },
+    {
+      path: 'betas/*',
+      to: 'betas',
+      label: 'Betas',
+      icon: <Iconify icon={'akar-icons:video'} width={20} height={20} />,
+      element: <Betas />,
+    },
+    {
+      path: 'profile/*',
+      to: 'profile',
+      label: 'Profile',
+      icon: <Iconify icon={'eva:person-outline'} width={20} height={20} />,
+      element: <Profile />,
+    },
+  ];
 
   // TODO: Check and remove if no one using the redux states
   useEffect(() => {
@@ -106,7 +143,7 @@ export default function Dashboard() {
     <Page title="ClimbJios - The social network for climbers.">
       <MessageBarWithStore />
       <Container>
-        <DashboardRouter />
+        <DashboardRouter dashboardTabs={DASHBOARD_TABS} />
       </Container>
       <Slide appear={false} direction="up" in={!trigger}>
         <Paper

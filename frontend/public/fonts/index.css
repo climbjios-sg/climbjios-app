@@ -24,7 +24,8 @@ body {
 }
 
 #root {
-  height: 100vh;
+  /* had to remove 100% height for scroll position to be read */
+  /* height: 100vh; */
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }

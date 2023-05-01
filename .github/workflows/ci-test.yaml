@@ -34,7 +34,7 @@ jobs:
         with:
           node-version: '16'
       - name: Install dependencies
-        run: cd backend; yarn install --frozen-lockfile;
+        run: cd backend; yarn -v; yarn policies set-version; yarn -v; yarn install --frozen-lockfile;
       - name: Run tests
         run: cd backend; yarn test:e2e --force-exit;
 
