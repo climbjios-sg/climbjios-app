@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 // @mui
 import {
   Container,
@@ -23,6 +23,7 @@ import Betas from './betas';
 import { listColors } from '../../store/reducers/colors';
 import { listWalls } from '../../store/reducers/walls';
 import MessageBarWithStore from './MessageBarWithStore';
+import useLocalStorage from 'src/hooks/useLocalStorage';
 
 interface BottomTab {
   path: string;
@@ -94,7 +95,10 @@ export default function Dashboard() {
   const trigger = useScrollTrigger({
     target: document.getElementById('root') || undefined,
   });
-  const [tappedGym, setTappedGym] = useState(false);
+  const { value: openedGymTab, setValueInLocalStorage: setOpenedGymTab } = useLocalStorage(
+    'openedGymTab',
+    false
+  );
 
   const DASHBOARD_TABS = [
     {
@@ -108,9 +112,9 @@ export default function Dashboard() {
       path: 'gyms/*',
       to: 'gyms',
       label: 'Gyms',
-      icon: <GymsTabIcon invisible={tappedGym} />,
+      icon: <GymsTabIcon invisible={openedGymTab} />,
       element: <Gyms />,
-      onClick: () => !tappedGym && setTappedGym(true),
+      onClick: () => !openedGymTab && setOpenedGymTab(true),
     },
     {
       path: 'betas/*',
@@ -139,7 +143,7 @@ export default function Dashboard() {
     <Page title="ClimbJios - The social network for climbers.">
       <MessageBarWithStore />
       <Container>
-        <DashboardRouter dashboardTabs={DASHBOARD_TABS}/>
+        <DashboardRouter dashboardTabs={DASHBOARD_TABS} />
       </Container>
       <Slide appear={false} direction="up" in={!trigger}>
         <Paper
