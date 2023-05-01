@@ -79,6 +79,15 @@ function GymsTabIcon({ invisible }: { invisible: boolean }) {
   );
 }
 
+const DashboardRouter = ({ dashboardTabs }: { dashboardTabs: (BottomTab & { element: any })[] }) =>
+  useRoutes([
+    ...dashboardTabs.map((tab) => ({
+      path: tab.path,
+      element: tab.element,
+    })),
+    { path: '*', element: <Navigate to="jios" replace /> },
+  ]);
+
 export default function Dashboard() {
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -119,15 +128,6 @@ export default function Dashboard() {
     },
   ];
 
-  const DashboardRouter = () =>
-    useRoutes([
-      ...DASHBOARD_TABS.map((tab) => ({
-        path: tab.path,
-        element: tab.element,
-      })),
-      { path: '*', element: <Navigate to="jios" replace /> },
-    ]);
-
   // TODO: Check and remove if no one using the redux states
   useEffect(() => {
     dispatch(listGyms());
@@ -139,7 +139,7 @@ export default function Dashboard() {
     <Page title="ClimbJios - The social network for climbers.">
       <MessageBarWithStore />
       <Container>
-        <DashboardRouter />
+        <DashboardRouter dashboardTabs={DASHBOARD_TABS}/>
       </Container>
       <Slide appear={false} direction="up" in={!trigger}>
         <Paper
