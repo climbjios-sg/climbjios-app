@@ -1,10 +1,8 @@
-// import { Avatar, Box, Card, CardContent, Stack, Typography, Link as MuiLink } from '@mui/material';
 import {
   Avatar,
   Box,
   Card,
   CardActionArea,
-  // CardContent,
   Stack,
   Typography,
 } from '@mui/material';

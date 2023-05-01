@@ -5,7 +5,6 @@ import LoadingScreen from '../components/LoadingScreen';
 import CustomGuard from 'src/components/guards/CustomGuard';
 import NoTelegramUsernamePage from 'src/pages/error/NoTelegramUsernameError';
 import { isDebug } from 'src/config';
-import { gymDetailsLoader } from '../pages/gymDetailsPage/GymDetailsPage';
 import ScrollToTop from 'src/components/ScrollToTop';
 
 // ----------------------------------------------------------------------
@@ -84,7 +83,6 @@ export default createBrowserRouter([
   {
     path: 'gyms/:gymId',
     element: <GymDetailsPage />,
-    loader: gymDetailsLoader,
     // errorElement: <Page404 />,
   },
   {

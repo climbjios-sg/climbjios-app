@@ -203,7 +203,8 @@ export async function seed(knex: Knex): Promise<void> {
       freezingFee: null,
       ageRestriction: '',
       sharingPolicy: '',
-      timeRestriction: 'Weekdays 1400-1800\nNo off-peak on Saturdays\nSundays 1700-2000',
+      timeRestriction:
+        'Weekdays 1400-1800\nNo off-peak on Saturdays\nSundays 1700-2000',
       validityPeriod: '',
       infoUrl: 'https://www.b8a.sg/entry-passes/',
       remarks: 'PayNow/Cash',
@@ -220,7 +221,8 @@ export async function seed(knex: Knex): Promise<void> {
       freezingFee: null,
       ageRestriction: '',
       sharingPolicy: '',
-      timeRestriction: 'Weekdays 1400-1800\nNo off-peak on Saturdays\nSundays 1700-2000',
+      timeRestriction:
+        'Weekdays 1400-1800\nNo off-peak on Saturdays\nSundays 1700-2000',
       validityPeriod: '',
       infoUrl: 'https://www.b8a.sg/entry-passes/',
       remarks: 'Credit Card',
@@ -309,7 +311,8 @@ export async function seed(knex: Knex): Promise<void> {
       freezingFee: null,
       ageRestriction: '< 21',
       sharingPolicy: '',
-      timeRestriction: 'Weekdays 1400-1800\nNo off-peak on Saturdays\nSundays 1700-2000',
+      timeRestriction:
+        'Weekdays 1400-1800\nNo off-peak on Saturdays\nSundays 1700-2000',
       validityPeriod: '',
       infoUrl: 'https://www.b8a.sg/entry-passes/',
       remarks: 'PayNow/Cash',
@@ -326,7 +329,8 @@ export async function seed(knex: Knex): Promise<void> {
       freezingFee: null,
       ageRestriction: '< 21',
       sharingPolicy: 'Unshareable',
-      timeRestriction: 'Weekdays 1400-1800\nNo off-peak on Saturdays\nSundays 1700-2000',
+      timeRestriction:
+        'Weekdays 1400-1800\nNo off-peak on Saturdays\nSundays 1700-2000',
       validityPeriod: '6 months from purchase',
       infoUrl: 'https://www.b8a.sg/entry-passes/',
       remarks: 'PayNow/Cash',
@@ -343,7 +347,8 @@ export async function seed(knex: Knex): Promise<void> {
       freezingFee: null,
       ageRestriction: '< 21',
       sharingPolicy: 'Unshareable',
-      timeRestriction: 'Weekdays 1400-1800\nNo off-peak on Saturdays\nSundays 1700-2000',
+      timeRestriction:
+        'Weekdays 1400-1800\nNo off-peak on Saturdays\nSundays 1700-2000',
       validityPeriod: '6 months from purchase',
       infoUrl: 'https://www.b8a.sg/entry-passes/',
       remarks: 'Credit Card',
