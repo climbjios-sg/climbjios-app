@@ -1,4 +1,4 @@
-export declare type JwtPayload = {
+export type JwtPayload = {
     id: string;
 };
 export declare enum AuthProvider {
@@ -16,5 +16,7 @@ export declare enum PostStatus {
     EXPIRED = "expired"
 }
 export declare enum S3UploadType {
-    PROFILE_PICTURE = "profile_picture"
+    PROFILE_PICTURE = "profile_picture",
+    BANNER_PICTURE = "banner_picture",
+    ICON_PICTURE = "icon_picture"
 }

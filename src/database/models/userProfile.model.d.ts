@@ -1,3 +1,4 @@
+import { QueryContext } from 'objection';
 import { BaseModel } from './base.model';
 import { BoulderingGradeModel } from './boulderingGrade.model';
 import { PronounModel } from './pronoun.model';
@@ -89,5 +90,5 @@ export declare class UserProfileModel extends BaseModel {
             };
         };
     };
-    $afterFind: (context: any) => void | Promise<any>;
+    $afterFind: (context: QueryContext) => void | Promise<any>;
 }

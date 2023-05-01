@@ -20,7 +20,7 @@ class UserProfileModel extends base_model_1.BaseModel {
             if (this.hasProfilePicture) {
                 this.profilePictureUrl = UserProfileModel.s3Instance.getSignedUrl('getObject', {
                     Bucket: process.env.AWS_S3_BUCKET_NAME,
-                    Key: `${this.userId}/${types_1.S3UploadType.PROFILE_PICTURE}`,
+                    Key: `users/${this.userId}/${types_1.S3UploadType.PROFILE_PICTURE}`,
                     Expires: 60,
                 });
             }

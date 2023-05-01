@@ -2,7 +2,7 @@ import { ModelClass } from 'objection';
 import { BetaModel } from '../../models/beta.model';
 import CreateBetaDto from '../../../betas/dtos/createBeta.dto';
 import { GetBetasQuery } from '../../../betas/dtos/getBetas.dto';
-declare type CreateBetaQuery = CreateBetaDto & {
+type CreateBetaQuery = CreateBetaDto & {
     creatorId: string;
 };
 export declare class BetasDaoService {

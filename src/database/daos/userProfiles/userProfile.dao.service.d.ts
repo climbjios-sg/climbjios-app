@@ -31,7 +31,7 @@ export declare class UserProfileDaoService {
         sncsCertification?: import("../../models/sncsCertification.model").SncsCertificationModel;
         favouriteGyms?: import("../../models/gym.model").GymModel[];
         profilePictureUrl: string;
-        $afterFind: (context: any) => void | Promise<any>;
+        $afterFind: (context: import("objection").QueryContext) => void | Promise<any>;
         id: string;
         createdAt: Date;
         updatedAt: Date;

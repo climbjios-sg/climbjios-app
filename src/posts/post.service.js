@@ -31,7 +31,7 @@ let PostService = class PostService {
     }
     async createPost(creatorId, body) {
         this.checkPostTypeAndNumPasses(body.type, body.numPasses);
-        const gym = await this.gymsDaoService.findById(body.gymId);
+        const gym = await this.gymsDaoService.findByGymId(body.gymId);
         if (!gym) {
             throw new common_1.HttpException('Invalid gym id!', 400);
         }

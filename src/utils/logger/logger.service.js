@@ -32,7 +32,7 @@ let LoggerService = class LoggerService {
         else {
             message += data;
         }
-        this.constantsService.NODE_ENV !== 'test' && console.log(message);
+        this.constantsService.NODE_ENV !== 'test' && console.log(data);
         return this.telegramService.sendViaAlertsBot(message);
     }
     log(data) {

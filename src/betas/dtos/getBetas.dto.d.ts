@@ -1,4 +1,4 @@
-export declare type GetBetasQuery = GetBetasDto & {
+export type GetBetasQuery = GetBetasDto & {
     creatorId?: string;
 };
 export default class GetBetasDto {

@@ -66,7 +66,7 @@ let UserService = class UserService {
         }));
         if (body.favouriteGymIds) {
             await Promise.all(body.favouriteGymIds.map(async (gymId) => {
-                if (!(await this.gymsDaoService.findById(gymId))) {
+                if (!(await this.gymsDaoService.findByGymId(gymId))) {
                     throw new common_1.HttpException(`Invalid gym id ${gymId}`, 400);
                 }
             }));
