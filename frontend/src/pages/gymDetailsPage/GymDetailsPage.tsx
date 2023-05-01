@@ -1,7 +1,7 @@
 // @mui
 import { Tabs, Tab, Box, Card, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import { Params, useLoaderData } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import Page404 from '../error/Page404';
 import { getGymDetails } from 'src/services/gyms';
 import { GymDetails } from 'src/@types/gymDetails';
@@ -12,26 +12,36 @@ import GymBetas from './GymBetasTab';
 import GymAboutTab from './GymAboutTab';
 import GymPassesTab from './GymPassesTab/GymPassesTab';
 import useTabs from 'src/hooks/ui/useTabs';
-
-export function gymDetailsLoader({
-  params,
-}: {
-  params: Params;
-}): Promise<AxiosResponse<GymDetails, any>> | undefined {
-  const gymId = parseInt(params.gymId ?? '');
-  if (!gymId) {
-    return undefined;
-  }
-  return getGymDetails(gymId);
-}
+import { useRequest } from 'ahooks';
+import useCustomSnackbar from 'src/hooks/useCustomSnackbar';
+import GymPageLoader from 'src/components/gymDetailsPage/GymPageLoader';
 
 export default function GymDetailsPage() {
-  const gymDetails = (useLoaderData() as AxiosResponse<GymDetails, any>).data;
+  const errorSnackbar = useCustomSnackbar();
   const { currentTab, onChangeTab } = useTabs<number>(0);
+  const { gymId } = useParams();
+  const navigate = useNavigate();
 
-  if (!gymDetails) {
+  const { data: response, loading } = useRequest<AxiosResponse<GymDetails, any> | null, any>(
+    () => getGymDetails(parseInt(gymId!)),
+    {
+      onError: () => errorSnackbar.enqueueError('Failed to load data.'),
+    }
+  );
+
+  if (loading) {
+    return (
+      <Stack>
+        <GymPageLoader />
+      </Stack>
+    );
+  }
+
+  if (!response) {
     return <Page404 />;
   }
+
+  const gymDetails = response.data;
 
   const tabs = [
     {
@@ -50,7 +60,7 @@ export default function GymDetailsPage() {
 
   return (
     <Stack>
-      {GymPageHeader(gymDetails)}
+      <GymPageHeader gymDetails={gymDetails} navigate={navigate} />
       <Box display="flex" justifyContent="center" width="100%">
         <Tabs
           allowScrollButtonsMobile

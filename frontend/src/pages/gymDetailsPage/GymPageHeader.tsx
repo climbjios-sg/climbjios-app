@@ -3,13 +3,18 @@ import { IconButton, Typography, Avatar, useTheme } from '@mui/material';
 import { Stack } from '@mui/system';
 import Iconify from '../../components/Iconify';
 import { GymDetails } from 'src/@types/gymDetails';
-import { useNavigate } from 'react-router';
+import { NavigateFunction } from 'react-router';
 import FloatingContainer from 'src/components/FloatingContainer';
 
-export default function GymPageHeader(gymDetails: GymDetails) {
-  const navigate = useNavigate();
+export default function GymPageHeader({
+  gymDetails,
+  navigate,
+}: {
+  gymDetails: GymDetails;
+  navigate: NavigateFunction;
+}) {
   const logoSize = 70;
-  const theme = useTheme()
+  const theme = useTheme();
 
   return (
     <div
