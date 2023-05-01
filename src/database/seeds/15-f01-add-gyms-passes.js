@@ -2691,7 +2691,7 @@ async function seed(knex) {
             remarks: '',
         },
         {
-            passName: '3-Month Subscription (Opening Promo)',
+            passName: '3-Month Subscription',
             passGroupId: 26,
             numberOfPasses: 0,
             price: 300,
@@ -2841,7 +2841,7 @@ async function seed(knex) {
         { id: 29, passGroupId: 24 },
         { id: 30, passGroupId: 25 },
         { id: 32, passGroupId: 26 },
-        { id: 34, passGroupId: 27 },
+        { id: 39, passGroupId: 27 },
     ];
     for (const row of gymsData) {
         await knex('gyms').update(row).where('id', row.id);
