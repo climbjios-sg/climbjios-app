@@ -14,7 +14,9 @@ import { ProfileProvider } from './contexts/auth/ProfileContext';
 import { AuthProvider } from './@types/auth';
 import ServiceWorker from './serviceWorker/ServiceWorker';
 import { useLocation } from 'react-router-dom'; // version 5.2.0
+//mixpanel
 import mixpanel_actions from './mixpanel';
+import { PAGE_VISIT_PREFIX } from './mixpanel/labels';
 
 interface Props {
   authProvider: AuthProvider;
@@ -32,7 +34,7 @@ function useLocationEffect(callback: (location?: any) => any) {
 }
 export default function App({ authProvider }: Props) {
   useLocationEffect((location: Location) => {
-    mixpanel_actions.track('Page Visited: ' + location.pathname);
+    mixpanel_actions.track(PAGE_VISIT_PREFIX + location.pathname);
   });
   return (
     <ProfileProvider authProvider={authProvider}>
