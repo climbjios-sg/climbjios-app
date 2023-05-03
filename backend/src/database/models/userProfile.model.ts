@@ -1,4 +1,4 @@
-import { Model } from 'objection';
+import { Model, QueryContext } from 'objection';
 import { BaseModel } from './base.model';
 import { BoulderingGradeModel } from './boulderingGrade.model';
 import { PronounModel } from './pronoun.model';
@@ -110,7 +110,7 @@ export class UserProfileModel extends BaseModel {
     },
   });
 
-  $afterFind = (context) => {
+  $afterFind = (context: QueryContext) => {
     const result = super.$afterFind(context);
 
     if (this.hasProfilePicture) {
@@ -118,7 +118,7 @@ export class UserProfileModel extends BaseModel {
         'getObject',
         {
           Bucket: process.env.AWS_S3_BUCKET_NAME,
-          Key: `${this.userId}/${S3UploadType.PROFILE_PICTURE}`,
+          Key: `users/${this.userId}/${S3UploadType.PROFILE_PICTURE}`,
           Expires: 60, // 1 minute
         },
       );

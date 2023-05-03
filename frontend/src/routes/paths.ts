@@ -8,6 +8,7 @@ const ROOTS_AUTH = '/login';
 const ROOTS_ONBOARDING = '/onboarding';
 const ROOTS_DASHBOARD = '/dashboard';
 const ROOTS_CLIMBER = '/climber';
+const ROOTS_GYMS = '/gyms';
 const ROOTS_LANDING = 'https://www.climbjios.com';
 
 export const PATH_LANDING = {
@@ -57,5 +58,12 @@ export const PATH_USER = {
   root: ROOTS_CLIMBER,
   general: {
     user: (userId: string) => path(ROOTS_CLIMBER, `/${userId}`),
+  },
+};
+
+export const PATH_GYM = {
+  root: ROOTS_GYMS,
+  general: {
+    gym: (gymId: string) => path(ROOTS_GYMS, `/${gymId}`),
   },
 };

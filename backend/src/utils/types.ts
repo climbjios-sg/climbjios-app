@@ -15,4 +15,6 @@ export enum PostStatus {
 }
 export enum S3UploadType {
   PROFILE_PICTURE = 'profile_picture',
+  BANNER_PICTURE = 'banner_picture',
+  ICON_PICTURE = 'icon_picture',
 }

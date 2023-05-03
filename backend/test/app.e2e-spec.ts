@@ -122,6 +122,10 @@ describe('Backend (e2e)', () => {
       .accessToken;
   });
 
+  afterEach(async () => {
+    await app.close();
+  });
+
   describe('AppController (e2e)', () => {
     it('/ (GET)', () => {
       return request(app.getHttpServer())
@@ -261,7 +265,131 @@ describe('Backend (e2e)', () => {
       expect(body.length).toBeGreaterThan(0);
       expect(body).toEqual(
         expect.arrayContaining([
-          { id: 1, name: 'Arête (By Upwall)', permanentlyClosed: false },
+          { id: 1, name: 'Arête (By Upwall)' },
+          { name: 'Boulder Planet (Sembawang)', id: 14 },
+          { id: 2, name: 'Ark Bloc' },
+          { name: 'Boulder World (Paragon)', id: 16 },
+        ]),
+      );
+      expect(body).toEqual(
+        expect.not.arrayContaining([
+          { name: 'Boulder World (SingPost)', id: 15 }, //closed
+        ]),
+      );
+    });
+
+    it('/:id? (GET)', async () => {
+      const { body } = await request(app.getHttpServer())
+        .get(`${prefix}/${1}`)
+        .set('Authorization', 'Bearer ' + TEST_USER_JWT)
+        .expect(200);
+
+      expect(body).toEqual(
+        expect.objectContaining({
+          name: 'Arête (By Upwall)',
+          shortName: 'Arête',
+          permanentlyClosed: false,
+          id: 1,
+          gymGroupId: 18,
+          area: 'Expo',
+          address:
+            '5 Changi Business Park Central 1, #02-14/15/16, Singapore 486038',
+          passSharing:
+            'Passholder does not need to be present but accounts have to be linked beforehand',
+          socialUrl: 'https://instagram.com/arete.climbing?igshid=NDk5N2NlZjQ=',
+          website: 'https://upwallclimbing.sg/',
+          lead: false,
+          boulder: true,
+          topRope: false,
+          autoBelay: false,
+        }),
+      );
+    });
+
+    it('/:id/passes (GET)', async () => {
+      const { body } = await request(app.getHttpServer())
+        .get(`${prefix}/${4}/passes`)
+        .set('Authorization', 'Bearer ' + TEST_USER_JWT)
+        .expect(200);
+
+      expect(body).toEqual(
+        expect.objectContaining({
+          gymOutletPasses: expect.arrayContaining([
+            expect.objectContaining({
+              id: 26,
+              passGroupId: 5,
+              passName: 'Adult Entry',
+              numberOfPasses: 1,
+              price: 23.76,
+              discountedPrice: null,
+              paymentFrequency: '',
+              initiationFee: null,
+              discountedInitiationFee: null,
+              freezingFee: null,
+              ageRestriction: '',
+              sharingPolicy: '',
+              timeRestriction: '',
+              validityPeriod: '',
+              infoUrl: 'https://bffclimb.com/rates/',
+              remarks: '',
+            }),
+          ]),
+
+          gymGroupPasses: expect.arrayContaining([
+            expect.objectContaining({
+              id: 21,
+              passGroupId: 4,
+              passName: 'Youth Entry',
+              numberOfPasses: 1,
+              price: 17.28,
+              discountedPrice: null,
+              paymentFrequency: '',
+              initiationFee: null,
+              discountedInitiationFee: null,
+              freezingFee: null,
+              ageRestriction: '< 19',
+              sharingPolicy: '',
+              timeRestriction:
+                'Weekday 9.30am - 6pm, excluding Public Holidays',
+              validityPeriod: '',
+              infoUrl: 'https://bffclimb.com/rates/',
+              remarks: '',
+            }),
+          ]),
+        }),
+      );
+    });
+
+    it('/search/:substring? (GET)', async () => {
+      const substring = 'chevrons';
+      const { body } = await request(app.getHttpServer())
+        .get(`${prefix}/search/${substring}`)
+        .set('Authorization', 'Bearer ' + TEST_USER_JWT)
+        .expect(200);
+
+      expect(body.length).toBeGreaterThan(0);
+      expect(body).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            id: 6,
+            name: 'Boulder+',
+            gymOutlets: expect.arrayContaining([
+              expect.objectContaining({
+                address:
+                  '12 Kallang Ave, #03-17, The Aperia Mall, Singapore 339511',
+                area: 'Lavender',
+                id: 12,
+                name: 'Boulder+ (Aperia Mall)',
+              }),
+              expect.objectContaining({
+                address:
+                  '48 Boon Lay Way, 04-01 The Chevrons, Singapore 609961',
+                area: 'Jurong East',
+                id: 13,
+                name: 'Boulder+ (The Chevrons)',
+              }),
+            ]),
+          }),
         ]),
       );
     });

@@ -5,7 +5,6 @@ import Router from './routes';
 // theme
 import ThemeProvider from './theme';
 // components
-import ScrollToTop from './components/ScrollToTop';
 import { ProgressBarStyle } from './components/ProgressBar';
 import NotistackProvider from './components/NotistackProvider';
 import MotionLazyContainer from './components/animate/MotionLazyContainer';
@@ -13,7 +12,7 @@ import MotionLazyContainer from './components/animate/MotionLazyContainer';
 import { ProfileProvider } from './contexts/auth/ProfileContext';
 import { AuthProvider } from './@types/auth';
 import ServiceWorker from './serviceWorker/ServiceWorker';
-import { useLocation } from 'react-router-dom'; // version 5.2.0
+import { useLocation, RouterProvider } from 'react-router-dom'; // version 5.2.0
 //mixpanel
 import mixpanel_actions from './mixpanel';
 import { PAGE_VISIT_PREFIX } from './mixpanel/labels';
@@ -42,8 +41,7 @@ export default function App({ authProvider }: Props) {
         <ThemeProvider>
           <NotistackProvider>
             <ProgressBarStyle />
-            <ScrollToTop />
-            <Router />
+            <RouterProvider router={Router} />
             <ServiceWorker />
           </NotistackProvider>
         </ThemeProvider>
