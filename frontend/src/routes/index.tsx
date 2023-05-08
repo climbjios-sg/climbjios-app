@@ -16,7 +16,7 @@ const Loadable = (Component: ElementType) => (props: any) => {
   const isDashboard = pathname.includes('/dashboard');
 
   //from DebugRouter
-  if (!isDebug) {
+  if (isDebug) {
     console.log(`Route: ${pathname}${search}, State: ${JSON.stringify(state)}`);
   }
   mixpanel_actions.trackRoutes(pathname);
