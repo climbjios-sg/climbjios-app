@@ -2,6 +2,7 @@ import mixpanel from 'mixpanel-browser';
 import { MIXPANEL_API_TOKEN } from 'src/config';
 import { User } from 'src/@types/user';
 import {
+  PAGE_VISIT_PREFIX,
   REGISTRATION_CLIMBING_CERT,
   REGISTRATION_CLIMBING_GRADE,
   REGISTRATION_GYMS,
@@ -17,6 +18,19 @@ const mixpanel_actions = {
   },
   track: (eventName: string) => {
     mixpanel.track(eventName);
+  },
+  trackRoutes: (route: string) => {
+    const routeComponents = route.split('/');
+    if (routeComponents.length <= 2) {
+      mixpanel.track(PAGE_VISIT_PREFIX + route);
+      return;
+    }
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    const lastElement = routeComponents[routeComponents.length - 1];
+    if (uuidRegex.test(lastElement) || !Number.isNaN(Number(lastElement))) {
+      routeComponents[routeComponents.length - 1] = '{id}';
+    }
+    mixpanel.track(PAGE_VISIT_PREFIX + routeComponents.join('/'));
   },
   trackRegistration: (step: number) => {
     let eventName = '';

@@ -14,8 +14,6 @@ import ProfileHeaderAndTabs from '../../components/profile/ProfileHeaderAndTabs'
 import { outgoingLinkProps } from '../../utils/common';
 import { Stack } from '@mui/system';
 import Page404 from '../error/Page404';
-import mixpanel_actions from 'src/mixpanel';
-import { MESSAGE_CLIMBER_PROFILE } from 'src/mixpanel/labels';
 
 export type UserProfileLocationState = {
   user: User;
@@ -24,7 +22,6 @@ export type UserProfileLocationState = {
 };
 
 export function makeUserProfileLinkProps(userProfileData: UserProfileLocationState) {
-  mixpanel_actions.track(MESSAGE_CLIMBER_PROFILE);
   return {
     to: PATH_USER.general.user(userProfileData.user.userId),
     state: userProfileData,

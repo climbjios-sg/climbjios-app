@@ -15,6 +15,9 @@ import useTabs from 'src/hooks/ui/useTabs';
 import { useRequest } from 'ahooks';
 import useCustomSnackbar from 'src/hooks/useCustomSnackbar';
 import GymPageLoader from 'src/components/gymDetailsPage/GymPageLoader';
+import { SyntheticEvent } from 'react';
+import mixpanel_actions from 'src/mixpanel';
+import { GYM_DETAILS_PAGE_TAB } from 'src/mixpanel/labels';
 
 export default function GymDetailsPage() {
   const errorSnackbar = useCustomSnackbar();
@@ -28,6 +31,11 @@ export default function GymDetailsPage() {
       onError: () => errorSnackbar.enqueueError('Failed to load data.'),
     }
   );
+
+  const tabClickHandler = (event: SyntheticEvent<Element, Event>, index: number) => {
+    onChangeTab(event, index);
+    mixpanel_actions.track(GYM_DETAILS_PAGE_TAB + tabs[index].label);
+  };
 
   if (loading) {
     return (
@@ -67,7 +75,7 @@ export default function GymDetailsPage() {
           variant="scrollable"
           scrollButtons="auto"
           value={currentTab}
-          onChange={onChangeTab}
+          onChange={tabClickHandler}
         >
           {tabs.map((tab, index) => (
             <Tab disableRipple key={index} value={index} label={capitalCase(tab.label)} />
