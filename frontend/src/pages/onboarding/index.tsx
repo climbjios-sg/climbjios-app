@@ -1,5 +1,5 @@
 import { ReactElement, useState, useMemo } from 'react';
-
+import mixpanel_actions from 'src/mixpanel';
 // @mui
 import { Container, Typography, Button, Card, Stack } from '@mui/material';
 
@@ -171,6 +171,7 @@ export default function Onboarding() {
   const navigate = useNavigate();
   // Ranges from 1-N, where N is the number of steps
   const [activeStep, setActiveStep] = useState<number>(1);
+  const [latestStep, setLatestStep] = useState<number>(1);
   const isComplete = activeStep === onboardingSteps.length;
 
   const methods = useForm<OnboardingFormValues>({
@@ -233,6 +234,10 @@ export default function Onboarding() {
     const isValid = await trigger(activeSchema);
     if (!isValid) {
       return;
+    }
+    if (activeStep >= latestStep) {
+      setLatestStep(activeStep + 1);
+      mixpanel_actions.trackRegistration(activeStep);
     }
     if (!isComplete) {
       setActiveStep((currentStep) => currentStep + 1);

@@ -6,6 +6,8 @@ import { Stream, StreamPlayerApi } from '@cloudflare/stream-react';
 import Iconify from './Iconify';
 import Image from './Image';
 import { styled } from '@mui/system';
+import mixpanel_actions from 'src/mixpanel';
+import { VIEWED_BETA_VIDEO } from 'src/mixpanel/labels';
 
 interface Props {
   cloudflareVideoUid: string;
@@ -40,6 +42,7 @@ export default function Video({ sx, cloudflareVideoUid, videoUrl, thumbnailSrc }
 
   const renderedVideo = React.useMemo(() => {
     if (videoUrl) {
+      mixpanel_actions.track(VIEWED_BETA_VIDEO);
       return <FullScreenVideo src={videoUrl} muted controls />;
     } else {
       return (
@@ -95,10 +98,7 @@ export default function Video({ sx, cloudflareVideoUid, videoUrl, thumbnailSrc }
         }}
       />
       <Image ratio="9/16" src={thumbnailSrc} />
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-      >
+      <Modal open={open} onClose={() => setOpen(false)}>
         <>
           <IconButton
             sx={{
