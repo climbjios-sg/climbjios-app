@@ -60,7 +60,7 @@ const mixpanel_actions = {
       mixpanel.people.set({
         'User ID': user.userId,
         Bio: user.bio,
-        Name: user.name,
+        $name: user.name,
         'Telegram Handle': user.telegramHandle,
         Height: user.height,
         Reach: user.reach,
