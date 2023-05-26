@@ -32,6 +32,7 @@ export default function Video({ sx, cloudflareVideoUid, videoUrl, thumbnailSrc }
         // Start video when opened
         streamRef.current.autoplay = true; // Set auto play true to prevent play button from showing
         streamRef.current.play();
+        mixpanel_actions.track(VIEWED_BETA_VIDEO);
       } else {
         // Stop video and reset to start when closed
         streamRef.current.pause();
@@ -42,7 +43,6 @@ export default function Video({ sx, cloudflareVideoUid, videoUrl, thumbnailSrc }
 
   const renderedVideo = React.useMemo(() => {
     if (videoUrl) {
-      mixpanel_actions.track(VIEWED_BETA_VIDEO);
       return <FullScreenVideo src={videoUrl} muted controls />;
     } else {
       return (

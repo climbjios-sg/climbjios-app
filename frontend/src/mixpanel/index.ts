@@ -1,5 +1,5 @@
 import mixpanel from 'mixpanel-browser';
-import { MIXPANEL_API_TOKEN } from 'src/config';
+import { MIXPANEL_API_TOKEN, isDebug } from 'src/config';
 import { User } from 'src/@types/user';
 import {
   PAGE_VISIT_PREFIX,
@@ -10,7 +10,8 @@ import {
   REGISTRATION_USERNAME,
   REGISTRATION_USER_DETAILS,
 } from './labels';
-mixpanel.init(MIXPANEL_API_TOKEN);
+
+mixpanel.init(MIXPANEL_API_TOKEN, { debug: isDebug });
 
 const mixpanel_actions = {
   identify: (userId: string) => {
@@ -21,6 +22,9 @@ const mixpanel_actions = {
   },
   trackRoutes: (route: string) => {
     const routeComponents = route.split('/');
+    if (routeComponents[1] && routeComponents[1] === 'login') {
+      return;
+    }
     if (routeComponents.length <= 2) {
       mixpanel.track(PAGE_VISIT_PREFIX + route);
       return;
@@ -60,7 +64,7 @@ const mixpanel_actions = {
       mixpanel.people.set({
         'User ID': user.userId,
         Bio: user.bio,
-        Name: user.name,
+        $name: user.name,
         'Telegram Handle': user.telegramHandle,
         Height: user.height,
         Reach: user.reach,
