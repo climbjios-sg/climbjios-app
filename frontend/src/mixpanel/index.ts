@@ -21,6 +21,9 @@ const mixpanel_actions = {
   },
   trackRoutes: (route: string) => {
     const routeComponents = route.split('/');
+    if (routeComponents[1] && routeComponents[1] === 'login') {
+      return;
+    }
     if (routeComponents.length <= 2) {
       mixpanel.track(PAGE_VISIT_PREFIX + route);
       return;
