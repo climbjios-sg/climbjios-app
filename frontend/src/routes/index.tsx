@@ -6,6 +6,7 @@ import CustomGuard from 'src/components/guards/CustomGuard';
 import NoTelegramUsernamePage from 'src/pages/error/NoTelegramUsernameError';
 import { isDebug } from 'src/config';
 import ScrollToTop from 'src/components/ScrollToTop';
+import mixpanel_actions from 'src/mixpanel';
 
 // ----------------------------------------------------------------------
 
@@ -18,6 +19,7 @@ const Loadable = (Component: ElementType) => (props: any) => {
   if (isDebug) {
     console.log(`Route: ${pathname}${search}, State: ${JSON.stringify(state)}`);
   }
+  mixpanel_actions.trackRoutes(pathname);
 
   return (
     <Suspense fallback={<LoadingScreen isDashboard={isDashboard} />}>

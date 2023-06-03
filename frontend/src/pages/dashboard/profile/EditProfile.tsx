@@ -40,6 +40,7 @@ import LoadingScreen from 'src/components/LoadingScreen';
 import useDevWatchForm from '../../../hooks/dev/useDevWatchForm';
 import useCustomSnackbar from '../../../hooks/useCustomSnackbar';
 import BackBar from '../../../components/BackBar';
+import mixpanel_actions from 'src/mixpanel';
 
 // ----------------------------------------------------------------------
 
@@ -102,7 +103,7 @@ export default function EditProfileForm() {
 
   const methods = useForm<EditProfileFormValues>({
     resolver: yupResolver(UserSchema),
-    mode: "onChange",
+    mode: 'onChange',
     defaultValues,
   });
 
@@ -151,6 +152,7 @@ export default function EditProfileForm() {
     try {
       await handleSubmitAvatar(avatar);
       await handleSubmitUpdateUser(rest);
+      mixpanel_actions.people.set(rest);
     } catch {
       // Error has been handled by each submit function
     }

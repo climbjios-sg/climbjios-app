@@ -9,6 +9,8 @@ import { clearJiosSearchForm } from '../../../../store/reducers/jiosSearchForm';
 import useSafeRequest from 'src/hooks/services/useSafeRequest';
 import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
 import { isJioAutofilledDateTime } from 'src/utils/formatTime';
+import mixpanel_actions from 'src/mixpanel';
+import { SUCCESSFUL_JIO } from 'src/mixpanel/labels';
 
 function invertJioTypeValues(
   values: Partial<
@@ -40,6 +42,7 @@ export default function JiosCreate() {
   const { run: submitCreateJio } = useSafeRequest(createJio, {
     manual: true,
     onSuccess: (data) => {
+      mixpanel_actions.track(SUCCESSFUL_JIO);
       let snackbarText = '';
       if (
         isJioAutofilledDateTime({

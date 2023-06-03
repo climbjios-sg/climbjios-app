@@ -7,6 +7,10 @@ import { Jio } from 'src/@types/jio';
 
 export const HOST_API = import.meta.env.VITE_HOST_API_KEY || '';
 
+// MIXPANEL API
+
+export const MIXPANEL_API_TOKEN = import.meta.env.VITE_MIXPANEL_TOKEN || '';
+
 // UTILS
 
 export const isDevelopment = import.meta.env.DEV;
