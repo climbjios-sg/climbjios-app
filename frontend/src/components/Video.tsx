@@ -6,6 +6,8 @@ import { Stream, StreamPlayerApi } from '@cloudflare/stream-react';
 import Iconify from './Iconify';
 import Image from './Image';
 import { styled } from '@mui/system';
+import mixpanel_actions from 'src/mixpanel';
+import { VIEWED_BETA_VIDEO } from 'src/mixpanel/labels';
 
 interface Props {
   cloudflareVideoUid: string;
@@ -30,6 +32,7 @@ export default function Video({ sx, cloudflareVideoUid, videoUrl, thumbnailSrc }
         // Start video when opened
         streamRef.current.autoplay = true; // Set auto play true to prevent play button from showing
         streamRef.current.play();
+        mixpanel_actions.track(VIEWED_BETA_VIDEO);
       } else {
         // Stop video and reset to start when closed
         streamRef.current.pause();
@@ -95,10 +98,7 @@ export default function Video({ sx, cloudflareVideoUid, videoUrl, thumbnailSrc }
         }}
       />
       <Image ratio="9/16" src={thumbnailSrc} />
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-      >
+      <Modal open={open} onClose={() => setOpen(false)}>
         <>
           <IconButton
             sx={{

@@ -11,7 +11,8 @@ import MotionLazyContainer from './components/animate/MotionLazyContainer';
 import { ProfileProvider } from './contexts/auth/ProfileContext';
 import { AuthProvider } from './@types/auth';
 import ServiceWorker from './serviceWorker/ServiceWorker';
-import { RouterProvider } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom'; // version 5.2.0
+//mixpanel
 
 interface Props {
   authProvider: AuthProvider;
