@@ -150,13 +150,13 @@ describe('Backend (e2e)', () => {
       const insertedUser = await knex(knexTestDatabaseConfig)
         .select()
         .from('users')
-        .where('authProviderId', 'telegram_id')
+        .where('authProviderId', 'auth_provider_id')
         .first();
       expect(insertedUser).toEqual(
         expect.objectContaining({
           id: expect.anything(),
           authProvider: 'telegram',
-          authProviderId: 'telegram_id',
+          authProviderId: 'auth_provider_id',
           email: null,
           oauthName: 'first_name last_name',
         }),
@@ -179,6 +179,57 @@ describe('Backend (e2e)', () => {
         expect.objectContaining({
           accessToken: expect.anything(),
           refreshToken: expect.anything(),
+        }),
+      );
+    });
+
+    it('telegram/redirect (GET) updates telegram username only if it changes', async () => {
+      await request(app.getHttpServer())
+        .get(`${prefix}/telegram/redirect`)
+        .expect(302)
+        .expect(
+          'Location',
+          /https:\/\/app\.climbjios\.com\/authRedirect\?accessToken=.+&refreshToken=.+/,
+        );
+
+      await createBaseTestingModule()
+        .overrideProvider(TelegramOauthStrategy)
+        .useClass(getMockedTelegramOAuthStrategy(true, 'telegramHandle2'))
+        .compile();
+
+      await request(app.getHttpServer())
+        .get(`${prefix}/telegram/redirect`)
+        .expect(302)
+        .expect(
+          'Location',
+          /https:\/\/app\.climbjios\.com\/authRedirect\?accessToken=.+&refreshToken=.+&updatedTelegramUsername=true/,
+        );
+
+      const insertedUser = await knex(knexTestDatabaseConfig)
+        .select()
+        .from('users')
+        .where('auth_provider_id', 'auth_provider_id')
+        .first();
+      const insertedUserProfile = await knex(knexTestDatabaseConfig)
+        .select()
+        .from('userProfiles')
+        .where('user_id', insertedUser.id)
+        .first();
+      expect(insertedUserProfile).toEqual(
+        expect.objectContaining({
+          userId: insertedUser.id,
+          telegramHandle: 'telegramHandle2',
+          bio: null,
+          hasProfilePicture: false,
+          height: null,
+          highestBoulderingGradeId: null,
+          highestLeadClimbingGradeId: null,
+          highestTopRopeGradeId: null,
+          id: 3,
+          name: null,
+          pronounId: null,
+          reach: null,
+          sncsCertificationId: null,
         }),
       );
     });

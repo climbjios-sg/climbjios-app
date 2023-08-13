@@ -90,4 +90,31 @@ export class UserProfileDaoService {
         .first();
     });
   }
+
+  async updateTelegramHandleIfChanged({
+    userId,
+    newTelegramHandle,
+  }: {
+    userId: string;
+    newTelegramHandle: string;
+  }) {
+    const { telegramHandle: storedTelegramHandle } = await this.findByUserId({
+      userId: userId,
+      select: ['telegram_handle'],
+    });
+
+    if (storedTelegramHandle === newTelegramHandle) {
+      return null;
+    }
+
+    const updated = await this.userProfileModel
+      .query()
+      .where('userId', userId)
+      .patch({ telegramHandle: newTelegramHandle }); //doesn't get patched if you don't await
+    if (updated === 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
