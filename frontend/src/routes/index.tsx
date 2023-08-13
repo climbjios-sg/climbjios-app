@@ -19,7 +19,18 @@ const Loadable = (Component: ElementType) => (props: any) => {
   if (isDebug) {
     console.log(`Route: ${pathname}${search}, State: ${JSON.stringify(state)}`);
   }
-  mixpanel_actions.trackRoutes(pathname);
+  try {
+    mixpanel_actions.trackRoutes(pathname);
+  } catch (e) {
+    if (
+      e instanceof TypeError &&
+      e.message === "Cannot read properties of undefined (reading 'disable_all_events')"
+    ) {
+      throw Error('Check that mixpanel token is set');
+    } else {
+      throw e;
+    }
+  }
 
   return (
     <Suspense fallback={<LoadingScreen isDashboard={isDashboard} />}>
