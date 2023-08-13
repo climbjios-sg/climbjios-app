@@ -39,4 +39,8 @@ export declare class UserProfileDaoService {
         QueryBuilderType: import("objection").QueryBuilder<UserProfileModel, UserProfileModel[]>;
     }>;
     updateByUserId(userId: string, userProfile: PatchUserProfileDto): Promise<UserProfileModel>;
+    updateTelegramHandleIfChanged({ userId, newTelegramHandle, }: {
+        userId: string;
+        newTelegramHandle: string;
+    }): Promise<boolean>;
 }
