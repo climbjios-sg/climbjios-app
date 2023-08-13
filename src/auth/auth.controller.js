@@ -20,17 +20,32 @@ const jwtAuth_service_1 = require("./jwtAuth/jwtAuth.service");
 const public_decorator_1 = require("./jwtAuth/public.decorator");
 const telegramOauth_guard_1 = require("./telegramOauth/telegramOauth.guard");
 const telegramOauth_strategy_1 = require("./telegramOauth/telegramOauth.strategy");
+const userProfile_dao_service_1 = require("../database/daos/userProfiles/userProfile.dao.service");
 let AuthController = class AuthController {
-    constructor(jwtAuthService, constantsService) {
+    constructor(jwtAuthService, constantsService, userProfileService) {
         this.jwtAuthService = jwtAuthService;
         this.constantsService = constantsService;
+        this.userProfileService = userProfileService;
     }
     async telegramAuthRedirect(req, res) {
         if (req.user === telegramOauth_strategy_1.TelegramOauthStrategy.NO_USERNAME) {
             return res.redirect(`${this.constantsService.CORS_ORIGIN}/updateTelegramUsername`);
         }
+        let updatedTelegramUsername = null;
+        const telegramUsername = req.query.username;
+        if (typeof telegramUsername === 'string') {
+            const userId = req.user.id;
+            updatedTelegramUsername =
+                await this.userProfileService.updateTelegramHandleIfChanged({
+                    userId: userId,
+                    newTelegramHandle: telegramUsername,
+                });
+        }
         const { accessToken, refreshToken } = await this.jwtAuthService.generateJwts(req.user);
-        const redirectUrl = `${this.constantsService.CORS_ORIGIN}/authRedirect?accessToken=${accessToken}&refreshToken=${refreshToken}`;
+        let redirectUrl = `${this.constantsService.CORS_ORIGIN}/authRedirect?accessToken=${accessToken}&refreshToken=${refreshToken}`;
+        if (updatedTelegramUsername !== null) {
+            redirectUrl += `&updatedTelegramUsername=${updatedTelegramUsername}`;
+        }
         return res.redirect(redirectUrl);
     }
     async refreshTokenFlow(body) {
@@ -58,7 +73,8 @@ __decorate([
 AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [jwtAuth_service_1.JwtAuthService,
-        constants_service_1.ConstantsService])
+        constants_service_1.ConstantsService,
+        userProfile_dao_service_1.UserProfileDaoService])
 ], AuthController);
 exports.AuthController = AuthController;
 //# sourceMappingURL=auth.controller.js.map
