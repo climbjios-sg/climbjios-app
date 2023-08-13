@@ -12,7 +12,7 @@ import useLogin from './useLogin';
 const useAutoLogin = () => {
   const login = useLogin();
   const [searchParams] = useSearchParams();
-  const { enqueueError } = useCustomSnackbar();
+  const { enqueueError, enqueueSnackbar } = useCustomSnackbar();
   const { redirectPath, clearRedirectPath } = useRedirectPath();
 
   //for tally user research
@@ -22,11 +22,18 @@ const useAutoLogin = () => {
     const callLogin = async () => {
       const accessToken = searchParams.get(ACCESS_TOKEN);
       const refreshToken = searchParams.get(REFRESH_TOKEN);
+      const updatedTelegramUsername = searchParams.get('updatedTelegramUsername');
 
       if (accessToken === null || refreshToken === null) {
         return;
       }
 
+      if (updatedTelegramUsername) {
+        JSON.parse(updatedTelegramUsername)
+          ? enqueueSnackbar('Telegram username updated!')
+          : enqueueError('Error updating Telegram username!');
+      }
+      
       try {
         await login(
           {
@@ -47,6 +54,7 @@ const useAutoLogin = () => {
   }, [
     clearRedirectPath,
     enqueueError,
+    enqueueSnackbar,
     login,
     setJustLoggedIn,
     redirectPath?.options,

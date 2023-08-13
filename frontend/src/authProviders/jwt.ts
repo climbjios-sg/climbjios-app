@@ -106,7 +106,7 @@ export const jwtAuthProvider: AuthProvider = {
     const userIdentity = response.data;
 
     if (!userIdentity.name) {
-      throw new Error();
+      throw new Error('user has no name - new user');
     }
     mixpanel_actions.identify(userIdentity.userId);
     mixpanel_actions.people.set(userIdentity);

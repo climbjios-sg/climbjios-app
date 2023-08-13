@@ -7,6 +7,7 @@ type PublicConstructor<T> = new (...any) => T;
 
 export const getMockedTelegramOAuthStrategy = (
   withUsername: boolean,
+  alternateUsername?: string,
 ): PublicConstructor<TelegramStrategy> => {
   return class MockedTelegramOAuthStrategy extends TelegramOauthStrategy {
     authenticate(req: Request<ParamsDictionary>, options?: any) {
@@ -15,13 +16,15 @@ export const getMockedTelegramOAuthStrategy = (
         auth_date: 'auth_date',
         first_name: 'first_name',
         hash: 'hash',
-        id: 'telegram_id',
+        id: 'auth_provider_id',
         username: undefined,
         last_name: 'last_name',
         photo_url: '',
       };
       if (withUsername) {
-        user.username = 'telegramHandle';
+        user.username = alternateUsername
+          ? alternateUsername
+          : 'telegramHandle';
       }
       req.query = user;
       return super.authenticate(req, options);

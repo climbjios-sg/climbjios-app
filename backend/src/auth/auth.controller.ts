@@ -14,12 +14,15 @@ import { JwtAuthService } from './jwtAuth/jwtAuth.service';
 import { Public } from './jwtAuth/public.decorator';
 import { TelegramOauthGuard } from './telegramOauth/telegramOauth.guard';
 import { TelegramOauthStrategy } from './telegramOauth/telegramOauth.strategy';
+import { UserModel } from '../database/models/user.model';
+import { UserProfileDaoService } from '../database/daos/userProfiles/userProfile.dao.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly jwtAuthService: JwtAuthService,
     private readonly constantsService: ConstantsService,
+    private readonly userProfileService: UserProfileDaoService,
   ) {}
 
   /**
@@ -56,9 +59,25 @@ export class AuthController {
       );
     }
 
+    //update telegram username if changed
+    let updatedTelegramUsername = null;
+    const telegramUsername = req.query.username;
+    if (typeof telegramUsername === 'string') {
+      const userId = (req.user as UserModel).id;
+      updatedTelegramUsername =
+        await this.userProfileService.updateTelegramHandleIfChanged({
+          userId: userId,
+          newTelegramHandle: telegramUsername,
+        });
+    }
+
     const { accessToken, refreshToken } =
       await this.jwtAuthService.generateJwts(req.user);
-    const redirectUrl = `${this.constantsService.CORS_ORIGIN}/authRedirect?accessToken=${accessToken}&refreshToken=${refreshToken}`;
+    let redirectUrl = `${this.constantsService.CORS_ORIGIN}/authRedirect?accessToken=${accessToken}&refreshToken=${refreshToken}`;
+
+    if (updatedTelegramUsername !== null) {
+      redirectUrl += `&updatedTelegramUsername=${updatedTelegramUsername}`;
+    }
 
     return res.redirect(redirectUrl);
   }
