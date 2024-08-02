@@ -62,14 +62,14 @@ function Header() {
                   Our Story
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <a
                   href={externalUrls.climbJiosTelegramUrl}
                   className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 px-5 py-2 flex items-center transition duration-150 ease-in-out"
                 >
                   Telegram
                 </a>
-              </li>
+              </li> */}
             </ul>
           </nav>
 
@@ -137,14 +137,14 @@ function Header() {
                       Our Story
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <a
                       href={externalUrls.climbJiosTelegramUrl}
                       className="flex text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 py-3"
                     >
                       Telegram
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </nav>
